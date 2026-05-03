@@ -11,7 +11,7 @@ import { auth } from "../../lib/auth";
 import { prisma } from "../../lib/prisma";
 import { envVars } from "../../config/env";
 import { jwtUtils } from "../../utilis/jwt";
-import { getDemoClientCredentials, seedDemoClient } from "../../utilis/seed";
+import { getDemoAdminCredentials, getDemoClientCredentials, getDemoExpertCredentials, seedDemoAdmin, seedDemoClient, seedDemoExpert } from "../../utilis/seed";
 
 type BetterAuthLikeError = {
   status?: string;
@@ -248,6 +248,100 @@ const loginDemoClient = async () => {
     ...data,
     accessToken,
     refreshToken,
+  };
+};
+
+const loginDemoExpert = async () => {
+  await seedDemoExpert();
+
+  const credentials = getDemoExpertCredentials();
+
+  const data = await auth.api
+    .signInEmail({
+      body: {
+        email: credentials.email,
+        password: credentials.password,
+      },
+    })
+    .catch((error) => {
+      const mappedError = mapBetterAuthError(error, "Expert demo login failed");
+      if (mappedError) throw mappedError;
+      throw error;
+    });
+
+  if (data.user.role !== Role.EXPERT) {
+    throw new AppError(status.FORBIDDEN, "Demo account role is invalid");
+  }
+
+  if (data.user.status === UserStatus.BLOCKED) {
+    throw new AppError(status.FORBIDDEN, "User is Blocked");
+  }
+
+  if (data.user.isDeleted || data.user.status === UserStatus.DELETED) {
+    throw new AppError(status.FORBIDDEN, "User is deleted");
+  }
+
+  const tokenPayload = {
+    userId: data.user.id,
+    email: data.user.email,
+    name: data.user.name,
+    role: data.user.role,
+    status: data.user.status,
+    isDeleted: data.user.isDeleted,
+    emailVerified: data.user.emailVerified,
+  };
+
+  return {
+    ...data,
+    accessToken: tokenUtils.getAccessToken(tokenPayload),
+    refreshToken: tokenUtils.getRefreshToken(tokenPayload),
+  };
+};
+
+const loginDemoAdmin = async () => {
+  await seedDemoAdmin();
+
+  const credentials = getDemoAdminCredentials();
+
+  const data = await auth.api
+    .signInEmail({
+      body: {
+        email: credentials.email,
+        password: credentials.password,
+      },
+    })
+    .catch((error) => {
+      const mappedError = mapBetterAuthError(error, "Admin demo login failed");
+      if (mappedError) throw mappedError;
+      throw error;
+    });
+
+  if (data.user.role !== Role.ADMIN) {
+    throw new AppError(status.FORBIDDEN, "Demo account role is invalid");
+  }
+
+  if (data.user.status === UserStatus.BLOCKED) {
+    throw new AppError(status.FORBIDDEN, "User is Blocked");
+  }
+
+  if (data.user.isDeleted || data.user.status === UserStatus.DELETED) {
+    throw new AppError(status.FORBIDDEN, "User is deleted");
+  }
+
+  const tokenPayload = {
+    userId: data.user.id,
+    email: data.user.email,
+    name: data.user.name,
+    role: data.user.role,
+    status: data.user.status,
+    isDeleted: data.user.isDeleted,
+    emailVerified: data.user.emailVerified,
+  };
+
+  return {
+    ...data,
+    accessToken: tokenUtils.getAccessToken(tokenPayload),
+    refreshToken: tokenUtils.getRefreshToken(tokenPayload),
   };
 };
 
@@ -852,6 +946,8 @@ export const authService = {
     registerClient,
     loginUser,
   loginDemoClient,
+  loginDemoExpert,
+  loginDemoAdmin,
     getMe,
     getNewToken,
     changePassword,

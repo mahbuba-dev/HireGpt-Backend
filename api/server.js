@@ -10,7 +10,7 @@ import {
   prismaNamespace_exports,
   seedAdmin,
   seedDemoClient
-} from "./chunk-EPNSD6XB.js";
+} from "./chunk-MF3H5E2E.js";
 
 // src/app.ts
 import express from "express";

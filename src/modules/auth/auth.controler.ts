@@ -97,6 +97,38 @@ const clientDemoLogin = catchAsync(async (_req: Request, res: Response) => {
   });
 });
 
+const expertDemoLogin = catchAsync(async (_req: Request, res: Response) => {
+  const result = await authService.loginDemoExpert();
+  const { accessToken, refreshToken, token, user, ...rest } = result;
+
+  tokenUtils.setAccessTokenCookie(res, accessToken);
+  tokenUtils.setRefreshTokenCookie(res, refreshToken);
+  tokenUtils.setBetterAuthSessionCookie(res, token);
+
+  sendResponse(res, {
+    httpStatusCode: status.OK,
+    success: true,
+    message: "expert demo login successfully",
+    data: { accessToken, refreshToken, token, user, ...rest },
+  });
+});
+
+const adminDemoLogin = catchAsync(async (_req: Request, res: Response) => {
+  const result = await authService.loginDemoAdmin();
+  const { accessToken, refreshToken, token, user, ...rest } = result;
+
+  tokenUtils.setAccessTokenCookie(res, accessToken);
+  tokenUtils.setRefreshTokenCookie(res, refreshToken);
+  tokenUtils.setBetterAuthSessionCookie(res, token);
+
+  sendResponse(res, {
+    httpStatusCode: status.OK,
+    success: true,
+    message: "admin demo login successfully",
+    data: { accessToken, refreshToken, token, user, ...rest },
+  });
+});
+
 
 // get me
 const getMe = catchAsync(
@@ -473,6 +505,8 @@ export const authControler = {
     registeredUser,
     loginUser,
   clientDemoLogin,
+  expertDemoLogin,
+  adminDemoLogin,
     getMe,
     getNewToken,
     changePassword,

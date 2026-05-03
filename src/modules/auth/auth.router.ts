@@ -10,6 +10,8 @@ const router = Router()
 router.post("/register", validateRequest(registerZodSchema), authControler.registeredUser)
 router.post("/login", validateRequest(loginZodSchema), authControler.loginUser)
 router.post("/demo-login", validateRequest(clientDemoLoginZodSchema), authControler.clientDemoLogin)
+router.post("/demo-login/expert", authControler.expertDemoLogin)
+router.post("/demo-login/admin", authControler.adminDemoLogin)
 router.get("/me", checkAuth(), authControler.getMe)
 router.post("/refresh-token", authControler.getNewToken)
 router.post('/change-password', 
