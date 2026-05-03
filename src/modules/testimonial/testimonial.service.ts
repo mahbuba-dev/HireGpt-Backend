@@ -16,6 +16,64 @@ import {
 } from "./testimonial.constant";
 import { ReviewStatus } from "../../generated/enums";
 
+const attachClientIdentity = async <
+  T extends { clientId: string; client?: unknown }
+>(rows: T[]) => {
+  if (rows.length === 0) {
+    return rows;
+  }
+
+  const clientIds = Array.from(new Set(rows.map((row) => row.clientId).filter(Boolean)));
+
+  if (clientIds.length === 0) {
+    return rows;
+  }
+
+  const clients = await prisma.client.findMany({
+    where: {
+      id: {
+        in: clientIds,
+      },
+    },
+    select: {
+      id: true,
+      fullName: true,
+      profilePhoto: true,
+      user: {
+        select: {
+          name: true,
+          image: true,
+        },
+      },
+    },
+  });
+
+  const clientById = new Map(clients.map((client) => [client.id, client]));
+
+  return rows.map((row) => {
+    const existingClient = row.client as
+      | {
+          fullName?: string | null;
+          profilePhoto?: string | null;
+          user?: { name?: string | null; image?: string | null } | null;
+        }
+      | undefined;
+
+    const hydratedClient = existingClient ?? clientById.get(row.clientId) ?? null;
+
+    const reviewerName =
+      hydratedClient?.fullName?.trim() || hydratedClient?.user?.name?.trim() || null;
+
+    const reviewerImage = hydratedClient?.profilePhoto || hydratedClient?.user?.image || null;
+
+    return {
+      ...row,
+      client: hydratedClient,
+      reviewerName,
+      reviewerImage,
+    };
+  });
+};
 
 // ------------------------------
 // CREATE TESTIMONIAL
@@ -130,7 +188,14 @@ const getAllTestimonials = async (
     .fields()
     .excute();
 
-  return result;
+  const dataWithClientIdentity = await attachClientIdentity(
+    (result.data ?? []) as Array<{ clientId: string; client?: unknown }>
+  );
+
+  return {
+    ...result,
+    data: dataWithClientIdentity,
+  };
 };
 
 const getAllTestimonialsForAdmin = async (
@@ -170,7 +235,10 @@ const result = await prisma.testimonial.findMany({
   },
   include: testimonialIncludeConfig,
 });
-  return result;
+
+  return attachClientIdentity(
+    result as Array<{ clientId: string; client?: unknown }>
+  );
 };
 
 

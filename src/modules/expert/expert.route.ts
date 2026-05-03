@@ -14,7 +14,7 @@ router.get("/:id", expertController.getExpertById)
 router.post(
 	"/apply",
 	expertApplicationUpload.single("resume"),
-	checkAuth(Role.CLIENT, Role.EXPERT, Role.ADMIN),
+	checkAuth(Role.CLIENT),
 	expertController.applyExpert
 )
 

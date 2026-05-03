@@ -1,0 +1,14 @@
+node_modules
+npm-debug.log
+.git
+.gitignore
+.vscode
+.vercel
+.env
+.env.*
+coverage
+dist
+api
+uploads/*
+!uploads/.gitkeep
+*.md

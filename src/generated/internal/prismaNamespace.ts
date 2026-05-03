@@ -2600,6 +2600,7 @@ export const ExpertScalarFieldEnum = {
   experience: 'experience',
   consultationFee: 'consultationFee',
   isVerified: 'isVerified',
+  isSeeded: 'isSeeded',
   isDeleted: 'isDeleted',
   deletedAt: 'deletedAt',
   userId: 'userId',

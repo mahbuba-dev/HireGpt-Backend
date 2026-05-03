@@ -120,8 +120,6 @@ import { tokenUtils } from "../utilis/token";
 export const checkAuth =
   (...authRoles: Role[]) =>
   async (req: Request, res: Response, next: NextFunction) => {
-    console.log('Cookies:', req.headers.cookie);
-
     try {
       const authHeader = req.headers.authorization;
       const bearerToken = authHeader?.startsWith("Bearer ")
@@ -248,7 +246,6 @@ export const checkAuth =
           }
         }
       }
-console.log('Authorization:', req.headers.authorization);
       next();
     } catch (error) {
       next(error);

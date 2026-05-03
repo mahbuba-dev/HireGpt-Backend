@@ -9,6 +9,7 @@ model Expert {
     experience      Int     @default(0)
     consultationFee Int
     isVerified      Boolean @default(false)
+    isSeeded        Boolean @default(false)
 
     isDeleted Boolean   @default(false)
     deletedAt DateTime?

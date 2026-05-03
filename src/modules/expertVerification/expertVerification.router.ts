@@ -1,7 +1,9 @@
 import { Router } from "express";
 
 import {
+  submitApplicationValidationSchema,
   adminApplicationsListValidationSchema,
+  adminNewApplicantsListValidationSchema,
   applicationResumeAccessValidationSchema,
   applicationIdParamValidationSchema,
   reviewApplicationValidationSchema,
@@ -13,6 +15,28 @@ import { expertVerificationController } from "./expertVerification.controler";
 import { Role } from "../../generated/enums";
 
 const router = Router();
+
+router.post(
+  "/applications",
+  checkAuth(Role.CLIENT),
+  validateRequest(submitApplicationValidationSchema),
+  expertVerificationController.submitApplication
+);
+
+// Backward-compatible alias for older frontend builds.
+router.post(
+  "/apply",
+  checkAuth(Role.CLIENT),
+  validateRequest(submitApplicationValidationSchema),
+  expertVerificationController.submitApplication
+);
+
+router.get(
+  "/new-applicants",
+  checkAuth(Role.ADMIN),
+  validateRequest(adminNewApplicantsListValidationSchema),
+  expertVerificationController.getNewApplicants
+);
 
 router.get(
   "/applications/me",

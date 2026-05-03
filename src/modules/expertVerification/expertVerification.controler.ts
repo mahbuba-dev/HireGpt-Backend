@@ -61,6 +61,18 @@ const getAllApplications = catchAsync(async (_req: Request, res: Response) => {
   });
 });
 
+const getNewApplicants = catchAsync(async (_req: Request, res: Response) => {
+  const result = await expertVerificationService.getNewApplicants(_req.query as IqueryParams);
+
+  sendResponse(res, {
+    httpStatusCode: status.OK,
+    success: true,
+    message: "Pending expert applications fetched successfully",
+    data: result.data,
+    meta: result.meta,
+  });
+});
+
 const getApplicationById = catchAsync(async (req: Request, res: Response) => {
   const result = await expertVerificationService.getApplicationById(String(req.params.id));
 
@@ -121,6 +133,7 @@ export const expertVerificationController = {
   submitApplication,
   getMyApplications,
   getAllApplications,
+  getNewApplicants,
   getApplicationById,
   reviewApplication,
   openApplicationResume,

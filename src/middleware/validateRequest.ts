@@ -7,6 +7,16 @@
 import { NextFunction, Request, Response } from "express"
 import { ZodType } from "zod"
 
+const replaceObjectContents = (target: Record<string, unknown>, source: unknown) => {
+  Object.keys(target).forEach((key) => {
+    delete target[key]
+  })
+
+  if (source && typeof source === "object") {
+    Object.assign(target, source as Record<string, unknown>)
+  }
+}
+
 export const validateRequest = (zodSchema: ZodType) => {
   return (req: Request, res: Response, next: NextFunction) => {
     try {
@@ -37,11 +47,17 @@ export const validateRequest = (zodSchema: ZodType) => {
         }
 
         if (parsedData.query !== undefined) {
-          req.query = parsedData.query as Request["query"]
+          replaceObjectContents(
+            req.query as unknown as Record<string, unknown>,
+            parsedData.query
+          )
         }
 
         if (parsedData.params !== undefined) {
-          req.params = parsedData.params as Request["params"]
+          replaceObjectContents(
+            req.params as unknown as Record<string, unknown>,
+            parsedData.params
+          )
         }
 
         return next()

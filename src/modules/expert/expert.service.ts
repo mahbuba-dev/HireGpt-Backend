@@ -160,6 +160,13 @@ const applyExpert = async (userId: string, payload: any) => {
     throw new AppError(status.UNAUTHORIZED, "Active user account is required");
   }
 
+  if (user.role !== Role.CLIENT) {
+    throw new AppError(
+      status.FORBIDDEN,
+      "Only clients can submit expert applications."
+    );
+  }
+
   const existingExpert = await prisma.expert.findFirst({
     where: { userId, isDeleted: false },
   });

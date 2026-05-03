@@ -3,6 +3,7 @@ import status from "http-status";
 import { industryService } from "./industry.service";
 import { catchAsync } from "../../shared/catchAsync";
 import { sendResponse } from "../../shared/sendResponsr";
+import { IqueryParams } from "../../interfaces/query.interface";
 
 
 const createIndustry = catchAsync(async (req, res) => {
@@ -24,13 +25,14 @@ const createIndustry = catchAsync(async (req, res) => {
 });
 
 const getAllIndustries = catchAsync(async (req, res) => {
-  const result = await industryService.getAllIndustries();
+  const result = await industryService.getAllIndustries(req.query as IqueryParams);
 
   sendResponse(res, {
     httpStatusCode: status.OK,
     success: true,
     message: "Industries fetched successfully",
-    data: result,
+    data: result.data,
+    meta: result.meta,
   });
 });
 

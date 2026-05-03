@@ -295,10 +295,10 @@ export type ExpertApplicationGroupByOutputType = {
   experience: number
   consultationFee: number
   profilePhoto: string | null
-  resumeUrl: string
-  resumeFileName: string
-  resumeFileType: string
-  resumeFileSize: number
+  resumeUrl: string | null
+  resumeFileName: string | null
+  resumeFileType: string | null
+  resumeFileSize: number | null
   status: $Enums.ExpertApplicationStatus
   reviewNotes: string | null
   reviewedBy: string | null
@@ -342,10 +342,10 @@ export type ExpertApplicationWhereInput = {
   experience?: Prisma.IntFilter<"ExpertApplication"> | number
   consultationFee?: Prisma.IntFilter<"ExpertApplication"> | number
   profilePhoto?: Prisma.StringNullableFilter<"ExpertApplication"> | string | null
-  resumeUrl?: Prisma.StringFilter<"ExpertApplication"> | string
-  resumeFileName?: Prisma.StringFilter<"ExpertApplication"> | string
-  resumeFileType?: Prisma.StringFilter<"ExpertApplication"> | string
-  resumeFileSize?: Prisma.IntFilter<"ExpertApplication"> | number
+  resumeUrl?: Prisma.StringNullableFilter<"ExpertApplication"> | string | null
+  resumeFileName?: Prisma.StringNullableFilter<"ExpertApplication"> | string | null
+  resumeFileType?: Prisma.StringNullableFilter<"ExpertApplication"> | string | null
+  resumeFileSize?: Prisma.IntNullableFilter<"ExpertApplication"> | number | null
   status?: Prisma.EnumExpertApplicationStatusFilter<"ExpertApplication"> | $Enums.ExpertApplicationStatus
   reviewNotes?: Prisma.StringNullableFilter<"ExpertApplication"> | string | null
   reviewedBy?: Prisma.StringNullableFilter<"ExpertApplication"> | string | null
@@ -368,10 +368,10 @@ export type ExpertApplicationOrderByWithRelationInput = {
   experience?: Prisma.SortOrder
   consultationFee?: Prisma.SortOrder
   profilePhoto?: Prisma.SortOrderInput | Prisma.SortOrder
-  resumeUrl?: Prisma.SortOrder
-  resumeFileName?: Prisma.SortOrder
-  resumeFileType?: Prisma.SortOrder
-  resumeFileSize?: Prisma.SortOrder
+  resumeUrl?: Prisma.SortOrderInput | Prisma.SortOrder
+  resumeFileName?: Prisma.SortOrderInput | Prisma.SortOrder
+  resumeFileType?: Prisma.SortOrderInput | Prisma.SortOrder
+  resumeFileSize?: Prisma.SortOrderInput | Prisma.SortOrder
   status?: Prisma.SortOrder
   reviewNotes?: Prisma.SortOrderInput | Prisma.SortOrder
   reviewedBy?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -397,10 +397,10 @@ export type ExpertApplicationWhereUniqueInput = Prisma.AtLeast<{
   experience?: Prisma.IntFilter<"ExpertApplication"> | number
   consultationFee?: Prisma.IntFilter<"ExpertApplication"> | number
   profilePhoto?: Prisma.StringNullableFilter<"ExpertApplication"> | string | null
-  resumeUrl?: Prisma.StringFilter<"ExpertApplication"> | string
-  resumeFileName?: Prisma.StringFilter<"ExpertApplication"> | string
-  resumeFileType?: Prisma.StringFilter<"ExpertApplication"> | string
-  resumeFileSize?: Prisma.IntFilter<"ExpertApplication"> | number
+  resumeUrl?: Prisma.StringNullableFilter<"ExpertApplication"> | string | null
+  resumeFileName?: Prisma.StringNullableFilter<"ExpertApplication"> | string | null
+  resumeFileType?: Prisma.StringNullableFilter<"ExpertApplication"> | string | null
+  resumeFileSize?: Prisma.IntNullableFilter<"ExpertApplication"> | number | null
   status?: Prisma.EnumExpertApplicationStatusFilter<"ExpertApplication"> | $Enums.ExpertApplicationStatus
   reviewNotes?: Prisma.StringNullableFilter<"ExpertApplication"> | string | null
   reviewedBy?: Prisma.StringNullableFilter<"ExpertApplication"> | string | null
@@ -423,10 +423,10 @@ export type ExpertApplicationOrderByWithAggregationInput = {
   experience?: Prisma.SortOrder
   consultationFee?: Prisma.SortOrder
   profilePhoto?: Prisma.SortOrderInput | Prisma.SortOrder
-  resumeUrl?: Prisma.SortOrder
-  resumeFileName?: Prisma.SortOrder
-  resumeFileType?: Prisma.SortOrder
-  resumeFileSize?: Prisma.SortOrder
+  resumeUrl?: Prisma.SortOrderInput | Prisma.SortOrder
+  resumeFileName?: Prisma.SortOrderInput | Prisma.SortOrder
+  resumeFileType?: Prisma.SortOrderInput | Prisma.SortOrder
+  resumeFileSize?: Prisma.SortOrderInput | Prisma.SortOrder
   status?: Prisma.SortOrder
   reviewNotes?: Prisma.SortOrderInput | Prisma.SortOrder
   reviewedBy?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -455,10 +455,10 @@ export type ExpertApplicationScalarWhereWithAggregatesInput = {
   experience?: Prisma.IntWithAggregatesFilter<"ExpertApplication"> | number
   consultationFee?: Prisma.IntWithAggregatesFilter<"ExpertApplication"> | number
   profilePhoto?: Prisma.StringNullableWithAggregatesFilter<"ExpertApplication"> | string | null
-  resumeUrl?: Prisma.StringWithAggregatesFilter<"ExpertApplication"> | string
-  resumeFileName?: Prisma.StringWithAggregatesFilter<"ExpertApplication"> | string
-  resumeFileType?: Prisma.StringWithAggregatesFilter<"ExpertApplication"> | string
-  resumeFileSize?: Prisma.IntWithAggregatesFilter<"ExpertApplication"> | number
+  resumeUrl?: Prisma.StringNullableWithAggregatesFilter<"ExpertApplication"> | string | null
+  resumeFileName?: Prisma.StringNullableWithAggregatesFilter<"ExpertApplication"> | string | null
+  resumeFileType?: Prisma.StringNullableWithAggregatesFilter<"ExpertApplication"> | string | null
+  resumeFileSize?: Prisma.IntNullableWithAggregatesFilter<"ExpertApplication"> | number | null
   status?: Prisma.EnumExpertApplicationStatusWithAggregatesFilter<"ExpertApplication"> | $Enums.ExpertApplicationStatus
   reviewNotes?: Prisma.StringNullableWithAggregatesFilter<"ExpertApplication"> | string | null
   reviewedBy?: Prisma.StringNullableWithAggregatesFilter<"ExpertApplication"> | string | null
@@ -477,10 +477,10 @@ export type ExpertApplicationCreateInput = {
   experience?: number
   consultationFee: number
   profilePhoto?: string | null
-  resumeUrl: string
-  resumeFileName: string
-  resumeFileType: string
-  resumeFileSize: number
+  resumeUrl?: string | null
+  resumeFileName?: string | null
+  resumeFileType?: string | null
+  resumeFileSize?: number | null
   status?: $Enums.ExpertApplicationStatus
   reviewNotes?: string | null
   reviewedBy?: string | null
@@ -503,10 +503,10 @@ export type ExpertApplicationUncheckedCreateInput = {
   experience?: number
   consultationFee: number
   profilePhoto?: string | null
-  resumeUrl: string
-  resumeFileName: string
-  resumeFileType: string
-  resumeFileSize: number
+  resumeUrl?: string | null
+  resumeFileName?: string | null
+  resumeFileType?: string | null
+  resumeFileSize?: number | null
   status?: $Enums.ExpertApplicationStatus
   reviewNotes?: string | null
   reviewedBy?: string | null
@@ -525,10 +525,10 @@ export type ExpertApplicationUpdateInput = {
   experience?: Prisma.IntFieldUpdateOperationsInput | number
   consultationFee?: Prisma.IntFieldUpdateOperationsInput | number
   profilePhoto?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  resumeUrl?: Prisma.StringFieldUpdateOperationsInput | string
-  resumeFileName?: Prisma.StringFieldUpdateOperationsInput | string
-  resumeFileType?: Prisma.StringFieldUpdateOperationsInput | string
-  resumeFileSize?: Prisma.IntFieldUpdateOperationsInput | number
+  resumeUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  resumeFileName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  resumeFileType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  resumeFileSize?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   status?: Prisma.EnumExpertApplicationStatusFieldUpdateOperationsInput | $Enums.ExpertApplicationStatus
   reviewNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   reviewedBy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -551,10 +551,10 @@ export type ExpertApplicationUncheckedUpdateInput = {
   experience?: Prisma.IntFieldUpdateOperationsInput | number
   consultationFee?: Prisma.IntFieldUpdateOperationsInput | number
   profilePhoto?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  resumeUrl?: Prisma.StringFieldUpdateOperationsInput | string
-  resumeFileName?: Prisma.StringFieldUpdateOperationsInput | string
-  resumeFileType?: Prisma.StringFieldUpdateOperationsInput | string
-  resumeFileSize?: Prisma.IntFieldUpdateOperationsInput | number
+  resumeUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  resumeFileName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  resumeFileType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  resumeFileSize?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   status?: Prisma.EnumExpertApplicationStatusFieldUpdateOperationsInput | $Enums.ExpertApplicationStatus
   reviewNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   reviewedBy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -575,10 +575,10 @@ export type ExpertApplicationCreateManyInput = {
   experience?: number
   consultationFee: number
   profilePhoto?: string | null
-  resumeUrl: string
-  resumeFileName: string
-  resumeFileType: string
-  resumeFileSize: number
+  resumeUrl?: string | null
+  resumeFileName?: string | null
+  resumeFileType?: string | null
+  resumeFileSize?: number | null
   status?: $Enums.ExpertApplicationStatus
   reviewNotes?: string | null
   reviewedBy?: string | null
@@ -597,10 +597,10 @@ export type ExpertApplicationUpdateManyMutationInput = {
   experience?: Prisma.IntFieldUpdateOperationsInput | number
   consultationFee?: Prisma.IntFieldUpdateOperationsInput | number
   profilePhoto?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  resumeUrl?: Prisma.StringFieldUpdateOperationsInput | string
-  resumeFileName?: Prisma.StringFieldUpdateOperationsInput | string
-  resumeFileType?: Prisma.StringFieldUpdateOperationsInput | string
-  resumeFileSize?: Prisma.IntFieldUpdateOperationsInput | number
+  resumeUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  resumeFileName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  resumeFileType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  resumeFileSize?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   status?: Prisma.EnumExpertApplicationStatusFieldUpdateOperationsInput | $Enums.ExpertApplicationStatus
   reviewNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   reviewedBy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -621,10 +621,10 @@ export type ExpertApplicationUncheckedUpdateManyInput = {
   experience?: Prisma.IntFieldUpdateOperationsInput | number
   consultationFee?: Prisma.IntFieldUpdateOperationsInput | number
   profilePhoto?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  resumeUrl?: Prisma.StringFieldUpdateOperationsInput | string
-  resumeFileName?: Prisma.StringFieldUpdateOperationsInput | string
-  resumeFileType?: Prisma.StringFieldUpdateOperationsInput | string
-  resumeFileSize?: Prisma.IntFieldUpdateOperationsInput | number
+  resumeUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  resumeFileName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  resumeFileType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  resumeFileSize?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   status?: Prisma.EnumExpertApplicationStatusFieldUpdateOperationsInput | $Enums.ExpertApplicationStatus
   reviewNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   reviewedBy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -825,10 +825,10 @@ export type ExpertApplicationCreateWithoutUserInput = {
   experience?: number
   consultationFee: number
   profilePhoto?: string | null
-  resumeUrl: string
-  resumeFileName: string
-  resumeFileType: string
-  resumeFileSize: number
+  resumeUrl?: string | null
+  resumeFileName?: string | null
+  resumeFileType?: string | null
+  resumeFileSize?: number | null
   status?: $Enums.ExpertApplicationStatus
   reviewNotes?: string | null
   reviewedBy?: string | null
@@ -849,10 +849,10 @@ export type ExpertApplicationUncheckedCreateWithoutUserInput = {
   experience?: number
   consultationFee: number
   profilePhoto?: string | null
-  resumeUrl: string
-  resumeFileName: string
-  resumeFileType: string
-  resumeFileSize: number
+  resumeUrl?: string | null
+  resumeFileName?: string | null
+  resumeFileType?: string | null
+  resumeFileSize?: number | null
   status?: $Enums.ExpertApplicationStatus
   reviewNotes?: string | null
   reviewedBy?: string | null
@@ -902,10 +902,10 @@ export type ExpertApplicationScalarWhereInput = {
   experience?: Prisma.IntFilter<"ExpertApplication"> | number
   consultationFee?: Prisma.IntFilter<"ExpertApplication"> | number
   profilePhoto?: Prisma.StringNullableFilter<"ExpertApplication"> | string | null
-  resumeUrl?: Prisma.StringFilter<"ExpertApplication"> | string
-  resumeFileName?: Prisma.StringFilter<"ExpertApplication"> | string
-  resumeFileType?: Prisma.StringFilter<"ExpertApplication"> | string
-  resumeFileSize?: Prisma.IntFilter<"ExpertApplication"> | number
+  resumeUrl?: Prisma.StringNullableFilter<"ExpertApplication"> | string | null
+  resumeFileName?: Prisma.StringNullableFilter<"ExpertApplication"> | string | null
+  resumeFileType?: Prisma.StringNullableFilter<"ExpertApplication"> | string | null
+  resumeFileSize?: Prisma.IntNullableFilter<"ExpertApplication"> | number | null
   status?: Prisma.EnumExpertApplicationStatusFilter<"ExpertApplication"> | $Enums.ExpertApplicationStatus
   reviewNotes?: Prisma.StringNullableFilter<"ExpertApplication"> | string | null
   reviewedBy?: Prisma.StringNullableFilter<"ExpertApplication"> | string | null
@@ -924,10 +924,10 @@ export type ExpertApplicationCreateWithoutIndustryInput = {
   experience?: number
   consultationFee: number
   profilePhoto?: string | null
-  resumeUrl: string
-  resumeFileName: string
-  resumeFileType: string
-  resumeFileSize: number
+  resumeUrl?: string | null
+  resumeFileName?: string | null
+  resumeFileType?: string | null
+  resumeFileSize?: number | null
   status?: $Enums.ExpertApplicationStatus
   reviewNotes?: string | null
   reviewedBy?: string | null
@@ -948,10 +948,10 @@ export type ExpertApplicationUncheckedCreateWithoutIndustryInput = {
   experience?: number
   consultationFee: number
   profilePhoto?: string | null
-  resumeUrl: string
-  resumeFileName: string
-  resumeFileType: string
-  resumeFileSize: number
+  resumeUrl?: string | null
+  resumeFileName?: string | null
+  resumeFileType?: string | null
+  resumeFileSize?: number | null
   status?: $Enums.ExpertApplicationStatus
   reviewNotes?: string | null
   reviewedBy?: string | null
@@ -997,10 +997,10 @@ export type ExpertApplicationCreateManyUserInput = {
   experience?: number
   consultationFee: number
   profilePhoto?: string | null
-  resumeUrl: string
-  resumeFileName: string
-  resumeFileType: string
-  resumeFileSize: number
+  resumeUrl?: string | null
+  resumeFileName?: string | null
+  resumeFileType?: string | null
+  resumeFileSize?: number | null
   status?: $Enums.ExpertApplicationStatus
   reviewNotes?: string | null
   reviewedBy?: string | null
@@ -1019,10 +1019,10 @@ export type ExpertApplicationUpdateWithoutUserInput = {
   experience?: Prisma.IntFieldUpdateOperationsInput | number
   consultationFee?: Prisma.IntFieldUpdateOperationsInput | number
   profilePhoto?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  resumeUrl?: Prisma.StringFieldUpdateOperationsInput | string
-  resumeFileName?: Prisma.StringFieldUpdateOperationsInput | string
-  resumeFileType?: Prisma.StringFieldUpdateOperationsInput | string
-  resumeFileSize?: Prisma.IntFieldUpdateOperationsInput | number
+  resumeUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  resumeFileName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  resumeFileType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  resumeFileSize?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   status?: Prisma.EnumExpertApplicationStatusFieldUpdateOperationsInput | $Enums.ExpertApplicationStatus
   reviewNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   reviewedBy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1043,10 +1043,10 @@ export type ExpertApplicationUncheckedUpdateWithoutUserInput = {
   experience?: Prisma.IntFieldUpdateOperationsInput | number
   consultationFee?: Prisma.IntFieldUpdateOperationsInput | number
   profilePhoto?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  resumeUrl?: Prisma.StringFieldUpdateOperationsInput | string
-  resumeFileName?: Prisma.StringFieldUpdateOperationsInput | string
-  resumeFileType?: Prisma.StringFieldUpdateOperationsInput | string
-  resumeFileSize?: Prisma.IntFieldUpdateOperationsInput | number
+  resumeUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  resumeFileName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  resumeFileType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  resumeFileSize?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   status?: Prisma.EnumExpertApplicationStatusFieldUpdateOperationsInput | $Enums.ExpertApplicationStatus
   reviewNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   reviewedBy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1066,10 +1066,10 @@ export type ExpertApplicationUncheckedUpdateManyWithoutUserInput = {
   experience?: Prisma.IntFieldUpdateOperationsInput | number
   consultationFee?: Prisma.IntFieldUpdateOperationsInput | number
   profilePhoto?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  resumeUrl?: Prisma.StringFieldUpdateOperationsInput | string
-  resumeFileName?: Prisma.StringFieldUpdateOperationsInput | string
-  resumeFileType?: Prisma.StringFieldUpdateOperationsInput | string
-  resumeFileSize?: Prisma.IntFieldUpdateOperationsInput | number
+  resumeUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  resumeFileName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  resumeFileType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  resumeFileSize?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   status?: Prisma.EnumExpertApplicationStatusFieldUpdateOperationsInput | $Enums.ExpertApplicationStatus
   reviewNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   reviewedBy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1089,10 +1089,10 @@ export type ExpertApplicationCreateManyIndustryInput = {
   experience?: number
   consultationFee: number
   profilePhoto?: string | null
-  resumeUrl: string
-  resumeFileName: string
-  resumeFileType: string
-  resumeFileSize: number
+  resumeUrl?: string | null
+  resumeFileName?: string | null
+  resumeFileType?: string | null
+  resumeFileSize?: number | null
   status?: $Enums.ExpertApplicationStatus
   reviewNotes?: string | null
   reviewedBy?: string | null
@@ -1111,10 +1111,10 @@ export type ExpertApplicationUpdateWithoutIndustryInput = {
   experience?: Prisma.IntFieldUpdateOperationsInput | number
   consultationFee?: Prisma.IntFieldUpdateOperationsInput | number
   profilePhoto?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  resumeUrl?: Prisma.StringFieldUpdateOperationsInput | string
-  resumeFileName?: Prisma.StringFieldUpdateOperationsInput | string
-  resumeFileType?: Prisma.StringFieldUpdateOperationsInput | string
-  resumeFileSize?: Prisma.IntFieldUpdateOperationsInput | number
+  resumeUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  resumeFileName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  resumeFileType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  resumeFileSize?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   status?: Prisma.EnumExpertApplicationStatusFieldUpdateOperationsInput | $Enums.ExpertApplicationStatus
   reviewNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   reviewedBy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1135,10 +1135,10 @@ export type ExpertApplicationUncheckedUpdateWithoutIndustryInput = {
   experience?: Prisma.IntFieldUpdateOperationsInput | number
   consultationFee?: Prisma.IntFieldUpdateOperationsInput | number
   profilePhoto?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  resumeUrl?: Prisma.StringFieldUpdateOperationsInput | string
-  resumeFileName?: Prisma.StringFieldUpdateOperationsInput | string
-  resumeFileType?: Prisma.StringFieldUpdateOperationsInput | string
-  resumeFileSize?: Prisma.IntFieldUpdateOperationsInput | number
+  resumeUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  resumeFileName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  resumeFileType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  resumeFileSize?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   status?: Prisma.EnumExpertApplicationStatusFieldUpdateOperationsInput | $Enums.ExpertApplicationStatus
   reviewNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   reviewedBy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1158,10 +1158,10 @@ export type ExpertApplicationUncheckedUpdateManyWithoutIndustryInput = {
   experience?: Prisma.IntFieldUpdateOperationsInput | number
   consultationFee?: Prisma.IntFieldUpdateOperationsInput | number
   profilePhoto?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  resumeUrl?: Prisma.StringFieldUpdateOperationsInput | string
-  resumeFileName?: Prisma.StringFieldUpdateOperationsInput | string
-  resumeFileType?: Prisma.StringFieldUpdateOperationsInput | string
-  resumeFileSize?: Prisma.IntFieldUpdateOperationsInput | number
+  resumeUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  resumeFileName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  resumeFileType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  resumeFileSize?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   status?: Prisma.EnumExpertApplicationStatusFieldUpdateOperationsInput | $Enums.ExpertApplicationStatus
   reviewNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   reviewedBy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1306,10 +1306,10 @@ export type $ExpertApplicationPayload<ExtArgs extends runtime.Types.Extensions.I
     experience: number
     consultationFee: number
     profilePhoto: string | null
-    resumeUrl: string
-    resumeFileName: string
-    resumeFileType: string
-    resumeFileSize: number
+    resumeUrl: string | null
+    resumeFileName: string | null
+    resumeFileType: string | null
+    resumeFileSize: number | null
     status: $Enums.ExpertApplicationStatus
     reviewNotes: string | null
     reviewedBy: string | null

@@ -4,6 +4,8 @@ import AppError from "../../errorHelpers/AppError";
 import status from "http-status";
 import { prisma } from "../../lib/prisma";
 import { Industry, Prisma } from "../../generated/client";
+import { IqueryParams } from "../../interfaces/query.interface";
+import { QueryBuilder } from "../../utilis/queryBuilder";
 
 type IndustryWithExperts = Prisma.IndustryGetPayload<{
   include: { experts: true };
@@ -74,13 +76,26 @@ const createIndustry = async (payload: IIndustry) => {
 // ===============================
 // GET ALL INDUSTRIES
 // ===============================
-const getAllIndustries = async (): Promise<Industry[]> => {
-  const industries = await prisma.industry.findMany({
-    where: { isDeleted: false },
-    orderBy: { createdAt: "desc" },
+const getAllIndustries = async (query: IqueryParams) => {
+  const qb = new QueryBuilder<
+    Industry,
+    Prisma.IndustryWhereInput,
+    Prisma.IndustryInclude
+  >(prisma.industry, query, {
+    searchableFields: ["name", "description"],
+    filterableFields: ["name"],
   });
 
-  return industries;
+  const result = await qb
+    .search()
+    .filter()
+    .where({ isDeleted: false })
+    .paginate()
+    .sort()
+    .fields()
+    .excute();
+
+  return result;
 };
 
 // ===============================

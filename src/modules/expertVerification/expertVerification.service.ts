@@ -255,6 +255,13 @@ const getAllApplications = async (query: IqueryParams) => {
   };
 };
 
+const getNewApplicants = async (query: IqueryParams) => {
+  return getAllApplications({
+    ...query,
+    status: ExpertApplicationStatus.PENDING,
+  });
+};
+
 const getAdminResumeAccess = async (applicationId: string) => {
   const application = await prisma.expertApplication.findUnique({
     where: { id: applicationId },
@@ -529,6 +536,7 @@ export const expertVerificationService = {
   getMyApplications,
   getAdminResumeAccess,
   getAllApplications,
+  getNewApplicants,
   getApplicationById,
   reviewApplication,
   verifyExpert,
