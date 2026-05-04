@@ -140,7 +140,9 @@ export const auth = betterAuth({
                             name : user.name,
                             otp,
                         }
-                    })
+                    }).catch((err) => {
+                        console.error("sendEmail (verify) failed:", err?.message ?? err);
+                    });
                   }
                 }else if(type === "forget-password"){
                     const user = await prisma.user.findUnique({
@@ -158,7 +160,9 @@ export const auth = betterAuth({
                                 name : user.name,
                                 otp,
                             }
-                        })
+                        }).catch((err) => {
+                            console.error("sendEmail (forget-password) failed:", err?.message ?? err);
+                        });
                     }
                 }
             },

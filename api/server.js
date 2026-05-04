@@ -10,7 +10,7 @@ import {
   prismaNamespace_exports,
   seedAdmin,
   seedDemoClient
-} from "./chunk-KRDSIXRR.js";
+} from "./chunk-P6BIHWV4.js";
 
 // src/app.ts
 import express from "express";
@@ -391,10 +391,6 @@ process.on("SIGTERM", () => {
 });
 process.on("unhandledRejection", (reason) => {
   console.error("Unhandled promise rejection:", reason);
-  if (envVars.NODE_ENV === "development") {
-    return;
-  }
-  void shutdown("unhandledRejection", 1);
 });
 process.on("uncaughtException", (error) => {
   console.error("Uncaught exception:", error);

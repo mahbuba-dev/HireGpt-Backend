@@ -55,12 +55,9 @@ process.on("SIGTERM", () => {
 
 process.on("unhandledRejection", (reason) => {
     console.error("Unhandled promise rejection:", reason);
-
-    if (envVars.NODE_ENV === "development") {
-        return;
-    }
-
-    void shutdown("unhandledRejection", 1);
+    // Do NOT shut down the server on unhandled rejections. A single
+    // background failure (e.g. SMTP timeout from a fire-and-forget email
+    // send inside better-auth) must not take the whole API down.
 });
 
 process.on("uncaughtException", (error) => {
