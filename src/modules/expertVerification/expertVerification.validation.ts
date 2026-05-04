@@ -9,7 +9,13 @@ export const submitApplicationValidationSchema = z.object({
     title: z.string().trim().optional(),
     experience: z.coerce.number().int().min(0).optional(),
     consultationFee: z.coerce.number().int().min(1).optional(),
-    industryId: z.string().uuid().optional(),
+    // Industry can arrive as any one of these. The service layer resolves
+    // it to a real Industry row by id (UUID) or name. Don't restrict to
+    // .uuid() here because the frontend may send the human-readable name
+    // (e.g. "Technology") from the dropdown.
+    industryId: z.string().trim().min(1).optional(),
+    industryName: z.string().trim().min(1).optional(),
+    industry: z.string().trim().min(1).optional(),
     profilePhoto: z.string().trim().optional(),
     resume: z
       .object({
