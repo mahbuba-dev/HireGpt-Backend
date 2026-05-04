@@ -13,7 +13,10 @@ router.get("/", expertController.getAllExperts)
 router.get("/:id", expertController.getExpertById)
 router.post(
 	"/apply",
-	expertApplicationUpload.single("resume"),
+	expertApplicationUpload.fields([
+		{ name: "resume", maxCount: 1 },
+		{ name: "profilePhoto", maxCount: 1 },
+	]),
 	checkAuth(Role.CLIENT),
 	expertController.applyExpert
 )

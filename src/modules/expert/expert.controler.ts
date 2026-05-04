@@ -5,7 +5,7 @@ import { Request, Response } from "express";
 import { expertService } from "./expert.service";
 import { catchAsync } from "../../shared/catchAsync";
 import { sendResponse } from "../../shared/sendResponsr";
-import { mapUploadedResume } from "./expertApplication.upload";
+import { mapUploadedResume, mapUploadedProfilePhoto } from "./expertApplication.upload";
 
 
 // ===============================
@@ -87,8 +87,27 @@ const deleteExpert = catchAsync(async (req: Request, res: Response) => {
 const applyExpert = catchAsync(async (req, res) => {
   const userId = req.user.userId;
 
-  const resume = req.file ? mapUploadedResume(req.file) : undefined;
-  const result = await expertService.applyExpert(userId, { ...req.body, resume });
+  // Multer .fields() returns a record keyed by field name
+  const files = req.files as
+    | Record<string, Express.Multer.File[] | undefined>
+    | undefined;
+
+  const resumeFile = files?.resume?.[0];
+  const profilePhotoFile = files?.profilePhoto?.[0];
+
+  const resume = resumeFile ? mapUploadedResume(resumeFile) : undefined;
+
+  // If a profile photo file was uploaded, prefer its Cloudinary URL.
+  // Otherwise fall back to a profilePhoto URL string from the form body.
+  const profilePhoto = profilePhotoFile
+    ? mapUploadedProfilePhoto(profilePhotoFile)
+    : req.body?.profilePhoto;
+
+  const result = await expertService.applyExpert(userId, {
+    ...req.body,
+    profilePhoto,
+    resume,
+  });
 
   sendResponse(res, {
     success: true,

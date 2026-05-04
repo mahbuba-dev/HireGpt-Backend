@@ -3,10 +3,18 @@ import { CloudinaryStorage } from "multer-storage-cloudinary";
 
 import { cloudinaryUpload } from "../../config/cloudinary.config";
 
-const allowedMimeTypes = new Set([
+const allowedResumeMimeTypes = new Set([
   "application/pdf",
   "application/msword",
   "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+]);
+
+const allowedImageMimeTypes = new Set([
+  "image/jpeg",
+  "image/jpg",
+  "image/png",
+  "image/webp",
+  "image/gif",
 ]);
 
 const storage = new CloudinaryStorage({
@@ -23,7 +31,13 @@ const storage = new CloudinaryStorage({
       .replace(/[^a-z0-9/-]/g, "");
 
     const uniqueName = `${Math.random().toString(36).substring(2)}-${Date.now()}-${fileNameWithoutExtension}`;
-    const folder = extension === "pdf" ? "resumes" : "documents";
+
+    let folder = "documents";
+    if (file.fieldname === "profilePhoto") {
+      folder = "expert-profile-photos";
+    } else if (file.fieldname === "resume") {
+      folder = extension === "pdf" ? "resumes" : "documents";
+    }
 
     return {
       folder: `consultedge/${folder}`,
@@ -34,11 +48,26 @@ const storage = new CloudinaryStorage({
 });
 
 const fileFilter: multer.Options["fileFilter"] = (_req, file, cb) => {
-  if (!allowedMimeTypes.has(file.mimetype)) {
-    cb(new Error("Invalid file type. Allowed: PDF, DOC, DOCX"));
+  if (file.fieldname === "profilePhoto") {
+    if (!allowedImageMimeTypes.has(file.mimetype)) {
+      cb(new Error("Invalid profile photo type. Allowed: JPG, PNG, WEBP, GIF"));
+      return;
+    }
+    cb(null, true);
     return;
   }
-  cb(null, true);
+
+  if (file.fieldname === "resume") {
+    if (!allowedResumeMimeTypes.has(file.mimetype)) {
+      cb(new Error("Invalid resume type. Allowed: PDF, DOC, DOCX"));
+      return;
+    }
+    cb(null, true);
+    return;
+  }
+
+  // Unknown field — reject explicitly so we never silently swallow it
+  cb(new Error(`Unexpected file field: ${file.fieldname}`));
 };
 
 export const expertApplicationUpload = multer({
@@ -68,4 +97,9 @@ export const mapUploadedResume = (file: Express.Multer.File) => {
     resumeFileType: file.mimetype,
     resumeFileSize: file.size,
   };
+};
+
+export const mapUploadedProfilePhoto = (file: Express.Multer.File) => {
+  const cloudinaryFile = file as CloudinaryMulterFile;
+  return cloudinaryFile.path ?? cloudinaryFile.secure_url ?? null;
 };
