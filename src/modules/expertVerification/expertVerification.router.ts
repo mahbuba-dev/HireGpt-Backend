@@ -13,12 +13,21 @@ import { checkAuth } from "../../middleware/cheackAuth";
 import { validateRequest } from "../../middleware/validateRequest";
 import { expertVerificationController } from "./expertVerification.controler";
 import { Role } from "../../generated/enums";
+import { expertApplicationUpload } from "../expert/expertApplication.upload";
 
 const router = Router();
+
+// Accept both JSON and multipart/form-data on the apply endpoints.
+// .fields() also tolerates pure-JSON requests (no files) as a no-op.
+const applicationUploadMiddleware = expertApplicationUpload.fields([
+  { name: "resume", maxCount: 1 },
+  { name: "profilePhoto", maxCount: 1 },
+]);
 
 router.post(
   "/applications",
   checkAuth(Role.CLIENT),
+  applicationUploadMiddleware,
   validateRequest(submitApplicationValidationSchema),
   expertVerificationController.submitApplication
 );
@@ -27,6 +36,7 @@ router.post(
 router.post(
   "/apply",
   checkAuth(Role.CLIENT),
+  applicationUploadMiddleware,
   validateRequest(submitApplicationValidationSchema),
   expertVerificationController.submitApplication
 );

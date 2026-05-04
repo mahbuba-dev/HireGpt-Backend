@@ -5,6 +5,10 @@ import { expertVerificationService } from "./expertVerification.service";
 import { catchAsync } from "../../shared/catchAsync";
 import { sendResponse } from "../../shared/sendResponsr";
 import type { IqueryParams } from "../../interfaces/query.interface";
+import {
+  mapUploadedResume,
+  mapUploadedProfilePhoto,
+} from "../expert/expertApplication.upload";
 
 const verifyExpert = catchAsync(async (req: Request, res: Response) => {
   const { id } = req.params; // expertId
@@ -27,7 +31,32 @@ const verifyExpert = catchAsync(async (req: Request, res: Response) => {
 
 const submitApplication = catchAsync(async (req: Request, res: Response) => {
   const userId = req.user.userId;
-  const result = await expertVerificationService.submitApplication(userId, req.body);
+
+  // This route accepts both JSON and multipart/form-data. When multer .fields()
+  // has parsed the request, `req.files` contains uploaded files keyed by
+  // fieldname. Map them to the shape the service expects.
+  const files = req.files as
+    | Record<string, Express.Multer.File[] | undefined>
+    | undefined;
+
+  const resumeFile = files?.resume?.[0];
+  const profilePhotoFile = files?.profilePhoto?.[0];
+
+  const resume = resumeFile
+    ? mapUploadedResume(resumeFile)
+    : req.body?.resume;
+
+  const profilePhoto = profilePhotoFile
+    ? mapUploadedProfilePhoto(profilePhotoFile)
+    : req.body?.profilePhoto;
+
+  const payload = {
+    ...req.body,
+    ...(resume ? { resume } : {}),
+    ...(profilePhoto ? { profilePhoto } : {}),
+  };
+
+  const result = await expertVerificationService.submitApplication(userId, payload);
 
   sendResponse(res, {
     httpStatusCode: status.CREATED,
