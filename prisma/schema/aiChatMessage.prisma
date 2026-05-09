@@ -1,0 +1,11 @@
+model AIChatMessage {
+  id             String            @id @default(uuid())
+  conversationId String
+  role           AIChatMessageRole
+  content        String
+  isVoice        Boolean           @default(false)
+  audioUrl       String?
+  createdAt      DateTime          @default(now())
+  conversation   AIConversation    @relation(fields: [conversationId], references: [id], onDelete: Cascade)
+  attachments    Attachment[]      @relation("AIChatMessageToAttachment")
+}

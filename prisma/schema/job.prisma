@@ -1,0 +1,37 @@
+model Job {
+  id               String           @id @default(uuid())
+  title            String
+  description      String
+  responsibilities String?
+  requirements     String
+  location         String?
+  isRemote         Boolean          @default(false)
+  salaryMin        Int?
+  salaryMax        Int?
+  currency         String           @default("USD")
+  type             JobType
+  experienceLevel  ExperienceLevel
+  status           JobStatus        @default(OPEN)
+  aiSummary        String?
+  aiTags           String[]         @default([])
+  aiScore          Float?
+  recruiterId      String
+  industryId       String?
+  isDeleted        Boolean          @default(false)
+  deletedAt        DateTime?
+  createdAt        DateTime         @default(now())
+  updatedAt        DateTime         @updatedAt
+  jobTags          JobTag[]
+  chatRooms        ChatRoom[]
+  interviewCalls   InterviewCall[]
+  interviews       Interview[]
+  applications     JobApplication[]
+  industry         Industry?        @relation(fields: [industryId], references: [id])
+  recruiter        Recruiter        @relation("RecruiterJobs", fields: [recruiterId], references: [id], onDelete: Cascade)
+  savedBy          SavedJob[]
+
+  @@index([recruiterId])
+  @@index([status])
+  @@index([industryId])
+  @@map("jobs")
+}

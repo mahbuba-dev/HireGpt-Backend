@@ -5,13 +5,16 @@ import { tokenUtils } from "../../utilis/token";
 import { IRequestUser } from "../../interfaces/requestUser.interface";
 
 import { JwtPayload } from "jsonwebtoken";
-import { IChangePasswordPayload, IGoogleSessionPayload, ILoginUserPayload, IRegisterClientPayload, } from "./auth.interface";
-import { Role, UserStatus } from "../../generated/enums";
+import { IChangePasswordPayload, IGoogleSessionPayload, ILoginUserPayload, IRegisterCandidatePayload, } from "./auth.interface";
+
+
 import { auth } from "../../lib/auth";
 import { prisma } from "../../lib/prisma";
 import { envVars } from "../../config/env";
 import { jwtUtils } from "../../utilis/jwt";
-import { getDemoAdminCredentials, getDemoClientCredentials, getDemoExpertCredentials, seedDemoAdmin, seedDemoClient, seedDemoExpert } from "../../utilis/seed";
+import { getDemoAdminCredentials, getDemoCandidateCredentials, getDemoReqruiterCredentials, seedDemoAdmin, seedDemoCandidate, seedDemoReqruiter } from "../../utilis/seed";
+import { UserRole, UserStatus } from "../../generated/enums";
+
 
 type BetterAuthLikeError = {
   status?: string;
@@ -54,38 +57,37 @@ const mapBetterAuthError = (error: unknown, fallbackMessage: string) => {
 };
 
 
-const registerClient = async (payload: IRegisterClientPayload) => {
+const registerCandidate = async (payload: IRegisterCandidatePayload) => {
   const { fullName, email, password } = payload;
 
   // 1. Create user in BetterAuth
   const data = await auth.api.signUpEmail({
-    body: { name:fullName, email, password },
+    body: { name: fullName, email, password },
   });
 
   if (!data.user) {
     throw new AppError(status.BAD_REQUEST, "Failed to register user");
   }
 
-  // 2. Force role = CLIENT
+  // 2. Force role = JOB_SEEKER
   await prisma.user.update({
     where: { id: data.user.id },
-    data: { role: Role.CLIENT },
+    data: { role:UserRole.CANDIDATE, status: UserStatus.ACTIVE },
   });
 
-  // 3. Create client profile
-  const client = await prisma.$transaction(async (tx) => {
+  // 3. Create candidate profile
+  const candidate = await prisma.$transaction(async (tx) => {
     try {
-      const profile = await tx.client.create({
+      const profile = await tx.candidate.create({
         data: {
           userId: data.user.id,
           fullName,
           email,
         },
       });
-
       return profile;
     } catch (err) {
-      await prisma.user.delete({ where: { id: data.user.id } });
+      await tx.user.delete({ where: { id: data.user.id } });
       throw err;
     }
   });
@@ -95,7 +97,7 @@ const registerClient = async (payload: IRegisterClientPayload) => {
     userId: data.user.id,
     email: data.user.email,
     name: data.user.name,
-    role: Role.CLIENT,
+    role: UserRole.CANDIDATE,
     status: data.user.status,
     isDeleted: data.user.isDeleted,
     emailVerified: data.user.emailVerified,
@@ -105,19 +107,18 @@ const registerClient = async (payload: IRegisterClientPayload) => {
     userId: data.user.id,
     email: data.user.email,
     name: data.user.name,
-    role: Role.CLIENT,
+    role: UserRole.CANDIDATE,
     status: data.user.status,
     isDeleted: data.user.isDeleted,
     emailVerified: data.user.emailVerified,
   });
-console.log(data, accessToken, refreshToken, client);
+  console.log(data, accessToken, refreshToken, candidate);
   return {
     ...data,
     accessToken,
     refreshToken,
-    client,
+    candidate,
   };
-
 };
 
 
@@ -187,10 +188,10 @@ const loginUser = async (payload: ILoginUserPayload) => {
   };
 };
 
-const loginDemoClient = async () => {
-  await seedDemoClient();
+const loginDemoCandidate = async () => {
+  await seedDemoCandidate();
 
-  const credentials = getDemoClientCredentials();
+  const credentials = getDemoCandidateCredentials();
 
   const data = await auth.api
     .signInEmail({
@@ -202,7 +203,7 @@ const loginDemoClient = async () => {
     .catch((error) => {
       const mappedError = mapBetterAuthError(
         error,
-        "Client demo login failed"
+        "Candidate demo login failed"
       );
 
       if (mappedError) {
@@ -212,7 +213,7 @@ const loginDemoClient = async () => {
       throw error;
     });
 
-  if (data.user.role !== Role.CLIENT) {
+  if (data.user.role !== UserRole.CANDIDATE) {
     throw new AppError(status.FORBIDDEN, "Demo account role is invalid");
   }
 
@@ -251,10 +252,10 @@ const loginDemoClient = async () => {
   };
 };
 
-const loginDemoExpert = async () => {
-  await seedDemoExpert();
+const loginDemoReqruiter = async () => {
+  await seedDemoReqruiter();
 
-  const credentials = getDemoExpertCredentials();
+  const credentials = getDemoReqruiterCredentials();
 
   const data = await auth.api
     .signInEmail({
@@ -264,12 +265,12 @@ const loginDemoExpert = async () => {
       },
     })
     .catch((error) => {
-      const mappedError = mapBetterAuthError(error, "Expert demo login failed");
+      const mappedError = mapBetterAuthError(error, "Reqruiter demo login failed");
       if (mappedError) throw mappedError;
       throw error;
     });
 
-  if (data.user.role !== Role.EXPERT) {
+  if (data.user.role !== UserRole.RECRUITER) {
     throw new AppError(status.FORBIDDEN, "Demo account role is invalid");
   }
 
@@ -316,7 +317,7 @@ const loginDemoAdmin = async () => {
       throw error;
     });
 
-  if (data.user.role !== Role.ADMIN) {
+  if (data.user.role !== UserRole.ADMIN) {
     throw new AppError(status.FORBIDDEN, "Demo account role is invalid");
   }
 
@@ -354,18 +355,16 @@ const getMe = async (user: IRequestUser) => {
   const isUserExists = await prisma.user.findUnique({
     where: { id: user.userId },
     include: {
-      client: true,
-      expert: {
+      jobSeekers: true,
+      recruiters: {
         include: {
-       industry : true,   
-          consultations: true,
-          testimonials: true,
-          schedules:true
+          industries: true,
+          interviews: true,
+          jobApplications: true,
+          jobs: true,
         },
-       
       },
-      admin: true,
-      
+      admins: true,
     },
   });
 
@@ -850,21 +849,20 @@ await prisma.user.update({
 
   //googleLoginSuccess
 const googleLoginSuccess = async (session : Record<string, any>) =>{
-    const isPatientExists = await prisma.client.findUnique({
-        where : {
-            userId : session.user.id,
-        }
+    const isCandidateExists = await prisma.candidate.findUnique({
+      where : {
+        userId : session.user.id,
+      }
     })
 
-    if(!isPatientExists){
-        await prisma.client.create({
-            data : {
-                userId : session.user.id,
-                fullName : session.user.name,
-                email : session.user.email,
-            }
-        
-        })
+    if(!isCandidateExists){
+      await prisma.candidate.create({
+        data : {
+          userId : session.user.id,
+          fullName : session.user.name,
+          email : session.user.email,
+        }
+      })
     }
 
     const accessToken = tokenUtils.getAccessToken({
@@ -913,8 +911,8 @@ const googleLoginSuccess = async (session : Record<string, any>) =>{
   });
 
   // Expert update
-  if (updatedUser.role === "EXPERT") {
-    await prisma.expert.update({
+  if (updatedUser.role === "RECRUITER") {
+    await prisma.recruiter.update({
       where: { userId: user.userId },
       data: {
         title: payload.title,
@@ -924,9 +922,9 @@ const googleLoginSuccess = async (session : Record<string, any>) =>{
     });
   }
 
-  // Client update
-  if (updatedUser.role === "CLIENT") {
-    await prisma.client.update({
+  // Candidate update
+  if (updatedUser.role === "CANDIDATE") {
+    await prisma.candidate.update({
       where: { userId: user.userId },
       data: {
         fullName: payload.fullName,
@@ -943,20 +941,19 @@ const googleLoginSuccess = async (session : Record<string, any>) =>{
 
 
 export const authService = {
-    registerClient,
-    loginUser,
-  loginDemoClient,
-  loginDemoExpert,
+  registerCandidate,
+  loginUser,
+  loginDemoCandidate,
+  loginDemoReqruiter,
   loginDemoAdmin,
-    getMe,
-    getNewToken,
-    changePassword,
-    logOutUser,
-    verifyEmail,
-    forgetPassword,
-    resetPassword,
-    googleLoginSuccess,
-    checkEmailExists,
-    updateProfile
-    
+  getMe,
+  getNewToken,
+  changePassword,
+  logOutUser,
+  verifyEmail,
+  forgetPassword,
+  resetPassword,
+  googleLoginSuccess,
+  checkEmailExists,
+  updateProfile
 }

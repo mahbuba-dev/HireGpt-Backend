@@ -1,0 +1,20 @@
+model AIConversation {
+  id          String          @id @default(uuid())
+  userId      String
+  contextType AIContextType   @default(CAREER_ASSISTANT)
+  title       String?         @db.VarChar(160)
+  isPinned    Boolean         @default(false)
+  isArchived  Boolean         @default(false)
+  totalTokens Int?
+  lastModel   String?
+  createdAt   DateTime        @default(now())
+  updatedAt   DateTime        @updatedAt
+  messages    AIChatMessage[]
+  user        User            @relation(fields: [userId], references: [id], onDelete: Cascade)
+  candidates  Candidate[]     @relation("AIConversationToCandidate")
+  recruiters  Recruiter[]     @relation("AIConversationToRecruiter")
+
+  @@index([userId])
+  @@index([contextType])
+  @@map("ai_conversations")
+}

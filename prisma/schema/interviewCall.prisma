@@ -1,0 +1,22 @@
+model InterviewCall {
+  id           String            @id @default(uuid())
+  chatRoomId   String
+  jobId        String?
+  status       InterviewStatus   @default(SCHEDULED)
+  scheduledAt  DateTime?
+  startedAt    DateTime?
+  endedAt      DateTime?
+  duration     Int?
+  aiScore      Float?
+  aiFeedback   String?
+  createdAt    DateTime          @default(now())
+  updatedAt    DateTime          @updatedAt
+  participants CallParticipant[]
+  chatRoom     ChatRoom          @relation(fields: [chatRoomId], references: [id], onDelete: Cascade)
+  job          Job?              @relation(fields: [jobId], references: [id], onDelete: Cascade)
+
+  @@index([chatRoomId])
+  @@index([jobId])
+  @@index([status])
+  @@map("interview_calls")
+}

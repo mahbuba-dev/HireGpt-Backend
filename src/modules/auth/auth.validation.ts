@@ -21,8 +21,8 @@ export const loginZodSchema = z.object({
         .regex(/[@$!%*?&]/, "Password must contain at least one special character (@, $, !, %, *, ?, &)")
 })
 
-export const clientDemoLoginZodSchema = z.object({
-  mode: z.literal("client").optional(),
+export const candidateDemoLoginZodSchema = z.object({
+  mode: z.literal("candidate").optional(),
 });
 
 
@@ -47,11 +47,11 @@ export const updateProfileSchema = z.object({
   email: z.string().email().optional(),
   image: z.string().url().nullable().optional(),
 
-  // Expert fields
+  // Reqruiter fields
   title: z.string().optional(),
   experience: z.number().optional(),
   industryId: z.string().optional(),
 
-  // Client fields
+  // Candidate fields
   fullName: z.string().optional(),
 });

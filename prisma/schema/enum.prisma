@@ -1,16 +1,94 @@
-enum ConsultationStatus {
-    PENDING
-    CONFIRMED
-    ONGOING
-    COMPLETED
-    CANCELLED
+// Added for chat and review features
+enum CallStatus {
+  ACTIVE
+  ENDED
 }
 
-enum PaymentStatus {
-    PAID
-    REFUNDED
-    FAILED
-    UNPAID
+enum UserRole {
+  ADMIN
+  RECRUITER
+  CANDIDATE
+  
+}
+
+enum ReviewStatus {
+  PENDING
+  APPROVED
+  REJECTED
+}
+
+
+enum UserStatus {
+  ACTIVE
+  SUSPENDED
+  BLOCKED
+  DELETED
+}
+
+enum VerificationStatus {
+  PENDING
+  APPROVED
+  REJECTED
+}
+
+enum JobStatus {
+  DRAFT
+  OPEN
+  CLOSED
+}
+
+enum ApplicationStatus {
+  PENDING
+  REVIEWED
+  SHORTLISTED
+  REJECTED
+  ACCEPTED
+}
+
+enum JobType {
+  FULL_TIME
+  PART_TIME
+  CONTRACT
+  REMOTE
+  INTERNSHIP
+}
+
+enum ExperienceLevel {
+  ENTRY
+  MID
+  SENIOR
+  LEAD
+}
+
+enum AIChatMessageRole {
+  USER
+  ASSISTANT
+  SYSTEM
+}
+
+enum AIMessageFeedback {
+  LIKE
+  DISLIKE
+}
+
+enum AIFeatureType {
+  RESUME_ANALYSIS
+  JOB_MATCHING
+  CHAT_ASSISTANT
+  COVER_LETTER
+  SKILL_GAP_ANALYSIS
+}
+
+enum InterviewStatus {
+  SCHEDULED
+  ONGOING
+  COMPLETED
+  CANCELLED
+}
+
+enum InterviewType {
+  AI
+  HUMAN
 }
 
 enum MessageType {
@@ -19,62 +97,57 @@ enum MessageType {
   SYSTEM
 }
 
-enum UserRole {
-    CLIENT
-    EXPERT
-    ADMIN
+enum NotificationType {
+  INFO
+  SUCCESS
+  WARNING
+  ERROR
+  SYSTEM
 }
 
-
-enum CallStatus {
-  PENDING
-  ACTIVE
-  ENDED
+enum MatchScoreLevel {
+  LOW
+  MEDIUM
+  HIGH
+  VERY_HIGH
 }
 
-enum VerificationStatus {
-    PENDING
-    APPROVED
-    REJECTED
+enum PaymentStatus {
+  PAID
+  UNPAID
+  FAILED
+  REFUNDED
 }
 
-enum ReviewStatus {
-    PENDING
-    APPROVED
-    HIDDEN
+enum PriorityLevel {
+  LOW
+  MEDIUM
+  HIGH
+  URGENT
 }
 
-enum Role {
-    ADMIN
-    EXPERT
-    CLIENT
+enum AIIntentType {
+  ASK_JOB
+  ASK_SKILL
+  RESUME_HELP
+  COVER_LETTER
+  SALARY_QUERY
+  JOB_RECOMMENDATION
+  INTERVIEW_PREP
 }
 
-enum UserStatus {
-    ACTIVE
-    BLOCKED
-    DELETED
-    SUSPENDED
-}
-
-enum AIChatMessageRole {
-    USER
-    ASSISTANT
-    SYSTEM
-}
-
-enum AIMessageFeedback {
-    LIKE
-    DISLIKE
-}
-
-enum ExpertApplicationStatus {
-    PENDING
-    APPROVED
-    REJECTED
-}
-
-enum CouponDiscountType {
-    PERCENT
-    FIXED
+enum AIContextType {
+  GENERAL_CHAT
+  JOB_MATCHING
+  RESUME_REVIEW
+  COVER_LETTER
+  INTERVIEW_PREP
+  JOB_DESCRIPTION
+  CAREER_GUIDANCE
+  CAREER_ASSISTANT
+  SKILL_ANALYSIS
+  RECRUITER_ASSISTANT
+  CONTENT_GENERATION
+  FILE_ANALYSIS
+  VOICE_CHAT
 }

@@ -52,29 +52,30 @@ export const AnyNull = runtime.AnyNull
 
 export const ModelName = {
   Admin: 'Admin',
-  AIConversation: 'AIConversation',
   AIChatMessage: 'AIChatMessage',
+  AIConversation: 'AIConversation',
+  AIRecommendation: 'AIRecommendation',
   Attachment: 'Attachment',
   User: 'User',
   Session: 'Session',
   Account: 'Account',
   Verification: 'Verification',
-  Call: 'Call',
   CallParticipant: 'CallParticipant',
+  Candidate: 'Candidate',
   ChatRoom: 'ChatRoom',
-  Client: 'Client',
-  Consultation: 'Consultation',
-  Coupon: 'Coupon',
-  Expert: 'Expert',
-  ExpertApplication: 'ExpertApplication',
-  ExpertSchedule: 'ExpertSchedule',
-  ExpertVerification: 'ExpertVerification',
   Industry: 'Industry',
+  Interview: 'Interview',
+  InterviewCall: 'InterviewCall',
+  Job: 'Job',
+  JobApplication: 'JobApplication',
+  JobTag: 'JobTag',
   Message: 'Message',
   MessageReaction: 'MessageReaction',
   Notification: 'Notification',
-  Payment: 'Payment',
-  Schedule: 'Schedule',
+  Recruiter: 'Recruiter',
+  RecruiterStats: 'RecruiterStats',
+  Resume: 'Resume',
+  SavedJob: 'SavedJob',
   Testimonial: 'Testimonial',
   TypingState: 'TypingState',
   UserPresence: 'UserPresence'
@@ -103,6 +104,9 @@ export const AdminScalarFieldEnum = {
   email: 'email',
   profilePhoto: 'profilePhoto',
   contactNumber: 'contactNumber',
+  permissions: 'permissions',
+  lastLoginAt: 'lastLoginAt',
+  status: 'status',
   isDeleted: 'isDeleted',
   deletedAt: 'deletedAt',
   createdAt: 'createdAt',
@@ -112,10 +116,28 @@ export const AdminScalarFieldEnum = {
 export type AdminScalarFieldEnum = (typeof AdminScalarFieldEnum)[keyof typeof AdminScalarFieldEnum]
 
 
+export const AIChatMessageScalarFieldEnum = {
+  id: 'id',
+  conversationId: 'conversationId',
+  role: 'role',
+  content: 'content',
+  isVoice: 'isVoice',
+  audioUrl: 'audioUrl',
+  createdAt: 'createdAt'
+} as const
+
+export type AIChatMessageScalarFieldEnum = (typeof AIChatMessageScalarFieldEnum)[keyof typeof AIChatMessageScalarFieldEnum]
+
+
 export const AIConversationScalarFieldEnum = {
   id: 'id',
   userId: 'userId',
+  contextType: 'contextType',
   title: 'title',
+  isPinned: 'isPinned',
+  isArchived: 'isArchived',
+  totalTokens: 'totalTokens',
+  lastModel: 'lastModel',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 } as const
@@ -123,20 +145,17 @@ export const AIConversationScalarFieldEnum = {
 export type AIConversationScalarFieldEnum = (typeof AIConversationScalarFieldEnum)[keyof typeof AIConversationScalarFieldEnum]
 
 
-export const AIChatMessageScalarFieldEnum = {
+export const AIRecommendationScalarFieldEnum = {
   id: 'id',
-  conversationId: 'conversationId',
-  role: 'role',
-  content: 'content',
-  model: 'model',
-  provider: 'provider',
-  tokensUsed: 'tokensUsed',
-  latencyMs: 'latencyMs',
-  feedback: 'feedback',
+  userId: 'userId',
+  type: 'type',
+  entityId: 'entityId',
+  score: 'score',
+  reason: 'reason',
   createdAt: 'createdAt'
 } as const
 
-export type AIChatMessageScalarFieldEnum = (typeof AIChatMessageScalarFieldEnum)[keyof typeof AIChatMessageScalarFieldEnum]
+export type AIRecommendationScalarFieldEnum = (typeof AIRecommendationScalarFieldEnum)[keyof typeof AIRecommendationScalarFieldEnum]
 
 
 export const AttachmentScalarFieldEnum = {
@@ -146,6 +165,10 @@ export const AttachmentScalarFieldEnum = {
   fileName: 'fileName',
   fileType: 'fileType',
   fileSize: 'fileSize',
+  isResume: 'isResume',
+  isPrivate: 'isPrivate',
+  aiAnalyzed: 'aiAnalyzed',
+  aiSummary: 'aiSummary',
   createdAt: 'createdAt'
 } as const
 
@@ -157,14 +180,14 @@ export const UserScalarFieldEnum = {
   name: 'name',
   email: 'email',
   emailVerified: 'emailVerified',
+  image: 'image',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
   role: 'role',
   status: 'status',
   needPasswordChange: 'needPasswordChange',
   isDeleted: 'isDeleted',
-  deletedAt: 'deletedAt',
-  image: 'image',
-  createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
+  deletedAt: 'deletedAt'
 } as const
 
 export type UserScalarFieldEnum = (typeof UserScalarFieldEnum)[keyof typeof UserScalarFieldEnum]
@@ -215,35 +238,50 @@ export const VerificationScalarFieldEnum = {
 export type VerificationScalarFieldEnum = (typeof VerificationScalarFieldEnum)[keyof typeof VerificationScalarFieldEnum]
 
 
-export const CallScalarFieldEnum = {
-  id: 'id',
-  roomId: 'roomId',
-  status: 'status',
-  startedAt: 'startedAt',
-  endedAt: 'endedAt',
-  createdAt: 'createdAt'
-} as const
-
-export type CallScalarFieldEnum = (typeof CallScalarFieldEnum)[keyof typeof CallScalarFieldEnum]
-
-
 export const CallParticipantScalarFieldEnum = {
   id: 'id',
   callId: 'callId',
   userId: 'userId',
   role: 'role',
   joinedAt: 'joinedAt',
-  leftAt: 'leftAt'
+  leftAt: 'leftAt',
+  aiScore: 'aiScore',
+  createdAt: 'createdAt'
 } as const
 
 export type CallParticipantScalarFieldEnum = (typeof CallParticipantScalarFieldEnum)[keyof typeof CallParticipantScalarFieldEnum]
 
 
+export const CandidateScalarFieldEnum = {
+  id: 'id',
+  fullName: 'fullName',
+  email: 'email',
+  profilePhoto: 'profilePhoto',
+  phone: 'phone',
+  address: 'address',
+  headline: 'headline',
+  summary: 'summary',
+  experience: 'experience',
+  skills: 'skills',
+  aiScore: 'aiScore',
+  aiTags: 'aiTags',
+  isDeleted: 'isDeleted',
+  deletedAt: 'deletedAt',
+  userId: 'userId',
+  resumeid: 'resumeid',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type CandidateScalarFieldEnum = (typeof CandidateScalarFieldEnum)[keyof typeof CandidateScalarFieldEnum]
+
+
 export const ChatRoomScalarFieldEnum = {
   id: 'id',
-  consultationId: 'consultationId',
-  clientId: 'clientId',
-  expertId: 'expertId',
+  jobSeekerId: 'jobSeekerId',
+  recruiterId: 'recruiterId',
+  isAIChat: 'isAIChat',
+  jobId: 'jobId',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 } as const
@@ -251,161 +289,119 @@ export const ChatRoomScalarFieldEnum = {
 export type ChatRoomScalarFieldEnum = (typeof ChatRoomScalarFieldEnum)[keyof typeof ChatRoomScalarFieldEnum]
 
 
-export const ClientScalarFieldEnum = {
-  id: 'id',
-  fullName: 'fullName',
-  email: 'email',
-  profilePhoto: 'profilePhoto',
-  phone: 'phone',
-  address: 'address',
-  isDeleted: 'isDeleted',
-  deletedAt: 'deletedAt',
-  userId: 'userId',
-  createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
-} as const
-
-export type ClientScalarFieldEnum = (typeof ClientScalarFieldEnum)[keyof typeof ClientScalarFieldEnum]
-
-
-export const ConsultationScalarFieldEnum = {
-  id: 'id',
-  videoCallId: 'videoCallId',
-  status: 'status',
-  paymentStatus: 'paymentStatus',
-  date: 'date',
-  startedAt: 'startedAt',
-  endedAt: 'endedAt',
-  cancelledAt: 'cancelledAt',
-  cancelReason: 'cancelReason',
-  cancelledBy: 'cancelledBy',
-  rescheduledAt: 'rescheduledAt',
-  rescheduleReason: 'rescheduleReason',
-  rescheduledBy: 'rescheduledBy',
-  sessionSummary: 'sessionSummary',
-  clientId: 'clientId',
-  expertScheduleId: 'expertScheduleId',
-  createdAt: 'createdAt',
-  updatedAt: 'updatedAt',
-  expertId: 'expertId'
-} as const
-
-export type ConsultationScalarFieldEnum = (typeof ConsultationScalarFieldEnum)[keyof typeof ConsultationScalarFieldEnum]
-
-
-export const CouponScalarFieldEnum = {
-  id: 'id',
-  code: 'code',
-  description: 'description',
-  discountType: 'discountType',
-  discountValue: 'discountValue',
-  maxDiscount: 'maxDiscount',
-  minAmount: 'minAmount',
-  expiresAt: 'expiresAt',
-  maxUses: 'maxUses',
-  usedCount: 'usedCount',
-  isActive: 'isActive',
-  isDeleted: 'isDeleted',
-  deletedAt: 'deletedAt',
-  createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
-} as const
-
-export type CouponScalarFieldEnum = (typeof CouponScalarFieldEnum)[keyof typeof CouponScalarFieldEnum]
-
-
-export const ExpertScalarFieldEnum = {
-  id: 'id',
-  fullName: 'fullName',
-  email: 'email',
-  profilePhoto: 'profilePhoto',
-  phone: 'phone',
-  bio: 'bio',
-  title: 'title',
-  experience: 'experience',
-  consultationFee: 'consultationFee',
-  isVerified: 'isVerified',
-  isSeeded: 'isSeeded',
-  isDeleted: 'isDeleted',
-  deletedAt: 'deletedAt',
-  userId: 'userId',
-  industryId: 'industryId',
-  createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
-} as const
-
-export type ExpertScalarFieldEnum = (typeof ExpertScalarFieldEnum)[keyof typeof ExpertScalarFieldEnum]
-
-
-export const ExpertApplicationScalarFieldEnum = {
-  id: 'id',
-  userId: 'userId',
-  industryId: 'industryId',
-  fullName: 'fullName',
-  email: 'email',
-  phone: 'phone',
-  bio: 'bio',
-  title: 'title',
-  experience: 'experience',
-  consultationFee: 'consultationFee',
-  profilePhoto: 'profilePhoto',
-  resumeUrl: 'resumeUrl',
-  resumeFileName: 'resumeFileName',
-  resumeFileType: 'resumeFileType',
-  resumeFileSize: 'resumeFileSize',
-  status: 'status',
-  reviewNotes: 'reviewNotes',
-  reviewedBy: 'reviewedBy',
-  reviewedAt: 'reviewedAt',
-  createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
-} as const
-
-export type ExpertApplicationScalarFieldEnum = (typeof ExpertApplicationScalarFieldEnum)[keyof typeof ExpertApplicationScalarFieldEnum]
-
-
-export const ExpertScheduleScalarFieldEnum = {
-  id: 'id',
-  expertId: 'expertId',
-  scheduleId: 'scheduleId',
-  consultationId: 'consultationId',
-  isBooked: 'isBooked',
-  isPublished: 'isPublished',
-  isDeleted: 'isDeleted',
-  deletedAt: 'deletedAt',
-  createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
-} as const
-
-export type ExpertScheduleScalarFieldEnum = (typeof ExpertScheduleScalarFieldEnum)[keyof typeof ExpertScheduleScalarFieldEnum]
-
-
-export const ExpertVerificationScalarFieldEnum = {
-  id: 'id',
-  expertId: 'expertId',
-  status: 'status',
-  notes: 'notes',
-  verifiedBy: 'verifiedBy',
-  verifiedAt: 'verifiedAt',
-  createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
-} as const
-
-export type ExpertVerificationScalarFieldEnum = (typeof ExpertVerificationScalarFieldEnum)[keyof typeof ExpertVerificationScalarFieldEnum]
-
-
 export const IndustryScalarFieldEnum = {
   id: 'id',
   name: 'name',
   description: 'description',
   icon: 'icon',
-  createdAt: 'createdAt',
-  updatedAt: 'updatedAt',
+  slug: 'slug',
+  isActive: 'isActive',
+  jobCount: 'jobCount',
+  userCount: 'userCount',
   isDeleted: 'isDeleted',
-  deletedAt: 'deletedAt'
+  deletedAt: 'deletedAt',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
 } as const
 
 export type IndustryScalarFieldEnum = (typeof IndustryScalarFieldEnum)[keyof typeof IndustryScalarFieldEnum]
+
+
+export const InterviewScalarFieldEnum = {
+  id: 'id',
+  jobId: 'jobId',
+  applicationId: 'applicationId',
+  recruiterId: 'recruiterId',
+  candidateId: 'candidateId',
+  type: 'type',
+  status: 'status',
+  scheduledAt: 'scheduledAt',
+  startedAt: 'startedAt',
+  endedAt: 'endedAt',
+  durationMinutes: 'durationMinutes',
+  aiScore: 'aiScore',
+  aiFeedback: 'aiFeedback',
+  meetingLink: 'meetingLink',
+  notes: 'notes',
+  isDeleted: 'isDeleted',
+  deletedAt: 'deletedAt',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type InterviewScalarFieldEnum = (typeof InterviewScalarFieldEnum)[keyof typeof InterviewScalarFieldEnum]
+
+
+export const InterviewCallScalarFieldEnum = {
+  id: 'id',
+  chatRoomId: 'chatRoomId',
+  jobId: 'jobId',
+  status: 'status',
+  scheduledAt: 'scheduledAt',
+  startedAt: 'startedAt',
+  endedAt: 'endedAt',
+  duration: 'duration',
+  aiScore: 'aiScore',
+  aiFeedback: 'aiFeedback',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type InterviewCallScalarFieldEnum = (typeof InterviewCallScalarFieldEnum)[keyof typeof InterviewCallScalarFieldEnum]
+
+
+export const JobScalarFieldEnum = {
+  id: 'id',
+  title: 'title',
+  description: 'description',
+  responsibilities: 'responsibilities',
+  requirements: 'requirements',
+  location: 'location',
+  isRemote: 'isRemote',
+  salaryMin: 'salaryMin',
+  salaryMax: 'salaryMax',
+  currency: 'currency',
+  type: 'type',
+  experienceLevel: 'experienceLevel',
+  status: 'status',
+  aiSummary: 'aiSummary',
+  aiTags: 'aiTags',
+  aiScore: 'aiScore',
+  recruiterId: 'recruiterId',
+  industryId: 'industryId',
+  isDeleted: 'isDeleted',
+  deletedAt: 'deletedAt',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type JobScalarFieldEnum = (typeof JobScalarFieldEnum)[keyof typeof JobScalarFieldEnum]
+
+
+export const JobApplicationScalarFieldEnum = {
+  id: 'id',
+  jobSeekerId: 'jobSeekerId',
+  jobId: 'jobId',
+  recruiterId: 'recruiterId',
+  status: 'status',
+  aiScore: 'aiScore',
+  aiMatchReasons: 'aiMatchReasons',
+  resumeUrl: 'resumeUrl',
+  coverLetter: 'coverLetter',
+  appliedAt: 'appliedAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type JobApplicationScalarFieldEnum = (typeof JobApplicationScalarFieldEnum)[keyof typeof JobApplicationScalarFieldEnum]
+
+
+export const JobTagScalarFieldEnum = {
+  id: 'id',
+  jobId: 'jobId',
+  tag: 'tag'
+} as const
+
+export type JobTagScalarFieldEnum = (typeof JobTagScalarFieldEnum)[keyof typeof JobTagScalarFieldEnum]
 
 
 export const MessageScalarFieldEnum = {
@@ -415,6 +411,9 @@ export const MessageScalarFieldEnum = {
   senderRole: 'senderRole',
   type: 'type',
   text: 'text',
+  aiIntent: 'aiIntent',
+  aiScore: 'aiScore',
+  isAI: 'isAI',
   createdAt: 'createdAt'
 } as const
 
@@ -426,6 +425,8 @@ export const MessageReactionScalarFieldEnum = {
   messageId: 'messageId',
   userId: 'userId',
   emoji: 'emoji',
+  isAIReaction: 'isAIReaction',
+  sentimentScore: 'sentimentScore',
   createdAt: 'createdAt'
 } as const
 
@@ -434,57 +435,98 @@ export type MessageReactionScalarFieldEnum = (typeof MessageReactionScalarFieldE
 
 export const NotificationScalarFieldEnum = {
   id: 'id',
-  type: 'type',
-  message: 'message',
   userId: 'userId',
-  createdAt: 'createdAt',
-  read: 'read'
+  type: 'type',
+  title: 'title',
+  message: 'message',
+  entityType: 'entityType',
+  entityId: 'entityId',
+  isAI: 'isAI',
+  priority: 'priority',
+  read: 'read',
+  readAt: 'readAt',
+  createdAt: 'createdAt'
 } as const
 
 export type NotificationScalarFieldEnum = (typeof NotificationScalarFieldEnum)[keyof typeof NotificationScalarFieldEnum]
 
 
-export const PaymentScalarFieldEnum = {
+export const RecruiterScalarFieldEnum = {
   id: 'id',
-  consultationId: 'consultationId',
-  amount: 'amount',
-  status: 'status',
-  originalAmount: 'originalAmount',
-  discountAmount: 'discountAmount',
-  couponCode: 'couponCode',
-  transactionId: 'transactionId',
-  stripeEventId: 'stripeEventId',
-  paymentGatewayData: 'paymentGatewayData',
-  createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
-} as const
-
-export type PaymentScalarFieldEnum = (typeof PaymentScalarFieldEnum)[keyof typeof PaymentScalarFieldEnum]
-
-
-export const ScheduleScalarFieldEnum = {
-  id: 'id',
-  startDateTime: 'startDateTime',
-  endDateTime: 'endDateTime',
+  userId: 'userId',
+  fullName: 'fullName',
+  email: 'email',
+  profilePhoto: 'profilePhoto',
+  phone: 'phone',
+  bio: 'bio',
+  companyName: 'companyName',
+  designation: 'designation',
+  experience: 'experience',
+  hiringBudget: 'hiringBudget',
+  verified: 'verified',
+  totalJobsPosted: 'totalJobsPosted',
+  activeJobs: 'activeJobs',
+  isSeeded: 'isSeeded',
   isDeleted: 'isDeleted',
   deletedAt: 'deletedAt',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 } as const
 
-export type ScheduleScalarFieldEnum = (typeof ScheduleScalarFieldEnum)[keyof typeof ScheduleScalarFieldEnum]
+export type RecruiterScalarFieldEnum = (typeof RecruiterScalarFieldEnum)[keyof typeof RecruiterScalarFieldEnum]
+
+
+export const RecruiterStatsScalarFieldEnum = {
+  id: 'id',
+  recruiterId: 'recruiterId',
+  totalJobsPosted: 'totalJobsPosted',
+  activeJobs: 'activeJobs',
+  totalApplications: 'totalApplications',
+  shortlistedCount: 'shortlistedCount',
+  hiredCount: 'hiredCount',
+  avgResponseTimeMin: 'avgResponseTimeMin',
+  ratingScore: 'ratingScore',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type RecruiterStatsScalarFieldEnum = (typeof RecruiterStatsScalarFieldEnum)[keyof typeof RecruiterStatsScalarFieldEnum]
+
+
+export const ResumeScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  fileUrl: 'fileUrl',
+  fileName: 'fileName',
+  fileType: 'fileType',
+  aiSummary: 'aiSummary',
+  aiScore: 'aiScore',
+  extractedSkills: 'extractedSkills',
+  isActive: 'isActive',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type ResumeScalarFieldEnum = (typeof ResumeScalarFieldEnum)[keyof typeof ResumeScalarFieldEnum]
+
+
+export const SavedJobScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  jobId: 'jobId',
+  createdAt: 'createdAt'
+} as const
+
+export type SavedJobScalarFieldEnum = (typeof SavedJobScalarFieldEnum)[keyof typeof SavedJobScalarFieldEnum]
 
 
 export const TestimonialScalarFieldEnum = {
   id: 'id',
+  userId: 'userId',
+  userRole: 'userRole',
+  content: 'content',
   rating: 'rating',
-  comment: 'comment',
-  status: 'status',
-  expertReply: 'expertReply',
-  expertRepliedAt: 'expertRepliedAt',
-  clientId: 'clientId',
-  expertId: 'expertId',
-  consultationId: 'consultationId',
+  meta: 'meta',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 } as const
@@ -497,6 +539,7 @@ export const TypingStateScalarFieldEnum = {
   roomId: 'roomId',
   userId: 'userId',
   isTyping: 'isTyping',
+  isAI: 'isAI',
   updatedAt: 'updatedAt'
 } as const
 
@@ -506,7 +549,9 @@ export type TypingStateScalarFieldEnum = (typeof TypingStateScalarFieldEnum)[key
 export const UserPresenceScalarFieldEnum = {
   userId: 'userId',
   isOnline: 'isOnline',
-  lastSeen: 'lastSeen'
+  lastSeen: 'lastSeen',
+  lastAction: 'lastAction',
+  updatedAt: 'updatedAt'
 } as const
 
 export type UserPresenceScalarFieldEnum = (typeof UserPresenceScalarFieldEnum)[keyof typeof UserPresenceScalarFieldEnum]
@@ -536,14 +581,6 @@ export const QueryMode = {
 export type QueryMode = (typeof QueryMode)[keyof typeof QueryMode]
 
 
-export const NullsOrder = {
-  first: 'first',
-  last: 'last'
-} as const
-
-export type NullsOrder = (typeof NullsOrder)[keyof typeof NullsOrder]
-
-
 export const JsonNullValueFilter = {
   DbNull: DbNull,
   JsonNull: JsonNull,
@@ -551,4 +588,12 @@ export const JsonNullValueFilter = {
 } as const
 
 export type JsonNullValueFilter = (typeof JsonNullValueFilter)[keyof typeof JsonNullValueFilter]
+
+
+export const NullsOrder = {
+  first: 'first',
+  last: 'last'
+} as const
+
+export type NullsOrder = (typeof NullsOrder)[keyof typeof NullsOrder]
 

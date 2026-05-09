@@ -7,7 +7,7 @@
 
 // import { prisma } from "../lib/prisma";
 // import AppError from "../errorHelpers/AppError";
-// import { Role, UserStatus } from "../generated/enums";
+// import { UserRole, UserStatus } from "../generated/enums";
 // import { envVars } from "../config/env";
 // import { CookieUtils } from "../utilis/cookie";
 // import { jwtUtils } from "../utilis/jwt";
@@ -111,14 +111,14 @@ import status from "http-status";
 import { auth } from "../lib/auth";
 import { prisma } from "../lib/prisma";
 import AppError from "../errorHelpers/AppError";
-import { Role, UserStatus } from "../generated/enums";
+import { UserRole, UserStatus } from "../generated/enums";
 import { envVars } from "../config/env";
 import { CookieUtils } from "../utilis/cookie";
 import { jwtUtils } from "../utilis/jwt";
 import { tokenUtils } from "../utilis/token";
 
 export const checkAuth =
-  (...authRoles: Role[]) =>
+  (...authRoles: UserRole[]) =>
   async (req: Request, res: Response, next: NextFunction) => {
     try {
       const authHeader = req.headers.authorization;
@@ -192,7 +192,7 @@ export const checkAuth =
         throw new AppError(status.UNAUTHORIZED, "Unauthorized! User not found.");
       }
 
-      const userRole = user.role as Role;
+      const userRole = user.role as UserRole;
 
       if (
         user.status === UserStatus.BLOCKED ||
@@ -225,7 +225,7 @@ export const checkAuth =
 
       req.user = {
         userId: user.id,
-        role: userRole,
+        userRole: userRole,
         email: user.email,
       };
 

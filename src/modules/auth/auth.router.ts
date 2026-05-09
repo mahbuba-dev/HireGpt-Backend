@@ -1,25 +1,25 @@
 import { Router } from "express";
 import { authControler } from "./auth.controler";
 import { checkAuth } from "../../middleware/cheackAuth";
-import { Role } from "../../generated/enums";
+import { UserRole } from "../../generated/enums";
 import { validateRequest } from "../../middleware/validateRequest";
-import { changePasswordZodSchema, clientDemoLoginZodSchema, forgotPasswordZodSchema, loginZodSchema, registerZodSchema, updateProfileSchema } from "./auth.validation";
+import { changePasswordZodSchema, candidateDemoLoginZodSchema, forgotPasswordZodSchema, loginZodSchema, registerZodSchema, updateProfileSchema } from "./auth.validation";
 
 const router = Router()
 
 router.post("/register", validateRequest(registerZodSchema), authControler.registeredUser)
 router.post("/login", validateRequest(loginZodSchema), authControler.loginUser)
-router.post("/demo-login", validateRequest(clientDemoLoginZodSchema), authControler.clientDemoLogin)
-router.post("/demo-login/expert", authControler.expertDemoLogin)
+router.post("/demo-login", validateRequest(candidateDemoLoginZodSchema), authControler.candidateDemoLogin)
+router.post("/demo-login/reqruiter", authControler.reqruiterDemoLogin)
 router.post("/demo-login/admin", authControler.adminDemoLogin)
 router.get("/me", checkAuth(), authControler.getMe)
 router.post("/refresh-token", authControler.getNewToken)
 router.post('/change-password', 
-    checkAuth(Role.CLIENT, Role.EXPERT, Role.ADMIN),
-    validateRequest(changePasswordZodSchema),
-authControler.changePassword)
+  checkAuth(UserRole.CANDIDATE, UserRole.RECRUITER, UserRole.ADMIN),
+  validateRequest(changePasswordZodSchema),
+  authControler.changePassword)
 
-router.post("/logOut", checkAuth(Role.ADMIN, Role.CLIENT, Role.EXPERT), authControler.logOutUser)
+router.post("/logOut", checkAuth(UserRole.ADMIN, UserRole.CANDIDATE, UserRole.RECRUITER), authControler.logOutUser)
 export const authRoutes = router
 
 router.post("/verify-email", authControler.verifyEmail)

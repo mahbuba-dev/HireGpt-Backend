@@ -47,15 +47,20 @@ export { Prisma }
  */
 export type Admin = Prisma.AdminModel
 /**
+ * Model AIChatMessage
+ * 
+ */
+export type AIChatMessage = Prisma.AIChatMessageModel
+/**
  * Model AIConversation
  * 
  */
 export type AIConversation = Prisma.AIConversationModel
 /**
- * Model AIChatMessage
+ * Model AIRecommendation
  * 
  */
-export type AIChatMessage = Prisma.AIChatMessageModel
+export type AIRecommendation = Prisma.AIRecommendationModel
 /**
  * Model Attachment
  * 
@@ -82,60 +87,50 @@ export type Account = Prisma.AccountModel
  */
 export type Verification = Prisma.VerificationModel
 /**
- * Model Call
- * 
- */
-export type Call = Prisma.CallModel
-/**
  * Model CallParticipant
  * 
  */
 export type CallParticipant = Prisma.CallParticipantModel
+/**
+ * Model Candidate
+ * 
+ */
+export type Candidate = Prisma.CandidateModel
 /**
  * Model ChatRoom
  * 
  */
 export type ChatRoom = Prisma.ChatRoomModel
 /**
- * Model Client
- * 
- */
-export type Client = Prisma.ClientModel
-/**
- * Model Consultation
- * 
- */
-export type Consultation = Prisma.ConsultationModel
-/**
- * Model Coupon
- * 
- */
-export type Coupon = Prisma.CouponModel
-/**
- * Model Expert
- * 
- */
-export type Expert = Prisma.ExpertModel
-/**
- * Model ExpertApplication
- * 
- */
-export type ExpertApplication = Prisma.ExpertApplicationModel
-/**
- * Model ExpertSchedule
- * 
- */
-export type ExpertSchedule = Prisma.ExpertScheduleModel
-/**
- * Model ExpertVerification
- * 
- */
-export type ExpertVerification = Prisma.ExpertVerificationModel
-/**
  * Model Industry
  * 
  */
 export type Industry = Prisma.IndustryModel
+/**
+ * Model Interview
+ * 
+ */
+export type Interview = Prisma.InterviewModel
+/**
+ * Model InterviewCall
+ * 
+ */
+export type InterviewCall = Prisma.InterviewCallModel
+/**
+ * Model Job
+ * 
+ */
+export type Job = Prisma.JobModel
+/**
+ * Model JobApplication
+ * 
+ */
+export type JobApplication = Prisma.JobApplicationModel
+/**
+ * Model JobTag
+ * 
+ */
+export type JobTag = Prisma.JobTagModel
 /**
  * Model Message
  * 
@@ -152,15 +147,25 @@ export type MessageReaction = Prisma.MessageReactionModel
  */
 export type Notification = Prisma.NotificationModel
 /**
- * Model Payment
+ * Model Recruiter
  * 
  */
-export type Payment = Prisma.PaymentModel
+export type Recruiter = Prisma.RecruiterModel
 /**
- * Model Schedule
+ * Model RecruiterStats
  * 
  */
-export type Schedule = Prisma.ScheduleModel
+export type RecruiterStats = Prisma.RecruiterStatsModel
+/**
+ * Model Resume
+ * 
+ */
+export type Resume = Prisma.ResumeModel
+/**
+ * Model SavedJob
+ * 
+ */
+export type SavedJob = Prisma.SavedJobModel
 /**
  * Model Testimonial
  * 

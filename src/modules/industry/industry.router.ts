@@ -11,13 +11,13 @@ import {
 import { industryController } from "./industry.controler";
 import { multerUpload } from "../../config/multer.config";
 import { checkAuth } from "../../middleware/cheackAuth";
-import { Role } from "../../generated/enums";
+import { UserRole } from "../../generated/enums";
 
 const router = Router();
 
 router.post(
 	"/",
-	checkAuth(Role.ADMIN),
+	checkAuth(UserRole.ADMIN),
 	multerUpload.single("file"),
 	validateRequest(createIndustryValidation),
 	industryController.createIndustry
@@ -28,13 +28,13 @@ router.get("/:id", validateRequest(industryIdValidation), industryController.get
 
 router.delete(
 	"/:id",
-	checkAuth(Role.ADMIN),
+	checkAuth(UserRole.ADMIN),
 	validateRequest(industryIdValidation),
 	industryController.deleteIndustry
 );
 router.put(
 	"/:id",
-	checkAuth(Role.ADMIN),
+	checkAuth(UserRole.ADMIN),
 	multerUpload.single("file"),
 	validateRequest(updateIndustryValidation),
 	industryController.updateIndustry

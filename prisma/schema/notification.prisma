@@ -1,0 +1,20 @@
+model Notification {
+  id         String           @id @default(uuid())
+  userId     String
+  type       NotificationType
+  title      String?
+  message    String
+  entityType String?
+  entityId   String?
+  isAI       Boolean          @default(false)
+  priority   PriorityLevel    @default(MEDIUM)
+  read       Boolean          @default(false)
+  readAt     DateTime?
+  createdAt  DateTime         @default(now())
+  user       User             @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@index([type])
+  @@index([read])
+  @@map("notifications")
+}

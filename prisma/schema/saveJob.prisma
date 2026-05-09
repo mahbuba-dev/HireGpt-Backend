@@ -1,0 +1,14 @@
+model SavedJob {
+  id         String      @id @default(uuid())
+  userId     String
+  jobId      String
+  createdAt  DateTime    @default(now())
+  job        Job         @relation(fields: [jobId], references: [id], onDelete: Cascade)
+  user       User        @relation(fields: [userId], references: [id], onDelete: Cascade)
+  candidates Candidate[] @relation("CandidateToSavedJob")
+
+  @@unique([userId, jobId])
+  @@index([userId])
+  @@index([jobId])
+  @@map("saved_jobs")
+}

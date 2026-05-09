@@ -1,0 +1,19 @@
+model Message {
+  id          String            @id @default(uuid())
+  roomId      String
+  senderId    String
+  senderRole  UserRole
+  type        MessageType       @default(TEXT)
+  text        String?
+  aiIntent    AIIntentType?
+  aiScore     Float?
+  isAI        Boolean           @default(false)
+  createdAt   DateTime          @default(now())
+  attachments Attachment[]
+  reactions   MessageReaction[]
+  room        ChatRoom          @relation(fields: [roomId], references: [id], onDelete: Cascade)
+
+  @@index([roomId])
+  @@index([senderId])
+  @@map("messages")
+}

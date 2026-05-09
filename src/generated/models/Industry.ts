@@ -20,8 +20,20 @@ export type IndustryModel = runtime.Types.Result.DefaultSelection<Prisma.$Indust
 
 export type AggregateIndustry = {
   _count: IndustryCountAggregateOutputType | null
+  _avg: IndustryAvgAggregateOutputType | null
+  _sum: IndustrySumAggregateOutputType | null
   _min: IndustryMinAggregateOutputType | null
   _max: IndustryMaxAggregateOutputType | null
+}
+
+export type IndustryAvgAggregateOutputType = {
+  jobCount: number | null
+  userCount: number | null
+}
+
+export type IndustrySumAggregateOutputType = {
+  jobCount: number | null
+  userCount: number | null
 }
 
 export type IndustryMinAggregateOutputType = {
@@ -29,10 +41,14 @@ export type IndustryMinAggregateOutputType = {
   name: string | null
   description: string | null
   icon: string | null
-  createdAt: Date | null
-  updatedAt: Date | null
+  slug: string | null
+  isActive: boolean | null
+  jobCount: number | null
+  userCount: number | null
   isDeleted: boolean | null
   deletedAt: Date | null
+  createdAt: Date | null
+  updatedAt: Date | null
 }
 
 export type IndustryMaxAggregateOutputType = {
@@ -40,10 +56,14 @@ export type IndustryMaxAggregateOutputType = {
   name: string | null
   description: string | null
   icon: string | null
-  createdAt: Date | null
-  updatedAt: Date | null
+  slug: string | null
+  isActive: boolean | null
+  jobCount: number | null
+  userCount: number | null
   isDeleted: boolean | null
   deletedAt: Date | null
+  createdAt: Date | null
+  updatedAt: Date | null
 }
 
 export type IndustryCountAggregateOutputType = {
@@ -51,23 +71,41 @@ export type IndustryCountAggregateOutputType = {
   name: number
   description: number
   icon: number
-  createdAt: number
-  updatedAt: number
+  slug: number
+  isActive: number
+  jobCount: number
+  userCount: number
   isDeleted: number
   deletedAt: number
+  createdAt: number
+  updatedAt: number
   _all: number
 }
 
+
+export type IndustryAvgAggregateInputType = {
+  jobCount?: true
+  userCount?: true
+}
+
+export type IndustrySumAggregateInputType = {
+  jobCount?: true
+  userCount?: true
+}
 
 export type IndustryMinAggregateInputType = {
   id?: true
   name?: true
   description?: true
   icon?: true
-  createdAt?: true
-  updatedAt?: true
+  slug?: true
+  isActive?: true
+  jobCount?: true
+  userCount?: true
   isDeleted?: true
   deletedAt?: true
+  createdAt?: true
+  updatedAt?: true
 }
 
 export type IndustryMaxAggregateInputType = {
@@ -75,10 +113,14 @@ export type IndustryMaxAggregateInputType = {
   name?: true
   description?: true
   icon?: true
-  createdAt?: true
-  updatedAt?: true
+  slug?: true
+  isActive?: true
+  jobCount?: true
+  userCount?: true
   isDeleted?: true
   deletedAt?: true
+  createdAt?: true
+  updatedAt?: true
 }
 
 export type IndustryCountAggregateInputType = {
@@ -86,10 +128,14 @@ export type IndustryCountAggregateInputType = {
   name?: true
   description?: true
   icon?: true
-  createdAt?: true
-  updatedAt?: true
+  slug?: true
+  isActive?: true
+  jobCount?: true
+  userCount?: true
   isDeleted?: true
   deletedAt?: true
+  createdAt?: true
+  updatedAt?: true
   _all?: true
 }
 
@@ -131,6 +177,18 @@ export type IndustryAggregateArgs<ExtArgs extends runtime.Types.Extensions.Inter
   /**
    * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
    * 
+   * Select which fields to average
+  **/
+  _avg?: IndustryAvgAggregateInputType
+  /**
+   * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+   * 
+   * Select which fields to sum
+  **/
+  _sum?: IndustrySumAggregateInputType
+  /**
+   * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+   * 
    * Select which fields to find the minimum value
   **/
   _min?: IndustryMinAggregateInputType
@@ -161,6 +219,8 @@ export type IndustryGroupByArgs<ExtArgs extends runtime.Types.Extensions.Interna
   take?: number
   skip?: number
   _count?: IndustryCountAggregateInputType | true
+  _avg?: IndustryAvgAggregateInputType
+  _sum?: IndustrySumAggregateInputType
   _min?: IndustryMinAggregateInputType
   _max?: IndustryMaxAggregateInputType
 }
@@ -170,16 +230,22 @@ export type IndustryGroupByOutputType = {
   name: string
   description: string | null
   icon: string | null
-  createdAt: Date
-  updatedAt: Date
+  slug: string | null
+  isActive: boolean
+  jobCount: number
+  userCount: number
   isDeleted: boolean
   deletedAt: Date | null
+  createdAt: Date
+  updatedAt: Date
   _count: IndustryCountAggregateOutputType | null
+  _avg: IndustryAvgAggregateOutputType | null
+  _sum: IndustrySumAggregateOutputType | null
   _min: IndustryMinAggregateOutputType | null
   _max: IndustryMaxAggregateOutputType | null
 }
 
-type GetIndustryGroupByPayload<T extends IndustryGroupByArgs> = Prisma.PrismaPromise<
+export type GetIndustryGroupByPayload<T extends IndustryGroupByArgs> = Prisma.PrismaPromise<
   Array<
     Prisma.PickEnumerable<IndustryGroupByOutputType, T['by']> &
       {
@@ -198,16 +264,20 @@ export type IndustryWhereInput = {
   AND?: Prisma.IndustryWhereInput | Prisma.IndustryWhereInput[]
   OR?: Prisma.IndustryWhereInput[]
   NOT?: Prisma.IndustryWhereInput | Prisma.IndustryWhereInput[]
-  id?: Prisma.UuidFilter<"Industry"> | string
+  id?: Prisma.StringFilter<"Industry"> | string
   name?: Prisma.StringFilter<"Industry"> | string
   description?: Prisma.StringNullableFilter<"Industry"> | string | null
   icon?: Prisma.StringNullableFilter<"Industry"> | string | null
-  createdAt?: Prisma.DateTimeFilter<"Industry"> | Date | string
-  updatedAt?: Prisma.DateTimeFilter<"Industry"> | Date | string
+  slug?: Prisma.StringNullableFilter<"Industry"> | string | null
+  isActive?: Prisma.BoolFilter<"Industry"> | boolean
+  jobCount?: Prisma.IntFilter<"Industry"> | number
+  userCount?: Prisma.IntFilter<"Industry"> | number
   isDeleted?: Prisma.BoolFilter<"Industry"> | boolean
   deletedAt?: Prisma.DateTimeNullableFilter<"Industry"> | Date | string | null
-  experts?: Prisma.ExpertListRelationFilter
-  expertApplications?: Prisma.ExpertApplicationListRelationFilter
+  createdAt?: Prisma.DateTimeFilter<"Industry"> | Date | string
+  updatedAt?: Prisma.DateTimeFilter<"Industry"> | Date | string
+  jobs?: Prisma.JobListRelationFilter
+  recruiters?: Prisma.RecruiterListRelationFilter
 }
 
 export type IndustryOrderByWithRelationInput = {
@@ -215,56 +285,74 @@ export type IndustryOrderByWithRelationInput = {
   name?: Prisma.SortOrder
   description?: Prisma.SortOrderInput | Prisma.SortOrder
   icon?: Prisma.SortOrderInput | Prisma.SortOrder
-  createdAt?: Prisma.SortOrder
-  updatedAt?: Prisma.SortOrder
+  slug?: Prisma.SortOrderInput | Prisma.SortOrder
+  isActive?: Prisma.SortOrder
+  jobCount?: Prisma.SortOrder
+  userCount?: Prisma.SortOrder
   isDeleted?: Prisma.SortOrder
   deletedAt?: Prisma.SortOrderInput | Prisma.SortOrder
-  experts?: Prisma.ExpertOrderByRelationAggregateInput
-  expertApplications?: Prisma.ExpertApplicationOrderByRelationAggregateInput
+  createdAt?: Prisma.SortOrder
+  updatedAt?: Prisma.SortOrder
+  jobs?: Prisma.JobOrderByRelationAggregateInput
+  recruiters?: Prisma.RecruiterOrderByRelationAggregateInput
 }
 
 export type IndustryWhereUniqueInput = Prisma.AtLeast<{
   id?: string
   name?: string
+  slug?: string
   AND?: Prisma.IndustryWhereInput | Prisma.IndustryWhereInput[]
   OR?: Prisma.IndustryWhereInput[]
   NOT?: Prisma.IndustryWhereInput | Prisma.IndustryWhereInput[]
   description?: Prisma.StringNullableFilter<"Industry"> | string | null
   icon?: Prisma.StringNullableFilter<"Industry"> | string | null
-  createdAt?: Prisma.DateTimeFilter<"Industry"> | Date | string
-  updatedAt?: Prisma.DateTimeFilter<"Industry"> | Date | string
+  isActive?: Prisma.BoolFilter<"Industry"> | boolean
+  jobCount?: Prisma.IntFilter<"Industry"> | number
+  userCount?: Prisma.IntFilter<"Industry"> | number
   isDeleted?: Prisma.BoolFilter<"Industry"> | boolean
   deletedAt?: Prisma.DateTimeNullableFilter<"Industry"> | Date | string | null
-  experts?: Prisma.ExpertListRelationFilter
-  expertApplications?: Prisma.ExpertApplicationListRelationFilter
-}, "id" | "name">
+  createdAt?: Prisma.DateTimeFilter<"Industry"> | Date | string
+  updatedAt?: Prisma.DateTimeFilter<"Industry"> | Date | string
+  jobs?: Prisma.JobListRelationFilter
+  recruiters?: Prisma.RecruiterListRelationFilter
+}, "id" | "name" | "slug">
 
 export type IndustryOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
   name?: Prisma.SortOrder
   description?: Prisma.SortOrderInput | Prisma.SortOrder
   icon?: Prisma.SortOrderInput | Prisma.SortOrder
-  createdAt?: Prisma.SortOrder
-  updatedAt?: Prisma.SortOrder
+  slug?: Prisma.SortOrderInput | Prisma.SortOrder
+  isActive?: Prisma.SortOrder
+  jobCount?: Prisma.SortOrder
+  userCount?: Prisma.SortOrder
   isDeleted?: Prisma.SortOrder
   deletedAt?: Prisma.SortOrderInput | Prisma.SortOrder
+  createdAt?: Prisma.SortOrder
+  updatedAt?: Prisma.SortOrder
   _count?: Prisma.IndustryCountOrderByAggregateInput
+  _avg?: Prisma.IndustryAvgOrderByAggregateInput
   _max?: Prisma.IndustryMaxOrderByAggregateInput
   _min?: Prisma.IndustryMinOrderByAggregateInput
+  _sum?: Prisma.IndustrySumOrderByAggregateInput
 }
 
 export type IndustryScalarWhereWithAggregatesInput = {
   AND?: Prisma.IndustryScalarWhereWithAggregatesInput | Prisma.IndustryScalarWhereWithAggregatesInput[]
   OR?: Prisma.IndustryScalarWhereWithAggregatesInput[]
   NOT?: Prisma.IndustryScalarWhereWithAggregatesInput | Prisma.IndustryScalarWhereWithAggregatesInput[]
-  id?: Prisma.UuidWithAggregatesFilter<"Industry"> | string
+  id?: Prisma.StringWithAggregatesFilter<"Industry"> | string
   name?: Prisma.StringWithAggregatesFilter<"Industry"> | string
   description?: Prisma.StringNullableWithAggregatesFilter<"Industry"> | string | null
   icon?: Prisma.StringNullableWithAggregatesFilter<"Industry"> | string | null
-  createdAt?: Prisma.DateTimeWithAggregatesFilter<"Industry"> | Date | string
-  updatedAt?: Prisma.DateTimeWithAggregatesFilter<"Industry"> | Date | string
+  slug?: Prisma.StringNullableWithAggregatesFilter<"Industry"> | string | null
+  isActive?: Prisma.BoolWithAggregatesFilter<"Industry"> | boolean
+  jobCount?: Prisma.IntWithAggregatesFilter<"Industry"> | number
+  userCount?: Prisma.IntWithAggregatesFilter<"Industry"> | number
   isDeleted?: Prisma.BoolWithAggregatesFilter<"Industry"> | boolean
   deletedAt?: Prisma.DateTimeNullableWithAggregatesFilter<"Industry"> | Date | string | null
+  createdAt?: Prisma.DateTimeWithAggregatesFilter<"Industry"> | Date | string
+  updatedAt?: Prisma.DateTimeWithAggregatesFilter<"Industry"> | Date | string
 }
 
 export type IndustryCreateInput = {
@@ -272,12 +360,16 @@ export type IndustryCreateInput = {
   name: string
   description?: string | null
   icon?: string | null
-  createdAt?: Date | string
-  updatedAt?: Date | string
+  slug?: string | null
+  isActive?: boolean
+  jobCount?: number
+  userCount?: number
   isDeleted?: boolean
   deletedAt?: Date | string | null
-  experts?: Prisma.ExpertCreateNestedManyWithoutIndustryInput
-  expertApplications?: Prisma.ExpertApplicationCreateNestedManyWithoutIndustryInput
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  jobs?: Prisma.JobCreateNestedManyWithoutIndustryInput
+  recruiters?: Prisma.RecruiterCreateNestedManyWithoutIndustriesInput
 }
 
 export type IndustryUncheckedCreateInput = {
@@ -285,12 +377,16 @@ export type IndustryUncheckedCreateInput = {
   name: string
   description?: string | null
   icon?: string | null
-  createdAt?: Date | string
-  updatedAt?: Date | string
+  slug?: string | null
+  isActive?: boolean
+  jobCount?: number
+  userCount?: number
   isDeleted?: boolean
   deletedAt?: Date | string | null
-  experts?: Prisma.ExpertUncheckedCreateNestedManyWithoutIndustryInput
-  expertApplications?: Prisma.ExpertApplicationUncheckedCreateNestedManyWithoutIndustryInput
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  jobs?: Prisma.JobUncheckedCreateNestedManyWithoutIndustryInput
+  recruiters?: Prisma.RecruiterUncheckedCreateNestedManyWithoutIndustriesInput
 }
 
 export type IndustryUpdateInput = {
@@ -298,12 +394,16 @@ export type IndustryUpdateInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   icon?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  slug?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  jobCount?: Prisma.IntFieldUpdateOperationsInput | number
+  userCount?: Prisma.IntFieldUpdateOperationsInput | number
   isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  experts?: Prisma.ExpertUpdateManyWithoutIndustryNestedInput
-  expertApplications?: Prisma.ExpertApplicationUpdateManyWithoutIndustryNestedInput
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  jobs?: Prisma.JobUpdateManyWithoutIndustryNestedInput
+  recruiters?: Prisma.RecruiterUpdateManyWithoutIndustriesNestedInput
 }
 
 export type IndustryUncheckedUpdateInput = {
@@ -311,12 +411,16 @@ export type IndustryUncheckedUpdateInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   icon?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  slug?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  jobCount?: Prisma.IntFieldUpdateOperationsInput | number
+  userCount?: Prisma.IntFieldUpdateOperationsInput | number
   isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  experts?: Prisma.ExpertUncheckedUpdateManyWithoutIndustryNestedInput
-  expertApplications?: Prisma.ExpertApplicationUncheckedUpdateManyWithoutIndustryNestedInput
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  jobs?: Prisma.JobUncheckedUpdateManyWithoutIndustryNestedInput
+  recruiters?: Prisma.RecruiterUncheckedUpdateManyWithoutIndustriesNestedInput
 }
 
 export type IndustryCreateManyInput = {
@@ -324,10 +428,14 @@ export type IndustryCreateManyInput = {
   name: string
   description?: string | null
   icon?: string | null
-  createdAt?: Date | string
-  updatedAt?: Date | string
+  slug?: string | null
+  isActive?: boolean
+  jobCount?: number
+  userCount?: number
   isDeleted?: boolean
   deletedAt?: Date | string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
 }
 
 export type IndustryUpdateManyMutationInput = {
@@ -335,10 +443,14 @@ export type IndustryUpdateManyMutationInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   icon?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  slug?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  jobCount?: Prisma.IntFieldUpdateOperationsInput | number
+  userCount?: Prisma.IntFieldUpdateOperationsInput | number
   isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type IndustryUncheckedUpdateManyInput = {
@@ -346,15 +458,14 @@ export type IndustryUncheckedUpdateManyInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   icon?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  slug?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  jobCount?: Prisma.IntFieldUpdateOperationsInput | number
+  userCount?: Prisma.IntFieldUpdateOperationsInput | number
   isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-}
-
-export type IndustryScalarRelationFilter = {
-  is?: Prisma.IndustryWhereInput
-  isNot?: Prisma.IndustryWhereInput
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type IndustryCountOrderByAggregateInput = {
@@ -362,10 +473,19 @@ export type IndustryCountOrderByAggregateInput = {
   name?: Prisma.SortOrder
   description?: Prisma.SortOrder
   icon?: Prisma.SortOrder
-  createdAt?: Prisma.SortOrder
-  updatedAt?: Prisma.SortOrder
+  slug?: Prisma.SortOrder
+  isActive?: Prisma.SortOrder
+  jobCount?: Prisma.SortOrder
+  userCount?: Prisma.SortOrder
   isDeleted?: Prisma.SortOrder
   deletedAt?: Prisma.SortOrder
+  createdAt?: Prisma.SortOrder
+  updatedAt?: Prisma.SortOrder
+}
+
+export type IndustryAvgOrderByAggregateInput = {
+  jobCount?: Prisma.SortOrder
+  userCount?: Prisma.SortOrder
 }
 
 export type IndustryMaxOrderByAggregateInput = {
@@ -373,10 +493,14 @@ export type IndustryMaxOrderByAggregateInput = {
   name?: Prisma.SortOrder
   description?: Prisma.SortOrder
   icon?: Prisma.SortOrder
-  createdAt?: Prisma.SortOrder
-  updatedAt?: Prisma.SortOrder
+  slug?: Prisma.SortOrder
+  isActive?: Prisma.SortOrder
+  jobCount?: Prisma.SortOrder
+  userCount?: Prisma.SortOrder
   isDeleted?: Prisma.SortOrder
   deletedAt?: Prisma.SortOrder
+  createdAt?: Prisma.SortOrder
+  updatedAt?: Prisma.SortOrder
 }
 
 export type IndustryMinOrderByAggregateInput = {
@@ -384,166 +508,286 @@ export type IndustryMinOrderByAggregateInput = {
   name?: Prisma.SortOrder
   description?: Prisma.SortOrder
   icon?: Prisma.SortOrder
-  createdAt?: Prisma.SortOrder
-  updatedAt?: Prisma.SortOrder
+  slug?: Prisma.SortOrder
+  isActive?: Prisma.SortOrder
+  jobCount?: Prisma.SortOrder
+  userCount?: Prisma.SortOrder
   isDeleted?: Prisma.SortOrder
   deletedAt?: Prisma.SortOrder
+  createdAt?: Prisma.SortOrder
+  updatedAt?: Prisma.SortOrder
 }
 
-export type IndustryCreateNestedOneWithoutExpertsInput = {
-  create?: Prisma.XOR<Prisma.IndustryCreateWithoutExpertsInput, Prisma.IndustryUncheckedCreateWithoutExpertsInput>
-  connectOrCreate?: Prisma.IndustryCreateOrConnectWithoutExpertsInput
+export type IndustrySumOrderByAggregateInput = {
+  jobCount?: Prisma.SortOrder
+  userCount?: Prisma.SortOrder
+}
+
+export type IndustryNullableScalarRelationFilter = {
+  is?: Prisma.IndustryWhereInput | null
+  isNot?: Prisma.IndustryWhereInput | null
+}
+
+export type IndustryListRelationFilter = {
+  every?: Prisma.IndustryWhereInput
+  some?: Prisma.IndustryWhereInput
+  none?: Prisma.IndustryWhereInput
+}
+
+export type IndustryOrderByRelationAggregateInput = {
+  _count?: Prisma.SortOrder
+}
+
+export type IndustryCreateNestedOneWithoutJobsInput = {
+  create?: Prisma.XOR<Prisma.IndustryCreateWithoutJobsInput, Prisma.IndustryUncheckedCreateWithoutJobsInput>
+  connectOrCreate?: Prisma.IndustryCreateOrConnectWithoutJobsInput
   connect?: Prisma.IndustryWhereUniqueInput
 }
 
-export type IndustryUpdateOneRequiredWithoutExpertsNestedInput = {
-  create?: Prisma.XOR<Prisma.IndustryCreateWithoutExpertsInput, Prisma.IndustryUncheckedCreateWithoutExpertsInput>
-  connectOrCreate?: Prisma.IndustryCreateOrConnectWithoutExpertsInput
-  upsert?: Prisma.IndustryUpsertWithoutExpertsInput
+export type IndustryUpdateOneWithoutJobsNestedInput = {
+  create?: Prisma.XOR<Prisma.IndustryCreateWithoutJobsInput, Prisma.IndustryUncheckedCreateWithoutJobsInput>
+  connectOrCreate?: Prisma.IndustryCreateOrConnectWithoutJobsInput
+  upsert?: Prisma.IndustryUpsertWithoutJobsInput
+  disconnect?: Prisma.IndustryWhereInput | boolean
+  delete?: Prisma.IndustryWhereInput | boolean
   connect?: Prisma.IndustryWhereUniqueInput
-  update?: Prisma.XOR<Prisma.XOR<Prisma.IndustryUpdateToOneWithWhereWithoutExpertsInput, Prisma.IndustryUpdateWithoutExpertsInput>, Prisma.IndustryUncheckedUpdateWithoutExpertsInput>
+  update?: Prisma.XOR<Prisma.XOR<Prisma.IndustryUpdateToOneWithWhereWithoutJobsInput, Prisma.IndustryUpdateWithoutJobsInput>, Prisma.IndustryUncheckedUpdateWithoutJobsInput>
 }
 
-export type IndustryCreateNestedOneWithoutExpertApplicationsInput = {
-  create?: Prisma.XOR<Prisma.IndustryCreateWithoutExpertApplicationsInput, Prisma.IndustryUncheckedCreateWithoutExpertApplicationsInput>
-  connectOrCreate?: Prisma.IndustryCreateOrConnectWithoutExpertApplicationsInput
-  connect?: Prisma.IndustryWhereUniqueInput
+export type IndustryCreateNestedManyWithoutRecruitersInput = {
+  create?: Prisma.XOR<Prisma.IndustryCreateWithoutRecruitersInput, Prisma.IndustryUncheckedCreateWithoutRecruitersInput> | Prisma.IndustryCreateWithoutRecruitersInput[] | Prisma.IndustryUncheckedCreateWithoutRecruitersInput[]
+  connectOrCreate?: Prisma.IndustryCreateOrConnectWithoutRecruitersInput | Prisma.IndustryCreateOrConnectWithoutRecruitersInput[]
+  connect?: Prisma.IndustryWhereUniqueInput | Prisma.IndustryWhereUniqueInput[]
 }
 
-export type IndustryUpdateOneRequiredWithoutExpertApplicationsNestedInput = {
-  create?: Prisma.XOR<Prisma.IndustryCreateWithoutExpertApplicationsInput, Prisma.IndustryUncheckedCreateWithoutExpertApplicationsInput>
-  connectOrCreate?: Prisma.IndustryCreateOrConnectWithoutExpertApplicationsInput
-  upsert?: Prisma.IndustryUpsertWithoutExpertApplicationsInput
-  connect?: Prisma.IndustryWhereUniqueInput
-  update?: Prisma.XOR<Prisma.XOR<Prisma.IndustryUpdateToOneWithWhereWithoutExpertApplicationsInput, Prisma.IndustryUpdateWithoutExpertApplicationsInput>, Prisma.IndustryUncheckedUpdateWithoutExpertApplicationsInput>
+export type IndustryUncheckedCreateNestedManyWithoutRecruitersInput = {
+  create?: Prisma.XOR<Prisma.IndustryCreateWithoutRecruitersInput, Prisma.IndustryUncheckedCreateWithoutRecruitersInput> | Prisma.IndustryCreateWithoutRecruitersInput[] | Prisma.IndustryUncheckedCreateWithoutRecruitersInput[]
+  connectOrCreate?: Prisma.IndustryCreateOrConnectWithoutRecruitersInput | Prisma.IndustryCreateOrConnectWithoutRecruitersInput[]
+  connect?: Prisma.IndustryWhereUniqueInput | Prisma.IndustryWhereUniqueInput[]
 }
 
-export type IndustryCreateWithoutExpertsInput = {
+export type IndustryUpdateManyWithoutRecruitersNestedInput = {
+  create?: Prisma.XOR<Prisma.IndustryCreateWithoutRecruitersInput, Prisma.IndustryUncheckedCreateWithoutRecruitersInput> | Prisma.IndustryCreateWithoutRecruitersInput[] | Prisma.IndustryUncheckedCreateWithoutRecruitersInput[]
+  connectOrCreate?: Prisma.IndustryCreateOrConnectWithoutRecruitersInput | Prisma.IndustryCreateOrConnectWithoutRecruitersInput[]
+  upsert?: Prisma.IndustryUpsertWithWhereUniqueWithoutRecruitersInput | Prisma.IndustryUpsertWithWhereUniqueWithoutRecruitersInput[]
+  set?: Prisma.IndustryWhereUniqueInput | Prisma.IndustryWhereUniqueInput[]
+  disconnect?: Prisma.IndustryWhereUniqueInput | Prisma.IndustryWhereUniqueInput[]
+  delete?: Prisma.IndustryWhereUniqueInput | Prisma.IndustryWhereUniqueInput[]
+  connect?: Prisma.IndustryWhereUniqueInput | Prisma.IndustryWhereUniqueInput[]
+  update?: Prisma.IndustryUpdateWithWhereUniqueWithoutRecruitersInput | Prisma.IndustryUpdateWithWhereUniqueWithoutRecruitersInput[]
+  updateMany?: Prisma.IndustryUpdateManyWithWhereWithoutRecruitersInput | Prisma.IndustryUpdateManyWithWhereWithoutRecruitersInput[]
+  deleteMany?: Prisma.IndustryScalarWhereInput | Prisma.IndustryScalarWhereInput[]
+}
+
+export type IndustryUncheckedUpdateManyWithoutRecruitersNestedInput = {
+  create?: Prisma.XOR<Prisma.IndustryCreateWithoutRecruitersInput, Prisma.IndustryUncheckedCreateWithoutRecruitersInput> | Prisma.IndustryCreateWithoutRecruitersInput[] | Prisma.IndustryUncheckedCreateWithoutRecruitersInput[]
+  connectOrCreate?: Prisma.IndustryCreateOrConnectWithoutRecruitersInput | Prisma.IndustryCreateOrConnectWithoutRecruitersInput[]
+  upsert?: Prisma.IndustryUpsertWithWhereUniqueWithoutRecruitersInput | Prisma.IndustryUpsertWithWhereUniqueWithoutRecruitersInput[]
+  set?: Prisma.IndustryWhereUniqueInput | Prisma.IndustryWhereUniqueInput[]
+  disconnect?: Prisma.IndustryWhereUniqueInput | Prisma.IndustryWhereUniqueInput[]
+  delete?: Prisma.IndustryWhereUniqueInput | Prisma.IndustryWhereUniqueInput[]
+  connect?: Prisma.IndustryWhereUniqueInput | Prisma.IndustryWhereUniqueInput[]
+  update?: Prisma.IndustryUpdateWithWhereUniqueWithoutRecruitersInput | Prisma.IndustryUpdateWithWhereUniqueWithoutRecruitersInput[]
+  updateMany?: Prisma.IndustryUpdateManyWithWhereWithoutRecruitersInput | Prisma.IndustryUpdateManyWithWhereWithoutRecruitersInput[]
+  deleteMany?: Prisma.IndustryScalarWhereInput | Prisma.IndustryScalarWhereInput[]
+}
+
+export type IndustryCreateWithoutJobsInput = {
   id?: string
   name: string
   description?: string | null
   icon?: string | null
-  createdAt?: Date | string
-  updatedAt?: Date | string
+  slug?: string | null
+  isActive?: boolean
+  jobCount?: number
+  userCount?: number
   isDeleted?: boolean
   deletedAt?: Date | string | null
-  expertApplications?: Prisma.ExpertApplicationCreateNestedManyWithoutIndustryInput
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  recruiters?: Prisma.RecruiterCreateNestedManyWithoutIndustriesInput
 }
 
-export type IndustryUncheckedCreateWithoutExpertsInput = {
+export type IndustryUncheckedCreateWithoutJobsInput = {
   id?: string
   name: string
   description?: string | null
   icon?: string | null
-  createdAt?: Date | string
-  updatedAt?: Date | string
+  slug?: string | null
+  isActive?: boolean
+  jobCount?: number
+  userCount?: number
   isDeleted?: boolean
   deletedAt?: Date | string | null
-  expertApplications?: Prisma.ExpertApplicationUncheckedCreateNestedManyWithoutIndustryInput
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  recruiters?: Prisma.RecruiterUncheckedCreateNestedManyWithoutIndustriesInput
 }
 
-export type IndustryCreateOrConnectWithoutExpertsInput = {
+export type IndustryCreateOrConnectWithoutJobsInput = {
   where: Prisma.IndustryWhereUniqueInput
-  create: Prisma.XOR<Prisma.IndustryCreateWithoutExpertsInput, Prisma.IndustryUncheckedCreateWithoutExpertsInput>
+  create: Prisma.XOR<Prisma.IndustryCreateWithoutJobsInput, Prisma.IndustryUncheckedCreateWithoutJobsInput>
 }
 
-export type IndustryUpsertWithoutExpertsInput = {
-  update: Prisma.XOR<Prisma.IndustryUpdateWithoutExpertsInput, Prisma.IndustryUncheckedUpdateWithoutExpertsInput>
-  create: Prisma.XOR<Prisma.IndustryCreateWithoutExpertsInput, Prisma.IndustryUncheckedCreateWithoutExpertsInput>
+export type IndustryUpsertWithoutJobsInput = {
+  update: Prisma.XOR<Prisma.IndustryUpdateWithoutJobsInput, Prisma.IndustryUncheckedUpdateWithoutJobsInput>
+  create: Prisma.XOR<Prisma.IndustryCreateWithoutJobsInput, Prisma.IndustryUncheckedCreateWithoutJobsInput>
   where?: Prisma.IndustryWhereInput
 }
 
-export type IndustryUpdateToOneWithWhereWithoutExpertsInput = {
+export type IndustryUpdateToOneWithWhereWithoutJobsInput = {
   where?: Prisma.IndustryWhereInput
-  data: Prisma.XOR<Prisma.IndustryUpdateWithoutExpertsInput, Prisma.IndustryUncheckedUpdateWithoutExpertsInput>
+  data: Prisma.XOR<Prisma.IndustryUpdateWithoutJobsInput, Prisma.IndustryUncheckedUpdateWithoutJobsInput>
 }
 
-export type IndustryUpdateWithoutExpertsInput = {
+export type IndustryUpdateWithoutJobsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   icon?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  slug?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  jobCount?: Prisma.IntFieldUpdateOperationsInput | number
+  userCount?: Prisma.IntFieldUpdateOperationsInput | number
   isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  expertApplications?: Prisma.ExpertApplicationUpdateManyWithoutIndustryNestedInput
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  recruiters?: Prisma.RecruiterUpdateManyWithoutIndustriesNestedInput
 }
 
-export type IndustryUncheckedUpdateWithoutExpertsInput = {
+export type IndustryUncheckedUpdateWithoutJobsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   icon?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  slug?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  jobCount?: Prisma.IntFieldUpdateOperationsInput | number
+  userCount?: Prisma.IntFieldUpdateOperationsInput | number
   isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  expertApplications?: Prisma.ExpertApplicationUncheckedUpdateManyWithoutIndustryNestedInput
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  recruiters?: Prisma.RecruiterUncheckedUpdateManyWithoutIndustriesNestedInput
 }
 
-export type IndustryCreateWithoutExpertApplicationsInput = {
+export type IndustryCreateWithoutRecruitersInput = {
   id?: string
   name: string
   description?: string | null
   icon?: string | null
-  createdAt?: Date | string
-  updatedAt?: Date | string
+  slug?: string | null
+  isActive?: boolean
+  jobCount?: number
+  userCount?: number
   isDeleted?: boolean
   deletedAt?: Date | string | null
-  experts?: Prisma.ExpertCreateNestedManyWithoutIndustryInput
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  jobs?: Prisma.JobCreateNestedManyWithoutIndustryInput
 }
 
-export type IndustryUncheckedCreateWithoutExpertApplicationsInput = {
+export type IndustryUncheckedCreateWithoutRecruitersInput = {
   id?: string
   name: string
   description?: string | null
   icon?: string | null
-  createdAt?: Date | string
-  updatedAt?: Date | string
+  slug?: string | null
+  isActive?: boolean
+  jobCount?: number
+  userCount?: number
   isDeleted?: boolean
   deletedAt?: Date | string | null
-  experts?: Prisma.ExpertUncheckedCreateNestedManyWithoutIndustryInput
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  jobs?: Prisma.JobUncheckedCreateNestedManyWithoutIndustryInput
 }
 
-export type IndustryCreateOrConnectWithoutExpertApplicationsInput = {
+export type IndustryCreateOrConnectWithoutRecruitersInput = {
   where: Prisma.IndustryWhereUniqueInput
-  create: Prisma.XOR<Prisma.IndustryCreateWithoutExpertApplicationsInput, Prisma.IndustryUncheckedCreateWithoutExpertApplicationsInput>
+  create: Prisma.XOR<Prisma.IndustryCreateWithoutRecruitersInput, Prisma.IndustryUncheckedCreateWithoutRecruitersInput>
 }
 
-export type IndustryUpsertWithoutExpertApplicationsInput = {
-  update: Prisma.XOR<Prisma.IndustryUpdateWithoutExpertApplicationsInput, Prisma.IndustryUncheckedUpdateWithoutExpertApplicationsInput>
-  create: Prisma.XOR<Prisma.IndustryCreateWithoutExpertApplicationsInput, Prisma.IndustryUncheckedCreateWithoutExpertApplicationsInput>
-  where?: Prisma.IndustryWhereInput
+export type IndustryUpsertWithWhereUniqueWithoutRecruitersInput = {
+  where: Prisma.IndustryWhereUniqueInput
+  update: Prisma.XOR<Prisma.IndustryUpdateWithoutRecruitersInput, Prisma.IndustryUncheckedUpdateWithoutRecruitersInput>
+  create: Prisma.XOR<Prisma.IndustryCreateWithoutRecruitersInput, Prisma.IndustryUncheckedCreateWithoutRecruitersInput>
 }
 
-export type IndustryUpdateToOneWithWhereWithoutExpertApplicationsInput = {
-  where?: Prisma.IndustryWhereInput
-  data: Prisma.XOR<Prisma.IndustryUpdateWithoutExpertApplicationsInput, Prisma.IndustryUncheckedUpdateWithoutExpertApplicationsInput>
+export type IndustryUpdateWithWhereUniqueWithoutRecruitersInput = {
+  where: Prisma.IndustryWhereUniqueInput
+  data: Prisma.XOR<Prisma.IndustryUpdateWithoutRecruitersInput, Prisma.IndustryUncheckedUpdateWithoutRecruitersInput>
 }
 
-export type IndustryUpdateWithoutExpertApplicationsInput = {
+export type IndustryUpdateManyWithWhereWithoutRecruitersInput = {
+  where: Prisma.IndustryScalarWhereInput
+  data: Prisma.XOR<Prisma.IndustryUpdateManyMutationInput, Prisma.IndustryUncheckedUpdateManyWithoutRecruitersInput>
+}
+
+export type IndustryScalarWhereInput = {
+  AND?: Prisma.IndustryScalarWhereInput | Prisma.IndustryScalarWhereInput[]
+  OR?: Prisma.IndustryScalarWhereInput[]
+  NOT?: Prisma.IndustryScalarWhereInput | Prisma.IndustryScalarWhereInput[]
+  id?: Prisma.StringFilter<"Industry"> | string
+  name?: Prisma.StringFilter<"Industry"> | string
+  description?: Prisma.StringNullableFilter<"Industry"> | string | null
+  icon?: Prisma.StringNullableFilter<"Industry"> | string | null
+  slug?: Prisma.StringNullableFilter<"Industry"> | string | null
+  isActive?: Prisma.BoolFilter<"Industry"> | boolean
+  jobCount?: Prisma.IntFilter<"Industry"> | number
+  userCount?: Prisma.IntFilter<"Industry"> | number
+  isDeleted?: Prisma.BoolFilter<"Industry"> | boolean
+  deletedAt?: Prisma.DateTimeNullableFilter<"Industry"> | Date | string | null
+  createdAt?: Prisma.DateTimeFilter<"Industry"> | Date | string
+  updatedAt?: Prisma.DateTimeFilter<"Industry"> | Date | string
+}
+
+export type IndustryUpdateWithoutRecruitersInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   icon?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  slug?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  jobCount?: Prisma.IntFieldUpdateOperationsInput | number
+  userCount?: Prisma.IntFieldUpdateOperationsInput | number
   isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  experts?: Prisma.ExpertUpdateManyWithoutIndustryNestedInput
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  jobs?: Prisma.JobUpdateManyWithoutIndustryNestedInput
 }
 
-export type IndustryUncheckedUpdateWithoutExpertApplicationsInput = {
+export type IndustryUncheckedUpdateWithoutRecruitersInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   icon?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  slug?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  jobCount?: Prisma.IntFieldUpdateOperationsInput | number
+  userCount?: Prisma.IntFieldUpdateOperationsInput | number
   isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  experts?: Prisma.ExpertUncheckedUpdateManyWithoutIndustryNestedInput
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  jobs?: Prisma.JobUncheckedUpdateManyWithoutIndustryNestedInput
+}
+
+export type IndustryUncheckedUpdateManyWithoutRecruitersInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  icon?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  slug?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  jobCount?: Prisma.IntFieldUpdateOperationsInput | number
+  userCount?: Prisma.IntFieldUpdateOperationsInput | number
+  isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 
@@ -552,13 +796,13 @@ export type IndustryUncheckedUpdateWithoutExpertApplicationsInput = {
  */
 
 export type IndustryCountOutputType = {
-  experts: number
-  expertApplications: number
+  jobs: number
+  recruiters: number
 }
 
 export type IndustryCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  experts?: boolean | IndustryCountOutputTypeCountExpertsArgs
-  expertApplications?: boolean | IndustryCountOutputTypeCountExpertApplicationsArgs
+  jobs?: boolean | IndustryCountOutputTypeCountJobsArgs
+  recruiters?: boolean | IndustryCountOutputTypeCountRecruitersArgs
 }
 
 /**
@@ -574,15 +818,15 @@ export type IndustryCountOutputTypeDefaultArgs<ExtArgs extends runtime.Types.Ext
 /**
  * IndustryCountOutputType without action
  */
-export type IndustryCountOutputTypeCountExpertsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  where?: Prisma.ExpertWhereInput
+export type IndustryCountOutputTypeCountJobsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.JobWhereInput
 }
 
 /**
  * IndustryCountOutputType without action
  */
-export type IndustryCountOutputTypeCountExpertApplicationsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  where?: Prisma.ExpertApplicationWhereInput
+export type IndustryCountOutputTypeCountRecruitersArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.RecruiterWhereInput
 }
 
 
@@ -591,12 +835,16 @@ export type IndustrySelect<ExtArgs extends runtime.Types.Extensions.InternalArgs
   name?: boolean
   description?: boolean
   icon?: boolean
-  createdAt?: boolean
-  updatedAt?: boolean
+  slug?: boolean
+  isActive?: boolean
+  jobCount?: boolean
+  userCount?: boolean
   isDeleted?: boolean
   deletedAt?: boolean
-  experts?: boolean | Prisma.Industry$expertsArgs<ExtArgs>
-  expertApplications?: boolean | Prisma.Industry$expertApplicationsArgs<ExtArgs>
+  createdAt?: boolean
+  updatedAt?: boolean
+  jobs?: boolean | Prisma.Industry$jobsArgs<ExtArgs>
+  recruiters?: boolean | Prisma.Industry$recruitersArgs<ExtArgs>
   _count?: boolean | Prisma.IndustryCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["industry"]>
 
@@ -605,10 +853,14 @@ export type IndustrySelectCreateManyAndReturn<ExtArgs extends runtime.Types.Exte
   name?: boolean
   description?: boolean
   icon?: boolean
-  createdAt?: boolean
-  updatedAt?: boolean
+  slug?: boolean
+  isActive?: boolean
+  jobCount?: boolean
+  userCount?: boolean
   isDeleted?: boolean
   deletedAt?: boolean
+  createdAt?: boolean
+  updatedAt?: boolean
 }, ExtArgs["result"]["industry"]>
 
 export type IndustrySelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -616,10 +868,14 @@ export type IndustrySelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Exte
   name?: boolean
   description?: boolean
   icon?: boolean
-  createdAt?: boolean
-  updatedAt?: boolean
+  slug?: boolean
+  isActive?: boolean
+  jobCount?: boolean
+  userCount?: boolean
   isDeleted?: boolean
   deletedAt?: boolean
+  createdAt?: boolean
+  updatedAt?: boolean
 }, ExtArgs["result"]["industry"]>
 
 export type IndustrySelectScalar = {
@@ -627,16 +883,20 @@ export type IndustrySelectScalar = {
   name?: boolean
   description?: boolean
   icon?: boolean
-  createdAt?: boolean
-  updatedAt?: boolean
+  slug?: boolean
+  isActive?: boolean
+  jobCount?: boolean
+  userCount?: boolean
   isDeleted?: boolean
   deletedAt?: boolean
+  createdAt?: boolean
+  updatedAt?: boolean
 }
 
-export type IndustryOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "name" | "description" | "icon" | "createdAt" | "updatedAt" | "isDeleted" | "deletedAt", ExtArgs["result"]["industry"]>
+export type IndustryOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "name" | "description" | "icon" | "slug" | "isActive" | "jobCount" | "userCount" | "isDeleted" | "deletedAt" | "createdAt" | "updatedAt", ExtArgs["result"]["industry"]>
 export type IndustryInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  experts?: boolean | Prisma.Industry$expertsArgs<ExtArgs>
-  expertApplications?: boolean | Prisma.Industry$expertApplicationsArgs<ExtArgs>
+  jobs?: boolean | Prisma.Industry$jobsArgs<ExtArgs>
+  recruiters?: boolean | Prisma.Industry$recruitersArgs<ExtArgs>
   _count?: boolean | Prisma.IndustryCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type IndustryIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {}
@@ -645,18 +905,22 @@ export type IndustryIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Ext
 export type $IndustryPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "Industry"
   objects: {
-    experts: Prisma.$ExpertPayload<ExtArgs>[]
-    expertApplications: Prisma.$ExpertApplicationPayload<ExtArgs>[]
+    jobs: Prisma.$JobPayload<ExtArgs>[]
+    recruiters: Prisma.$RecruiterPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
     name: string
     description: string | null
     icon: string | null
-    createdAt: Date
-    updatedAt: Date
+    slug: string | null
+    isActive: boolean
+    jobCount: number
+    userCount: number
     isDeleted: boolean
     deletedAt: Date | null
+    createdAt: Date
+    updatedAt: Date
   }, ExtArgs["result"]["industry"]>
   composites: {}
 }
@@ -1051,8 +1315,8 @@ readonly fields: IndustryFieldRefs;
  */
 export interface Prisma__IndustryClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
-  experts<T extends Prisma.Industry$expertsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Industry$expertsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ExpertPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-  expertApplications<T extends Prisma.Industry$expertApplicationsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Industry$expertApplicationsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ExpertApplicationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  jobs<T extends Prisma.Industry$jobsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Industry$jobsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$JobPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  recruiters<T extends Prisma.Industry$recruitersArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Industry$recruitersArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$RecruiterPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1086,10 +1350,14 @@ export interface IndustryFieldRefs {
   readonly name: Prisma.FieldRef<"Industry", 'String'>
   readonly description: Prisma.FieldRef<"Industry", 'String'>
   readonly icon: Prisma.FieldRef<"Industry", 'String'>
-  readonly createdAt: Prisma.FieldRef<"Industry", 'DateTime'>
-  readonly updatedAt: Prisma.FieldRef<"Industry", 'DateTime'>
+  readonly slug: Prisma.FieldRef<"Industry", 'String'>
+  readonly isActive: Prisma.FieldRef<"Industry", 'Boolean'>
+  readonly jobCount: Prisma.FieldRef<"Industry", 'Int'>
+  readonly userCount: Prisma.FieldRef<"Industry", 'Int'>
   readonly isDeleted: Prisma.FieldRef<"Industry", 'Boolean'>
   readonly deletedAt: Prisma.FieldRef<"Industry", 'DateTime'>
+  readonly createdAt: Prisma.FieldRef<"Industry", 'DateTime'>
+  readonly updatedAt: Prisma.FieldRef<"Industry", 'DateTime'>
 }
     
 
@@ -1483,51 +1751,51 @@ export type IndustryDeleteManyArgs<ExtArgs extends runtime.Types.Extensions.Inte
 }
 
 /**
- * Industry.experts
+ * Industry.jobs
  */
-export type Industry$expertsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+export type Industry$jobsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   /**
-   * Select specific fields to fetch from the Expert
+   * Select specific fields to fetch from the Job
    */
-  select?: Prisma.ExpertSelect<ExtArgs> | null
+  select?: Prisma.JobSelect<ExtArgs> | null
   /**
-   * Omit specific fields from the Expert
+   * Omit specific fields from the Job
    */
-  omit?: Prisma.ExpertOmit<ExtArgs> | null
+  omit?: Prisma.JobOmit<ExtArgs> | null
   /**
    * Choose, which related nodes to fetch as well
    */
-  include?: Prisma.ExpertInclude<ExtArgs> | null
-  where?: Prisma.ExpertWhereInput
-  orderBy?: Prisma.ExpertOrderByWithRelationInput | Prisma.ExpertOrderByWithRelationInput[]
-  cursor?: Prisma.ExpertWhereUniqueInput
+  include?: Prisma.JobInclude<ExtArgs> | null
+  where?: Prisma.JobWhereInput
+  orderBy?: Prisma.JobOrderByWithRelationInput | Prisma.JobOrderByWithRelationInput[]
+  cursor?: Prisma.JobWhereUniqueInput
   take?: number
   skip?: number
-  distinct?: Prisma.ExpertScalarFieldEnum | Prisma.ExpertScalarFieldEnum[]
+  distinct?: Prisma.JobScalarFieldEnum | Prisma.JobScalarFieldEnum[]
 }
 
 /**
- * Industry.expertApplications
+ * Industry.recruiters
  */
-export type Industry$expertApplicationsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+export type Industry$recruitersArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   /**
-   * Select specific fields to fetch from the ExpertApplication
+   * Select specific fields to fetch from the Recruiter
    */
-  select?: Prisma.ExpertApplicationSelect<ExtArgs> | null
+  select?: Prisma.RecruiterSelect<ExtArgs> | null
   /**
-   * Omit specific fields from the ExpertApplication
+   * Omit specific fields from the Recruiter
    */
-  omit?: Prisma.ExpertApplicationOmit<ExtArgs> | null
+  omit?: Prisma.RecruiterOmit<ExtArgs> | null
   /**
    * Choose, which related nodes to fetch as well
    */
-  include?: Prisma.ExpertApplicationInclude<ExtArgs> | null
-  where?: Prisma.ExpertApplicationWhereInput
-  orderBy?: Prisma.ExpertApplicationOrderByWithRelationInput | Prisma.ExpertApplicationOrderByWithRelationInput[]
-  cursor?: Prisma.ExpertApplicationWhereUniqueInput
+  include?: Prisma.RecruiterInclude<ExtArgs> | null
+  where?: Prisma.RecruiterWhereInput
+  orderBy?: Prisma.RecruiterOrderByWithRelationInput | Prisma.RecruiterOrderByWithRelationInput[]
+  cursor?: Prisma.RecruiterWhereUniqueInput
   take?: number
   skip?: number
-  distinct?: Prisma.ExpertApplicationScalarFieldEnum | Prisma.ExpertApplicationScalarFieldEnum[]
+  distinct?: Prisma.RecruiterScalarFieldEnum | Prisma.RecruiterScalarFieldEnum[]
 }
 
 /**

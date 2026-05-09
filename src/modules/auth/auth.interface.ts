@@ -1,8 +1,8 @@
-export interface IRegisterClientPayload {
-    fullName:string;
-    email:string;
-    password:string
-    deletedAt:Date
+export interface IRegisterCandidatePayload {
+    fullName: string;
+    email: string;
+    password: string;
+    deletedAt: Date;
 }
 
 
@@ -11,8 +11,8 @@ export interface ILoginUserPayload{
     password:string
 }
 
-export interface IClientDemoLoginPayload {
-    mode?: "client"
+export interface ICandidateDemoLoginPayload {
+    mode?: "candidate"
 }
 
 

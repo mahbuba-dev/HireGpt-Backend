@@ -1,0 +1,48 @@
+import { Request, Response } from 'express';
+import { JobApplicationService } from './jobApplication.service';
+import { ApplicationStatus } from '../../generated/enums';
+
+const jobApplicationService = new JobApplicationService();
+
+
+export class JobApplicationController {
+  async applyToJob(req: Request, res: Response) {
+    const { jobId, jobSeekerId, recruiterId, resumeUrl, coverLetter } = req.body;
+    if (!resumeUrl) {
+      return res.status(400).json({ error: 'Resume is required (resumeUrl)' });
+    }
+    const application = await jobApplicationService.applyToJob({ jobId, jobSeekerId, recruiterId, resumeUrl, coverLetter });
+    res.status(201).json(application);
+  }
+
+  async updateApplicationStatus(req: Request, res: Response) {
+    const { applicationId, status } = req.body;
+    if (!Object.values(ApplicationStatus).includes(status)) {
+      return res.status(400).json({ error: 'Invalid status' });
+    }
+    const application = await jobApplicationService.updateApplicationStatus({ applicationId, status });
+    res.json(application);
+  }
+
+  // Candidate: get applied jobs
+  async getAppliedJobs(req: Request, res: Response) {
+    const jobSeekerId = req.user.userId;
+    const jobs = await jobApplicationService.getAppliedJobs(jobSeekerId);
+    res.json(jobs);
+  }
+
+  // Candidate: get saved jobs
+  async getSavedJobs(req: Request, res: Response) {
+    const jobSeekerId = req.user.userId;
+    const jobs = await jobApplicationService.getSavedJobs(jobSeekerId);
+    res.json(jobs);
+  }
+
+  // Recruiter: get applicants for a job
+  async getApplicantsForJob(req: Request, res: Response) {
+    const recruiterId = req.user.userId;
+    const jobId = req.params.jobId;
+    const applicants = await jobApplicationService.getApplicantsForJob(recruiterId, jobId);
+    res.json(applicants);
+  }
+}

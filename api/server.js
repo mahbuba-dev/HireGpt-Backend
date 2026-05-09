@@ -1,6 +1,5 @@
 import {
   AppError_default,
-  PaymentController,
   auth,
   authRoutes,
   connectPrismaWithRetry,
@@ -9,8 +8,8 @@ import {
   prisma,
   prismaNamespace_exports,
   seedAdmin,
-  seedDemoClient
-} from "./chunk-O3CYL35B.js";
+  seedDemoCandidate
+} from "./chunk-4XUXPVKU.js";
 
 // src/app.ts
 import express from "express";
@@ -320,11 +319,6 @@ var app = express();
 app.set("trust proxy", 1);
 app.use("/uploads", express.static(path.join(process.cwd(), "uploads")));
 app.use("/demo", express.static(path.join(process.cwd(), "public")));
-app.post(
-  "/api/v1/webhook",
-  express.raw({ type: "application/json" }),
-  PaymentController.handleStripeWebhookEvent
-);
 app.use(
   cors({
     origin: [envVars.FRONTEND_URL, envVars.BETTER_AUTH_URL],
@@ -338,7 +332,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use("/api/auth", toNodeHandler(auth));
 app.get("/", (req, res) => {
-  res.send("ConsultEdge Backend Running Successfully!");
+  res.send("HireGPT Backend Running Successfully!");
 });
 app.get("/healthz", (_req, res) => {
   res.status(200).json({ status: "ok" });
@@ -402,10 +396,10 @@ var bootstrap = async () => {
     await connectPrismaWithRetry({ retries: 5, retryDelayMs: 2e3 });
     try {
       await prisma.$executeRawUnsafe(
-        `ALTER TYPE "Role" ADD VALUE IF NOT EXISTS 'CLIENT';`
+        `ALTER TYPE "Role" ADD VALUE IF NOT EXISTS 'JOB_SEEKER';`
       );
       await prisma.$executeRawUnsafe(
-        `ALTER TYPE "Role" ADD VALUE IF NOT EXISTS 'EXPERT';`
+        `ALTER TYPE "Role" ADD VALUE IF NOT EXISTS 'RECRUITER';`
       );
       await prisma.$executeRawUnsafe(
         `ALTER TYPE "Role" ADD VALUE IF NOT EXISTS 'ADMIN';`
@@ -415,9 +409,9 @@ var bootstrap = async () => {
     }
     await seedAdmin();
     try {
-      await seedDemoClient();
+      await seedDemoCandidate();
     } catch (demoErr) {
-      console.error("seedDemoClient failed (non-fatal):", demoErr);
+      console.error("seedDemoCandidate failed (non-fatal):", demoErr);
     }
     await new Promise((resolve, reject) => {
       httpServer.once("error", reject);

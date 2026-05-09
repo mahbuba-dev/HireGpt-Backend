@@ -20,8 +20,18 @@ export type CallParticipantModel = runtime.Types.Result.DefaultSelection<Prisma.
 
 export type AggregateCallParticipant = {
   _count: CallParticipantCountAggregateOutputType | null
+  _avg: CallParticipantAvgAggregateOutputType | null
+  _sum: CallParticipantSumAggregateOutputType | null
   _min: CallParticipantMinAggregateOutputType | null
   _max: CallParticipantMaxAggregateOutputType | null
+}
+
+export type CallParticipantAvgAggregateOutputType = {
+  aiScore: number | null
+}
+
+export type CallParticipantSumAggregateOutputType = {
+  aiScore: number | null
 }
 
 export type CallParticipantMinAggregateOutputType = {
@@ -31,6 +41,8 @@ export type CallParticipantMinAggregateOutputType = {
   role: $Enums.UserRole | null
   joinedAt: Date | null
   leftAt: Date | null
+  aiScore: number | null
+  createdAt: Date | null
 }
 
 export type CallParticipantMaxAggregateOutputType = {
@@ -40,6 +52,8 @@ export type CallParticipantMaxAggregateOutputType = {
   role: $Enums.UserRole | null
   joinedAt: Date | null
   leftAt: Date | null
+  aiScore: number | null
+  createdAt: Date | null
 }
 
 export type CallParticipantCountAggregateOutputType = {
@@ -49,9 +63,19 @@ export type CallParticipantCountAggregateOutputType = {
   role: number
   joinedAt: number
   leftAt: number
+  aiScore: number
+  createdAt: number
   _all: number
 }
 
+
+export type CallParticipantAvgAggregateInputType = {
+  aiScore?: true
+}
+
+export type CallParticipantSumAggregateInputType = {
+  aiScore?: true
+}
 
 export type CallParticipantMinAggregateInputType = {
   id?: true
@@ -60,6 +84,8 @@ export type CallParticipantMinAggregateInputType = {
   role?: true
   joinedAt?: true
   leftAt?: true
+  aiScore?: true
+  createdAt?: true
 }
 
 export type CallParticipantMaxAggregateInputType = {
@@ -69,6 +95,8 @@ export type CallParticipantMaxAggregateInputType = {
   role?: true
   joinedAt?: true
   leftAt?: true
+  aiScore?: true
+  createdAt?: true
 }
 
 export type CallParticipantCountAggregateInputType = {
@@ -78,6 +106,8 @@ export type CallParticipantCountAggregateInputType = {
   role?: true
   joinedAt?: true
   leftAt?: true
+  aiScore?: true
+  createdAt?: true
   _all?: true
 }
 
@@ -119,6 +149,18 @@ export type CallParticipantAggregateArgs<ExtArgs extends runtime.Types.Extension
   /**
    * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
    * 
+   * Select which fields to average
+  **/
+  _avg?: CallParticipantAvgAggregateInputType
+  /**
+   * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+   * 
+   * Select which fields to sum
+  **/
+  _sum?: CallParticipantSumAggregateInputType
+  /**
+   * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+   * 
    * Select which fields to find the minimum value
   **/
   _min?: CallParticipantMinAggregateInputType
@@ -149,6 +191,8 @@ export type CallParticipantGroupByArgs<ExtArgs extends runtime.Types.Extensions.
   take?: number
   skip?: number
   _count?: CallParticipantCountAggregateInputType | true
+  _avg?: CallParticipantAvgAggregateInputType
+  _sum?: CallParticipantSumAggregateInputType
   _min?: CallParticipantMinAggregateInputType
   _max?: CallParticipantMaxAggregateInputType
 }
@@ -160,12 +204,16 @@ export type CallParticipantGroupByOutputType = {
   role: $Enums.UserRole
   joinedAt: Date | null
   leftAt: Date | null
+  aiScore: number | null
+  createdAt: Date
   _count: CallParticipantCountAggregateOutputType | null
+  _avg: CallParticipantAvgAggregateOutputType | null
+  _sum: CallParticipantSumAggregateOutputType | null
   _min: CallParticipantMinAggregateOutputType | null
   _max: CallParticipantMaxAggregateOutputType | null
 }
 
-type GetCallParticipantGroupByPayload<T extends CallParticipantGroupByArgs> = Prisma.PrismaPromise<
+export type GetCallParticipantGroupByPayload<T extends CallParticipantGroupByArgs> = Prisma.PrismaPromise<
   Array<
     Prisma.PickEnumerable<CallParticipantGroupByOutputType, T['by']> &
       {
@@ -190,7 +238,9 @@ export type CallParticipantWhereInput = {
   role?: Prisma.EnumUserRoleFilter<"CallParticipant"> | $Enums.UserRole
   joinedAt?: Prisma.DateTimeNullableFilter<"CallParticipant"> | Date | string | null
   leftAt?: Prisma.DateTimeNullableFilter<"CallParticipant"> | Date | string | null
-  call?: Prisma.XOR<Prisma.CallScalarRelationFilter, Prisma.CallWhereInput>
+  aiScore?: Prisma.FloatNullableFilter<"CallParticipant"> | number | null
+  createdAt?: Prisma.DateTimeFilter<"CallParticipant"> | Date | string
+  call?: Prisma.XOR<Prisma.InterviewCallScalarRelationFilter, Prisma.InterviewCallWhereInput>
 }
 
 export type CallParticipantOrderByWithRelationInput = {
@@ -200,7 +250,9 @@ export type CallParticipantOrderByWithRelationInput = {
   role?: Prisma.SortOrder
   joinedAt?: Prisma.SortOrderInput | Prisma.SortOrder
   leftAt?: Prisma.SortOrderInput | Prisma.SortOrder
-  call?: Prisma.CallOrderByWithRelationInput
+  aiScore?: Prisma.SortOrderInput | Prisma.SortOrder
+  createdAt?: Prisma.SortOrder
+  call?: Prisma.InterviewCallOrderByWithRelationInput
 }
 
 export type CallParticipantWhereUniqueInput = Prisma.AtLeast<{
@@ -213,7 +265,9 @@ export type CallParticipantWhereUniqueInput = Prisma.AtLeast<{
   role?: Prisma.EnumUserRoleFilter<"CallParticipant"> | $Enums.UserRole
   joinedAt?: Prisma.DateTimeNullableFilter<"CallParticipant"> | Date | string | null
   leftAt?: Prisma.DateTimeNullableFilter<"CallParticipant"> | Date | string | null
-  call?: Prisma.XOR<Prisma.CallScalarRelationFilter, Prisma.CallWhereInput>
+  aiScore?: Prisma.FloatNullableFilter<"CallParticipant"> | number | null
+  createdAt?: Prisma.DateTimeFilter<"CallParticipant"> | Date | string
+  call?: Prisma.XOR<Prisma.InterviewCallScalarRelationFilter, Prisma.InterviewCallWhereInput>
 }, "id">
 
 export type CallParticipantOrderByWithAggregationInput = {
@@ -223,9 +277,13 @@ export type CallParticipantOrderByWithAggregationInput = {
   role?: Prisma.SortOrder
   joinedAt?: Prisma.SortOrderInput | Prisma.SortOrder
   leftAt?: Prisma.SortOrderInput | Prisma.SortOrder
+  aiScore?: Prisma.SortOrderInput | Prisma.SortOrder
+  createdAt?: Prisma.SortOrder
   _count?: Prisma.CallParticipantCountOrderByAggregateInput
+  _avg?: Prisma.CallParticipantAvgOrderByAggregateInput
   _max?: Prisma.CallParticipantMaxOrderByAggregateInput
   _min?: Prisma.CallParticipantMinOrderByAggregateInput
+  _sum?: Prisma.CallParticipantSumOrderByAggregateInput
 }
 
 export type CallParticipantScalarWhereWithAggregatesInput = {
@@ -238,6 +296,8 @@ export type CallParticipantScalarWhereWithAggregatesInput = {
   role?: Prisma.EnumUserRoleWithAggregatesFilter<"CallParticipant"> | $Enums.UserRole
   joinedAt?: Prisma.DateTimeNullableWithAggregatesFilter<"CallParticipant"> | Date | string | null
   leftAt?: Prisma.DateTimeNullableWithAggregatesFilter<"CallParticipant"> | Date | string | null
+  aiScore?: Prisma.FloatNullableWithAggregatesFilter<"CallParticipant"> | number | null
+  createdAt?: Prisma.DateTimeWithAggregatesFilter<"CallParticipant"> | Date | string
 }
 
 export type CallParticipantCreateInput = {
@@ -246,7 +306,9 @@ export type CallParticipantCreateInput = {
   role: $Enums.UserRole
   joinedAt?: Date | string | null
   leftAt?: Date | string | null
-  call: Prisma.CallCreateNestedOneWithoutParticipantsInput
+  aiScore?: number | null
+  createdAt?: Date | string
+  call: Prisma.InterviewCallCreateNestedOneWithoutParticipantsInput
 }
 
 export type CallParticipantUncheckedCreateInput = {
@@ -256,6 +318,8 @@ export type CallParticipantUncheckedCreateInput = {
   role: $Enums.UserRole
   joinedAt?: Date | string | null
   leftAt?: Date | string | null
+  aiScore?: number | null
+  createdAt?: Date | string
 }
 
 export type CallParticipantUpdateInput = {
@@ -264,7 +328,9 @@ export type CallParticipantUpdateInput = {
   role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
   joinedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   leftAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  call?: Prisma.CallUpdateOneRequiredWithoutParticipantsNestedInput
+  aiScore?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  call?: Prisma.InterviewCallUpdateOneRequiredWithoutParticipantsNestedInput
 }
 
 export type CallParticipantUncheckedUpdateInput = {
@@ -274,6 +340,8 @@ export type CallParticipantUncheckedUpdateInput = {
   role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
   joinedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   leftAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  aiScore?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type CallParticipantCreateManyInput = {
@@ -283,6 +351,8 @@ export type CallParticipantCreateManyInput = {
   role: $Enums.UserRole
   joinedAt?: Date | string | null
   leftAt?: Date | string | null
+  aiScore?: number | null
+  createdAt?: Date | string
 }
 
 export type CallParticipantUpdateManyMutationInput = {
@@ -291,6 +361,8 @@ export type CallParticipantUpdateManyMutationInput = {
   role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
   joinedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   leftAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  aiScore?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type CallParticipantUncheckedUpdateManyInput = {
@@ -300,6 +372,49 @@ export type CallParticipantUncheckedUpdateManyInput = {
   role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
   joinedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   leftAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  aiScore?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+}
+
+export type CallParticipantCountOrderByAggregateInput = {
+  id?: Prisma.SortOrder
+  callId?: Prisma.SortOrder
+  userId?: Prisma.SortOrder
+  role?: Prisma.SortOrder
+  joinedAt?: Prisma.SortOrder
+  leftAt?: Prisma.SortOrder
+  aiScore?: Prisma.SortOrder
+  createdAt?: Prisma.SortOrder
+}
+
+export type CallParticipantAvgOrderByAggregateInput = {
+  aiScore?: Prisma.SortOrder
+}
+
+export type CallParticipantMaxOrderByAggregateInput = {
+  id?: Prisma.SortOrder
+  callId?: Prisma.SortOrder
+  userId?: Prisma.SortOrder
+  role?: Prisma.SortOrder
+  joinedAt?: Prisma.SortOrder
+  leftAt?: Prisma.SortOrder
+  aiScore?: Prisma.SortOrder
+  createdAt?: Prisma.SortOrder
+}
+
+export type CallParticipantMinOrderByAggregateInput = {
+  id?: Prisma.SortOrder
+  callId?: Prisma.SortOrder
+  userId?: Prisma.SortOrder
+  role?: Prisma.SortOrder
+  joinedAt?: Prisma.SortOrder
+  leftAt?: Prisma.SortOrder
+  aiScore?: Prisma.SortOrder
+  createdAt?: Prisma.SortOrder
+}
+
+export type CallParticipantSumOrderByAggregateInput = {
+  aiScore?: Prisma.SortOrder
 }
 
 export type CallParticipantListRelationFilter = {
@@ -312,31 +427,16 @@ export type CallParticipantOrderByRelationAggregateInput = {
   _count?: Prisma.SortOrder
 }
 
-export type CallParticipantCountOrderByAggregateInput = {
-  id?: Prisma.SortOrder
-  callId?: Prisma.SortOrder
-  userId?: Prisma.SortOrder
-  role?: Prisma.SortOrder
-  joinedAt?: Prisma.SortOrder
-  leftAt?: Prisma.SortOrder
+export type EnumUserRoleFieldUpdateOperationsInput = {
+  set?: $Enums.UserRole
 }
 
-export type CallParticipantMaxOrderByAggregateInput = {
-  id?: Prisma.SortOrder
-  callId?: Prisma.SortOrder
-  userId?: Prisma.SortOrder
-  role?: Prisma.SortOrder
-  joinedAt?: Prisma.SortOrder
-  leftAt?: Prisma.SortOrder
-}
-
-export type CallParticipantMinOrderByAggregateInput = {
-  id?: Prisma.SortOrder
-  callId?: Prisma.SortOrder
-  userId?: Prisma.SortOrder
-  role?: Prisma.SortOrder
-  joinedAt?: Prisma.SortOrder
-  leftAt?: Prisma.SortOrder
+export type NullableFloatFieldUpdateOperationsInput = {
+  set?: number | null
+  increment?: number
+  decrement?: number
+  multiply?: number
+  divide?: number
 }
 
 export type CallParticipantCreateNestedManyWithoutCallInput = {
@@ -381,16 +481,14 @@ export type CallParticipantUncheckedUpdateManyWithoutCallNestedInput = {
   deleteMany?: Prisma.CallParticipantScalarWhereInput | Prisma.CallParticipantScalarWhereInput[]
 }
 
-export type EnumUserRoleFieldUpdateOperationsInput = {
-  set?: $Enums.UserRole
-}
-
 export type CallParticipantCreateWithoutCallInput = {
   id?: string
   userId: string
   role: $Enums.UserRole
   joinedAt?: Date | string | null
   leftAt?: Date | string | null
+  aiScore?: number | null
+  createdAt?: Date | string
 }
 
 export type CallParticipantUncheckedCreateWithoutCallInput = {
@@ -399,6 +497,8 @@ export type CallParticipantUncheckedCreateWithoutCallInput = {
   role: $Enums.UserRole
   joinedAt?: Date | string | null
   leftAt?: Date | string | null
+  aiScore?: number | null
+  createdAt?: Date | string
 }
 
 export type CallParticipantCreateOrConnectWithoutCallInput = {
@@ -437,6 +537,8 @@ export type CallParticipantScalarWhereInput = {
   role?: Prisma.EnumUserRoleFilter<"CallParticipant"> | $Enums.UserRole
   joinedAt?: Prisma.DateTimeNullableFilter<"CallParticipant"> | Date | string | null
   leftAt?: Prisma.DateTimeNullableFilter<"CallParticipant"> | Date | string | null
+  aiScore?: Prisma.FloatNullableFilter<"CallParticipant"> | number | null
+  createdAt?: Prisma.DateTimeFilter<"CallParticipant"> | Date | string
 }
 
 export type CallParticipantCreateManyCallInput = {
@@ -445,6 +547,8 @@ export type CallParticipantCreateManyCallInput = {
   role: $Enums.UserRole
   joinedAt?: Date | string | null
   leftAt?: Date | string | null
+  aiScore?: number | null
+  createdAt?: Date | string
 }
 
 export type CallParticipantUpdateWithoutCallInput = {
@@ -453,6 +557,8 @@ export type CallParticipantUpdateWithoutCallInput = {
   role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
   joinedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   leftAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  aiScore?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type CallParticipantUncheckedUpdateWithoutCallInput = {
@@ -461,6 +567,8 @@ export type CallParticipantUncheckedUpdateWithoutCallInput = {
   role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
   joinedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   leftAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  aiScore?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type CallParticipantUncheckedUpdateManyWithoutCallInput = {
@@ -469,6 +577,8 @@ export type CallParticipantUncheckedUpdateManyWithoutCallInput = {
   role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
   joinedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   leftAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  aiScore?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 
@@ -480,7 +590,9 @@ export type CallParticipantSelect<ExtArgs extends runtime.Types.Extensions.Inter
   role?: boolean
   joinedAt?: boolean
   leftAt?: boolean
-  call?: boolean | Prisma.CallDefaultArgs<ExtArgs>
+  aiScore?: boolean
+  createdAt?: boolean
+  call?: boolean | Prisma.InterviewCallDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["callParticipant"]>
 
 export type CallParticipantSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -490,7 +602,9 @@ export type CallParticipantSelectCreateManyAndReturn<ExtArgs extends runtime.Typ
   role?: boolean
   joinedAt?: boolean
   leftAt?: boolean
-  call?: boolean | Prisma.CallDefaultArgs<ExtArgs>
+  aiScore?: boolean
+  createdAt?: boolean
+  call?: boolean | Prisma.InterviewCallDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["callParticipant"]>
 
 export type CallParticipantSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -500,7 +614,9 @@ export type CallParticipantSelectUpdateManyAndReturn<ExtArgs extends runtime.Typ
   role?: boolean
   joinedAt?: boolean
   leftAt?: boolean
-  call?: boolean | Prisma.CallDefaultArgs<ExtArgs>
+  aiScore?: boolean
+  createdAt?: boolean
+  call?: boolean | Prisma.InterviewCallDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["callParticipant"]>
 
 export type CallParticipantSelectScalar = {
@@ -510,23 +626,25 @@ export type CallParticipantSelectScalar = {
   role?: boolean
   joinedAt?: boolean
   leftAt?: boolean
+  aiScore?: boolean
+  createdAt?: boolean
 }
 
-export type CallParticipantOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "callId" | "userId" | "role" | "joinedAt" | "leftAt", ExtArgs["result"]["callParticipant"]>
+export type CallParticipantOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "callId" | "userId" | "role" | "joinedAt" | "leftAt" | "aiScore" | "createdAt", ExtArgs["result"]["callParticipant"]>
 export type CallParticipantInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  call?: boolean | Prisma.CallDefaultArgs<ExtArgs>
+  call?: boolean | Prisma.InterviewCallDefaultArgs<ExtArgs>
 }
 export type CallParticipantIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  call?: boolean | Prisma.CallDefaultArgs<ExtArgs>
+  call?: boolean | Prisma.InterviewCallDefaultArgs<ExtArgs>
 }
 export type CallParticipantIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  call?: boolean | Prisma.CallDefaultArgs<ExtArgs>
+  call?: boolean | Prisma.InterviewCallDefaultArgs<ExtArgs>
 }
 
 export type $CallParticipantPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "CallParticipant"
   objects: {
-    call: Prisma.$CallPayload<ExtArgs>
+    call: Prisma.$InterviewCallPayload<ExtArgs>
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -535,6 +653,8 @@ export type $CallParticipantPayload<ExtArgs extends runtime.Types.Extensions.Int
     role: $Enums.UserRole
     joinedAt: Date | null
     leftAt: Date | null
+    aiScore: number | null
+    createdAt: Date
   }, ExtArgs["result"]["callParticipant"]>
   composites: {}
 }
@@ -929,7 +1049,7 @@ readonly fields: CallParticipantFieldRefs;
  */
 export interface Prisma__CallParticipantClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
-  call<T extends Prisma.CallDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.CallDefaultArgs<ExtArgs>>): Prisma.Prisma__CallClient<runtime.Types.Result.GetResult<Prisma.$CallPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+  call<T extends Prisma.InterviewCallDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.InterviewCallDefaultArgs<ExtArgs>>): Prisma.Prisma__InterviewCallClient<runtime.Types.Result.GetResult<Prisma.$InterviewCallPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -965,6 +1085,8 @@ export interface CallParticipantFieldRefs {
   readonly role: Prisma.FieldRef<"CallParticipant", 'UserRole'>
   readonly joinedAt: Prisma.FieldRef<"CallParticipant", 'DateTime'>
   readonly leftAt: Prisma.FieldRef<"CallParticipant", 'DateTime'>
+  readonly aiScore: Prisma.FieldRef<"CallParticipant", 'Float'>
+  readonly createdAt: Prisma.FieldRef<"CallParticipant", 'DateTime'>
 }
     
 

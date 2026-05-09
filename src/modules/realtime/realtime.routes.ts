@@ -1,6 +1,6 @@
 import { Router, type Request, type Response } from "express";
 
-import { Role } from "../../generated/enums";
+import { Role, UserRole } from "../../generated/enums";
 import { checkAuth } from "../../middleware/cheackAuth";
 import { catchAsync } from "../../shared/catchAsync";
 import { sendResponse } from "../../shared/sendResponsr";
@@ -16,7 +16,7 @@ const router = Router();
 
 router.get(
   "/token",
-  checkAuth(Role.CLIENT, Role.EXPERT, Role.ADMIN),
+  checkAuth(UserRole.CANDIDATE, UserRole.RECRUITER, UserRole.ADMIN),
   catchAsync(async (req: Request, res: Response) => {
     if (!envVars.ABLY_API_KEY) {
       throw new AppError(

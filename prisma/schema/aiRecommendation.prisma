@@ -1,0 +1,9 @@
+model AIRecommendation {
+  id        String   @id @default(uuid())
+  userId    String
+  type      String
+  entityId  String
+  score     Float
+  reason    String?
+  createdAt DateTime @default(now())
+}

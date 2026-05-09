@@ -41,6 +41,10 @@ export type AttachmentMinAggregateOutputType = {
   fileName: string | null
   fileType: string | null
   fileSize: number | null
+  isResume: boolean | null
+  isPrivate: boolean | null
+  aiAnalyzed: boolean | null
+  aiSummary: string | null
   createdAt: Date | null
 }
 
@@ -51,6 +55,10 @@ export type AttachmentMaxAggregateOutputType = {
   fileName: string | null
   fileType: string | null
   fileSize: number | null
+  isResume: boolean | null
+  isPrivate: boolean | null
+  aiAnalyzed: boolean | null
+  aiSummary: string | null
   createdAt: Date | null
 }
 
@@ -61,6 +69,10 @@ export type AttachmentCountAggregateOutputType = {
   fileName: number
   fileType: number
   fileSize: number
+  isResume: number
+  isPrivate: number
+  aiAnalyzed: number
+  aiSummary: number
   createdAt: number
   _all: number
 }
@@ -81,6 +93,10 @@ export type AttachmentMinAggregateInputType = {
   fileName?: true
   fileType?: true
   fileSize?: true
+  isResume?: true
+  isPrivate?: true
+  aiAnalyzed?: true
+  aiSummary?: true
   createdAt?: true
 }
 
@@ -91,6 +107,10 @@ export type AttachmentMaxAggregateInputType = {
   fileName?: true
   fileType?: true
   fileSize?: true
+  isResume?: true
+  isPrivate?: true
+  aiAnalyzed?: true
+  aiSummary?: true
   createdAt?: true
 }
 
@@ -101,6 +121,10 @@ export type AttachmentCountAggregateInputType = {
   fileName?: true
   fileType?: true
   fileSize?: true
+  isResume?: true
+  isPrivate?: true
+  aiAnalyzed?: true
+  aiSummary?: true
   createdAt?: true
   _all?: true
 }
@@ -198,6 +222,10 @@ export type AttachmentGroupByOutputType = {
   fileName: string
   fileType: string
   fileSize: number
+  isResume: boolean
+  isPrivate: boolean
+  aiAnalyzed: boolean
+  aiSummary: string | null
   createdAt: Date
   _count: AttachmentCountAggregateOutputType | null
   _avg: AttachmentAvgAggregateOutputType | null
@@ -206,7 +234,7 @@ export type AttachmentGroupByOutputType = {
   _max: AttachmentMaxAggregateOutputType | null
 }
 
-type GetAttachmentGroupByPayload<T extends AttachmentGroupByArgs> = Prisma.PrismaPromise<
+export type GetAttachmentGroupByPayload<T extends AttachmentGroupByArgs> = Prisma.PrismaPromise<
   Array<
     Prisma.PickEnumerable<AttachmentGroupByOutputType, T['by']> &
       {
@@ -231,8 +259,13 @@ export type AttachmentWhereInput = {
   fileName?: Prisma.StringFilter<"Attachment"> | string
   fileType?: Prisma.StringFilter<"Attachment"> | string
   fileSize?: Prisma.IntFilter<"Attachment"> | number
+  isResume?: Prisma.BoolFilter<"Attachment"> | boolean
+  isPrivate?: Prisma.BoolFilter<"Attachment"> | boolean
+  aiAnalyzed?: Prisma.BoolFilter<"Attachment"> | boolean
+  aiSummary?: Prisma.StringNullableFilter<"Attachment"> | string | null
   createdAt?: Prisma.DateTimeFilter<"Attachment"> | Date | string
   message?: Prisma.XOR<Prisma.MessageScalarRelationFilter, Prisma.MessageWhereInput>
+  aichatMessages?: Prisma.AIChatMessageListRelationFilter
 }
 
 export type AttachmentOrderByWithRelationInput = {
@@ -242,23 +275,33 @@ export type AttachmentOrderByWithRelationInput = {
   fileName?: Prisma.SortOrder
   fileType?: Prisma.SortOrder
   fileSize?: Prisma.SortOrder
+  isResume?: Prisma.SortOrder
+  isPrivate?: Prisma.SortOrder
+  aiAnalyzed?: Prisma.SortOrder
+  aiSummary?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   message?: Prisma.MessageOrderByWithRelationInput
+  aichatMessages?: Prisma.AIChatMessageOrderByRelationAggregateInput
 }
 
 export type AttachmentWhereUniqueInput = Prisma.AtLeast<{
   id?: string
-  messageId?: string
   AND?: Prisma.AttachmentWhereInput | Prisma.AttachmentWhereInput[]
   OR?: Prisma.AttachmentWhereInput[]
   NOT?: Prisma.AttachmentWhereInput | Prisma.AttachmentWhereInput[]
+  messageId?: Prisma.StringFilter<"Attachment"> | string
   fileUrl?: Prisma.StringFilter<"Attachment"> | string
   fileName?: Prisma.StringFilter<"Attachment"> | string
   fileType?: Prisma.StringFilter<"Attachment"> | string
   fileSize?: Prisma.IntFilter<"Attachment"> | number
+  isResume?: Prisma.BoolFilter<"Attachment"> | boolean
+  isPrivate?: Prisma.BoolFilter<"Attachment"> | boolean
+  aiAnalyzed?: Prisma.BoolFilter<"Attachment"> | boolean
+  aiSummary?: Prisma.StringNullableFilter<"Attachment"> | string | null
   createdAt?: Prisma.DateTimeFilter<"Attachment"> | Date | string
   message?: Prisma.XOR<Prisma.MessageScalarRelationFilter, Prisma.MessageWhereInput>
-}, "id" | "messageId">
+  aichatMessages?: Prisma.AIChatMessageListRelationFilter
+}, "id">
 
 export type AttachmentOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
@@ -267,6 +310,10 @@ export type AttachmentOrderByWithAggregationInput = {
   fileName?: Prisma.SortOrder
   fileType?: Prisma.SortOrder
   fileSize?: Prisma.SortOrder
+  isResume?: Prisma.SortOrder
+  isPrivate?: Prisma.SortOrder
+  aiAnalyzed?: Prisma.SortOrder
+  aiSummary?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   _count?: Prisma.AttachmentCountOrderByAggregateInput
   _avg?: Prisma.AttachmentAvgOrderByAggregateInput
@@ -285,6 +332,10 @@ export type AttachmentScalarWhereWithAggregatesInput = {
   fileName?: Prisma.StringWithAggregatesFilter<"Attachment"> | string
   fileType?: Prisma.StringWithAggregatesFilter<"Attachment"> | string
   fileSize?: Prisma.IntWithAggregatesFilter<"Attachment"> | number
+  isResume?: Prisma.BoolWithAggregatesFilter<"Attachment"> | boolean
+  isPrivate?: Prisma.BoolWithAggregatesFilter<"Attachment"> | boolean
+  aiAnalyzed?: Prisma.BoolWithAggregatesFilter<"Attachment"> | boolean
+  aiSummary?: Prisma.StringNullableWithAggregatesFilter<"Attachment"> | string | null
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"Attachment"> | Date | string
 }
 
@@ -294,8 +345,13 @@ export type AttachmentCreateInput = {
   fileName: string
   fileType: string
   fileSize: number
+  isResume?: boolean
+  isPrivate?: boolean
+  aiAnalyzed?: boolean
+  aiSummary?: string | null
   createdAt?: Date | string
-  message: Prisma.MessageCreateNestedOneWithoutAttachmentInput
+  message: Prisma.MessageCreateNestedOneWithoutAttachmentsInput
+  aichatMessages?: Prisma.AIChatMessageCreateNestedManyWithoutAttachmentsInput
 }
 
 export type AttachmentUncheckedCreateInput = {
@@ -305,7 +361,12 @@ export type AttachmentUncheckedCreateInput = {
   fileName: string
   fileType: string
   fileSize: number
+  isResume?: boolean
+  isPrivate?: boolean
+  aiAnalyzed?: boolean
+  aiSummary?: string | null
   createdAt?: Date | string
+  aichatMessages?: Prisma.AIChatMessageUncheckedCreateNestedManyWithoutAttachmentsInput
 }
 
 export type AttachmentUpdateInput = {
@@ -314,8 +375,13 @@ export type AttachmentUpdateInput = {
   fileName?: Prisma.StringFieldUpdateOperationsInput | string
   fileType?: Prisma.StringFieldUpdateOperationsInput | string
   fileSize?: Prisma.IntFieldUpdateOperationsInput | number
+  isResume?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isPrivate?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  aiAnalyzed?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  aiSummary?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  message?: Prisma.MessageUpdateOneRequiredWithoutAttachmentNestedInput
+  message?: Prisma.MessageUpdateOneRequiredWithoutAttachmentsNestedInput
+  aichatMessages?: Prisma.AIChatMessageUpdateManyWithoutAttachmentsNestedInput
 }
 
 export type AttachmentUncheckedUpdateInput = {
@@ -325,7 +391,12 @@ export type AttachmentUncheckedUpdateInput = {
   fileName?: Prisma.StringFieldUpdateOperationsInput | string
   fileType?: Prisma.StringFieldUpdateOperationsInput | string
   fileSize?: Prisma.IntFieldUpdateOperationsInput | number
+  isResume?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isPrivate?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  aiAnalyzed?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  aiSummary?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  aichatMessages?: Prisma.AIChatMessageUncheckedUpdateManyWithoutAttachmentsNestedInput
 }
 
 export type AttachmentCreateManyInput = {
@@ -335,6 +406,10 @@ export type AttachmentCreateManyInput = {
   fileName: string
   fileType: string
   fileSize: number
+  isResume?: boolean
+  isPrivate?: boolean
+  aiAnalyzed?: boolean
+  aiSummary?: string | null
   createdAt?: Date | string
 }
 
@@ -344,6 +419,10 @@ export type AttachmentUpdateManyMutationInput = {
   fileName?: Prisma.StringFieldUpdateOperationsInput | string
   fileType?: Prisma.StringFieldUpdateOperationsInput | string
   fileSize?: Prisma.IntFieldUpdateOperationsInput | number
+  isResume?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isPrivate?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  aiAnalyzed?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  aiSummary?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
@@ -354,7 +433,21 @@ export type AttachmentUncheckedUpdateManyInput = {
   fileName?: Prisma.StringFieldUpdateOperationsInput | string
   fileType?: Prisma.StringFieldUpdateOperationsInput | string
   fileSize?: Prisma.IntFieldUpdateOperationsInput | number
+  isResume?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isPrivate?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  aiAnalyzed?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  aiSummary?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+}
+
+export type AttachmentListRelationFilter = {
+  every?: Prisma.AttachmentWhereInput
+  some?: Prisma.AttachmentWhereInput
+  none?: Prisma.AttachmentWhereInput
+}
+
+export type AttachmentOrderByRelationAggregateInput = {
+  _count?: Prisma.SortOrder
 }
 
 export type AttachmentCountOrderByAggregateInput = {
@@ -364,6 +457,10 @@ export type AttachmentCountOrderByAggregateInput = {
   fileName?: Prisma.SortOrder
   fileType?: Prisma.SortOrder
   fileSize?: Prisma.SortOrder
+  isResume?: Prisma.SortOrder
+  isPrivate?: Prisma.SortOrder
+  aiAnalyzed?: Prisma.SortOrder
+  aiSummary?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
 }
 
@@ -378,6 +475,10 @@ export type AttachmentMaxOrderByAggregateInput = {
   fileName?: Prisma.SortOrder
   fileType?: Prisma.SortOrder
   fileSize?: Prisma.SortOrder
+  isResume?: Prisma.SortOrder
+  isPrivate?: Prisma.SortOrder
+  aiAnalyzed?: Prisma.SortOrder
+  aiSummary?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
 }
 
@@ -388,6 +489,10 @@ export type AttachmentMinOrderByAggregateInput = {
   fileName?: Prisma.SortOrder
   fileType?: Prisma.SortOrder
   fileSize?: Prisma.SortOrder
+  isResume?: Prisma.SortOrder
+  isPrivate?: Prisma.SortOrder
+  aiAnalyzed?: Prisma.SortOrder
+  aiSummary?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
 }
 
@@ -395,9 +500,42 @@ export type AttachmentSumOrderByAggregateInput = {
   fileSize?: Prisma.SortOrder
 }
 
-export type AttachmentNullableScalarRelationFilter = {
-  is?: Prisma.AttachmentWhereInput | null
-  isNot?: Prisma.AttachmentWhereInput | null
+export type AttachmentCreateNestedManyWithoutAichatMessagesInput = {
+  create?: Prisma.XOR<Prisma.AttachmentCreateWithoutAichatMessagesInput, Prisma.AttachmentUncheckedCreateWithoutAichatMessagesInput> | Prisma.AttachmentCreateWithoutAichatMessagesInput[] | Prisma.AttachmentUncheckedCreateWithoutAichatMessagesInput[]
+  connectOrCreate?: Prisma.AttachmentCreateOrConnectWithoutAichatMessagesInput | Prisma.AttachmentCreateOrConnectWithoutAichatMessagesInput[]
+  connect?: Prisma.AttachmentWhereUniqueInput | Prisma.AttachmentWhereUniqueInput[]
+}
+
+export type AttachmentUncheckedCreateNestedManyWithoutAichatMessagesInput = {
+  create?: Prisma.XOR<Prisma.AttachmentCreateWithoutAichatMessagesInput, Prisma.AttachmentUncheckedCreateWithoutAichatMessagesInput> | Prisma.AttachmentCreateWithoutAichatMessagesInput[] | Prisma.AttachmentUncheckedCreateWithoutAichatMessagesInput[]
+  connectOrCreate?: Prisma.AttachmentCreateOrConnectWithoutAichatMessagesInput | Prisma.AttachmentCreateOrConnectWithoutAichatMessagesInput[]
+  connect?: Prisma.AttachmentWhereUniqueInput | Prisma.AttachmentWhereUniqueInput[]
+}
+
+export type AttachmentUpdateManyWithoutAichatMessagesNestedInput = {
+  create?: Prisma.XOR<Prisma.AttachmentCreateWithoutAichatMessagesInput, Prisma.AttachmentUncheckedCreateWithoutAichatMessagesInput> | Prisma.AttachmentCreateWithoutAichatMessagesInput[] | Prisma.AttachmentUncheckedCreateWithoutAichatMessagesInput[]
+  connectOrCreate?: Prisma.AttachmentCreateOrConnectWithoutAichatMessagesInput | Prisma.AttachmentCreateOrConnectWithoutAichatMessagesInput[]
+  upsert?: Prisma.AttachmentUpsertWithWhereUniqueWithoutAichatMessagesInput | Prisma.AttachmentUpsertWithWhereUniqueWithoutAichatMessagesInput[]
+  set?: Prisma.AttachmentWhereUniqueInput | Prisma.AttachmentWhereUniqueInput[]
+  disconnect?: Prisma.AttachmentWhereUniqueInput | Prisma.AttachmentWhereUniqueInput[]
+  delete?: Prisma.AttachmentWhereUniqueInput | Prisma.AttachmentWhereUniqueInput[]
+  connect?: Prisma.AttachmentWhereUniqueInput | Prisma.AttachmentWhereUniqueInput[]
+  update?: Prisma.AttachmentUpdateWithWhereUniqueWithoutAichatMessagesInput | Prisma.AttachmentUpdateWithWhereUniqueWithoutAichatMessagesInput[]
+  updateMany?: Prisma.AttachmentUpdateManyWithWhereWithoutAichatMessagesInput | Prisma.AttachmentUpdateManyWithWhereWithoutAichatMessagesInput[]
+  deleteMany?: Prisma.AttachmentScalarWhereInput | Prisma.AttachmentScalarWhereInput[]
+}
+
+export type AttachmentUncheckedUpdateManyWithoutAichatMessagesNestedInput = {
+  create?: Prisma.XOR<Prisma.AttachmentCreateWithoutAichatMessagesInput, Prisma.AttachmentUncheckedCreateWithoutAichatMessagesInput> | Prisma.AttachmentCreateWithoutAichatMessagesInput[] | Prisma.AttachmentUncheckedCreateWithoutAichatMessagesInput[]
+  connectOrCreate?: Prisma.AttachmentCreateOrConnectWithoutAichatMessagesInput | Prisma.AttachmentCreateOrConnectWithoutAichatMessagesInput[]
+  upsert?: Prisma.AttachmentUpsertWithWhereUniqueWithoutAichatMessagesInput | Prisma.AttachmentUpsertWithWhereUniqueWithoutAichatMessagesInput[]
+  set?: Prisma.AttachmentWhereUniqueInput | Prisma.AttachmentWhereUniqueInput[]
+  disconnect?: Prisma.AttachmentWhereUniqueInput | Prisma.AttachmentWhereUniqueInput[]
+  delete?: Prisma.AttachmentWhereUniqueInput | Prisma.AttachmentWhereUniqueInput[]
+  connect?: Prisma.AttachmentWhereUniqueInput | Prisma.AttachmentWhereUniqueInput[]
+  update?: Prisma.AttachmentUpdateWithWhereUniqueWithoutAichatMessagesInput | Prisma.AttachmentUpdateWithWhereUniqueWithoutAichatMessagesInput[]
+  updateMany?: Prisma.AttachmentUpdateManyWithWhereWithoutAichatMessagesInput | Prisma.AttachmentUpdateManyWithWhereWithoutAichatMessagesInput[]
+  deleteMany?: Prisma.AttachmentScalarWhereInput | Prisma.AttachmentScalarWhereInput[]
 }
 
 export type IntFieldUpdateOperationsInput = {
@@ -408,36 +546,112 @@ export type IntFieldUpdateOperationsInput = {
   divide?: number
 }
 
-export type AttachmentCreateNestedOneWithoutMessageInput = {
-  create?: Prisma.XOR<Prisma.AttachmentCreateWithoutMessageInput, Prisma.AttachmentUncheckedCreateWithoutMessageInput>
-  connectOrCreate?: Prisma.AttachmentCreateOrConnectWithoutMessageInput
-  connect?: Prisma.AttachmentWhereUniqueInput
+export type AttachmentCreateNestedManyWithoutMessageInput = {
+  create?: Prisma.XOR<Prisma.AttachmentCreateWithoutMessageInput, Prisma.AttachmentUncheckedCreateWithoutMessageInput> | Prisma.AttachmentCreateWithoutMessageInput[] | Prisma.AttachmentUncheckedCreateWithoutMessageInput[]
+  connectOrCreate?: Prisma.AttachmentCreateOrConnectWithoutMessageInput | Prisma.AttachmentCreateOrConnectWithoutMessageInput[]
+  createMany?: Prisma.AttachmentCreateManyMessageInputEnvelope
+  connect?: Prisma.AttachmentWhereUniqueInput | Prisma.AttachmentWhereUniqueInput[]
 }
 
-export type AttachmentUncheckedCreateNestedOneWithoutMessageInput = {
-  create?: Prisma.XOR<Prisma.AttachmentCreateWithoutMessageInput, Prisma.AttachmentUncheckedCreateWithoutMessageInput>
-  connectOrCreate?: Prisma.AttachmentCreateOrConnectWithoutMessageInput
-  connect?: Prisma.AttachmentWhereUniqueInput
+export type AttachmentUncheckedCreateNestedManyWithoutMessageInput = {
+  create?: Prisma.XOR<Prisma.AttachmentCreateWithoutMessageInput, Prisma.AttachmentUncheckedCreateWithoutMessageInput> | Prisma.AttachmentCreateWithoutMessageInput[] | Prisma.AttachmentUncheckedCreateWithoutMessageInput[]
+  connectOrCreate?: Prisma.AttachmentCreateOrConnectWithoutMessageInput | Prisma.AttachmentCreateOrConnectWithoutMessageInput[]
+  createMany?: Prisma.AttachmentCreateManyMessageInputEnvelope
+  connect?: Prisma.AttachmentWhereUniqueInput | Prisma.AttachmentWhereUniqueInput[]
 }
 
-export type AttachmentUpdateOneWithoutMessageNestedInput = {
-  create?: Prisma.XOR<Prisma.AttachmentCreateWithoutMessageInput, Prisma.AttachmentUncheckedCreateWithoutMessageInput>
-  connectOrCreate?: Prisma.AttachmentCreateOrConnectWithoutMessageInput
-  upsert?: Prisma.AttachmentUpsertWithoutMessageInput
-  disconnect?: Prisma.AttachmentWhereInput | boolean
-  delete?: Prisma.AttachmentWhereInput | boolean
-  connect?: Prisma.AttachmentWhereUniqueInput
-  update?: Prisma.XOR<Prisma.XOR<Prisma.AttachmentUpdateToOneWithWhereWithoutMessageInput, Prisma.AttachmentUpdateWithoutMessageInput>, Prisma.AttachmentUncheckedUpdateWithoutMessageInput>
+export type AttachmentUpdateManyWithoutMessageNestedInput = {
+  create?: Prisma.XOR<Prisma.AttachmentCreateWithoutMessageInput, Prisma.AttachmentUncheckedCreateWithoutMessageInput> | Prisma.AttachmentCreateWithoutMessageInput[] | Prisma.AttachmentUncheckedCreateWithoutMessageInput[]
+  connectOrCreate?: Prisma.AttachmentCreateOrConnectWithoutMessageInput | Prisma.AttachmentCreateOrConnectWithoutMessageInput[]
+  upsert?: Prisma.AttachmentUpsertWithWhereUniqueWithoutMessageInput | Prisma.AttachmentUpsertWithWhereUniqueWithoutMessageInput[]
+  createMany?: Prisma.AttachmentCreateManyMessageInputEnvelope
+  set?: Prisma.AttachmentWhereUniqueInput | Prisma.AttachmentWhereUniqueInput[]
+  disconnect?: Prisma.AttachmentWhereUniqueInput | Prisma.AttachmentWhereUniqueInput[]
+  delete?: Prisma.AttachmentWhereUniqueInput | Prisma.AttachmentWhereUniqueInput[]
+  connect?: Prisma.AttachmentWhereUniqueInput | Prisma.AttachmentWhereUniqueInput[]
+  update?: Prisma.AttachmentUpdateWithWhereUniqueWithoutMessageInput | Prisma.AttachmentUpdateWithWhereUniqueWithoutMessageInput[]
+  updateMany?: Prisma.AttachmentUpdateManyWithWhereWithoutMessageInput | Prisma.AttachmentUpdateManyWithWhereWithoutMessageInput[]
+  deleteMany?: Prisma.AttachmentScalarWhereInput | Prisma.AttachmentScalarWhereInput[]
 }
 
-export type AttachmentUncheckedUpdateOneWithoutMessageNestedInput = {
-  create?: Prisma.XOR<Prisma.AttachmentCreateWithoutMessageInput, Prisma.AttachmentUncheckedCreateWithoutMessageInput>
-  connectOrCreate?: Prisma.AttachmentCreateOrConnectWithoutMessageInput
-  upsert?: Prisma.AttachmentUpsertWithoutMessageInput
-  disconnect?: Prisma.AttachmentWhereInput | boolean
-  delete?: Prisma.AttachmentWhereInput | boolean
-  connect?: Prisma.AttachmentWhereUniqueInput
-  update?: Prisma.XOR<Prisma.XOR<Prisma.AttachmentUpdateToOneWithWhereWithoutMessageInput, Prisma.AttachmentUpdateWithoutMessageInput>, Prisma.AttachmentUncheckedUpdateWithoutMessageInput>
+export type AttachmentUncheckedUpdateManyWithoutMessageNestedInput = {
+  create?: Prisma.XOR<Prisma.AttachmentCreateWithoutMessageInput, Prisma.AttachmentUncheckedCreateWithoutMessageInput> | Prisma.AttachmentCreateWithoutMessageInput[] | Prisma.AttachmentUncheckedCreateWithoutMessageInput[]
+  connectOrCreate?: Prisma.AttachmentCreateOrConnectWithoutMessageInput | Prisma.AttachmentCreateOrConnectWithoutMessageInput[]
+  upsert?: Prisma.AttachmentUpsertWithWhereUniqueWithoutMessageInput | Prisma.AttachmentUpsertWithWhereUniqueWithoutMessageInput[]
+  createMany?: Prisma.AttachmentCreateManyMessageInputEnvelope
+  set?: Prisma.AttachmentWhereUniqueInput | Prisma.AttachmentWhereUniqueInput[]
+  disconnect?: Prisma.AttachmentWhereUniqueInput | Prisma.AttachmentWhereUniqueInput[]
+  delete?: Prisma.AttachmentWhereUniqueInput | Prisma.AttachmentWhereUniqueInput[]
+  connect?: Prisma.AttachmentWhereUniqueInput | Prisma.AttachmentWhereUniqueInput[]
+  update?: Prisma.AttachmentUpdateWithWhereUniqueWithoutMessageInput | Prisma.AttachmentUpdateWithWhereUniqueWithoutMessageInput[]
+  updateMany?: Prisma.AttachmentUpdateManyWithWhereWithoutMessageInput | Prisma.AttachmentUpdateManyWithWhereWithoutMessageInput[]
+  deleteMany?: Prisma.AttachmentScalarWhereInput | Prisma.AttachmentScalarWhereInput[]
+}
+
+export type AttachmentCreateWithoutAichatMessagesInput = {
+  id?: string
+  fileUrl: string
+  fileName: string
+  fileType: string
+  fileSize: number
+  isResume?: boolean
+  isPrivate?: boolean
+  aiAnalyzed?: boolean
+  aiSummary?: string | null
+  createdAt?: Date | string
+  message: Prisma.MessageCreateNestedOneWithoutAttachmentsInput
+}
+
+export type AttachmentUncheckedCreateWithoutAichatMessagesInput = {
+  id?: string
+  messageId: string
+  fileUrl: string
+  fileName: string
+  fileType: string
+  fileSize: number
+  isResume?: boolean
+  isPrivate?: boolean
+  aiAnalyzed?: boolean
+  aiSummary?: string | null
+  createdAt?: Date | string
+}
+
+export type AttachmentCreateOrConnectWithoutAichatMessagesInput = {
+  where: Prisma.AttachmentWhereUniqueInput
+  create: Prisma.XOR<Prisma.AttachmentCreateWithoutAichatMessagesInput, Prisma.AttachmentUncheckedCreateWithoutAichatMessagesInput>
+}
+
+export type AttachmentUpsertWithWhereUniqueWithoutAichatMessagesInput = {
+  where: Prisma.AttachmentWhereUniqueInput
+  update: Prisma.XOR<Prisma.AttachmentUpdateWithoutAichatMessagesInput, Prisma.AttachmentUncheckedUpdateWithoutAichatMessagesInput>
+  create: Prisma.XOR<Prisma.AttachmentCreateWithoutAichatMessagesInput, Prisma.AttachmentUncheckedCreateWithoutAichatMessagesInput>
+}
+
+export type AttachmentUpdateWithWhereUniqueWithoutAichatMessagesInput = {
+  where: Prisma.AttachmentWhereUniqueInput
+  data: Prisma.XOR<Prisma.AttachmentUpdateWithoutAichatMessagesInput, Prisma.AttachmentUncheckedUpdateWithoutAichatMessagesInput>
+}
+
+export type AttachmentUpdateManyWithWhereWithoutAichatMessagesInput = {
+  where: Prisma.AttachmentScalarWhereInput
+  data: Prisma.XOR<Prisma.AttachmentUpdateManyMutationInput, Prisma.AttachmentUncheckedUpdateManyWithoutAichatMessagesInput>
+}
+
+export type AttachmentScalarWhereInput = {
+  AND?: Prisma.AttachmentScalarWhereInput | Prisma.AttachmentScalarWhereInput[]
+  OR?: Prisma.AttachmentScalarWhereInput[]
+  NOT?: Prisma.AttachmentScalarWhereInput | Prisma.AttachmentScalarWhereInput[]
+  id?: Prisma.StringFilter<"Attachment"> | string
+  messageId?: Prisma.StringFilter<"Attachment"> | string
+  fileUrl?: Prisma.StringFilter<"Attachment"> | string
+  fileName?: Prisma.StringFilter<"Attachment"> | string
+  fileType?: Prisma.StringFilter<"Attachment"> | string
+  fileSize?: Prisma.IntFilter<"Attachment"> | number
+  isResume?: Prisma.BoolFilter<"Attachment"> | boolean
+  isPrivate?: Prisma.BoolFilter<"Attachment"> | boolean
+  aiAnalyzed?: Prisma.BoolFilter<"Attachment"> | boolean
+  aiSummary?: Prisma.StringNullableFilter<"Attachment"> | string | null
+  createdAt?: Prisma.DateTimeFilter<"Attachment"> | Date | string
 }
 
 export type AttachmentCreateWithoutMessageInput = {
@@ -446,7 +660,12 @@ export type AttachmentCreateWithoutMessageInput = {
   fileName: string
   fileType: string
   fileSize: number
+  isResume?: boolean
+  isPrivate?: boolean
+  aiAnalyzed?: boolean
+  aiSummary?: string | null
   createdAt?: Date | string
+  aichatMessages?: Prisma.AIChatMessageCreateNestedManyWithoutAttachmentsInput
 }
 
 export type AttachmentUncheckedCreateWithoutMessageInput = {
@@ -455,7 +674,12 @@ export type AttachmentUncheckedCreateWithoutMessageInput = {
   fileName: string
   fileType: string
   fileSize: number
+  isResume?: boolean
+  isPrivate?: boolean
+  aiAnalyzed?: boolean
+  aiSummary?: string | null
   createdAt?: Date | string
+  aichatMessages?: Prisma.AIChatMessageUncheckedCreateNestedManyWithoutAttachmentsInput
 }
 
 export type AttachmentCreateOrConnectWithoutMessageInput = {
@@ -463,15 +687,80 @@ export type AttachmentCreateOrConnectWithoutMessageInput = {
   create: Prisma.XOR<Prisma.AttachmentCreateWithoutMessageInput, Prisma.AttachmentUncheckedCreateWithoutMessageInput>
 }
 
-export type AttachmentUpsertWithoutMessageInput = {
-  update: Prisma.XOR<Prisma.AttachmentUpdateWithoutMessageInput, Prisma.AttachmentUncheckedUpdateWithoutMessageInput>
-  create: Prisma.XOR<Prisma.AttachmentCreateWithoutMessageInput, Prisma.AttachmentUncheckedCreateWithoutMessageInput>
-  where?: Prisma.AttachmentWhereInput
+export type AttachmentCreateManyMessageInputEnvelope = {
+  data: Prisma.AttachmentCreateManyMessageInput | Prisma.AttachmentCreateManyMessageInput[]
+  skipDuplicates?: boolean
 }
 
-export type AttachmentUpdateToOneWithWhereWithoutMessageInput = {
-  where?: Prisma.AttachmentWhereInput
+export type AttachmentUpsertWithWhereUniqueWithoutMessageInput = {
+  where: Prisma.AttachmentWhereUniqueInput
+  update: Prisma.XOR<Prisma.AttachmentUpdateWithoutMessageInput, Prisma.AttachmentUncheckedUpdateWithoutMessageInput>
+  create: Prisma.XOR<Prisma.AttachmentCreateWithoutMessageInput, Prisma.AttachmentUncheckedCreateWithoutMessageInput>
+}
+
+export type AttachmentUpdateWithWhereUniqueWithoutMessageInput = {
+  where: Prisma.AttachmentWhereUniqueInput
   data: Prisma.XOR<Prisma.AttachmentUpdateWithoutMessageInput, Prisma.AttachmentUncheckedUpdateWithoutMessageInput>
+}
+
+export type AttachmentUpdateManyWithWhereWithoutMessageInput = {
+  where: Prisma.AttachmentScalarWhereInput
+  data: Prisma.XOR<Prisma.AttachmentUpdateManyMutationInput, Prisma.AttachmentUncheckedUpdateManyWithoutMessageInput>
+}
+
+export type AttachmentUpdateWithoutAichatMessagesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  fileUrl?: Prisma.StringFieldUpdateOperationsInput | string
+  fileName?: Prisma.StringFieldUpdateOperationsInput | string
+  fileType?: Prisma.StringFieldUpdateOperationsInput | string
+  fileSize?: Prisma.IntFieldUpdateOperationsInput | number
+  isResume?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isPrivate?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  aiAnalyzed?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  aiSummary?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  message?: Prisma.MessageUpdateOneRequiredWithoutAttachmentsNestedInput
+}
+
+export type AttachmentUncheckedUpdateWithoutAichatMessagesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  messageId?: Prisma.StringFieldUpdateOperationsInput | string
+  fileUrl?: Prisma.StringFieldUpdateOperationsInput | string
+  fileName?: Prisma.StringFieldUpdateOperationsInput | string
+  fileType?: Prisma.StringFieldUpdateOperationsInput | string
+  fileSize?: Prisma.IntFieldUpdateOperationsInput | number
+  isResume?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isPrivate?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  aiAnalyzed?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  aiSummary?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+}
+
+export type AttachmentUncheckedUpdateManyWithoutAichatMessagesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  messageId?: Prisma.StringFieldUpdateOperationsInput | string
+  fileUrl?: Prisma.StringFieldUpdateOperationsInput | string
+  fileName?: Prisma.StringFieldUpdateOperationsInput | string
+  fileType?: Prisma.StringFieldUpdateOperationsInput | string
+  fileSize?: Prisma.IntFieldUpdateOperationsInput | number
+  isResume?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isPrivate?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  aiAnalyzed?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  aiSummary?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+}
+
+export type AttachmentCreateManyMessageInput = {
+  id?: string
+  fileUrl: string
+  fileName: string
+  fileType: string
+  fileSize: number
+  isResume?: boolean
+  isPrivate?: boolean
+  aiAnalyzed?: boolean
+  aiSummary?: string | null
+  createdAt?: Date | string
 }
 
 export type AttachmentUpdateWithoutMessageInput = {
@@ -480,7 +769,12 @@ export type AttachmentUpdateWithoutMessageInput = {
   fileName?: Prisma.StringFieldUpdateOperationsInput | string
   fileType?: Prisma.StringFieldUpdateOperationsInput | string
   fileSize?: Prisma.IntFieldUpdateOperationsInput | number
+  isResume?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isPrivate?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  aiAnalyzed?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  aiSummary?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  aichatMessages?: Prisma.AIChatMessageUpdateManyWithoutAttachmentsNestedInput
 }
 
 export type AttachmentUncheckedUpdateWithoutMessageInput = {
@@ -489,9 +783,56 @@ export type AttachmentUncheckedUpdateWithoutMessageInput = {
   fileName?: Prisma.StringFieldUpdateOperationsInput | string
   fileType?: Prisma.StringFieldUpdateOperationsInput | string
   fileSize?: Prisma.IntFieldUpdateOperationsInput | number
+  isResume?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isPrivate?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  aiAnalyzed?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  aiSummary?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  aichatMessages?: Prisma.AIChatMessageUncheckedUpdateManyWithoutAttachmentsNestedInput
+}
+
+export type AttachmentUncheckedUpdateManyWithoutMessageInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  fileUrl?: Prisma.StringFieldUpdateOperationsInput | string
+  fileName?: Prisma.StringFieldUpdateOperationsInput | string
+  fileType?: Prisma.StringFieldUpdateOperationsInput | string
+  fileSize?: Prisma.IntFieldUpdateOperationsInput | number
+  isResume?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isPrivate?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  aiAnalyzed?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  aiSummary?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
+
+/**
+ * Count Type AttachmentCountOutputType
+ */
+
+export type AttachmentCountOutputType = {
+  aichatMessages: number
+}
+
+export type AttachmentCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  aichatMessages?: boolean | AttachmentCountOutputTypeCountAichatMessagesArgs
+}
+
+/**
+ * AttachmentCountOutputType without action
+ */
+export type AttachmentCountOutputTypeDefaultArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the AttachmentCountOutputType
+   */
+  select?: Prisma.AttachmentCountOutputTypeSelect<ExtArgs> | null
+}
+
+/**
+ * AttachmentCountOutputType without action
+ */
+export type AttachmentCountOutputTypeCountAichatMessagesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.AIChatMessageWhereInput
+}
 
 
 export type AttachmentSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -501,8 +842,14 @@ export type AttachmentSelect<ExtArgs extends runtime.Types.Extensions.InternalAr
   fileName?: boolean
   fileType?: boolean
   fileSize?: boolean
+  isResume?: boolean
+  isPrivate?: boolean
+  aiAnalyzed?: boolean
+  aiSummary?: boolean
   createdAt?: boolean
   message?: boolean | Prisma.MessageDefaultArgs<ExtArgs>
+  aichatMessages?: boolean | Prisma.Attachment$aichatMessagesArgs<ExtArgs>
+  _count?: boolean | Prisma.AttachmentCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["attachment"]>
 
 export type AttachmentSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -512,6 +859,10 @@ export type AttachmentSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Ex
   fileName?: boolean
   fileType?: boolean
   fileSize?: boolean
+  isResume?: boolean
+  isPrivate?: boolean
+  aiAnalyzed?: boolean
+  aiSummary?: boolean
   createdAt?: boolean
   message?: boolean | Prisma.MessageDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["attachment"]>
@@ -523,6 +874,10 @@ export type AttachmentSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Ex
   fileName?: boolean
   fileType?: boolean
   fileSize?: boolean
+  isResume?: boolean
+  isPrivate?: boolean
+  aiAnalyzed?: boolean
+  aiSummary?: boolean
   createdAt?: boolean
   message?: boolean | Prisma.MessageDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["attachment"]>
@@ -534,12 +889,18 @@ export type AttachmentSelectScalar = {
   fileName?: boolean
   fileType?: boolean
   fileSize?: boolean
+  isResume?: boolean
+  isPrivate?: boolean
+  aiAnalyzed?: boolean
+  aiSummary?: boolean
   createdAt?: boolean
 }
 
-export type AttachmentOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "messageId" | "fileUrl" | "fileName" | "fileType" | "fileSize" | "createdAt", ExtArgs["result"]["attachment"]>
+export type AttachmentOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "messageId" | "fileUrl" | "fileName" | "fileType" | "fileSize" | "isResume" | "isPrivate" | "aiAnalyzed" | "aiSummary" | "createdAt", ExtArgs["result"]["attachment"]>
 export type AttachmentInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   message?: boolean | Prisma.MessageDefaultArgs<ExtArgs>
+  aichatMessages?: boolean | Prisma.Attachment$aichatMessagesArgs<ExtArgs>
+  _count?: boolean | Prisma.AttachmentCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type AttachmentIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   message?: boolean | Prisma.MessageDefaultArgs<ExtArgs>
@@ -552,6 +913,7 @@ export type $AttachmentPayload<ExtArgs extends runtime.Types.Extensions.Internal
   name: "Attachment"
   objects: {
     message: Prisma.$MessagePayload<ExtArgs>
+    aichatMessages: Prisma.$AIChatMessagePayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -560,6 +922,10 @@ export type $AttachmentPayload<ExtArgs extends runtime.Types.Extensions.Internal
     fileName: string
     fileType: string
     fileSize: number
+    isResume: boolean
+    isPrivate: boolean
+    aiAnalyzed: boolean
+    aiSummary: string | null
     createdAt: Date
   }, ExtArgs["result"]["attachment"]>
   composites: {}
@@ -956,6 +1322,7 @@ readonly fields: AttachmentFieldRefs;
 export interface Prisma__AttachmentClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
   message<T extends Prisma.MessageDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.MessageDefaultArgs<ExtArgs>>): Prisma.Prisma__MessageClient<runtime.Types.Result.GetResult<Prisma.$MessagePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+  aichatMessages<T extends Prisma.Attachment$aichatMessagesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Attachment$aichatMessagesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$AIChatMessagePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -991,6 +1358,10 @@ export interface AttachmentFieldRefs {
   readonly fileName: Prisma.FieldRef<"Attachment", 'String'>
   readonly fileType: Prisma.FieldRef<"Attachment", 'String'>
   readonly fileSize: Prisma.FieldRef<"Attachment", 'Int'>
+  readonly isResume: Prisma.FieldRef<"Attachment", 'Boolean'>
+  readonly isPrivate: Prisma.FieldRef<"Attachment", 'Boolean'>
+  readonly aiAnalyzed: Prisma.FieldRef<"Attachment", 'Boolean'>
+  readonly aiSummary: Prisma.FieldRef<"Attachment", 'String'>
   readonly createdAt: Prisma.FieldRef<"Attachment", 'DateTime'>
 }
     
@@ -1390,6 +1761,30 @@ export type AttachmentDeleteManyArgs<ExtArgs extends runtime.Types.Extensions.In
    * Limit how many Attachments to delete.
    */
   limit?: number
+}
+
+/**
+ * Attachment.aichatMessages
+ */
+export type Attachment$aichatMessagesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the AIChatMessage
+   */
+  select?: Prisma.AIChatMessageSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the AIChatMessage
+   */
+  omit?: Prisma.AIChatMessageOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.AIChatMessageInclude<ExtArgs> | null
+  where?: Prisma.AIChatMessageWhereInput
+  orderBy?: Prisma.AIChatMessageOrderByWithRelationInput | Prisma.AIChatMessageOrderByWithRelationInput[]
+  cursor?: Prisma.AIChatMessageWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.AIChatMessageScalarFieldEnum | Prisma.AIChatMessageScalarFieldEnum[]
 }
 
 /**

@@ -29,6 +29,7 @@ export type TypingStateMinAggregateOutputType = {
   roomId: string | null
   userId: string | null
   isTyping: boolean | null
+  isAI: boolean | null
   updatedAt: Date | null
 }
 
@@ -37,6 +38,7 @@ export type TypingStateMaxAggregateOutputType = {
   roomId: string | null
   userId: string | null
   isTyping: boolean | null
+  isAI: boolean | null
   updatedAt: Date | null
 }
 
@@ -45,6 +47,7 @@ export type TypingStateCountAggregateOutputType = {
   roomId: number
   userId: number
   isTyping: number
+  isAI: number
   updatedAt: number
   _all: number
 }
@@ -55,6 +58,7 @@ export type TypingStateMinAggregateInputType = {
   roomId?: true
   userId?: true
   isTyping?: true
+  isAI?: true
   updatedAt?: true
 }
 
@@ -63,6 +67,7 @@ export type TypingStateMaxAggregateInputType = {
   roomId?: true
   userId?: true
   isTyping?: true
+  isAI?: true
   updatedAt?: true
 }
 
@@ -71,6 +76,7 @@ export type TypingStateCountAggregateInputType = {
   roomId?: true
   userId?: true
   isTyping?: true
+  isAI?: true
   updatedAt?: true
   _all?: true
 }
@@ -152,13 +158,14 @@ export type TypingStateGroupByOutputType = {
   roomId: string
   userId: string
   isTyping: boolean
+  isAI: boolean
   updatedAt: Date
   _count: TypingStateCountAggregateOutputType | null
   _min: TypingStateMinAggregateOutputType | null
   _max: TypingStateMaxAggregateOutputType | null
 }
 
-type GetTypingStateGroupByPayload<T extends TypingStateGroupByArgs> = Prisma.PrismaPromise<
+export type GetTypingStateGroupByPayload<T extends TypingStateGroupByArgs> = Prisma.PrismaPromise<
   Array<
     Prisma.PickEnumerable<TypingStateGroupByOutputType, T['by']> &
       {
@@ -181,7 +188,9 @@ export type TypingStateWhereInput = {
   roomId?: Prisma.StringFilter<"TypingState"> | string
   userId?: Prisma.StringFilter<"TypingState"> | string
   isTyping?: Prisma.BoolFilter<"TypingState"> | boolean
+  isAI?: Prisma.BoolFilter<"TypingState"> | boolean
   updatedAt?: Prisma.DateTimeFilter<"TypingState"> | Date | string
+  room?: Prisma.XOR<Prisma.ChatRoomScalarRelationFilter, Prisma.ChatRoomWhereInput>
 }
 
 export type TypingStateOrderByWithRelationInput = {
@@ -189,7 +198,9 @@ export type TypingStateOrderByWithRelationInput = {
   roomId?: Prisma.SortOrder
   userId?: Prisma.SortOrder
   isTyping?: Prisma.SortOrder
+  isAI?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  room?: Prisma.ChatRoomOrderByWithRelationInput
 }
 
 export type TypingStateWhereUniqueInput = Prisma.AtLeast<{
@@ -201,7 +212,9 @@ export type TypingStateWhereUniqueInput = Prisma.AtLeast<{
   roomId?: Prisma.StringFilter<"TypingState"> | string
   userId?: Prisma.StringFilter<"TypingState"> | string
   isTyping?: Prisma.BoolFilter<"TypingState"> | boolean
+  isAI?: Prisma.BoolFilter<"TypingState"> | boolean
   updatedAt?: Prisma.DateTimeFilter<"TypingState"> | Date | string
+  room?: Prisma.XOR<Prisma.ChatRoomScalarRelationFilter, Prisma.ChatRoomWhereInput>
 }, "id" | "roomId_userId">
 
 export type TypingStateOrderByWithAggregationInput = {
@@ -209,6 +222,7 @@ export type TypingStateOrderByWithAggregationInput = {
   roomId?: Prisma.SortOrder
   userId?: Prisma.SortOrder
   isTyping?: Prisma.SortOrder
+  isAI?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   _count?: Prisma.TypingStateCountOrderByAggregateInput
   _max?: Prisma.TypingStateMaxOrderByAggregateInput
@@ -223,15 +237,17 @@ export type TypingStateScalarWhereWithAggregatesInput = {
   roomId?: Prisma.StringWithAggregatesFilter<"TypingState"> | string
   userId?: Prisma.StringWithAggregatesFilter<"TypingState"> | string
   isTyping?: Prisma.BoolWithAggregatesFilter<"TypingState"> | boolean
+  isAI?: Prisma.BoolWithAggregatesFilter<"TypingState"> | boolean
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"TypingState"> | Date | string
 }
 
 export type TypingStateCreateInput = {
   id?: string
-  roomId: string
   userId: string
   isTyping?: boolean
+  isAI?: boolean
   updatedAt?: Date | string
+  room: Prisma.ChatRoomCreateNestedOneWithoutTypingStatesInput
 }
 
 export type TypingStateUncheckedCreateInput = {
@@ -239,15 +255,17 @@ export type TypingStateUncheckedCreateInput = {
   roomId: string
   userId: string
   isTyping?: boolean
+  isAI?: boolean
   updatedAt?: Date | string
 }
 
 export type TypingStateUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  roomId?: Prisma.StringFieldUpdateOperationsInput | string
   userId?: Prisma.StringFieldUpdateOperationsInput | string
   isTyping?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isAI?: Prisma.BoolFieldUpdateOperationsInput | boolean
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  room?: Prisma.ChatRoomUpdateOneRequiredWithoutTypingStatesNestedInput
 }
 
 export type TypingStateUncheckedUpdateInput = {
@@ -255,6 +273,7 @@ export type TypingStateUncheckedUpdateInput = {
   roomId?: Prisma.StringFieldUpdateOperationsInput | string
   userId?: Prisma.StringFieldUpdateOperationsInput | string
   isTyping?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isAI?: Prisma.BoolFieldUpdateOperationsInput | boolean
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
@@ -263,14 +282,15 @@ export type TypingStateCreateManyInput = {
   roomId: string
   userId: string
   isTyping?: boolean
+  isAI?: boolean
   updatedAt?: Date | string
 }
 
 export type TypingStateUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  roomId?: Prisma.StringFieldUpdateOperationsInput | string
   userId?: Prisma.StringFieldUpdateOperationsInput | string
   isTyping?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isAI?: Prisma.BoolFieldUpdateOperationsInput | boolean
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
@@ -279,7 +299,18 @@ export type TypingStateUncheckedUpdateManyInput = {
   roomId?: Prisma.StringFieldUpdateOperationsInput | string
   userId?: Prisma.StringFieldUpdateOperationsInput | string
   isTyping?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isAI?: Prisma.BoolFieldUpdateOperationsInput | boolean
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+}
+
+export type TypingStateListRelationFilter = {
+  every?: Prisma.TypingStateWhereInput
+  some?: Prisma.TypingStateWhereInput
+  none?: Prisma.TypingStateWhereInput
+}
+
+export type TypingStateOrderByRelationAggregateInput = {
+  _count?: Prisma.SortOrder
 }
 
 export type TypingStateRoomIdUserIdCompoundUniqueInput = {
@@ -292,6 +323,7 @@ export type TypingStateCountOrderByAggregateInput = {
   roomId?: Prisma.SortOrder
   userId?: Prisma.SortOrder
   isTyping?: Prisma.SortOrder
+  isAI?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
 
@@ -300,6 +332,7 @@ export type TypingStateMaxOrderByAggregateInput = {
   roomId?: Prisma.SortOrder
   userId?: Prisma.SortOrder
   isTyping?: Prisma.SortOrder
+  isAI?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
 
@@ -308,7 +341,136 @@ export type TypingStateMinOrderByAggregateInput = {
   roomId?: Prisma.SortOrder
   userId?: Prisma.SortOrder
   isTyping?: Prisma.SortOrder
+  isAI?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+}
+
+export type TypingStateCreateNestedManyWithoutRoomInput = {
+  create?: Prisma.XOR<Prisma.TypingStateCreateWithoutRoomInput, Prisma.TypingStateUncheckedCreateWithoutRoomInput> | Prisma.TypingStateCreateWithoutRoomInput[] | Prisma.TypingStateUncheckedCreateWithoutRoomInput[]
+  connectOrCreate?: Prisma.TypingStateCreateOrConnectWithoutRoomInput | Prisma.TypingStateCreateOrConnectWithoutRoomInput[]
+  createMany?: Prisma.TypingStateCreateManyRoomInputEnvelope
+  connect?: Prisma.TypingStateWhereUniqueInput | Prisma.TypingStateWhereUniqueInput[]
+}
+
+export type TypingStateUncheckedCreateNestedManyWithoutRoomInput = {
+  create?: Prisma.XOR<Prisma.TypingStateCreateWithoutRoomInput, Prisma.TypingStateUncheckedCreateWithoutRoomInput> | Prisma.TypingStateCreateWithoutRoomInput[] | Prisma.TypingStateUncheckedCreateWithoutRoomInput[]
+  connectOrCreate?: Prisma.TypingStateCreateOrConnectWithoutRoomInput | Prisma.TypingStateCreateOrConnectWithoutRoomInput[]
+  createMany?: Prisma.TypingStateCreateManyRoomInputEnvelope
+  connect?: Prisma.TypingStateWhereUniqueInput | Prisma.TypingStateWhereUniqueInput[]
+}
+
+export type TypingStateUpdateManyWithoutRoomNestedInput = {
+  create?: Prisma.XOR<Prisma.TypingStateCreateWithoutRoomInput, Prisma.TypingStateUncheckedCreateWithoutRoomInput> | Prisma.TypingStateCreateWithoutRoomInput[] | Prisma.TypingStateUncheckedCreateWithoutRoomInput[]
+  connectOrCreate?: Prisma.TypingStateCreateOrConnectWithoutRoomInput | Prisma.TypingStateCreateOrConnectWithoutRoomInput[]
+  upsert?: Prisma.TypingStateUpsertWithWhereUniqueWithoutRoomInput | Prisma.TypingStateUpsertWithWhereUniqueWithoutRoomInput[]
+  createMany?: Prisma.TypingStateCreateManyRoomInputEnvelope
+  set?: Prisma.TypingStateWhereUniqueInput | Prisma.TypingStateWhereUniqueInput[]
+  disconnect?: Prisma.TypingStateWhereUniqueInput | Prisma.TypingStateWhereUniqueInput[]
+  delete?: Prisma.TypingStateWhereUniqueInput | Prisma.TypingStateWhereUniqueInput[]
+  connect?: Prisma.TypingStateWhereUniqueInput | Prisma.TypingStateWhereUniqueInput[]
+  update?: Prisma.TypingStateUpdateWithWhereUniqueWithoutRoomInput | Prisma.TypingStateUpdateWithWhereUniqueWithoutRoomInput[]
+  updateMany?: Prisma.TypingStateUpdateManyWithWhereWithoutRoomInput | Prisma.TypingStateUpdateManyWithWhereWithoutRoomInput[]
+  deleteMany?: Prisma.TypingStateScalarWhereInput | Prisma.TypingStateScalarWhereInput[]
+}
+
+export type TypingStateUncheckedUpdateManyWithoutRoomNestedInput = {
+  create?: Prisma.XOR<Prisma.TypingStateCreateWithoutRoomInput, Prisma.TypingStateUncheckedCreateWithoutRoomInput> | Prisma.TypingStateCreateWithoutRoomInput[] | Prisma.TypingStateUncheckedCreateWithoutRoomInput[]
+  connectOrCreate?: Prisma.TypingStateCreateOrConnectWithoutRoomInput | Prisma.TypingStateCreateOrConnectWithoutRoomInput[]
+  upsert?: Prisma.TypingStateUpsertWithWhereUniqueWithoutRoomInput | Prisma.TypingStateUpsertWithWhereUniqueWithoutRoomInput[]
+  createMany?: Prisma.TypingStateCreateManyRoomInputEnvelope
+  set?: Prisma.TypingStateWhereUniqueInput | Prisma.TypingStateWhereUniqueInput[]
+  disconnect?: Prisma.TypingStateWhereUniqueInput | Prisma.TypingStateWhereUniqueInput[]
+  delete?: Prisma.TypingStateWhereUniqueInput | Prisma.TypingStateWhereUniqueInput[]
+  connect?: Prisma.TypingStateWhereUniqueInput | Prisma.TypingStateWhereUniqueInput[]
+  update?: Prisma.TypingStateUpdateWithWhereUniqueWithoutRoomInput | Prisma.TypingStateUpdateWithWhereUniqueWithoutRoomInput[]
+  updateMany?: Prisma.TypingStateUpdateManyWithWhereWithoutRoomInput | Prisma.TypingStateUpdateManyWithWhereWithoutRoomInput[]
+  deleteMany?: Prisma.TypingStateScalarWhereInput | Prisma.TypingStateScalarWhereInput[]
+}
+
+export type TypingStateCreateWithoutRoomInput = {
+  id?: string
+  userId: string
+  isTyping?: boolean
+  isAI?: boolean
+  updatedAt?: Date | string
+}
+
+export type TypingStateUncheckedCreateWithoutRoomInput = {
+  id?: string
+  userId: string
+  isTyping?: boolean
+  isAI?: boolean
+  updatedAt?: Date | string
+}
+
+export type TypingStateCreateOrConnectWithoutRoomInput = {
+  where: Prisma.TypingStateWhereUniqueInput
+  create: Prisma.XOR<Prisma.TypingStateCreateWithoutRoomInput, Prisma.TypingStateUncheckedCreateWithoutRoomInput>
+}
+
+export type TypingStateCreateManyRoomInputEnvelope = {
+  data: Prisma.TypingStateCreateManyRoomInput | Prisma.TypingStateCreateManyRoomInput[]
+  skipDuplicates?: boolean
+}
+
+export type TypingStateUpsertWithWhereUniqueWithoutRoomInput = {
+  where: Prisma.TypingStateWhereUniqueInput
+  update: Prisma.XOR<Prisma.TypingStateUpdateWithoutRoomInput, Prisma.TypingStateUncheckedUpdateWithoutRoomInput>
+  create: Prisma.XOR<Prisma.TypingStateCreateWithoutRoomInput, Prisma.TypingStateUncheckedCreateWithoutRoomInput>
+}
+
+export type TypingStateUpdateWithWhereUniqueWithoutRoomInput = {
+  where: Prisma.TypingStateWhereUniqueInput
+  data: Prisma.XOR<Prisma.TypingStateUpdateWithoutRoomInput, Prisma.TypingStateUncheckedUpdateWithoutRoomInput>
+}
+
+export type TypingStateUpdateManyWithWhereWithoutRoomInput = {
+  where: Prisma.TypingStateScalarWhereInput
+  data: Prisma.XOR<Prisma.TypingStateUpdateManyMutationInput, Prisma.TypingStateUncheckedUpdateManyWithoutRoomInput>
+}
+
+export type TypingStateScalarWhereInput = {
+  AND?: Prisma.TypingStateScalarWhereInput | Prisma.TypingStateScalarWhereInput[]
+  OR?: Prisma.TypingStateScalarWhereInput[]
+  NOT?: Prisma.TypingStateScalarWhereInput | Prisma.TypingStateScalarWhereInput[]
+  id?: Prisma.StringFilter<"TypingState"> | string
+  roomId?: Prisma.StringFilter<"TypingState"> | string
+  userId?: Prisma.StringFilter<"TypingState"> | string
+  isTyping?: Prisma.BoolFilter<"TypingState"> | boolean
+  isAI?: Prisma.BoolFilter<"TypingState"> | boolean
+  updatedAt?: Prisma.DateTimeFilter<"TypingState"> | Date | string
+}
+
+export type TypingStateCreateManyRoomInput = {
+  id?: string
+  userId: string
+  isTyping?: boolean
+  isAI?: boolean
+  updatedAt?: Date | string
+}
+
+export type TypingStateUpdateWithoutRoomInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  userId?: Prisma.StringFieldUpdateOperationsInput | string
+  isTyping?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isAI?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+}
+
+export type TypingStateUncheckedUpdateWithoutRoomInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  userId?: Prisma.StringFieldUpdateOperationsInput | string
+  isTyping?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isAI?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+}
+
+export type TypingStateUncheckedUpdateManyWithoutRoomInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  userId?: Prisma.StringFieldUpdateOperationsInput | string
+  isTyping?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isAI?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 
@@ -318,7 +480,9 @@ export type TypingStateSelect<ExtArgs extends runtime.Types.Extensions.InternalA
   roomId?: boolean
   userId?: boolean
   isTyping?: boolean
+  isAI?: boolean
   updatedAt?: boolean
+  room?: boolean | Prisma.ChatRoomDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["typingState"]>
 
 export type TypingStateSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -326,7 +490,9 @@ export type TypingStateSelectCreateManyAndReturn<ExtArgs extends runtime.Types.E
   roomId?: boolean
   userId?: boolean
   isTyping?: boolean
+  isAI?: boolean
   updatedAt?: boolean
+  room?: boolean | Prisma.ChatRoomDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["typingState"]>
 
 export type TypingStateSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -334,7 +500,9 @@ export type TypingStateSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.E
   roomId?: boolean
   userId?: boolean
   isTyping?: boolean
+  isAI?: boolean
   updatedAt?: boolean
+  room?: boolean | Prisma.ChatRoomDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["typingState"]>
 
 export type TypingStateSelectScalar = {
@@ -342,19 +510,32 @@ export type TypingStateSelectScalar = {
   roomId?: boolean
   userId?: boolean
   isTyping?: boolean
+  isAI?: boolean
   updatedAt?: boolean
 }
 
-export type TypingStateOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "roomId" | "userId" | "isTyping" | "updatedAt", ExtArgs["result"]["typingState"]>
+export type TypingStateOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "roomId" | "userId" | "isTyping" | "isAI" | "updatedAt", ExtArgs["result"]["typingState"]>
+export type TypingStateInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  room?: boolean | Prisma.ChatRoomDefaultArgs<ExtArgs>
+}
+export type TypingStateIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  room?: boolean | Prisma.ChatRoomDefaultArgs<ExtArgs>
+}
+export type TypingStateIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  room?: boolean | Prisma.ChatRoomDefaultArgs<ExtArgs>
+}
 
 export type $TypingStatePayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "TypingState"
-  objects: {}
+  objects: {
+    room: Prisma.$ChatRoomPayload<ExtArgs>
+  }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
     roomId: string
     userId: string
     isTyping: boolean
+    isAI: boolean
     updatedAt: Date
   }, ExtArgs["result"]["typingState"]>
   composites: {}
@@ -750,6 +931,7 @@ readonly fields: TypingStateFieldRefs;
  */
 export interface Prisma__TypingStateClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
+  room<T extends Prisma.ChatRoomDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.ChatRoomDefaultArgs<ExtArgs>>): Prisma.Prisma__ChatRoomClient<runtime.Types.Result.GetResult<Prisma.$ChatRoomPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -783,6 +965,7 @@ export interface TypingStateFieldRefs {
   readonly roomId: Prisma.FieldRef<"TypingState", 'String'>
   readonly userId: Prisma.FieldRef<"TypingState", 'String'>
   readonly isTyping: Prisma.FieldRef<"TypingState", 'Boolean'>
+  readonly isAI: Prisma.FieldRef<"TypingState", 'Boolean'>
   readonly updatedAt: Prisma.FieldRef<"TypingState", 'DateTime'>
 }
     
@@ -800,6 +983,10 @@ export type TypingStateFindUniqueArgs<ExtArgs extends runtime.Types.Extensions.I
    * Omit specific fields from the TypingState
    */
   omit?: Prisma.TypingStateOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.TypingStateInclude<ExtArgs> | null
   /**
    * Filter, which TypingState to fetch.
    */
@@ -819,6 +1006,10 @@ export type TypingStateFindUniqueOrThrowArgs<ExtArgs extends runtime.Types.Exten
    */
   omit?: Prisma.TypingStateOmit<ExtArgs> | null
   /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.TypingStateInclude<ExtArgs> | null
+  /**
    * Filter, which TypingState to fetch.
    */
   where: Prisma.TypingStateWhereUniqueInput
@@ -836,6 +1027,10 @@ export type TypingStateFindFirstArgs<ExtArgs extends runtime.Types.Extensions.In
    * Omit specific fields from the TypingState
    */
   omit?: Prisma.TypingStateOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.TypingStateInclude<ExtArgs> | null
   /**
    * Filter, which TypingState to fetch.
    */
@@ -885,6 +1080,10 @@ export type TypingStateFindFirstOrThrowArgs<ExtArgs extends runtime.Types.Extens
    */
   omit?: Prisma.TypingStateOmit<ExtArgs> | null
   /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.TypingStateInclude<ExtArgs> | null
+  /**
    * Filter, which TypingState to fetch.
    */
   where?: Prisma.TypingStateWhereInput
@@ -932,6 +1131,10 @@ export type TypingStateFindManyArgs<ExtArgs extends runtime.Types.Extensions.Int
    * Omit specific fields from the TypingState
    */
   omit?: Prisma.TypingStateOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.TypingStateInclude<ExtArgs> | null
   /**
    * Filter, which TypingStates to fetch.
    */
@@ -981,6 +1184,10 @@ export type TypingStateCreateArgs<ExtArgs extends runtime.Types.Extensions.Inter
    */
   omit?: Prisma.TypingStateOmit<ExtArgs> | null
   /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.TypingStateInclude<ExtArgs> | null
+  /**
    * The data needed to create a TypingState.
    */
   data: Prisma.XOR<Prisma.TypingStateCreateInput, Prisma.TypingStateUncheckedCreateInput>
@@ -1014,6 +1221,10 @@ export type TypingStateCreateManyAndReturnArgs<ExtArgs extends runtime.Types.Ext
    */
   data: Prisma.TypingStateCreateManyInput | Prisma.TypingStateCreateManyInput[]
   skipDuplicates?: boolean
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.TypingStateIncludeCreateManyAndReturn<ExtArgs> | null
 }
 
 /**
@@ -1028,6 +1239,10 @@ export type TypingStateUpdateArgs<ExtArgs extends runtime.Types.Extensions.Inter
    * Omit specific fields from the TypingState
    */
   omit?: Prisma.TypingStateOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.TypingStateInclude<ExtArgs> | null
   /**
    * The data needed to update a TypingState.
    */
@@ -1080,6 +1295,10 @@ export type TypingStateUpdateManyAndReturnArgs<ExtArgs extends runtime.Types.Ext
    * Limit how many TypingStates to update.
    */
   limit?: number
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.TypingStateIncludeUpdateManyAndReturn<ExtArgs> | null
 }
 
 /**
@@ -1094,6 +1313,10 @@ export type TypingStateUpsertArgs<ExtArgs extends runtime.Types.Extensions.Inter
    * Omit specific fields from the TypingState
    */
   omit?: Prisma.TypingStateOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.TypingStateInclude<ExtArgs> | null
   /**
    * The filter to search for the TypingState to update in case it exists.
    */
@@ -1120,6 +1343,10 @@ export type TypingStateDeleteArgs<ExtArgs extends runtime.Types.Extensions.Inter
    * Omit specific fields from the TypingState
    */
   omit?: Prisma.TypingStateOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.TypingStateInclude<ExtArgs> | null
   /**
    * Filter which TypingState to delete.
    */
@@ -1152,4 +1379,8 @@ export type TypingStateDefaultArgs<ExtArgs extends runtime.Types.Extensions.Inte
    * Omit specific fields from the TypingState
    */
   omit?: Prisma.TypingStateOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.TypingStateInclude<ExtArgs> | null
 }

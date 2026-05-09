@@ -1,0 +1,44 @@
+{
+  "testimonials": [
+    {
+      "id": "t1",
+      "userId": "c1",
+      "userRole": "CANDIDATE",
+      "content": "This platform helped me land my dream job! The process was smooth and the recruiters were very responsive.",
+      "rating": 5,
+      "meta": "Frontend Developer, TechNova Solutions",
+      "createdAt": "2026-05-08T10:00:00.000Z",
+      "updatedAt": "2026-05-08T10:00:00.000Z"
+    },
+    {
+      "id": "t2",
+      "userId": "r1",
+      "userRole": "RECRUITER",
+      "content": "Excellent pool of candidates and easy-to-use tools for managing applications.",
+      "rating": 4,
+      "meta": "Lead Talent Partner, TechNova Solutions",
+      "createdAt": "2026-05-08T10:05:00.000Z",
+      "updatedAt": "2026-05-08T10:05:00.000Z"
+    },
+    {
+      "id": "t3",
+      "userId": "c2",
+      "userRole": "CANDIDATE",
+      "content": "I appreciated the personalized job recommendations and the support from the team.",
+      "rating": 5,
+      "meta": "Marketing Analyst, MarketGenius LLC",
+      "createdAt": "2026-05-08T10:10:00.000Z",
+      "updatedAt": "2026-05-08T10:10:00.000Z"
+    },
+    {
+      "id": "t4",
+      "userId": "r2",
+      "userRole": "RECRUITER",
+      "content": "The AI-powered screening saved us hours every week. Highly recommended!",
+      "rating": 5,
+      "meta": "Senior Recruiter, MarketGenius LLC",
+      "createdAt": "2026-05-08T10:15:00.000Z",
+      "updatedAt": "2026-05-08T10:15:00.000Z"
+    }
+  ]
+}

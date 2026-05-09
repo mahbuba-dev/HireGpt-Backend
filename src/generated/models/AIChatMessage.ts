@@ -20,20 +20,8 @@ export type AIChatMessageModel = runtime.Types.Result.DefaultSelection<Prisma.$A
 
 export type AggregateAIChatMessage = {
   _count: AIChatMessageCountAggregateOutputType | null
-  _avg: AIChatMessageAvgAggregateOutputType | null
-  _sum: AIChatMessageSumAggregateOutputType | null
   _min: AIChatMessageMinAggregateOutputType | null
   _max: AIChatMessageMaxAggregateOutputType | null
-}
-
-export type AIChatMessageAvgAggregateOutputType = {
-  tokensUsed: number | null
-  latencyMs: number | null
-}
-
-export type AIChatMessageSumAggregateOutputType = {
-  tokensUsed: number | null
-  latencyMs: number | null
 }
 
 export type AIChatMessageMinAggregateOutputType = {
@@ -41,11 +29,8 @@ export type AIChatMessageMinAggregateOutputType = {
   conversationId: string | null
   role: $Enums.AIChatMessageRole | null
   content: string | null
-  model: string | null
-  provider: string | null
-  tokensUsed: number | null
-  latencyMs: number | null
-  feedback: $Enums.AIMessageFeedback | null
+  isVoice: boolean | null
+  audioUrl: string | null
   createdAt: Date | null
 }
 
@@ -54,11 +39,8 @@ export type AIChatMessageMaxAggregateOutputType = {
   conversationId: string | null
   role: $Enums.AIChatMessageRole | null
   content: string | null
-  model: string | null
-  provider: string | null
-  tokensUsed: number | null
-  latencyMs: number | null
-  feedback: $Enums.AIMessageFeedback | null
+  isVoice: boolean | null
+  audioUrl: string | null
   createdAt: Date | null
 }
 
@@ -67,36 +49,20 @@ export type AIChatMessageCountAggregateOutputType = {
   conversationId: number
   role: number
   content: number
-  model: number
-  provider: number
-  tokensUsed: number
-  latencyMs: number
-  feedback: number
+  isVoice: number
+  audioUrl: number
   createdAt: number
   _all: number
 }
 
-
-export type AIChatMessageAvgAggregateInputType = {
-  tokensUsed?: true
-  latencyMs?: true
-}
-
-export type AIChatMessageSumAggregateInputType = {
-  tokensUsed?: true
-  latencyMs?: true
-}
 
 export type AIChatMessageMinAggregateInputType = {
   id?: true
   conversationId?: true
   role?: true
   content?: true
-  model?: true
-  provider?: true
-  tokensUsed?: true
-  latencyMs?: true
-  feedback?: true
+  isVoice?: true
+  audioUrl?: true
   createdAt?: true
 }
 
@@ -105,11 +71,8 @@ export type AIChatMessageMaxAggregateInputType = {
   conversationId?: true
   role?: true
   content?: true
-  model?: true
-  provider?: true
-  tokensUsed?: true
-  latencyMs?: true
-  feedback?: true
+  isVoice?: true
+  audioUrl?: true
   createdAt?: true
 }
 
@@ -118,11 +81,8 @@ export type AIChatMessageCountAggregateInputType = {
   conversationId?: true
   role?: true
   content?: true
-  model?: true
-  provider?: true
-  tokensUsed?: true
-  latencyMs?: true
-  feedback?: true
+  isVoice?: true
+  audioUrl?: true
   createdAt?: true
   _all?: true
 }
@@ -165,18 +125,6 @@ export type AIChatMessageAggregateArgs<ExtArgs extends runtime.Types.Extensions.
   /**
    * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
    * 
-   * Select which fields to average
-  **/
-  _avg?: AIChatMessageAvgAggregateInputType
-  /**
-   * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-   * 
-   * Select which fields to sum
-  **/
-  _sum?: AIChatMessageSumAggregateInputType
-  /**
-   * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-   * 
    * Select which fields to find the minimum value
   **/
   _min?: AIChatMessageMinAggregateInputType
@@ -207,8 +155,6 @@ export type AIChatMessageGroupByArgs<ExtArgs extends runtime.Types.Extensions.In
   take?: number
   skip?: number
   _count?: AIChatMessageCountAggregateInputType | true
-  _avg?: AIChatMessageAvgAggregateInputType
-  _sum?: AIChatMessageSumAggregateInputType
   _min?: AIChatMessageMinAggregateInputType
   _max?: AIChatMessageMaxAggregateInputType
 }
@@ -218,20 +164,15 @@ export type AIChatMessageGroupByOutputType = {
   conversationId: string
   role: $Enums.AIChatMessageRole
   content: string
-  model: string | null
-  provider: string | null
-  tokensUsed: number | null
-  latencyMs: number | null
-  feedback: $Enums.AIMessageFeedback | null
+  isVoice: boolean
+  audioUrl: string | null
   createdAt: Date
   _count: AIChatMessageCountAggregateOutputType | null
-  _avg: AIChatMessageAvgAggregateOutputType | null
-  _sum: AIChatMessageSumAggregateOutputType | null
   _min: AIChatMessageMinAggregateOutputType | null
   _max: AIChatMessageMaxAggregateOutputType | null
 }
 
-type GetAIChatMessageGroupByPayload<T extends AIChatMessageGroupByArgs> = Prisma.PrismaPromise<
+export type GetAIChatMessageGroupByPayload<T extends AIChatMessageGroupByArgs> = Prisma.PrismaPromise<
   Array<
     Prisma.PickEnumerable<AIChatMessageGroupByOutputType, T['by']> &
       {
@@ -250,17 +191,15 @@ export type AIChatMessageWhereInput = {
   AND?: Prisma.AIChatMessageWhereInput | Prisma.AIChatMessageWhereInput[]
   OR?: Prisma.AIChatMessageWhereInput[]
   NOT?: Prisma.AIChatMessageWhereInput | Prisma.AIChatMessageWhereInput[]
-  id?: Prisma.UuidFilter<"AIChatMessage"> | string
-  conversationId?: Prisma.UuidFilter<"AIChatMessage"> | string
+  id?: Prisma.StringFilter<"AIChatMessage"> | string
+  conversationId?: Prisma.StringFilter<"AIChatMessage"> | string
   role?: Prisma.EnumAIChatMessageRoleFilter<"AIChatMessage"> | $Enums.AIChatMessageRole
   content?: Prisma.StringFilter<"AIChatMessage"> | string
-  model?: Prisma.StringNullableFilter<"AIChatMessage"> | string | null
-  provider?: Prisma.StringNullableFilter<"AIChatMessage"> | string | null
-  tokensUsed?: Prisma.IntNullableFilter<"AIChatMessage"> | number | null
-  latencyMs?: Prisma.IntNullableFilter<"AIChatMessage"> | number | null
-  feedback?: Prisma.EnumAIMessageFeedbackNullableFilter<"AIChatMessage"> | $Enums.AIMessageFeedback | null
+  isVoice?: Prisma.BoolFilter<"AIChatMessage"> | boolean
+  audioUrl?: Prisma.StringNullableFilter<"AIChatMessage"> | string | null
   createdAt?: Prisma.DateTimeFilter<"AIChatMessage"> | Date | string
   conversation?: Prisma.XOR<Prisma.AIConversationScalarRelationFilter, Prisma.AIConversationWhereInput>
+  attachments?: Prisma.AttachmentListRelationFilter
 }
 
 export type AIChatMessageOrderByWithRelationInput = {
@@ -268,13 +207,11 @@ export type AIChatMessageOrderByWithRelationInput = {
   conversationId?: Prisma.SortOrder
   role?: Prisma.SortOrder
   content?: Prisma.SortOrder
-  model?: Prisma.SortOrderInput | Prisma.SortOrder
-  provider?: Prisma.SortOrderInput | Prisma.SortOrder
-  tokensUsed?: Prisma.SortOrderInput | Prisma.SortOrder
-  latencyMs?: Prisma.SortOrderInput | Prisma.SortOrder
-  feedback?: Prisma.SortOrderInput | Prisma.SortOrder
+  isVoice?: Prisma.SortOrder
+  audioUrl?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   conversation?: Prisma.AIConversationOrderByWithRelationInput
+  attachments?: Prisma.AttachmentOrderByRelationAggregateInput
 }
 
 export type AIChatMessageWhereUniqueInput = Prisma.AtLeast<{
@@ -282,16 +219,14 @@ export type AIChatMessageWhereUniqueInput = Prisma.AtLeast<{
   AND?: Prisma.AIChatMessageWhereInput | Prisma.AIChatMessageWhereInput[]
   OR?: Prisma.AIChatMessageWhereInput[]
   NOT?: Prisma.AIChatMessageWhereInput | Prisma.AIChatMessageWhereInput[]
-  conversationId?: Prisma.UuidFilter<"AIChatMessage"> | string
+  conversationId?: Prisma.StringFilter<"AIChatMessage"> | string
   role?: Prisma.EnumAIChatMessageRoleFilter<"AIChatMessage"> | $Enums.AIChatMessageRole
   content?: Prisma.StringFilter<"AIChatMessage"> | string
-  model?: Prisma.StringNullableFilter<"AIChatMessage"> | string | null
-  provider?: Prisma.StringNullableFilter<"AIChatMessage"> | string | null
-  tokensUsed?: Prisma.IntNullableFilter<"AIChatMessage"> | number | null
-  latencyMs?: Prisma.IntNullableFilter<"AIChatMessage"> | number | null
-  feedback?: Prisma.EnumAIMessageFeedbackNullableFilter<"AIChatMessage"> | $Enums.AIMessageFeedback | null
+  isVoice?: Prisma.BoolFilter<"AIChatMessage"> | boolean
+  audioUrl?: Prisma.StringNullableFilter<"AIChatMessage"> | string | null
   createdAt?: Prisma.DateTimeFilter<"AIChatMessage"> | Date | string
   conversation?: Prisma.XOR<Prisma.AIConversationScalarRelationFilter, Prisma.AIConversationWhereInput>
+  attachments?: Prisma.AttachmentListRelationFilter
 }, "id">
 
 export type AIChatMessageOrderByWithAggregationInput = {
@@ -299,32 +234,24 @@ export type AIChatMessageOrderByWithAggregationInput = {
   conversationId?: Prisma.SortOrder
   role?: Prisma.SortOrder
   content?: Prisma.SortOrder
-  model?: Prisma.SortOrderInput | Prisma.SortOrder
-  provider?: Prisma.SortOrderInput | Prisma.SortOrder
-  tokensUsed?: Prisma.SortOrderInput | Prisma.SortOrder
-  latencyMs?: Prisma.SortOrderInput | Prisma.SortOrder
-  feedback?: Prisma.SortOrderInput | Prisma.SortOrder
+  isVoice?: Prisma.SortOrder
+  audioUrl?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   _count?: Prisma.AIChatMessageCountOrderByAggregateInput
-  _avg?: Prisma.AIChatMessageAvgOrderByAggregateInput
   _max?: Prisma.AIChatMessageMaxOrderByAggregateInput
   _min?: Prisma.AIChatMessageMinOrderByAggregateInput
-  _sum?: Prisma.AIChatMessageSumOrderByAggregateInput
 }
 
 export type AIChatMessageScalarWhereWithAggregatesInput = {
   AND?: Prisma.AIChatMessageScalarWhereWithAggregatesInput | Prisma.AIChatMessageScalarWhereWithAggregatesInput[]
   OR?: Prisma.AIChatMessageScalarWhereWithAggregatesInput[]
   NOT?: Prisma.AIChatMessageScalarWhereWithAggregatesInput | Prisma.AIChatMessageScalarWhereWithAggregatesInput[]
-  id?: Prisma.UuidWithAggregatesFilter<"AIChatMessage"> | string
-  conversationId?: Prisma.UuidWithAggregatesFilter<"AIChatMessage"> | string
+  id?: Prisma.StringWithAggregatesFilter<"AIChatMessage"> | string
+  conversationId?: Prisma.StringWithAggregatesFilter<"AIChatMessage"> | string
   role?: Prisma.EnumAIChatMessageRoleWithAggregatesFilter<"AIChatMessage"> | $Enums.AIChatMessageRole
   content?: Prisma.StringWithAggregatesFilter<"AIChatMessage"> | string
-  model?: Prisma.StringNullableWithAggregatesFilter<"AIChatMessage"> | string | null
-  provider?: Prisma.StringNullableWithAggregatesFilter<"AIChatMessage"> | string | null
-  tokensUsed?: Prisma.IntNullableWithAggregatesFilter<"AIChatMessage"> | number | null
-  latencyMs?: Prisma.IntNullableWithAggregatesFilter<"AIChatMessage"> | number | null
-  feedback?: Prisma.EnumAIMessageFeedbackNullableWithAggregatesFilter<"AIChatMessage"> | $Enums.AIMessageFeedback | null
+  isVoice?: Prisma.BoolWithAggregatesFilter<"AIChatMessage"> | boolean
+  audioUrl?: Prisma.StringNullableWithAggregatesFilter<"AIChatMessage"> | string | null
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"AIChatMessage"> | Date | string
 }
 
@@ -332,13 +259,11 @@ export type AIChatMessageCreateInput = {
   id?: string
   role: $Enums.AIChatMessageRole
   content: string
-  model?: string | null
-  provider?: string | null
-  tokensUsed?: number | null
-  latencyMs?: number | null
-  feedback?: $Enums.AIMessageFeedback | null
+  isVoice?: boolean
+  audioUrl?: string | null
   createdAt?: Date | string
   conversation: Prisma.AIConversationCreateNestedOneWithoutMessagesInput
+  attachments?: Prisma.AttachmentCreateNestedManyWithoutAichatMessagesInput
 }
 
 export type AIChatMessageUncheckedCreateInput = {
@@ -346,25 +271,21 @@ export type AIChatMessageUncheckedCreateInput = {
   conversationId: string
   role: $Enums.AIChatMessageRole
   content: string
-  model?: string | null
-  provider?: string | null
-  tokensUsed?: number | null
-  latencyMs?: number | null
-  feedback?: $Enums.AIMessageFeedback | null
+  isVoice?: boolean
+  audioUrl?: string | null
   createdAt?: Date | string
+  attachments?: Prisma.AttachmentUncheckedCreateNestedManyWithoutAichatMessagesInput
 }
 
 export type AIChatMessageUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   role?: Prisma.EnumAIChatMessageRoleFieldUpdateOperationsInput | $Enums.AIChatMessageRole
   content?: Prisma.StringFieldUpdateOperationsInput | string
-  model?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  provider?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  tokensUsed?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  latencyMs?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  feedback?: Prisma.NullableEnumAIMessageFeedbackFieldUpdateOperationsInput | $Enums.AIMessageFeedback | null
+  isVoice?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  audioUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   conversation?: Prisma.AIConversationUpdateOneRequiredWithoutMessagesNestedInput
+  attachments?: Prisma.AttachmentUpdateManyWithoutAichatMessagesNestedInput
 }
 
 export type AIChatMessageUncheckedUpdateInput = {
@@ -372,12 +293,10 @@ export type AIChatMessageUncheckedUpdateInput = {
   conversationId?: Prisma.StringFieldUpdateOperationsInput | string
   role?: Prisma.EnumAIChatMessageRoleFieldUpdateOperationsInput | $Enums.AIChatMessageRole
   content?: Prisma.StringFieldUpdateOperationsInput | string
-  model?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  provider?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  tokensUsed?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  latencyMs?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  feedback?: Prisma.NullableEnumAIMessageFeedbackFieldUpdateOperationsInput | $Enums.AIMessageFeedback | null
+  isVoice?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  audioUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  attachments?: Prisma.AttachmentUncheckedUpdateManyWithoutAichatMessagesNestedInput
 }
 
 export type AIChatMessageCreateManyInput = {
@@ -385,11 +304,8 @@ export type AIChatMessageCreateManyInput = {
   conversationId: string
   role: $Enums.AIChatMessageRole
   content: string
-  model?: string | null
-  provider?: string | null
-  tokensUsed?: number | null
-  latencyMs?: number | null
-  feedback?: $Enums.AIMessageFeedback | null
+  isVoice?: boolean
+  audioUrl?: string | null
   createdAt?: Date | string
 }
 
@@ -397,11 +313,8 @@ export type AIChatMessageUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   role?: Prisma.EnumAIChatMessageRoleFieldUpdateOperationsInput | $Enums.AIChatMessageRole
   content?: Prisma.StringFieldUpdateOperationsInput | string
-  model?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  provider?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  tokensUsed?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  latencyMs?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  feedback?: Prisma.NullableEnumAIMessageFeedbackFieldUpdateOperationsInput | $Enums.AIMessageFeedback | null
+  isVoice?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  audioUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
@@ -410,12 +323,39 @@ export type AIChatMessageUncheckedUpdateManyInput = {
   conversationId?: Prisma.StringFieldUpdateOperationsInput | string
   role?: Prisma.EnumAIChatMessageRoleFieldUpdateOperationsInput | $Enums.AIChatMessageRole
   content?: Prisma.StringFieldUpdateOperationsInput | string
-  model?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  provider?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  tokensUsed?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  latencyMs?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  feedback?: Prisma.NullableEnumAIMessageFeedbackFieldUpdateOperationsInput | $Enums.AIMessageFeedback | null
+  isVoice?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  audioUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+}
+
+export type AIChatMessageCountOrderByAggregateInput = {
+  id?: Prisma.SortOrder
+  conversationId?: Prisma.SortOrder
+  role?: Prisma.SortOrder
+  content?: Prisma.SortOrder
+  isVoice?: Prisma.SortOrder
+  audioUrl?: Prisma.SortOrder
+  createdAt?: Prisma.SortOrder
+}
+
+export type AIChatMessageMaxOrderByAggregateInput = {
+  id?: Prisma.SortOrder
+  conversationId?: Prisma.SortOrder
+  role?: Prisma.SortOrder
+  content?: Prisma.SortOrder
+  isVoice?: Prisma.SortOrder
+  audioUrl?: Prisma.SortOrder
+  createdAt?: Prisma.SortOrder
+}
+
+export type AIChatMessageMinOrderByAggregateInput = {
+  id?: Prisma.SortOrder
+  conversationId?: Prisma.SortOrder
+  role?: Prisma.SortOrder
+  content?: Prisma.SortOrder
+  isVoice?: Prisma.SortOrder
+  audioUrl?: Prisma.SortOrder
+  createdAt?: Prisma.SortOrder
 }
 
 export type AIChatMessageListRelationFilter = {
@@ -428,53 +368,8 @@ export type AIChatMessageOrderByRelationAggregateInput = {
   _count?: Prisma.SortOrder
 }
 
-export type AIChatMessageCountOrderByAggregateInput = {
-  id?: Prisma.SortOrder
-  conversationId?: Prisma.SortOrder
-  role?: Prisma.SortOrder
-  content?: Prisma.SortOrder
-  model?: Prisma.SortOrder
-  provider?: Prisma.SortOrder
-  tokensUsed?: Prisma.SortOrder
-  latencyMs?: Prisma.SortOrder
-  feedback?: Prisma.SortOrder
-  createdAt?: Prisma.SortOrder
-}
-
-export type AIChatMessageAvgOrderByAggregateInput = {
-  tokensUsed?: Prisma.SortOrder
-  latencyMs?: Prisma.SortOrder
-}
-
-export type AIChatMessageMaxOrderByAggregateInput = {
-  id?: Prisma.SortOrder
-  conversationId?: Prisma.SortOrder
-  role?: Prisma.SortOrder
-  content?: Prisma.SortOrder
-  model?: Prisma.SortOrder
-  provider?: Prisma.SortOrder
-  tokensUsed?: Prisma.SortOrder
-  latencyMs?: Prisma.SortOrder
-  feedback?: Prisma.SortOrder
-  createdAt?: Prisma.SortOrder
-}
-
-export type AIChatMessageMinOrderByAggregateInput = {
-  id?: Prisma.SortOrder
-  conversationId?: Prisma.SortOrder
-  role?: Prisma.SortOrder
-  content?: Prisma.SortOrder
-  model?: Prisma.SortOrder
-  provider?: Prisma.SortOrder
-  tokensUsed?: Prisma.SortOrder
-  latencyMs?: Prisma.SortOrder
-  feedback?: Prisma.SortOrder
-  createdAt?: Prisma.SortOrder
-}
-
-export type AIChatMessageSumOrderByAggregateInput = {
-  tokensUsed?: Prisma.SortOrder
-  latencyMs?: Prisma.SortOrder
+export type EnumAIChatMessageRoleFieldUpdateOperationsInput = {
+  set?: $Enums.AIChatMessageRole
 }
 
 export type AIChatMessageCreateNestedManyWithoutConversationInput = {
@@ -519,44 +414,62 @@ export type AIChatMessageUncheckedUpdateManyWithoutConversationNestedInput = {
   deleteMany?: Prisma.AIChatMessageScalarWhereInput | Prisma.AIChatMessageScalarWhereInput[]
 }
 
-export type EnumAIChatMessageRoleFieldUpdateOperationsInput = {
-  set?: $Enums.AIChatMessageRole
+export type AIChatMessageCreateNestedManyWithoutAttachmentsInput = {
+  create?: Prisma.XOR<Prisma.AIChatMessageCreateWithoutAttachmentsInput, Prisma.AIChatMessageUncheckedCreateWithoutAttachmentsInput> | Prisma.AIChatMessageCreateWithoutAttachmentsInput[] | Prisma.AIChatMessageUncheckedCreateWithoutAttachmentsInput[]
+  connectOrCreate?: Prisma.AIChatMessageCreateOrConnectWithoutAttachmentsInput | Prisma.AIChatMessageCreateOrConnectWithoutAttachmentsInput[]
+  connect?: Prisma.AIChatMessageWhereUniqueInput | Prisma.AIChatMessageWhereUniqueInput[]
 }
 
-export type NullableIntFieldUpdateOperationsInput = {
-  set?: number | null
-  increment?: number
-  decrement?: number
-  multiply?: number
-  divide?: number
+export type AIChatMessageUncheckedCreateNestedManyWithoutAttachmentsInput = {
+  create?: Prisma.XOR<Prisma.AIChatMessageCreateWithoutAttachmentsInput, Prisma.AIChatMessageUncheckedCreateWithoutAttachmentsInput> | Prisma.AIChatMessageCreateWithoutAttachmentsInput[] | Prisma.AIChatMessageUncheckedCreateWithoutAttachmentsInput[]
+  connectOrCreate?: Prisma.AIChatMessageCreateOrConnectWithoutAttachmentsInput | Prisma.AIChatMessageCreateOrConnectWithoutAttachmentsInput[]
+  connect?: Prisma.AIChatMessageWhereUniqueInput | Prisma.AIChatMessageWhereUniqueInput[]
 }
 
-export type NullableEnumAIMessageFeedbackFieldUpdateOperationsInput = {
-  set?: $Enums.AIMessageFeedback | null
+export type AIChatMessageUpdateManyWithoutAttachmentsNestedInput = {
+  create?: Prisma.XOR<Prisma.AIChatMessageCreateWithoutAttachmentsInput, Prisma.AIChatMessageUncheckedCreateWithoutAttachmentsInput> | Prisma.AIChatMessageCreateWithoutAttachmentsInput[] | Prisma.AIChatMessageUncheckedCreateWithoutAttachmentsInput[]
+  connectOrCreate?: Prisma.AIChatMessageCreateOrConnectWithoutAttachmentsInput | Prisma.AIChatMessageCreateOrConnectWithoutAttachmentsInput[]
+  upsert?: Prisma.AIChatMessageUpsertWithWhereUniqueWithoutAttachmentsInput | Prisma.AIChatMessageUpsertWithWhereUniqueWithoutAttachmentsInput[]
+  set?: Prisma.AIChatMessageWhereUniqueInput | Prisma.AIChatMessageWhereUniqueInput[]
+  disconnect?: Prisma.AIChatMessageWhereUniqueInput | Prisma.AIChatMessageWhereUniqueInput[]
+  delete?: Prisma.AIChatMessageWhereUniqueInput | Prisma.AIChatMessageWhereUniqueInput[]
+  connect?: Prisma.AIChatMessageWhereUniqueInput | Prisma.AIChatMessageWhereUniqueInput[]
+  update?: Prisma.AIChatMessageUpdateWithWhereUniqueWithoutAttachmentsInput | Prisma.AIChatMessageUpdateWithWhereUniqueWithoutAttachmentsInput[]
+  updateMany?: Prisma.AIChatMessageUpdateManyWithWhereWithoutAttachmentsInput | Prisma.AIChatMessageUpdateManyWithWhereWithoutAttachmentsInput[]
+  deleteMany?: Prisma.AIChatMessageScalarWhereInput | Prisma.AIChatMessageScalarWhereInput[]
+}
+
+export type AIChatMessageUncheckedUpdateManyWithoutAttachmentsNestedInput = {
+  create?: Prisma.XOR<Prisma.AIChatMessageCreateWithoutAttachmentsInput, Prisma.AIChatMessageUncheckedCreateWithoutAttachmentsInput> | Prisma.AIChatMessageCreateWithoutAttachmentsInput[] | Prisma.AIChatMessageUncheckedCreateWithoutAttachmentsInput[]
+  connectOrCreate?: Prisma.AIChatMessageCreateOrConnectWithoutAttachmentsInput | Prisma.AIChatMessageCreateOrConnectWithoutAttachmentsInput[]
+  upsert?: Prisma.AIChatMessageUpsertWithWhereUniqueWithoutAttachmentsInput | Prisma.AIChatMessageUpsertWithWhereUniqueWithoutAttachmentsInput[]
+  set?: Prisma.AIChatMessageWhereUniqueInput | Prisma.AIChatMessageWhereUniqueInput[]
+  disconnect?: Prisma.AIChatMessageWhereUniqueInput | Prisma.AIChatMessageWhereUniqueInput[]
+  delete?: Prisma.AIChatMessageWhereUniqueInput | Prisma.AIChatMessageWhereUniqueInput[]
+  connect?: Prisma.AIChatMessageWhereUniqueInput | Prisma.AIChatMessageWhereUniqueInput[]
+  update?: Prisma.AIChatMessageUpdateWithWhereUniqueWithoutAttachmentsInput | Prisma.AIChatMessageUpdateWithWhereUniqueWithoutAttachmentsInput[]
+  updateMany?: Prisma.AIChatMessageUpdateManyWithWhereWithoutAttachmentsInput | Prisma.AIChatMessageUpdateManyWithWhereWithoutAttachmentsInput[]
+  deleteMany?: Prisma.AIChatMessageScalarWhereInput | Prisma.AIChatMessageScalarWhereInput[]
 }
 
 export type AIChatMessageCreateWithoutConversationInput = {
   id?: string
   role: $Enums.AIChatMessageRole
   content: string
-  model?: string | null
-  provider?: string | null
-  tokensUsed?: number | null
-  latencyMs?: number | null
-  feedback?: $Enums.AIMessageFeedback | null
+  isVoice?: boolean
+  audioUrl?: string | null
   createdAt?: Date | string
+  attachments?: Prisma.AttachmentCreateNestedManyWithoutAichatMessagesInput
 }
 
 export type AIChatMessageUncheckedCreateWithoutConversationInput = {
   id?: string
   role: $Enums.AIChatMessageRole
   content: string
-  model?: string | null
-  provider?: string | null
-  tokensUsed?: number | null
-  latencyMs?: number | null
-  feedback?: $Enums.AIMessageFeedback | null
+  isVoice?: boolean
+  audioUrl?: string | null
   createdAt?: Date | string
+  attachments?: Prisma.AttachmentUncheckedCreateNestedManyWithoutAichatMessagesInput
 }
 
 export type AIChatMessageCreateOrConnectWithoutConversationInput = {
@@ -589,27 +502,62 @@ export type AIChatMessageScalarWhereInput = {
   AND?: Prisma.AIChatMessageScalarWhereInput | Prisma.AIChatMessageScalarWhereInput[]
   OR?: Prisma.AIChatMessageScalarWhereInput[]
   NOT?: Prisma.AIChatMessageScalarWhereInput | Prisma.AIChatMessageScalarWhereInput[]
-  id?: Prisma.UuidFilter<"AIChatMessage"> | string
-  conversationId?: Prisma.UuidFilter<"AIChatMessage"> | string
+  id?: Prisma.StringFilter<"AIChatMessage"> | string
+  conversationId?: Prisma.StringFilter<"AIChatMessage"> | string
   role?: Prisma.EnumAIChatMessageRoleFilter<"AIChatMessage"> | $Enums.AIChatMessageRole
   content?: Prisma.StringFilter<"AIChatMessage"> | string
-  model?: Prisma.StringNullableFilter<"AIChatMessage"> | string | null
-  provider?: Prisma.StringNullableFilter<"AIChatMessage"> | string | null
-  tokensUsed?: Prisma.IntNullableFilter<"AIChatMessage"> | number | null
-  latencyMs?: Prisma.IntNullableFilter<"AIChatMessage"> | number | null
-  feedback?: Prisma.EnumAIMessageFeedbackNullableFilter<"AIChatMessage"> | $Enums.AIMessageFeedback | null
+  isVoice?: Prisma.BoolFilter<"AIChatMessage"> | boolean
+  audioUrl?: Prisma.StringNullableFilter<"AIChatMessage"> | string | null
   createdAt?: Prisma.DateTimeFilter<"AIChatMessage"> | Date | string
+}
+
+export type AIChatMessageCreateWithoutAttachmentsInput = {
+  id?: string
+  role: $Enums.AIChatMessageRole
+  content: string
+  isVoice?: boolean
+  audioUrl?: string | null
+  createdAt?: Date | string
+  conversation: Prisma.AIConversationCreateNestedOneWithoutMessagesInput
+}
+
+export type AIChatMessageUncheckedCreateWithoutAttachmentsInput = {
+  id?: string
+  conversationId: string
+  role: $Enums.AIChatMessageRole
+  content: string
+  isVoice?: boolean
+  audioUrl?: string | null
+  createdAt?: Date | string
+}
+
+export type AIChatMessageCreateOrConnectWithoutAttachmentsInput = {
+  where: Prisma.AIChatMessageWhereUniqueInput
+  create: Prisma.XOR<Prisma.AIChatMessageCreateWithoutAttachmentsInput, Prisma.AIChatMessageUncheckedCreateWithoutAttachmentsInput>
+}
+
+export type AIChatMessageUpsertWithWhereUniqueWithoutAttachmentsInput = {
+  where: Prisma.AIChatMessageWhereUniqueInput
+  update: Prisma.XOR<Prisma.AIChatMessageUpdateWithoutAttachmentsInput, Prisma.AIChatMessageUncheckedUpdateWithoutAttachmentsInput>
+  create: Prisma.XOR<Prisma.AIChatMessageCreateWithoutAttachmentsInput, Prisma.AIChatMessageUncheckedCreateWithoutAttachmentsInput>
+}
+
+export type AIChatMessageUpdateWithWhereUniqueWithoutAttachmentsInput = {
+  where: Prisma.AIChatMessageWhereUniqueInput
+  data: Prisma.XOR<Prisma.AIChatMessageUpdateWithoutAttachmentsInput, Prisma.AIChatMessageUncheckedUpdateWithoutAttachmentsInput>
+}
+
+export type AIChatMessageUpdateManyWithWhereWithoutAttachmentsInput = {
+  where: Prisma.AIChatMessageScalarWhereInput
+  data: Prisma.XOR<Prisma.AIChatMessageUpdateManyMutationInput, Prisma.AIChatMessageUncheckedUpdateManyWithoutAttachmentsInput>
 }
 
 export type AIChatMessageCreateManyConversationInput = {
   id?: string
   role: $Enums.AIChatMessageRole
   content: string
-  model?: string | null
-  provider?: string | null
-  tokensUsed?: number | null
-  latencyMs?: number | null
-  feedback?: $Enums.AIMessageFeedback | null
+  isVoice?: boolean
+  audioUrl?: string | null
   createdAt?: Date | string
 }
 
@@ -617,38 +565,90 @@ export type AIChatMessageUpdateWithoutConversationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   role?: Prisma.EnumAIChatMessageRoleFieldUpdateOperationsInput | $Enums.AIChatMessageRole
   content?: Prisma.StringFieldUpdateOperationsInput | string
-  model?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  provider?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  tokensUsed?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  latencyMs?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  feedback?: Prisma.NullableEnumAIMessageFeedbackFieldUpdateOperationsInput | $Enums.AIMessageFeedback | null
+  isVoice?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  audioUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  attachments?: Prisma.AttachmentUpdateManyWithoutAichatMessagesNestedInput
 }
 
 export type AIChatMessageUncheckedUpdateWithoutConversationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   role?: Prisma.EnumAIChatMessageRoleFieldUpdateOperationsInput | $Enums.AIChatMessageRole
   content?: Prisma.StringFieldUpdateOperationsInput | string
-  model?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  provider?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  tokensUsed?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  latencyMs?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  feedback?: Prisma.NullableEnumAIMessageFeedbackFieldUpdateOperationsInput | $Enums.AIMessageFeedback | null
+  isVoice?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  audioUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  attachments?: Prisma.AttachmentUncheckedUpdateManyWithoutAichatMessagesNestedInput
 }
 
 export type AIChatMessageUncheckedUpdateManyWithoutConversationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   role?: Prisma.EnumAIChatMessageRoleFieldUpdateOperationsInput | $Enums.AIChatMessageRole
   content?: Prisma.StringFieldUpdateOperationsInput | string
-  model?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  provider?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  tokensUsed?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  latencyMs?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  feedback?: Prisma.NullableEnumAIMessageFeedbackFieldUpdateOperationsInput | $Enums.AIMessageFeedback | null
+  isVoice?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  audioUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
+export type AIChatMessageUpdateWithoutAttachmentsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  role?: Prisma.EnumAIChatMessageRoleFieldUpdateOperationsInput | $Enums.AIChatMessageRole
+  content?: Prisma.StringFieldUpdateOperationsInput | string
+  isVoice?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  audioUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  conversation?: Prisma.AIConversationUpdateOneRequiredWithoutMessagesNestedInput
+}
+
+export type AIChatMessageUncheckedUpdateWithoutAttachmentsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  conversationId?: Prisma.StringFieldUpdateOperationsInput | string
+  role?: Prisma.EnumAIChatMessageRoleFieldUpdateOperationsInput | $Enums.AIChatMessageRole
+  content?: Prisma.StringFieldUpdateOperationsInput | string
+  isVoice?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  audioUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+}
+
+export type AIChatMessageUncheckedUpdateManyWithoutAttachmentsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  conversationId?: Prisma.StringFieldUpdateOperationsInput | string
+  role?: Prisma.EnumAIChatMessageRoleFieldUpdateOperationsInput | $Enums.AIChatMessageRole
+  content?: Prisma.StringFieldUpdateOperationsInput | string
+  isVoice?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  audioUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+}
+
+
+/**
+ * Count Type AIChatMessageCountOutputType
+ */
+
+export type AIChatMessageCountOutputType = {
+  attachments: number
+}
+
+export type AIChatMessageCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  attachments?: boolean | AIChatMessageCountOutputTypeCountAttachmentsArgs
+}
+
+/**
+ * AIChatMessageCountOutputType without action
+ */
+export type AIChatMessageCountOutputTypeDefaultArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the AIChatMessageCountOutputType
+   */
+  select?: Prisma.AIChatMessageCountOutputTypeSelect<ExtArgs> | null
+}
+
+/**
+ * AIChatMessageCountOutputType without action
+ */
+export type AIChatMessageCountOutputTypeCountAttachmentsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.AttachmentWhereInput
+}
 
 
 export type AIChatMessageSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -656,13 +656,12 @@ export type AIChatMessageSelect<ExtArgs extends runtime.Types.Extensions.Interna
   conversationId?: boolean
   role?: boolean
   content?: boolean
-  model?: boolean
-  provider?: boolean
-  tokensUsed?: boolean
-  latencyMs?: boolean
-  feedback?: boolean
+  isVoice?: boolean
+  audioUrl?: boolean
   createdAt?: boolean
   conversation?: boolean | Prisma.AIConversationDefaultArgs<ExtArgs>
+  attachments?: boolean | Prisma.AIChatMessage$attachmentsArgs<ExtArgs>
+  _count?: boolean | Prisma.AIChatMessageCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["aIChatMessage"]>
 
 export type AIChatMessageSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -670,11 +669,8 @@ export type AIChatMessageSelectCreateManyAndReturn<ExtArgs extends runtime.Types
   conversationId?: boolean
   role?: boolean
   content?: boolean
-  model?: boolean
-  provider?: boolean
-  tokensUsed?: boolean
-  latencyMs?: boolean
-  feedback?: boolean
+  isVoice?: boolean
+  audioUrl?: boolean
   createdAt?: boolean
   conversation?: boolean | Prisma.AIConversationDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["aIChatMessage"]>
@@ -684,11 +680,8 @@ export type AIChatMessageSelectUpdateManyAndReturn<ExtArgs extends runtime.Types
   conversationId?: boolean
   role?: boolean
   content?: boolean
-  model?: boolean
-  provider?: boolean
-  tokensUsed?: boolean
-  latencyMs?: boolean
-  feedback?: boolean
+  isVoice?: boolean
+  audioUrl?: boolean
   createdAt?: boolean
   conversation?: boolean | Prisma.AIConversationDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["aIChatMessage"]>
@@ -698,17 +691,16 @@ export type AIChatMessageSelectScalar = {
   conversationId?: boolean
   role?: boolean
   content?: boolean
-  model?: boolean
-  provider?: boolean
-  tokensUsed?: boolean
-  latencyMs?: boolean
-  feedback?: boolean
+  isVoice?: boolean
+  audioUrl?: boolean
   createdAt?: boolean
 }
 
-export type AIChatMessageOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "conversationId" | "role" | "content" | "model" | "provider" | "tokensUsed" | "latencyMs" | "feedback" | "createdAt", ExtArgs["result"]["aIChatMessage"]>
+export type AIChatMessageOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "conversationId" | "role" | "content" | "isVoice" | "audioUrl" | "createdAt", ExtArgs["result"]["aIChatMessage"]>
 export type AIChatMessageInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   conversation?: boolean | Prisma.AIConversationDefaultArgs<ExtArgs>
+  attachments?: boolean | Prisma.AIChatMessage$attachmentsArgs<ExtArgs>
+  _count?: boolean | Prisma.AIChatMessageCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type AIChatMessageIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   conversation?: boolean | Prisma.AIConversationDefaultArgs<ExtArgs>
@@ -721,17 +713,15 @@ export type $AIChatMessagePayload<ExtArgs extends runtime.Types.Extensions.Inter
   name: "AIChatMessage"
   objects: {
     conversation: Prisma.$AIConversationPayload<ExtArgs>
+    attachments: Prisma.$AttachmentPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
     conversationId: string
     role: $Enums.AIChatMessageRole
     content: string
-    model: string | null
-    provider: string | null
-    tokensUsed: number | null
-    latencyMs: number | null
-    feedback: $Enums.AIMessageFeedback | null
+    isVoice: boolean
+    audioUrl: string | null
     createdAt: Date
   }, ExtArgs["result"]["aIChatMessage"]>
   composites: {}
@@ -1128,6 +1118,7 @@ readonly fields: AIChatMessageFieldRefs;
 export interface Prisma__AIChatMessageClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
   conversation<T extends Prisma.AIConversationDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.AIConversationDefaultArgs<ExtArgs>>): Prisma.Prisma__AIConversationClient<runtime.Types.Result.GetResult<Prisma.$AIConversationPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+  attachments<T extends Prisma.AIChatMessage$attachmentsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.AIChatMessage$attachmentsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$AttachmentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1161,11 +1152,8 @@ export interface AIChatMessageFieldRefs {
   readonly conversationId: Prisma.FieldRef<"AIChatMessage", 'String'>
   readonly role: Prisma.FieldRef<"AIChatMessage", 'AIChatMessageRole'>
   readonly content: Prisma.FieldRef<"AIChatMessage", 'String'>
-  readonly model: Prisma.FieldRef<"AIChatMessage", 'String'>
-  readonly provider: Prisma.FieldRef<"AIChatMessage", 'String'>
-  readonly tokensUsed: Prisma.FieldRef<"AIChatMessage", 'Int'>
-  readonly latencyMs: Prisma.FieldRef<"AIChatMessage", 'Int'>
-  readonly feedback: Prisma.FieldRef<"AIChatMessage", 'AIMessageFeedback'>
+  readonly isVoice: Prisma.FieldRef<"AIChatMessage", 'Boolean'>
+  readonly audioUrl: Prisma.FieldRef<"AIChatMessage", 'String'>
   readonly createdAt: Prisma.FieldRef<"AIChatMessage", 'DateTime'>
 }
     
@@ -1565,6 +1553,30 @@ export type AIChatMessageDeleteManyArgs<ExtArgs extends runtime.Types.Extensions
    * Limit how many AIChatMessages to delete.
    */
   limit?: number
+}
+
+/**
+ * AIChatMessage.attachments
+ */
+export type AIChatMessage$attachmentsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Attachment
+   */
+  select?: Prisma.AttachmentSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Attachment
+   */
+  omit?: Prisma.AttachmentOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.AttachmentInclude<ExtArgs> | null
+  where?: Prisma.AttachmentWhereInput
+  orderBy?: Prisma.AttachmentOrderByWithRelationInput | Prisma.AttachmentOrderByWithRelationInput[]
+  cursor?: Prisma.AttachmentWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.AttachmentScalarFieldEnum | Prisma.AttachmentScalarFieldEnum[]
 }
 
 /**

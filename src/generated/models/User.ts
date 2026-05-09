@@ -29,14 +29,14 @@ export type UserMinAggregateOutputType = {
   name: string | null
   email: string | null
   emailVerified: boolean | null
-  role: $Enums.Role | null
-  status: $Enums.UserStatus | null
-  needPasswordChange: boolean | null
-  isDeleted: boolean | null
-  deletedAt: Date | null
   image: string | null
   createdAt: Date | null
   updatedAt: Date | null
+  role: string | null
+  status: string | null
+  needPasswordChange: boolean | null
+  isDeleted: boolean | null
+  deletedAt: Date | null
 }
 
 export type UserMaxAggregateOutputType = {
@@ -44,14 +44,14 @@ export type UserMaxAggregateOutputType = {
   name: string | null
   email: string | null
   emailVerified: boolean | null
-  role: $Enums.Role | null
-  status: $Enums.UserStatus | null
-  needPasswordChange: boolean | null
-  isDeleted: boolean | null
-  deletedAt: Date | null
   image: string | null
   createdAt: Date | null
   updatedAt: Date | null
+  role: string | null
+  status: string | null
+  needPasswordChange: boolean | null
+  isDeleted: boolean | null
+  deletedAt: Date | null
 }
 
 export type UserCountAggregateOutputType = {
@@ -59,14 +59,14 @@ export type UserCountAggregateOutputType = {
   name: number
   email: number
   emailVerified: number
+  image: number
+  createdAt: number
+  updatedAt: number
   role: number
   status: number
   needPasswordChange: number
   isDeleted: number
   deletedAt: number
-  image: number
-  createdAt: number
-  updatedAt: number
   _all: number
 }
 
@@ -76,14 +76,14 @@ export type UserMinAggregateInputType = {
   name?: true
   email?: true
   emailVerified?: true
+  image?: true
+  createdAt?: true
+  updatedAt?: true
   role?: true
   status?: true
   needPasswordChange?: true
   isDeleted?: true
   deletedAt?: true
-  image?: true
-  createdAt?: true
-  updatedAt?: true
 }
 
 export type UserMaxAggregateInputType = {
@@ -91,14 +91,14 @@ export type UserMaxAggregateInputType = {
   name?: true
   email?: true
   emailVerified?: true
+  image?: true
+  createdAt?: true
+  updatedAt?: true
   role?: true
   status?: true
   needPasswordChange?: true
   isDeleted?: true
   deletedAt?: true
-  image?: true
-  createdAt?: true
-  updatedAt?: true
 }
 
 export type UserCountAggregateInputType = {
@@ -106,14 +106,14 @@ export type UserCountAggregateInputType = {
   name?: true
   email?: true
   emailVerified?: true
+  image?: true
+  createdAt?: true
+  updatedAt?: true
   role?: true
   status?: true
   needPasswordChange?: true
   isDeleted?: true
   deletedAt?: true
-  image?: true
-  createdAt?: true
-  updatedAt?: true
   _all?: true
 }
 
@@ -194,20 +194,20 @@ export type UserGroupByOutputType = {
   name: string
   email: string
   emailVerified: boolean
-  role: $Enums.Role
-  status: $Enums.UserStatus
-  needPasswordChange: boolean
-  isDeleted: boolean
-  deletedAt: Date | null
   image: string | null
   createdAt: Date
   updatedAt: Date
+  role: string
+  status: string
+  needPasswordChange: boolean
+  isDeleted: boolean
+  deletedAt: Date | null
   _count: UserCountAggregateOutputType | null
   _min: UserMinAggregateOutputType | null
   _max: UserMaxAggregateOutputType | null
 }
 
-type GetUserGroupByPayload<T extends UserGroupByArgs> = Prisma.PrismaPromise<
+export type GetUserGroupByPayload<T extends UserGroupByArgs> = Prisma.PrismaPromise<
   Array<
     Prisma.PickEnumerable<UserGroupByOutputType, T['by']> &
       {
@@ -230,23 +230,26 @@ export type UserWhereInput = {
   name?: Prisma.StringFilter<"User"> | string
   email?: Prisma.StringFilter<"User"> | string
   emailVerified?: Prisma.BoolFilter<"User"> | boolean
-  role?: Prisma.EnumRoleFilter<"User"> | $Enums.Role
-  status?: Prisma.EnumUserStatusFilter<"User"> | $Enums.UserStatus
-  needPasswordChange?: Prisma.BoolFilter<"User"> | boolean
-  isDeleted?: Prisma.BoolFilter<"User"> | boolean
-  deletedAt?: Prisma.DateTimeNullableFilter<"User"> | Date | string | null
   image?: Prisma.StringNullableFilter<"User"> | string | null
   createdAt?: Prisma.DateTimeFilter<"User"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"User"> | Date | string
-  sessions?: Prisma.SessionListRelationFilter
+  role?: Prisma.StringFilter<"User"> | string
+  status?: Prisma.StringFilter<"User"> | string
+  needPasswordChange?: Prisma.BoolFilter<"User"> | boolean
+  isDeleted?: Prisma.BoolFilter<"User"> | boolean
+  deletedAt?: Prisma.DateTimeNullableFilter<"User"> | Date | string | null
   accounts?: Prisma.AccountListRelationFilter
-  client?: Prisma.XOR<Prisma.ClientNullableScalarRelationFilter, Prisma.ClientWhereInput> | null
-  expert?: Prisma.XOR<Prisma.ExpertNullableScalarRelationFilter, Prisma.ExpertWhereInput> | null
-  admin?: Prisma.XOR<Prisma.AdminNullableScalarRelationFilter, Prisma.AdminWhereInput> | null
-  notifications?: Prisma.NotificationListRelationFilter
-  messageReactions?: Prisma.MessageReactionListRelationFilter
+  admins?: Prisma.XOR<Prisma.AdminNullableScalarRelationFilter, Prisma.AdminWhereInput> | null
   aiConversations?: Prisma.AIConversationListRelationFilter
-  expertApplications?: Prisma.ExpertApplicationListRelationFilter
+  candidates?: Prisma.XOR<Prisma.CandidateNullableScalarRelationFilter, Prisma.CandidateWhereInput> | null
+  messageReactions?: Prisma.MessageReactionListRelationFilter
+  notifications?: Prisma.NotificationListRelationFilter
+  recruiters?: Prisma.XOR<Prisma.RecruiterNullableScalarRelationFilter, Prisma.RecruiterWhereInput> | null
+  resumes?: Prisma.ResumeListRelationFilter
+  savedJobs?: Prisma.SavedJobListRelationFilter
+  sessions?: Prisma.SessionListRelationFilter
+  userPresences?: Prisma.XOR<Prisma.UserPresenceNullableScalarRelationFilter, Prisma.UserPresenceWhereInput> | null
+  testimonials?: Prisma.TestimonialListRelationFilter
 }
 
 export type UserOrderByWithRelationInput = {
@@ -254,23 +257,26 @@ export type UserOrderByWithRelationInput = {
   name?: Prisma.SortOrder
   email?: Prisma.SortOrder
   emailVerified?: Prisma.SortOrder
+  image?: Prisma.SortOrderInput | Prisma.SortOrder
+  createdAt?: Prisma.SortOrder
+  updatedAt?: Prisma.SortOrder
   role?: Prisma.SortOrder
   status?: Prisma.SortOrder
   needPasswordChange?: Prisma.SortOrder
   isDeleted?: Prisma.SortOrder
   deletedAt?: Prisma.SortOrderInput | Prisma.SortOrder
-  image?: Prisma.SortOrderInput | Prisma.SortOrder
-  createdAt?: Prisma.SortOrder
-  updatedAt?: Prisma.SortOrder
-  sessions?: Prisma.SessionOrderByRelationAggregateInput
   accounts?: Prisma.AccountOrderByRelationAggregateInput
-  client?: Prisma.ClientOrderByWithRelationInput
-  expert?: Prisma.ExpertOrderByWithRelationInput
-  admin?: Prisma.AdminOrderByWithRelationInput
-  notifications?: Prisma.NotificationOrderByRelationAggregateInput
-  messageReactions?: Prisma.MessageReactionOrderByRelationAggregateInput
+  admins?: Prisma.AdminOrderByWithRelationInput
   aiConversations?: Prisma.AIConversationOrderByRelationAggregateInput
-  expertApplications?: Prisma.ExpertApplicationOrderByRelationAggregateInput
+  candidates?: Prisma.CandidateOrderByWithRelationInput
+  messageReactions?: Prisma.MessageReactionOrderByRelationAggregateInput
+  notifications?: Prisma.NotificationOrderByRelationAggregateInput
+  recruiters?: Prisma.RecruiterOrderByWithRelationInput
+  resumes?: Prisma.ResumeOrderByRelationAggregateInput
+  savedJobs?: Prisma.SavedJobOrderByRelationAggregateInput
+  sessions?: Prisma.SessionOrderByRelationAggregateInput
+  userPresences?: Prisma.UserPresenceOrderByWithRelationInput
+  testimonials?: Prisma.TestimonialOrderByRelationAggregateInput
 }
 
 export type UserWhereUniqueInput = Prisma.AtLeast<{
@@ -281,23 +287,26 @@ export type UserWhereUniqueInput = Prisma.AtLeast<{
   NOT?: Prisma.UserWhereInput | Prisma.UserWhereInput[]
   name?: Prisma.StringFilter<"User"> | string
   emailVerified?: Prisma.BoolFilter<"User"> | boolean
-  role?: Prisma.EnumRoleFilter<"User"> | $Enums.Role
-  status?: Prisma.EnumUserStatusFilter<"User"> | $Enums.UserStatus
-  needPasswordChange?: Prisma.BoolFilter<"User"> | boolean
-  isDeleted?: Prisma.BoolFilter<"User"> | boolean
-  deletedAt?: Prisma.DateTimeNullableFilter<"User"> | Date | string | null
   image?: Prisma.StringNullableFilter<"User"> | string | null
   createdAt?: Prisma.DateTimeFilter<"User"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"User"> | Date | string
-  sessions?: Prisma.SessionListRelationFilter
+  role?: Prisma.StringFilter<"User"> | string
+  status?: Prisma.StringFilter<"User"> | string
+  needPasswordChange?: Prisma.BoolFilter<"User"> | boolean
+  isDeleted?: Prisma.BoolFilter<"User"> | boolean
+  deletedAt?: Prisma.DateTimeNullableFilter<"User"> | Date | string | null
   accounts?: Prisma.AccountListRelationFilter
-  client?: Prisma.XOR<Prisma.ClientNullableScalarRelationFilter, Prisma.ClientWhereInput> | null
-  expert?: Prisma.XOR<Prisma.ExpertNullableScalarRelationFilter, Prisma.ExpertWhereInput> | null
-  admin?: Prisma.XOR<Prisma.AdminNullableScalarRelationFilter, Prisma.AdminWhereInput> | null
-  notifications?: Prisma.NotificationListRelationFilter
-  messageReactions?: Prisma.MessageReactionListRelationFilter
+  admins?: Prisma.XOR<Prisma.AdminNullableScalarRelationFilter, Prisma.AdminWhereInput> | null
   aiConversations?: Prisma.AIConversationListRelationFilter
-  expertApplications?: Prisma.ExpertApplicationListRelationFilter
+  candidates?: Prisma.XOR<Prisma.CandidateNullableScalarRelationFilter, Prisma.CandidateWhereInput> | null
+  messageReactions?: Prisma.MessageReactionListRelationFilter
+  notifications?: Prisma.NotificationListRelationFilter
+  recruiters?: Prisma.XOR<Prisma.RecruiterNullableScalarRelationFilter, Prisma.RecruiterWhereInput> | null
+  resumes?: Prisma.ResumeListRelationFilter
+  savedJobs?: Prisma.SavedJobListRelationFilter
+  sessions?: Prisma.SessionListRelationFilter
+  userPresences?: Prisma.XOR<Prisma.UserPresenceNullableScalarRelationFilter, Prisma.UserPresenceWhereInput> | null
+  testimonials?: Prisma.TestimonialListRelationFilter
 }, "id" | "email">
 
 export type UserOrderByWithAggregationInput = {
@@ -305,14 +314,14 @@ export type UserOrderByWithAggregationInput = {
   name?: Prisma.SortOrder
   email?: Prisma.SortOrder
   emailVerified?: Prisma.SortOrder
+  image?: Prisma.SortOrderInput | Prisma.SortOrder
+  createdAt?: Prisma.SortOrder
+  updatedAt?: Prisma.SortOrder
   role?: Prisma.SortOrder
   status?: Prisma.SortOrder
   needPasswordChange?: Prisma.SortOrder
   isDeleted?: Prisma.SortOrder
   deletedAt?: Prisma.SortOrderInput | Prisma.SortOrder
-  image?: Prisma.SortOrderInput | Prisma.SortOrder
-  createdAt?: Prisma.SortOrder
-  updatedAt?: Prisma.SortOrder
   _count?: Prisma.UserCountOrderByAggregateInput
   _max?: Prisma.UserMaxOrderByAggregateInput
   _min?: Prisma.UserMinOrderByAggregateInput
@@ -326,14 +335,14 @@ export type UserScalarWhereWithAggregatesInput = {
   name?: Prisma.StringWithAggregatesFilter<"User"> | string
   email?: Prisma.StringWithAggregatesFilter<"User"> | string
   emailVerified?: Prisma.BoolWithAggregatesFilter<"User"> | boolean
-  role?: Prisma.EnumRoleWithAggregatesFilter<"User"> | $Enums.Role
-  status?: Prisma.EnumUserStatusWithAggregatesFilter<"User"> | $Enums.UserStatus
-  needPasswordChange?: Prisma.BoolWithAggregatesFilter<"User"> | boolean
-  isDeleted?: Prisma.BoolWithAggregatesFilter<"User"> | boolean
-  deletedAt?: Prisma.DateTimeNullableWithAggregatesFilter<"User"> | Date | string | null
   image?: Prisma.StringNullableWithAggregatesFilter<"User"> | string | null
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"User"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"User"> | Date | string
+  role?: Prisma.StringWithAggregatesFilter<"User"> | string
+  status?: Prisma.StringWithAggregatesFilter<"User"> | string
+  needPasswordChange?: Prisma.BoolWithAggregatesFilter<"User"> | boolean
+  isDeleted?: Prisma.BoolWithAggregatesFilter<"User"> | boolean
+  deletedAt?: Prisma.DateTimeNullableWithAggregatesFilter<"User"> | Date | string | null
 }
 
 export type UserCreateInput = {
@@ -341,23 +350,26 @@ export type UserCreateInput = {
   name: string
   email: string
   emailVerified?: boolean
-  role?: $Enums.Role
-  status?: $Enums.UserStatus
-  needPasswordChange?: boolean
-  isDeleted?: boolean
-  deletedAt?: Date | string | null
   image?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
-  sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
+  role?: string
+  status?: string
+  needPasswordChange?: boolean
+  isDeleted?: boolean
+  deletedAt?: Date | string | null
   accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
-  client?: Prisma.ClientCreateNestedOneWithoutUserInput
-  expert?: Prisma.ExpertCreateNestedOneWithoutUserInput
-  admin?: Prisma.AdminCreateNestedOneWithoutUserInput
-  notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
-  messageReactions?: Prisma.MessageReactionCreateNestedManyWithoutUserInput
+  admins?: Prisma.AdminCreateNestedOneWithoutUserInput
   aiConversations?: Prisma.AIConversationCreateNestedManyWithoutUserInput
-  expertApplications?: Prisma.ExpertApplicationCreateNestedManyWithoutUserInput
+  candidates?: Prisma.CandidateCreateNestedOneWithoutUserInput
+  messageReactions?: Prisma.MessageReactionCreateNestedManyWithoutUserInput
+  notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
+  recruiters?: Prisma.RecruiterCreateNestedOneWithoutUserInput
+  resumes?: Prisma.ResumeCreateNestedManyWithoutUserInput
+  savedJobs?: Prisma.SavedJobCreateNestedManyWithoutUserInput
+  sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
+  userPresences?: Prisma.UserPresenceCreateNestedOneWithoutUserInput
+  testimonials?: Prisma.TestimonialCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateInput = {
@@ -365,23 +377,26 @@ export type UserUncheckedCreateInput = {
   name: string
   email: string
   emailVerified?: boolean
-  role?: $Enums.Role
-  status?: $Enums.UserStatus
-  needPasswordChange?: boolean
-  isDeleted?: boolean
-  deletedAt?: Date | string | null
   image?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
-  sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
+  role?: string
+  status?: string
+  needPasswordChange?: boolean
+  isDeleted?: boolean
+  deletedAt?: Date | string | null
   accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
-  client?: Prisma.ClientUncheckedCreateNestedOneWithoutUserInput
-  expert?: Prisma.ExpertUncheckedCreateNestedOneWithoutUserInput
-  admin?: Prisma.AdminUncheckedCreateNestedOneWithoutUserInput
-  notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
-  messageReactions?: Prisma.MessageReactionUncheckedCreateNestedManyWithoutUserInput
+  admins?: Prisma.AdminUncheckedCreateNestedOneWithoutUserInput
   aiConversations?: Prisma.AIConversationUncheckedCreateNestedManyWithoutUserInput
-  expertApplications?: Prisma.ExpertApplicationUncheckedCreateNestedManyWithoutUserInput
+  candidates?: Prisma.CandidateUncheckedCreateNestedOneWithoutUserInput
+  messageReactions?: Prisma.MessageReactionUncheckedCreateNestedManyWithoutUserInput
+  notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
+  recruiters?: Prisma.RecruiterUncheckedCreateNestedOneWithoutUserInput
+  resumes?: Prisma.ResumeUncheckedCreateNestedManyWithoutUserInput
+  savedJobs?: Prisma.SavedJobUncheckedCreateNestedManyWithoutUserInput
+  sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
+  userPresences?: Prisma.UserPresenceUncheckedCreateNestedOneWithoutUserInput
+  testimonials?: Prisma.TestimonialUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserUpdateInput = {
@@ -389,23 +404,26 @@ export type UserUpdateInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
   emailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
-  status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
-  needPasswordChange?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
+  role?: Prisma.StringFieldUpdateOperationsInput | string
+  status?: Prisma.StringFieldUpdateOperationsInput | string
+  needPasswordChange?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
-  client?: Prisma.ClientUpdateOneWithoutUserNestedInput
-  expert?: Prisma.ExpertUpdateOneWithoutUserNestedInput
-  admin?: Prisma.AdminUpdateOneWithoutUserNestedInput
-  notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
-  messageReactions?: Prisma.MessageReactionUpdateManyWithoutUserNestedInput
+  admins?: Prisma.AdminUpdateOneWithoutUserNestedInput
   aiConversations?: Prisma.AIConversationUpdateManyWithoutUserNestedInput
-  expertApplications?: Prisma.ExpertApplicationUpdateManyWithoutUserNestedInput
+  candidates?: Prisma.CandidateUpdateOneWithoutUserNestedInput
+  messageReactions?: Prisma.MessageReactionUpdateManyWithoutUserNestedInput
+  notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
+  recruiters?: Prisma.RecruiterUpdateOneWithoutUserNestedInput
+  resumes?: Prisma.ResumeUpdateManyWithoutUserNestedInput
+  savedJobs?: Prisma.SavedJobUpdateManyWithoutUserNestedInput
+  sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
+  userPresences?: Prisma.UserPresenceUpdateOneWithoutUserNestedInput
+  testimonials?: Prisma.TestimonialUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateInput = {
@@ -413,23 +431,26 @@ export type UserUncheckedUpdateInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
   emailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
-  status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
-  needPasswordChange?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
+  role?: Prisma.StringFieldUpdateOperationsInput | string
+  status?: Prisma.StringFieldUpdateOperationsInput | string
+  needPasswordChange?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
-  client?: Prisma.ClientUncheckedUpdateOneWithoutUserNestedInput
-  expert?: Prisma.ExpertUncheckedUpdateOneWithoutUserNestedInput
-  admin?: Prisma.AdminUncheckedUpdateOneWithoutUserNestedInput
-  notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
-  messageReactions?: Prisma.MessageReactionUncheckedUpdateManyWithoutUserNestedInput
+  admins?: Prisma.AdminUncheckedUpdateOneWithoutUserNestedInput
   aiConversations?: Prisma.AIConversationUncheckedUpdateManyWithoutUserNestedInput
-  expertApplications?: Prisma.ExpertApplicationUncheckedUpdateManyWithoutUserNestedInput
+  candidates?: Prisma.CandidateUncheckedUpdateOneWithoutUserNestedInput
+  messageReactions?: Prisma.MessageReactionUncheckedUpdateManyWithoutUserNestedInput
+  notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
+  recruiters?: Prisma.RecruiterUncheckedUpdateOneWithoutUserNestedInput
+  resumes?: Prisma.ResumeUncheckedUpdateManyWithoutUserNestedInput
+  savedJobs?: Prisma.SavedJobUncheckedUpdateManyWithoutUserNestedInput
+  sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
+  userPresences?: Prisma.UserPresenceUncheckedUpdateOneWithoutUserNestedInput
+  testimonials?: Prisma.TestimonialUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateManyInput = {
@@ -437,14 +458,14 @@ export type UserCreateManyInput = {
   name: string
   email: string
   emailVerified?: boolean
-  role?: $Enums.Role
-  status?: $Enums.UserStatus
-  needPasswordChange?: boolean
-  isDeleted?: boolean
-  deletedAt?: Date | string | null
   image?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  role?: string
+  status?: string
+  needPasswordChange?: boolean
+  isDeleted?: boolean
+  deletedAt?: Date | string | null
 }
 
 export type UserUpdateManyMutationInput = {
@@ -452,14 +473,14 @@ export type UserUpdateManyMutationInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
   emailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
-  status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
-  needPasswordChange?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  role?: Prisma.StringFieldUpdateOperationsInput | string
+  status?: Prisma.StringFieldUpdateOperationsInput | string
+  needPasswordChange?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
 
 export type UserUncheckedUpdateManyInput = {
@@ -467,14 +488,14 @@ export type UserUncheckedUpdateManyInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
   emailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
-  status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
-  needPasswordChange?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  role?: Prisma.StringFieldUpdateOperationsInput | string
+  status?: Prisma.StringFieldUpdateOperationsInput | string
+  needPasswordChange?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
 
 export type UserScalarRelationFilter = {
@@ -487,14 +508,14 @@ export type UserCountOrderByAggregateInput = {
   name?: Prisma.SortOrder
   email?: Prisma.SortOrder
   emailVerified?: Prisma.SortOrder
+  image?: Prisma.SortOrder
+  createdAt?: Prisma.SortOrder
+  updatedAt?: Prisma.SortOrder
   role?: Prisma.SortOrder
   status?: Prisma.SortOrder
   needPasswordChange?: Prisma.SortOrder
   isDeleted?: Prisma.SortOrder
   deletedAt?: Prisma.SortOrder
-  image?: Prisma.SortOrder
-  createdAt?: Prisma.SortOrder
-  updatedAt?: Prisma.SortOrder
 }
 
 export type UserMaxOrderByAggregateInput = {
@@ -502,14 +523,14 @@ export type UserMaxOrderByAggregateInput = {
   name?: Prisma.SortOrder
   email?: Prisma.SortOrder
   emailVerified?: Prisma.SortOrder
+  image?: Prisma.SortOrder
+  createdAt?: Prisma.SortOrder
+  updatedAt?: Prisma.SortOrder
   role?: Prisma.SortOrder
   status?: Prisma.SortOrder
   needPasswordChange?: Prisma.SortOrder
   isDeleted?: Prisma.SortOrder
   deletedAt?: Prisma.SortOrder
-  image?: Prisma.SortOrder
-  createdAt?: Prisma.SortOrder
-  updatedAt?: Prisma.SortOrder
 }
 
 export type UserMinOrderByAggregateInput = {
@@ -517,28 +538,28 @@ export type UserMinOrderByAggregateInput = {
   name?: Prisma.SortOrder
   email?: Prisma.SortOrder
   emailVerified?: Prisma.SortOrder
+  image?: Prisma.SortOrder
+  createdAt?: Prisma.SortOrder
+  updatedAt?: Prisma.SortOrder
   role?: Prisma.SortOrder
   status?: Prisma.SortOrder
   needPasswordChange?: Prisma.SortOrder
   isDeleted?: Prisma.SortOrder
   deletedAt?: Prisma.SortOrder
-  image?: Prisma.SortOrder
-  createdAt?: Prisma.SortOrder
-  updatedAt?: Prisma.SortOrder
 }
 
-export type UserCreateNestedOneWithoutAdminInput = {
-  create?: Prisma.XOR<Prisma.UserCreateWithoutAdminInput, Prisma.UserUncheckedCreateWithoutAdminInput>
-  connectOrCreate?: Prisma.UserCreateOrConnectWithoutAdminInput
+export type UserCreateNestedOneWithoutAdminsInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutAdminsInput, Prisma.UserUncheckedCreateWithoutAdminsInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutAdminsInput
   connect?: Prisma.UserWhereUniqueInput
 }
 
-export type UserUpdateOneRequiredWithoutAdminNestedInput = {
-  create?: Prisma.XOR<Prisma.UserCreateWithoutAdminInput, Prisma.UserUncheckedCreateWithoutAdminInput>
-  connectOrCreate?: Prisma.UserCreateOrConnectWithoutAdminInput
-  upsert?: Prisma.UserUpsertWithoutAdminInput
+export type UserUpdateOneRequiredWithoutAdminsNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutAdminsInput, Prisma.UserUncheckedCreateWithoutAdminsInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutAdminsInput
+  upsert?: Prisma.UserUpsertWithoutAdminsInput
   connect?: Prisma.UserWhereUniqueInput
-  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutAdminInput, Prisma.UserUpdateWithoutAdminInput>, Prisma.UserUncheckedUpdateWithoutAdminInput>
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutAdminsInput, Prisma.UserUpdateWithoutAdminsInput>, Prisma.UserUncheckedUpdateWithoutAdminsInput>
 }
 
 export type UserCreateNestedOneWithoutAiConversationsInput = {
@@ -553,14 +574,6 @@ export type UserUpdateOneRequiredWithoutAiConversationsNestedInput = {
   upsert?: Prisma.UserUpsertWithoutAiConversationsInput
   connect?: Prisma.UserWhereUniqueInput
   update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutAiConversationsInput, Prisma.UserUpdateWithoutAiConversationsInput>, Prisma.UserUncheckedUpdateWithoutAiConversationsInput>
-}
-
-export type EnumRoleFieldUpdateOperationsInput = {
-  set?: $Enums.Role
-}
-
-export type EnumUserStatusFieldUpdateOperationsInput = {
-  set?: $Enums.UserStatus
 }
 
 export type UserCreateNestedOneWithoutSessionsInput = {
@@ -591,46 +604,18 @@ export type UserUpdateOneRequiredWithoutAccountsNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutAccountsInput, Prisma.UserUpdateWithoutAccountsInput>, Prisma.UserUncheckedUpdateWithoutAccountsInput>
 }
 
-export type UserCreateNestedOneWithoutClientInput = {
-  create?: Prisma.XOR<Prisma.UserCreateWithoutClientInput, Prisma.UserUncheckedCreateWithoutClientInput>
-  connectOrCreate?: Prisma.UserCreateOrConnectWithoutClientInput
+export type UserCreateNestedOneWithoutCandidatesInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutCandidatesInput, Prisma.UserUncheckedCreateWithoutCandidatesInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutCandidatesInput
   connect?: Prisma.UserWhereUniqueInput
 }
 
-export type UserUpdateOneRequiredWithoutClientNestedInput = {
-  create?: Prisma.XOR<Prisma.UserCreateWithoutClientInput, Prisma.UserUncheckedCreateWithoutClientInput>
-  connectOrCreate?: Prisma.UserCreateOrConnectWithoutClientInput
-  upsert?: Prisma.UserUpsertWithoutClientInput
+export type UserUpdateOneRequiredWithoutCandidatesNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutCandidatesInput, Prisma.UserUncheckedCreateWithoutCandidatesInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutCandidatesInput
+  upsert?: Prisma.UserUpsertWithoutCandidatesInput
   connect?: Prisma.UserWhereUniqueInput
-  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutClientInput, Prisma.UserUpdateWithoutClientInput>, Prisma.UserUncheckedUpdateWithoutClientInput>
-}
-
-export type UserCreateNestedOneWithoutExpertInput = {
-  create?: Prisma.XOR<Prisma.UserCreateWithoutExpertInput, Prisma.UserUncheckedCreateWithoutExpertInput>
-  connectOrCreate?: Prisma.UserCreateOrConnectWithoutExpertInput
-  connect?: Prisma.UserWhereUniqueInput
-}
-
-export type UserUpdateOneRequiredWithoutExpertNestedInput = {
-  create?: Prisma.XOR<Prisma.UserCreateWithoutExpertInput, Prisma.UserUncheckedCreateWithoutExpertInput>
-  connectOrCreate?: Prisma.UserCreateOrConnectWithoutExpertInput
-  upsert?: Prisma.UserUpsertWithoutExpertInput
-  connect?: Prisma.UserWhereUniqueInput
-  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutExpertInput, Prisma.UserUpdateWithoutExpertInput>, Prisma.UserUncheckedUpdateWithoutExpertInput>
-}
-
-export type UserCreateNestedOneWithoutExpertApplicationsInput = {
-  create?: Prisma.XOR<Prisma.UserCreateWithoutExpertApplicationsInput, Prisma.UserUncheckedCreateWithoutExpertApplicationsInput>
-  connectOrCreate?: Prisma.UserCreateOrConnectWithoutExpertApplicationsInput
-  connect?: Prisma.UserWhereUniqueInput
-}
-
-export type UserUpdateOneRequiredWithoutExpertApplicationsNestedInput = {
-  create?: Prisma.XOR<Prisma.UserCreateWithoutExpertApplicationsInput, Prisma.UserUncheckedCreateWithoutExpertApplicationsInput>
-  connectOrCreate?: Prisma.UserCreateOrConnectWithoutExpertApplicationsInput
-  upsert?: Prisma.UserUpsertWithoutExpertApplicationsInput
-  connect?: Prisma.UserWhereUniqueInput
-  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutExpertApplicationsInput, Prisma.UserUpdateWithoutExpertApplicationsInput>, Prisma.UserUncheckedUpdateWithoutExpertApplicationsInput>
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutCandidatesInput, Prisma.UserUpdateWithoutCandidatesInput>, Prisma.UserUncheckedUpdateWithoutCandidatesInput>
 }
 
 export type UserCreateNestedOneWithoutMessageReactionsInput = {
@@ -661,112 +646,194 @@ export type UserUpdateOneRequiredWithoutNotificationsNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutNotificationsInput, Prisma.UserUpdateWithoutNotificationsInput>, Prisma.UserUncheckedUpdateWithoutNotificationsInput>
 }
 
-export type UserCreateWithoutAdminInput = {
+export type UserCreateNestedOneWithoutRecruitersInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutRecruitersInput, Prisma.UserUncheckedCreateWithoutRecruitersInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutRecruitersInput
+  connect?: Prisma.UserWhereUniqueInput
+}
+
+export type UserUpdateOneRequiredWithoutRecruitersNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutRecruitersInput, Prisma.UserUncheckedCreateWithoutRecruitersInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutRecruitersInput
+  upsert?: Prisma.UserUpsertWithoutRecruitersInput
+  connect?: Prisma.UserWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutRecruitersInput, Prisma.UserUpdateWithoutRecruitersInput>, Prisma.UserUncheckedUpdateWithoutRecruitersInput>
+}
+
+export type UserCreateNestedOneWithoutResumesInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutResumesInput, Prisma.UserUncheckedCreateWithoutResumesInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutResumesInput
+  connect?: Prisma.UserWhereUniqueInput
+}
+
+export type UserUpdateOneRequiredWithoutResumesNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutResumesInput, Prisma.UserUncheckedCreateWithoutResumesInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutResumesInput
+  upsert?: Prisma.UserUpsertWithoutResumesInput
+  connect?: Prisma.UserWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutResumesInput, Prisma.UserUpdateWithoutResumesInput>, Prisma.UserUncheckedUpdateWithoutResumesInput>
+}
+
+export type UserCreateNestedOneWithoutSavedJobsInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutSavedJobsInput, Prisma.UserUncheckedCreateWithoutSavedJobsInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutSavedJobsInput
+  connect?: Prisma.UserWhereUniqueInput
+}
+
+export type UserUpdateOneRequiredWithoutSavedJobsNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutSavedJobsInput, Prisma.UserUncheckedCreateWithoutSavedJobsInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutSavedJobsInput
+  upsert?: Prisma.UserUpsertWithoutSavedJobsInput
+  connect?: Prisma.UserWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutSavedJobsInput, Prisma.UserUpdateWithoutSavedJobsInput>, Prisma.UserUncheckedUpdateWithoutSavedJobsInput>
+}
+
+export type UserCreateNestedOneWithoutTestimonialsInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutTestimonialsInput, Prisma.UserUncheckedCreateWithoutTestimonialsInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutTestimonialsInput
+  connect?: Prisma.UserWhereUniqueInput
+}
+
+export type UserUpdateOneRequiredWithoutTestimonialsNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutTestimonialsInput, Prisma.UserUncheckedCreateWithoutTestimonialsInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutTestimonialsInput
+  upsert?: Prisma.UserUpsertWithoutTestimonialsInput
+  connect?: Prisma.UserWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutTestimonialsInput, Prisma.UserUpdateWithoutTestimonialsInput>, Prisma.UserUncheckedUpdateWithoutTestimonialsInput>
+}
+
+export type UserCreateNestedOneWithoutUserPresencesInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutUserPresencesInput, Prisma.UserUncheckedCreateWithoutUserPresencesInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutUserPresencesInput
+  connect?: Prisma.UserWhereUniqueInput
+}
+
+export type UserUpdateOneRequiredWithoutUserPresencesNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutUserPresencesInput, Prisma.UserUncheckedCreateWithoutUserPresencesInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutUserPresencesInput
+  upsert?: Prisma.UserUpsertWithoutUserPresencesInput
+  connect?: Prisma.UserWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutUserPresencesInput, Prisma.UserUpdateWithoutUserPresencesInput>, Prisma.UserUncheckedUpdateWithoutUserPresencesInput>
+}
+
+export type UserCreateWithoutAdminsInput = {
   id: string
   name: string
   email: string
   emailVerified?: boolean
-  role?: $Enums.Role
-  status?: $Enums.UserStatus
-  needPasswordChange?: boolean
-  isDeleted?: boolean
-  deletedAt?: Date | string | null
   image?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
-  sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
+  role?: string
+  status?: string
+  needPasswordChange?: boolean
+  isDeleted?: boolean
+  deletedAt?: Date | string | null
   accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
-  client?: Prisma.ClientCreateNestedOneWithoutUserInput
-  expert?: Prisma.ExpertCreateNestedOneWithoutUserInput
-  notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
-  messageReactions?: Prisma.MessageReactionCreateNestedManyWithoutUserInput
   aiConversations?: Prisma.AIConversationCreateNestedManyWithoutUserInput
-  expertApplications?: Prisma.ExpertApplicationCreateNestedManyWithoutUserInput
+  candidates?: Prisma.CandidateCreateNestedOneWithoutUserInput
+  messageReactions?: Prisma.MessageReactionCreateNestedManyWithoutUserInput
+  notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
+  recruiters?: Prisma.RecruiterCreateNestedOneWithoutUserInput
+  resumes?: Prisma.ResumeCreateNestedManyWithoutUserInput
+  savedJobs?: Prisma.SavedJobCreateNestedManyWithoutUserInput
+  sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
+  userPresences?: Prisma.UserPresenceCreateNestedOneWithoutUserInput
+  testimonials?: Prisma.TestimonialCreateNestedManyWithoutUserInput
 }
 
-export type UserUncheckedCreateWithoutAdminInput = {
+export type UserUncheckedCreateWithoutAdminsInput = {
   id: string
   name: string
   email: string
   emailVerified?: boolean
-  role?: $Enums.Role
-  status?: $Enums.UserStatus
-  needPasswordChange?: boolean
-  isDeleted?: boolean
-  deletedAt?: Date | string | null
   image?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
-  sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
+  role?: string
+  status?: string
+  needPasswordChange?: boolean
+  isDeleted?: boolean
+  deletedAt?: Date | string | null
   accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
-  client?: Prisma.ClientUncheckedCreateNestedOneWithoutUserInput
-  expert?: Prisma.ExpertUncheckedCreateNestedOneWithoutUserInput
-  notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
-  messageReactions?: Prisma.MessageReactionUncheckedCreateNestedManyWithoutUserInput
   aiConversations?: Prisma.AIConversationUncheckedCreateNestedManyWithoutUserInput
-  expertApplications?: Prisma.ExpertApplicationUncheckedCreateNestedManyWithoutUserInput
+  candidates?: Prisma.CandidateUncheckedCreateNestedOneWithoutUserInput
+  messageReactions?: Prisma.MessageReactionUncheckedCreateNestedManyWithoutUserInput
+  notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
+  recruiters?: Prisma.RecruiterUncheckedCreateNestedOneWithoutUserInput
+  resumes?: Prisma.ResumeUncheckedCreateNestedManyWithoutUserInput
+  savedJobs?: Prisma.SavedJobUncheckedCreateNestedManyWithoutUserInput
+  sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
+  userPresences?: Prisma.UserPresenceUncheckedCreateNestedOneWithoutUserInput
+  testimonials?: Prisma.TestimonialUncheckedCreateNestedManyWithoutUserInput
 }
 
-export type UserCreateOrConnectWithoutAdminInput = {
+export type UserCreateOrConnectWithoutAdminsInput = {
   where: Prisma.UserWhereUniqueInput
-  create: Prisma.XOR<Prisma.UserCreateWithoutAdminInput, Prisma.UserUncheckedCreateWithoutAdminInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutAdminsInput, Prisma.UserUncheckedCreateWithoutAdminsInput>
 }
 
-export type UserUpsertWithoutAdminInput = {
-  update: Prisma.XOR<Prisma.UserUpdateWithoutAdminInput, Prisma.UserUncheckedUpdateWithoutAdminInput>
-  create: Prisma.XOR<Prisma.UserCreateWithoutAdminInput, Prisma.UserUncheckedCreateWithoutAdminInput>
+export type UserUpsertWithoutAdminsInput = {
+  update: Prisma.XOR<Prisma.UserUpdateWithoutAdminsInput, Prisma.UserUncheckedUpdateWithoutAdminsInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutAdminsInput, Prisma.UserUncheckedCreateWithoutAdminsInput>
   where?: Prisma.UserWhereInput
 }
 
-export type UserUpdateToOneWithWhereWithoutAdminInput = {
+export type UserUpdateToOneWithWhereWithoutAdminsInput = {
   where?: Prisma.UserWhereInput
-  data: Prisma.XOR<Prisma.UserUpdateWithoutAdminInput, Prisma.UserUncheckedUpdateWithoutAdminInput>
+  data: Prisma.XOR<Prisma.UserUpdateWithoutAdminsInput, Prisma.UserUncheckedUpdateWithoutAdminsInput>
 }
 
-export type UserUpdateWithoutAdminInput = {
+export type UserUpdateWithoutAdminsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
   emailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
-  status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
-  needPasswordChange?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
+  role?: Prisma.StringFieldUpdateOperationsInput | string
+  status?: Prisma.StringFieldUpdateOperationsInput | string
+  needPasswordChange?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
-  client?: Prisma.ClientUpdateOneWithoutUserNestedInput
-  expert?: Prisma.ExpertUpdateOneWithoutUserNestedInput
-  notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
-  messageReactions?: Prisma.MessageReactionUpdateManyWithoutUserNestedInput
   aiConversations?: Prisma.AIConversationUpdateManyWithoutUserNestedInput
-  expertApplications?: Prisma.ExpertApplicationUpdateManyWithoutUserNestedInput
+  candidates?: Prisma.CandidateUpdateOneWithoutUserNestedInput
+  messageReactions?: Prisma.MessageReactionUpdateManyWithoutUserNestedInput
+  notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
+  recruiters?: Prisma.RecruiterUpdateOneWithoutUserNestedInput
+  resumes?: Prisma.ResumeUpdateManyWithoutUserNestedInput
+  savedJobs?: Prisma.SavedJobUpdateManyWithoutUserNestedInput
+  sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
+  userPresences?: Prisma.UserPresenceUpdateOneWithoutUserNestedInput
+  testimonials?: Prisma.TestimonialUpdateManyWithoutUserNestedInput
 }
 
-export type UserUncheckedUpdateWithoutAdminInput = {
+export type UserUncheckedUpdateWithoutAdminsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
   emailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
-  status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
-  needPasswordChange?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
+  role?: Prisma.StringFieldUpdateOperationsInput | string
+  status?: Prisma.StringFieldUpdateOperationsInput | string
+  needPasswordChange?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
-  client?: Prisma.ClientUncheckedUpdateOneWithoutUserNestedInput
-  expert?: Prisma.ExpertUncheckedUpdateOneWithoutUserNestedInput
-  notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
-  messageReactions?: Prisma.MessageReactionUncheckedUpdateManyWithoutUserNestedInput
   aiConversations?: Prisma.AIConversationUncheckedUpdateManyWithoutUserNestedInput
-  expertApplications?: Prisma.ExpertApplicationUncheckedUpdateManyWithoutUserNestedInput
+  candidates?: Prisma.CandidateUncheckedUpdateOneWithoutUserNestedInput
+  messageReactions?: Prisma.MessageReactionUncheckedUpdateManyWithoutUserNestedInput
+  notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
+  recruiters?: Prisma.RecruiterUncheckedUpdateOneWithoutUserNestedInput
+  resumes?: Prisma.ResumeUncheckedUpdateManyWithoutUserNestedInput
+  savedJobs?: Prisma.SavedJobUncheckedUpdateManyWithoutUserNestedInput
+  sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
+  userPresences?: Prisma.UserPresenceUncheckedUpdateOneWithoutUserNestedInput
+  testimonials?: Prisma.TestimonialUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutAiConversationsInput = {
@@ -774,22 +841,25 @@ export type UserCreateWithoutAiConversationsInput = {
   name: string
   email: string
   emailVerified?: boolean
-  role?: $Enums.Role
-  status?: $Enums.UserStatus
-  needPasswordChange?: boolean
-  isDeleted?: boolean
-  deletedAt?: Date | string | null
   image?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
-  sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
+  role?: string
+  status?: string
+  needPasswordChange?: boolean
+  isDeleted?: boolean
+  deletedAt?: Date | string | null
   accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
-  client?: Prisma.ClientCreateNestedOneWithoutUserInput
-  expert?: Prisma.ExpertCreateNestedOneWithoutUserInput
-  admin?: Prisma.AdminCreateNestedOneWithoutUserInput
-  notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
+  admins?: Prisma.AdminCreateNestedOneWithoutUserInput
+  candidates?: Prisma.CandidateCreateNestedOneWithoutUserInput
   messageReactions?: Prisma.MessageReactionCreateNestedManyWithoutUserInput
-  expertApplications?: Prisma.ExpertApplicationCreateNestedManyWithoutUserInput
+  notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
+  recruiters?: Prisma.RecruiterCreateNestedOneWithoutUserInput
+  resumes?: Prisma.ResumeCreateNestedManyWithoutUserInput
+  savedJobs?: Prisma.SavedJobCreateNestedManyWithoutUserInput
+  sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
+  userPresences?: Prisma.UserPresenceCreateNestedOneWithoutUserInput
+  testimonials?: Prisma.TestimonialCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutAiConversationsInput = {
@@ -797,22 +867,25 @@ export type UserUncheckedCreateWithoutAiConversationsInput = {
   name: string
   email: string
   emailVerified?: boolean
-  role?: $Enums.Role
-  status?: $Enums.UserStatus
-  needPasswordChange?: boolean
-  isDeleted?: boolean
-  deletedAt?: Date | string | null
   image?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
-  sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
+  role?: string
+  status?: string
+  needPasswordChange?: boolean
+  isDeleted?: boolean
+  deletedAt?: Date | string | null
   accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
-  client?: Prisma.ClientUncheckedCreateNestedOneWithoutUserInput
-  expert?: Prisma.ExpertUncheckedCreateNestedOneWithoutUserInput
-  admin?: Prisma.AdminUncheckedCreateNestedOneWithoutUserInput
-  notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
+  admins?: Prisma.AdminUncheckedCreateNestedOneWithoutUserInput
+  candidates?: Prisma.CandidateUncheckedCreateNestedOneWithoutUserInput
   messageReactions?: Prisma.MessageReactionUncheckedCreateNestedManyWithoutUserInput
-  expertApplications?: Prisma.ExpertApplicationUncheckedCreateNestedManyWithoutUserInput
+  notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
+  recruiters?: Prisma.RecruiterUncheckedCreateNestedOneWithoutUserInput
+  resumes?: Prisma.ResumeUncheckedCreateNestedManyWithoutUserInput
+  savedJobs?: Prisma.SavedJobUncheckedCreateNestedManyWithoutUserInput
+  sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
+  userPresences?: Prisma.UserPresenceUncheckedCreateNestedOneWithoutUserInput
+  testimonials?: Prisma.TestimonialUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutAiConversationsInput = {
@@ -836,22 +909,25 @@ export type UserUpdateWithoutAiConversationsInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
   emailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
-  status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
-  needPasswordChange?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
+  role?: Prisma.StringFieldUpdateOperationsInput | string
+  status?: Prisma.StringFieldUpdateOperationsInput | string
+  needPasswordChange?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
-  client?: Prisma.ClientUpdateOneWithoutUserNestedInput
-  expert?: Prisma.ExpertUpdateOneWithoutUserNestedInput
-  admin?: Prisma.AdminUpdateOneWithoutUserNestedInput
-  notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
+  admins?: Prisma.AdminUpdateOneWithoutUserNestedInput
+  candidates?: Prisma.CandidateUpdateOneWithoutUserNestedInput
   messageReactions?: Prisma.MessageReactionUpdateManyWithoutUserNestedInput
-  expertApplications?: Prisma.ExpertApplicationUpdateManyWithoutUserNestedInput
+  notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
+  recruiters?: Prisma.RecruiterUpdateOneWithoutUserNestedInput
+  resumes?: Prisma.ResumeUpdateManyWithoutUserNestedInput
+  savedJobs?: Prisma.SavedJobUpdateManyWithoutUserNestedInput
+  sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
+  userPresences?: Prisma.UserPresenceUpdateOneWithoutUserNestedInput
+  testimonials?: Prisma.TestimonialUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutAiConversationsInput = {
@@ -859,22 +935,25 @@ export type UserUncheckedUpdateWithoutAiConversationsInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
   emailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
-  status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
-  needPasswordChange?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
+  role?: Prisma.StringFieldUpdateOperationsInput | string
+  status?: Prisma.StringFieldUpdateOperationsInput | string
+  needPasswordChange?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
-  client?: Prisma.ClientUncheckedUpdateOneWithoutUserNestedInput
-  expert?: Prisma.ExpertUncheckedUpdateOneWithoutUserNestedInput
-  admin?: Prisma.AdminUncheckedUpdateOneWithoutUserNestedInput
-  notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
+  admins?: Prisma.AdminUncheckedUpdateOneWithoutUserNestedInput
+  candidates?: Prisma.CandidateUncheckedUpdateOneWithoutUserNestedInput
   messageReactions?: Prisma.MessageReactionUncheckedUpdateManyWithoutUserNestedInput
-  expertApplications?: Prisma.ExpertApplicationUncheckedUpdateManyWithoutUserNestedInput
+  notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
+  recruiters?: Prisma.RecruiterUncheckedUpdateOneWithoutUserNestedInput
+  resumes?: Prisma.ResumeUncheckedUpdateManyWithoutUserNestedInput
+  savedJobs?: Prisma.SavedJobUncheckedUpdateManyWithoutUserNestedInput
+  sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
+  userPresences?: Prisma.UserPresenceUncheckedUpdateOneWithoutUserNestedInput
+  testimonials?: Prisma.TestimonialUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutSessionsInput = {
@@ -882,22 +961,25 @@ export type UserCreateWithoutSessionsInput = {
   name: string
   email: string
   emailVerified?: boolean
-  role?: $Enums.Role
-  status?: $Enums.UserStatus
-  needPasswordChange?: boolean
-  isDeleted?: boolean
-  deletedAt?: Date | string | null
   image?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  role?: string
+  status?: string
+  needPasswordChange?: boolean
+  isDeleted?: boolean
+  deletedAt?: Date | string | null
   accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
-  client?: Prisma.ClientCreateNestedOneWithoutUserInput
-  expert?: Prisma.ExpertCreateNestedOneWithoutUserInput
-  admin?: Prisma.AdminCreateNestedOneWithoutUserInput
-  notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
-  messageReactions?: Prisma.MessageReactionCreateNestedManyWithoutUserInput
+  admins?: Prisma.AdminCreateNestedOneWithoutUserInput
   aiConversations?: Prisma.AIConversationCreateNestedManyWithoutUserInput
-  expertApplications?: Prisma.ExpertApplicationCreateNestedManyWithoutUserInput
+  candidates?: Prisma.CandidateCreateNestedOneWithoutUserInput
+  messageReactions?: Prisma.MessageReactionCreateNestedManyWithoutUserInput
+  notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
+  recruiters?: Prisma.RecruiterCreateNestedOneWithoutUserInput
+  resumes?: Prisma.ResumeCreateNestedManyWithoutUserInput
+  savedJobs?: Prisma.SavedJobCreateNestedManyWithoutUserInput
+  userPresences?: Prisma.UserPresenceCreateNestedOneWithoutUserInput
+  testimonials?: Prisma.TestimonialCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutSessionsInput = {
@@ -905,22 +987,25 @@ export type UserUncheckedCreateWithoutSessionsInput = {
   name: string
   email: string
   emailVerified?: boolean
-  role?: $Enums.Role
-  status?: $Enums.UserStatus
-  needPasswordChange?: boolean
-  isDeleted?: boolean
-  deletedAt?: Date | string | null
   image?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  role?: string
+  status?: string
+  needPasswordChange?: boolean
+  isDeleted?: boolean
+  deletedAt?: Date | string | null
   accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
-  client?: Prisma.ClientUncheckedCreateNestedOneWithoutUserInput
-  expert?: Prisma.ExpertUncheckedCreateNestedOneWithoutUserInput
-  admin?: Prisma.AdminUncheckedCreateNestedOneWithoutUserInput
-  notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
-  messageReactions?: Prisma.MessageReactionUncheckedCreateNestedManyWithoutUserInput
+  admins?: Prisma.AdminUncheckedCreateNestedOneWithoutUserInput
   aiConversations?: Prisma.AIConversationUncheckedCreateNestedManyWithoutUserInput
-  expertApplications?: Prisma.ExpertApplicationUncheckedCreateNestedManyWithoutUserInput
+  candidates?: Prisma.CandidateUncheckedCreateNestedOneWithoutUserInput
+  messageReactions?: Prisma.MessageReactionUncheckedCreateNestedManyWithoutUserInput
+  notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
+  recruiters?: Prisma.RecruiterUncheckedCreateNestedOneWithoutUserInput
+  resumes?: Prisma.ResumeUncheckedCreateNestedManyWithoutUserInput
+  savedJobs?: Prisma.SavedJobUncheckedCreateNestedManyWithoutUserInput
+  userPresences?: Prisma.UserPresenceUncheckedCreateNestedOneWithoutUserInput
+  testimonials?: Prisma.TestimonialUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutSessionsInput = {
@@ -944,22 +1029,25 @@ export type UserUpdateWithoutSessionsInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
   emailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
-  status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
-  needPasswordChange?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  role?: Prisma.StringFieldUpdateOperationsInput | string
+  status?: Prisma.StringFieldUpdateOperationsInput | string
+  needPasswordChange?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
-  client?: Prisma.ClientUpdateOneWithoutUserNestedInput
-  expert?: Prisma.ExpertUpdateOneWithoutUserNestedInput
-  admin?: Prisma.AdminUpdateOneWithoutUserNestedInput
-  notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
-  messageReactions?: Prisma.MessageReactionUpdateManyWithoutUserNestedInput
+  admins?: Prisma.AdminUpdateOneWithoutUserNestedInput
   aiConversations?: Prisma.AIConversationUpdateManyWithoutUserNestedInput
-  expertApplications?: Prisma.ExpertApplicationUpdateManyWithoutUserNestedInput
+  candidates?: Prisma.CandidateUpdateOneWithoutUserNestedInput
+  messageReactions?: Prisma.MessageReactionUpdateManyWithoutUserNestedInput
+  notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
+  recruiters?: Prisma.RecruiterUpdateOneWithoutUserNestedInput
+  resumes?: Prisma.ResumeUpdateManyWithoutUserNestedInput
+  savedJobs?: Prisma.SavedJobUpdateManyWithoutUserNestedInput
+  userPresences?: Prisma.UserPresenceUpdateOneWithoutUserNestedInput
+  testimonials?: Prisma.TestimonialUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutSessionsInput = {
@@ -967,22 +1055,25 @@ export type UserUncheckedUpdateWithoutSessionsInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
   emailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
-  status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
-  needPasswordChange?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  role?: Prisma.StringFieldUpdateOperationsInput | string
+  status?: Prisma.StringFieldUpdateOperationsInput | string
+  needPasswordChange?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
-  client?: Prisma.ClientUncheckedUpdateOneWithoutUserNestedInput
-  expert?: Prisma.ExpertUncheckedUpdateOneWithoutUserNestedInput
-  admin?: Prisma.AdminUncheckedUpdateOneWithoutUserNestedInput
-  notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
-  messageReactions?: Prisma.MessageReactionUncheckedUpdateManyWithoutUserNestedInput
+  admins?: Prisma.AdminUncheckedUpdateOneWithoutUserNestedInput
   aiConversations?: Prisma.AIConversationUncheckedUpdateManyWithoutUserNestedInput
-  expertApplications?: Prisma.ExpertApplicationUncheckedUpdateManyWithoutUserNestedInput
+  candidates?: Prisma.CandidateUncheckedUpdateOneWithoutUserNestedInput
+  messageReactions?: Prisma.MessageReactionUncheckedUpdateManyWithoutUserNestedInput
+  notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
+  recruiters?: Prisma.RecruiterUncheckedUpdateOneWithoutUserNestedInput
+  resumes?: Prisma.ResumeUncheckedUpdateManyWithoutUserNestedInput
+  savedJobs?: Prisma.SavedJobUncheckedUpdateManyWithoutUserNestedInput
+  userPresences?: Prisma.UserPresenceUncheckedUpdateOneWithoutUserNestedInput
+  testimonials?: Prisma.TestimonialUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutAccountsInput = {
@@ -990,22 +1081,25 @@ export type UserCreateWithoutAccountsInput = {
   name: string
   email: string
   emailVerified?: boolean
-  role?: $Enums.Role
-  status?: $Enums.UserStatus
-  needPasswordChange?: boolean
-  isDeleted?: boolean
-  deletedAt?: Date | string | null
   image?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
-  sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
-  client?: Prisma.ClientCreateNestedOneWithoutUserInput
-  expert?: Prisma.ExpertCreateNestedOneWithoutUserInput
-  admin?: Prisma.AdminCreateNestedOneWithoutUserInput
-  notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
-  messageReactions?: Prisma.MessageReactionCreateNestedManyWithoutUserInput
+  role?: string
+  status?: string
+  needPasswordChange?: boolean
+  isDeleted?: boolean
+  deletedAt?: Date | string | null
+  admins?: Prisma.AdminCreateNestedOneWithoutUserInput
   aiConversations?: Prisma.AIConversationCreateNestedManyWithoutUserInput
-  expertApplications?: Prisma.ExpertApplicationCreateNestedManyWithoutUserInput
+  candidates?: Prisma.CandidateCreateNestedOneWithoutUserInput
+  messageReactions?: Prisma.MessageReactionCreateNestedManyWithoutUserInput
+  notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
+  recruiters?: Prisma.RecruiterCreateNestedOneWithoutUserInput
+  resumes?: Prisma.ResumeCreateNestedManyWithoutUserInput
+  savedJobs?: Prisma.SavedJobCreateNestedManyWithoutUserInput
+  sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
+  userPresences?: Prisma.UserPresenceCreateNestedOneWithoutUserInput
+  testimonials?: Prisma.TestimonialCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutAccountsInput = {
@@ -1013,22 +1107,25 @@ export type UserUncheckedCreateWithoutAccountsInput = {
   name: string
   email: string
   emailVerified?: boolean
-  role?: $Enums.Role
-  status?: $Enums.UserStatus
-  needPasswordChange?: boolean
-  isDeleted?: boolean
-  deletedAt?: Date | string | null
   image?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
-  sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
-  client?: Prisma.ClientUncheckedCreateNestedOneWithoutUserInput
-  expert?: Prisma.ExpertUncheckedCreateNestedOneWithoutUserInput
-  admin?: Prisma.AdminUncheckedCreateNestedOneWithoutUserInput
-  notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
-  messageReactions?: Prisma.MessageReactionUncheckedCreateNestedManyWithoutUserInput
+  role?: string
+  status?: string
+  needPasswordChange?: boolean
+  isDeleted?: boolean
+  deletedAt?: Date | string | null
+  admins?: Prisma.AdminUncheckedCreateNestedOneWithoutUserInput
   aiConversations?: Prisma.AIConversationUncheckedCreateNestedManyWithoutUserInput
-  expertApplications?: Prisma.ExpertApplicationUncheckedCreateNestedManyWithoutUserInput
+  candidates?: Prisma.CandidateUncheckedCreateNestedOneWithoutUserInput
+  messageReactions?: Prisma.MessageReactionUncheckedCreateNestedManyWithoutUserInput
+  notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
+  recruiters?: Prisma.RecruiterUncheckedCreateNestedOneWithoutUserInput
+  resumes?: Prisma.ResumeUncheckedCreateNestedManyWithoutUserInput
+  savedJobs?: Prisma.SavedJobUncheckedCreateNestedManyWithoutUserInput
+  sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
+  userPresences?: Prisma.UserPresenceUncheckedCreateNestedOneWithoutUserInput
+  testimonials?: Prisma.TestimonialUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutAccountsInput = {
@@ -1052,22 +1149,25 @@ export type UserUpdateWithoutAccountsInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
   emailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
-  status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
-  needPasswordChange?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
-  client?: Prisma.ClientUpdateOneWithoutUserNestedInput
-  expert?: Prisma.ExpertUpdateOneWithoutUserNestedInput
-  admin?: Prisma.AdminUpdateOneWithoutUserNestedInput
-  notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
-  messageReactions?: Prisma.MessageReactionUpdateManyWithoutUserNestedInput
+  role?: Prisma.StringFieldUpdateOperationsInput | string
+  status?: Prisma.StringFieldUpdateOperationsInput | string
+  needPasswordChange?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  admins?: Prisma.AdminUpdateOneWithoutUserNestedInput
   aiConversations?: Prisma.AIConversationUpdateManyWithoutUserNestedInput
-  expertApplications?: Prisma.ExpertApplicationUpdateManyWithoutUserNestedInput
+  candidates?: Prisma.CandidateUpdateOneWithoutUserNestedInput
+  messageReactions?: Prisma.MessageReactionUpdateManyWithoutUserNestedInput
+  notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
+  recruiters?: Prisma.RecruiterUpdateOneWithoutUserNestedInput
+  resumes?: Prisma.ResumeUpdateManyWithoutUserNestedInput
+  savedJobs?: Prisma.SavedJobUpdateManyWithoutUserNestedInput
+  sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
+  userPresences?: Prisma.UserPresenceUpdateOneWithoutUserNestedInput
+  testimonials?: Prisma.TestimonialUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutAccountsInput = {
@@ -1075,346 +1175,145 @@ export type UserUncheckedUpdateWithoutAccountsInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
   emailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
-  status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
-  needPasswordChange?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
-  client?: Prisma.ClientUncheckedUpdateOneWithoutUserNestedInput
-  expert?: Prisma.ExpertUncheckedUpdateOneWithoutUserNestedInput
-  admin?: Prisma.AdminUncheckedUpdateOneWithoutUserNestedInput
-  notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
-  messageReactions?: Prisma.MessageReactionUncheckedUpdateManyWithoutUserNestedInput
+  role?: Prisma.StringFieldUpdateOperationsInput | string
+  status?: Prisma.StringFieldUpdateOperationsInput | string
+  needPasswordChange?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  admins?: Prisma.AdminUncheckedUpdateOneWithoutUserNestedInput
   aiConversations?: Prisma.AIConversationUncheckedUpdateManyWithoutUserNestedInput
-  expertApplications?: Prisma.ExpertApplicationUncheckedUpdateManyWithoutUserNestedInput
+  candidates?: Prisma.CandidateUncheckedUpdateOneWithoutUserNestedInput
+  messageReactions?: Prisma.MessageReactionUncheckedUpdateManyWithoutUserNestedInput
+  notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
+  recruiters?: Prisma.RecruiterUncheckedUpdateOneWithoutUserNestedInput
+  resumes?: Prisma.ResumeUncheckedUpdateManyWithoutUserNestedInput
+  savedJobs?: Prisma.SavedJobUncheckedUpdateManyWithoutUserNestedInput
+  sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
+  userPresences?: Prisma.UserPresenceUncheckedUpdateOneWithoutUserNestedInput
+  testimonials?: Prisma.TestimonialUncheckedUpdateManyWithoutUserNestedInput
 }
 
-export type UserCreateWithoutClientInput = {
+export type UserCreateWithoutCandidatesInput = {
   id: string
   name: string
   email: string
   emailVerified?: boolean
-  role?: $Enums.Role
-  status?: $Enums.UserStatus
-  needPasswordChange?: boolean
-  isDeleted?: boolean
-  deletedAt?: Date | string | null
   image?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
-  sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
+  role?: string
+  status?: string
+  needPasswordChange?: boolean
+  isDeleted?: boolean
+  deletedAt?: Date | string | null
   accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
-  expert?: Prisma.ExpertCreateNestedOneWithoutUserInput
-  admin?: Prisma.AdminCreateNestedOneWithoutUserInput
-  notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
-  messageReactions?: Prisma.MessageReactionCreateNestedManyWithoutUserInput
+  admins?: Prisma.AdminCreateNestedOneWithoutUserInput
   aiConversations?: Prisma.AIConversationCreateNestedManyWithoutUserInput
-  expertApplications?: Prisma.ExpertApplicationCreateNestedManyWithoutUserInput
-}
-
-export type UserUncheckedCreateWithoutClientInput = {
-  id: string
-  name: string
-  email: string
-  emailVerified?: boolean
-  role?: $Enums.Role
-  status?: $Enums.UserStatus
-  needPasswordChange?: boolean
-  isDeleted?: boolean
-  deletedAt?: Date | string | null
-  image?: string | null
-  createdAt?: Date | string
-  updatedAt?: Date | string
-  sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
-  accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
-  expert?: Prisma.ExpertUncheckedCreateNestedOneWithoutUserInput
-  admin?: Prisma.AdminUncheckedCreateNestedOneWithoutUserInput
-  notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
-  messageReactions?: Prisma.MessageReactionUncheckedCreateNestedManyWithoutUserInput
-  aiConversations?: Prisma.AIConversationUncheckedCreateNestedManyWithoutUserInput
-  expertApplications?: Prisma.ExpertApplicationUncheckedCreateNestedManyWithoutUserInput
-}
-
-export type UserCreateOrConnectWithoutClientInput = {
-  where: Prisma.UserWhereUniqueInput
-  create: Prisma.XOR<Prisma.UserCreateWithoutClientInput, Prisma.UserUncheckedCreateWithoutClientInput>
-}
-
-export type UserUpsertWithoutClientInput = {
-  update: Prisma.XOR<Prisma.UserUpdateWithoutClientInput, Prisma.UserUncheckedUpdateWithoutClientInput>
-  create: Prisma.XOR<Prisma.UserCreateWithoutClientInput, Prisma.UserUncheckedCreateWithoutClientInput>
-  where?: Prisma.UserWhereInput
-}
-
-export type UserUpdateToOneWithWhereWithoutClientInput = {
-  where?: Prisma.UserWhereInput
-  data: Prisma.XOR<Prisma.UserUpdateWithoutClientInput, Prisma.UserUncheckedUpdateWithoutClientInput>
-}
-
-export type UserUpdateWithoutClientInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  name?: Prisma.StringFieldUpdateOperationsInput | string
-  email?: Prisma.StringFieldUpdateOperationsInput | string
-  emailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
-  status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
-  needPasswordChange?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
-  accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
-  expert?: Prisma.ExpertUpdateOneWithoutUserNestedInput
-  admin?: Prisma.AdminUpdateOneWithoutUserNestedInput
-  notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
-  messageReactions?: Prisma.MessageReactionUpdateManyWithoutUserNestedInput
-  aiConversations?: Prisma.AIConversationUpdateManyWithoutUserNestedInput
-  expertApplications?: Prisma.ExpertApplicationUpdateManyWithoutUserNestedInput
-}
-
-export type UserUncheckedUpdateWithoutClientInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  name?: Prisma.StringFieldUpdateOperationsInput | string
-  email?: Prisma.StringFieldUpdateOperationsInput | string
-  emailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
-  status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
-  needPasswordChange?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
-  accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
-  expert?: Prisma.ExpertUncheckedUpdateOneWithoutUserNestedInput
-  admin?: Prisma.AdminUncheckedUpdateOneWithoutUserNestedInput
-  notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
-  messageReactions?: Prisma.MessageReactionUncheckedUpdateManyWithoutUserNestedInput
-  aiConversations?: Prisma.AIConversationUncheckedUpdateManyWithoutUserNestedInput
-  expertApplications?: Prisma.ExpertApplicationUncheckedUpdateManyWithoutUserNestedInput
-}
-
-export type UserCreateWithoutExpertInput = {
-  id: string
-  name: string
-  email: string
-  emailVerified?: boolean
-  role?: $Enums.Role
-  status?: $Enums.UserStatus
-  needPasswordChange?: boolean
-  isDeleted?: boolean
-  deletedAt?: Date | string | null
-  image?: string | null
-  createdAt?: Date | string
-  updatedAt?: Date | string
+  messageReactions?: Prisma.MessageReactionCreateNestedManyWithoutUserInput
+  notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
+  recruiters?: Prisma.RecruiterCreateNestedOneWithoutUserInput
+  resumes?: Prisma.ResumeCreateNestedManyWithoutUserInput
+  savedJobs?: Prisma.SavedJobCreateNestedManyWithoutUserInput
   sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
-  accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
-  client?: Prisma.ClientCreateNestedOneWithoutUserInput
-  admin?: Prisma.AdminCreateNestedOneWithoutUserInput
-  notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
-  messageReactions?: Prisma.MessageReactionCreateNestedManyWithoutUserInput
-  aiConversations?: Prisma.AIConversationCreateNestedManyWithoutUserInput
-  expertApplications?: Prisma.ExpertApplicationCreateNestedManyWithoutUserInput
+  userPresences?: Prisma.UserPresenceCreateNestedOneWithoutUserInput
+  testimonials?: Prisma.TestimonialCreateNestedManyWithoutUserInput
 }
 
-export type UserUncheckedCreateWithoutExpertInput = {
+export type UserUncheckedCreateWithoutCandidatesInput = {
   id: string
   name: string
   email: string
   emailVerified?: boolean
-  role?: $Enums.Role
-  status?: $Enums.UserStatus
-  needPasswordChange?: boolean
-  isDeleted?: boolean
-  deletedAt?: Date | string | null
   image?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
-  sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
+  role?: string
+  status?: string
+  needPasswordChange?: boolean
+  isDeleted?: boolean
+  deletedAt?: Date | string | null
   accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
-  client?: Prisma.ClientUncheckedCreateNestedOneWithoutUserInput
-  admin?: Prisma.AdminUncheckedCreateNestedOneWithoutUserInput
-  notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
-  messageReactions?: Prisma.MessageReactionUncheckedCreateNestedManyWithoutUserInput
+  admins?: Prisma.AdminUncheckedCreateNestedOneWithoutUserInput
   aiConversations?: Prisma.AIConversationUncheckedCreateNestedManyWithoutUserInput
-  expertApplications?: Prisma.ExpertApplicationUncheckedCreateNestedManyWithoutUserInput
-}
-
-export type UserCreateOrConnectWithoutExpertInput = {
-  where: Prisma.UserWhereUniqueInput
-  create: Prisma.XOR<Prisma.UserCreateWithoutExpertInput, Prisma.UserUncheckedCreateWithoutExpertInput>
-}
-
-export type UserUpsertWithoutExpertInput = {
-  update: Prisma.XOR<Prisma.UserUpdateWithoutExpertInput, Prisma.UserUncheckedUpdateWithoutExpertInput>
-  create: Prisma.XOR<Prisma.UserCreateWithoutExpertInput, Prisma.UserUncheckedCreateWithoutExpertInput>
-  where?: Prisma.UserWhereInput
-}
-
-export type UserUpdateToOneWithWhereWithoutExpertInput = {
-  where?: Prisma.UserWhereInput
-  data: Prisma.XOR<Prisma.UserUpdateWithoutExpertInput, Prisma.UserUncheckedUpdateWithoutExpertInput>
-}
-
-export type UserUpdateWithoutExpertInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  name?: Prisma.StringFieldUpdateOperationsInput | string
-  email?: Prisma.StringFieldUpdateOperationsInput | string
-  emailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
-  status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
-  needPasswordChange?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
-  accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
-  client?: Prisma.ClientUpdateOneWithoutUserNestedInput
-  admin?: Prisma.AdminUpdateOneWithoutUserNestedInput
-  notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
-  messageReactions?: Prisma.MessageReactionUpdateManyWithoutUserNestedInput
-  aiConversations?: Prisma.AIConversationUpdateManyWithoutUserNestedInput
-  expertApplications?: Prisma.ExpertApplicationUpdateManyWithoutUserNestedInput
-}
-
-export type UserUncheckedUpdateWithoutExpertInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  name?: Prisma.StringFieldUpdateOperationsInput | string
-  email?: Prisma.StringFieldUpdateOperationsInput | string
-  emailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
-  status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
-  needPasswordChange?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
-  accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
-  client?: Prisma.ClientUncheckedUpdateOneWithoutUserNestedInput
-  admin?: Prisma.AdminUncheckedUpdateOneWithoutUserNestedInput
-  notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
-  messageReactions?: Prisma.MessageReactionUncheckedUpdateManyWithoutUserNestedInput
-  aiConversations?: Prisma.AIConversationUncheckedUpdateManyWithoutUserNestedInput
-  expertApplications?: Prisma.ExpertApplicationUncheckedUpdateManyWithoutUserNestedInput
-}
-
-export type UserCreateWithoutExpertApplicationsInput = {
-  id: string
-  name: string
-  email: string
-  emailVerified?: boolean
-  role?: $Enums.Role
-  status?: $Enums.UserStatus
-  needPasswordChange?: boolean
-  isDeleted?: boolean
-  deletedAt?: Date | string | null
-  image?: string | null
-  createdAt?: Date | string
-  updatedAt?: Date | string
-  sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
-  accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
-  client?: Prisma.ClientCreateNestedOneWithoutUserInput
-  expert?: Prisma.ExpertCreateNestedOneWithoutUserInput
-  admin?: Prisma.AdminCreateNestedOneWithoutUserInput
-  notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
-  messageReactions?: Prisma.MessageReactionCreateNestedManyWithoutUserInput
-  aiConversations?: Prisma.AIConversationCreateNestedManyWithoutUserInput
-}
-
-export type UserUncheckedCreateWithoutExpertApplicationsInput = {
-  id: string
-  name: string
-  email: string
-  emailVerified?: boolean
-  role?: $Enums.Role
-  status?: $Enums.UserStatus
-  needPasswordChange?: boolean
-  isDeleted?: boolean
-  deletedAt?: Date | string | null
-  image?: string | null
-  createdAt?: Date | string
-  updatedAt?: Date | string
+  messageReactions?: Prisma.MessageReactionUncheckedCreateNestedManyWithoutUserInput
+  notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
+  recruiters?: Prisma.RecruiterUncheckedCreateNestedOneWithoutUserInput
+  resumes?: Prisma.ResumeUncheckedCreateNestedManyWithoutUserInput
+  savedJobs?: Prisma.SavedJobUncheckedCreateNestedManyWithoutUserInput
   sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
-  accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
-  client?: Prisma.ClientUncheckedCreateNestedOneWithoutUserInput
-  expert?: Prisma.ExpertUncheckedCreateNestedOneWithoutUserInput
-  admin?: Prisma.AdminUncheckedCreateNestedOneWithoutUserInput
-  notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
-  messageReactions?: Prisma.MessageReactionUncheckedCreateNestedManyWithoutUserInput
-  aiConversations?: Prisma.AIConversationUncheckedCreateNestedManyWithoutUserInput
+  userPresences?: Prisma.UserPresenceUncheckedCreateNestedOneWithoutUserInput
+  testimonials?: Prisma.TestimonialUncheckedCreateNestedManyWithoutUserInput
 }
 
-export type UserCreateOrConnectWithoutExpertApplicationsInput = {
+export type UserCreateOrConnectWithoutCandidatesInput = {
   where: Prisma.UserWhereUniqueInput
-  create: Prisma.XOR<Prisma.UserCreateWithoutExpertApplicationsInput, Prisma.UserUncheckedCreateWithoutExpertApplicationsInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutCandidatesInput, Prisma.UserUncheckedCreateWithoutCandidatesInput>
 }
 
-export type UserUpsertWithoutExpertApplicationsInput = {
-  update: Prisma.XOR<Prisma.UserUpdateWithoutExpertApplicationsInput, Prisma.UserUncheckedUpdateWithoutExpertApplicationsInput>
-  create: Prisma.XOR<Prisma.UserCreateWithoutExpertApplicationsInput, Prisma.UserUncheckedCreateWithoutExpertApplicationsInput>
+export type UserUpsertWithoutCandidatesInput = {
+  update: Prisma.XOR<Prisma.UserUpdateWithoutCandidatesInput, Prisma.UserUncheckedUpdateWithoutCandidatesInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutCandidatesInput, Prisma.UserUncheckedCreateWithoutCandidatesInput>
   where?: Prisma.UserWhereInput
 }
 
-export type UserUpdateToOneWithWhereWithoutExpertApplicationsInput = {
+export type UserUpdateToOneWithWhereWithoutCandidatesInput = {
   where?: Prisma.UserWhereInput
-  data: Prisma.XOR<Prisma.UserUpdateWithoutExpertApplicationsInput, Prisma.UserUncheckedUpdateWithoutExpertApplicationsInput>
+  data: Prisma.XOR<Prisma.UserUpdateWithoutCandidatesInput, Prisma.UserUncheckedUpdateWithoutCandidatesInput>
 }
 
-export type UserUpdateWithoutExpertApplicationsInput = {
+export type UserUpdateWithoutCandidatesInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
   emailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
-  status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
-  needPasswordChange?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
+  role?: Prisma.StringFieldUpdateOperationsInput | string
+  status?: Prisma.StringFieldUpdateOperationsInput | string
+  needPasswordChange?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
-  client?: Prisma.ClientUpdateOneWithoutUserNestedInput
-  expert?: Prisma.ExpertUpdateOneWithoutUserNestedInput
-  admin?: Prisma.AdminUpdateOneWithoutUserNestedInput
-  notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
-  messageReactions?: Prisma.MessageReactionUpdateManyWithoutUserNestedInput
+  admins?: Prisma.AdminUpdateOneWithoutUserNestedInput
   aiConversations?: Prisma.AIConversationUpdateManyWithoutUserNestedInput
+  messageReactions?: Prisma.MessageReactionUpdateManyWithoutUserNestedInput
+  notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
+  recruiters?: Prisma.RecruiterUpdateOneWithoutUserNestedInput
+  resumes?: Prisma.ResumeUpdateManyWithoutUserNestedInput
+  savedJobs?: Prisma.SavedJobUpdateManyWithoutUserNestedInput
+  sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
+  userPresences?: Prisma.UserPresenceUpdateOneWithoutUserNestedInput
+  testimonials?: Prisma.TestimonialUpdateManyWithoutUserNestedInput
 }
 
-export type UserUncheckedUpdateWithoutExpertApplicationsInput = {
+export type UserUncheckedUpdateWithoutCandidatesInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
   emailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
-  status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
-  needPasswordChange?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
+  role?: Prisma.StringFieldUpdateOperationsInput | string
+  status?: Prisma.StringFieldUpdateOperationsInput | string
+  needPasswordChange?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
-  client?: Prisma.ClientUncheckedUpdateOneWithoutUserNestedInput
-  expert?: Prisma.ExpertUncheckedUpdateOneWithoutUserNestedInput
-  admin?: Prisma.AdminUncheckedUpdateOneWithoutUserNestedInput
-  notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
-  messageReactions?: Prisma.MessageReactionUncheckedUpdateManyWithoutUserNestedInput
+  admins?: Prisma.AdminUncheckedUpdateOneWithoutUserNestedInput
   aiConversations?: Prisma.AIConversationUncheckedUpdateManyWithoutUserNestedInput
+  messageReactions?: Prisma.MessageReactionUncheckedUpdateManyWithoutUserNestedInput
+  notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
+  recruiters?: Prisma.RecruiterUncheckedUpdateOneWithoutUserNestedInput
+  resumes?: Prisma.ResumeUncheckedUpdateManyWithoutUserNestedInput
+  savedJobs?: Prisma.SavedJobUncheckedUpdateManyWithoutUserNestedInput
+  sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
+  userPresences?: Prisma.UserPresenceUncheckedUpdateOneWithoutUserNestedInput
+  testimonials?: Prisma.TestimonialUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutMessageReactionsInput = {
@@ -1422,22 +1321,25 @@ export type UserCreateWithoutMessageReactionsInput = {
   name: string
   email: string
   emailVerified?: boolean
-  role?: $Enums.Role
-  status?: $Enums.UserStatus
-  needPasswordChange?: boolean
-  isDeleted?: boolean
-  deletedAt?: Date | string | null
   image?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
-  sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
+  role?: string
+  status?: string
+  needPasswordChange?: boolean
+  isDeleted?: boolean
+  deletedAt?: Date | string | null
   accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
-  client?: Prisma.ClientCreateNestedOneWithoutUserInput
-  expert?: Prisma.ExpertCreateNestedOneWithoutUserInput
-  admin?: Prisma.AdminCreateNestedOneWithoutUserInput
-  notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
+  admins?: Prisma.AdminCreateNestedOneWithoutUserInput
   aiConversations?: Prisma.AIConversationCreateNestedManyWithoutUserInput
-  expertApplications?: Prisma.ExpertApplicationCreateNestedManyWithoutUserInput
+  candidates?: Prisma.CandidateCreateNestedOneWithoutUserInput
+  notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
+  recruiters?: Prisma.RecruiterCreateNestedOneWithoutUserInput
+  resumes?: Prisma.ResumeCreateNestedManyWithoutUserInput
+  savedJobs?: Prisma.SavedJobCreateNestedManyWithoutUserInput
+  sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
+  userPresences?: Prisma.UserPresenceCreateNestedOneWithoutUserInput
+  testimonials?: Prisma.TestimonialCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutMessageReactionsInput = {
@@ -1445,22 +1347,25 @@ export type UserUncheckedCreateWithoutMessageReactionsInput = {
   name: string
   email: string
   emailVerified?: boolean
-  role?: $Enums.Role
-  status?: $Enums.UserStatus
-  needPasswordChange?: boolean
-  isDeleted?: boolean
-  deletedAt?: Date | string | null
   image?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
-  sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
+  role?: string
+  status?: string
+  needPasswordChange?: boolean
+  isDeleted?: boolean
+  deletedAt?: Date | string | null
   accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
-  client?: Prisma.ClientUncheckedCreateNestedOneWithoutUserInput
-  expert?: Prisma.ExpertUncheckedCreateNestedOneWithoutUserInput
-  admin?: Prisma.AdminUncheckedCreateNestedOneWithoutUserInput
-  notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
+  admins?: Prisma.AdminUncheckedCreateNestedOneWithoutUserInput
   aiConversations?: Prisma.AIConversationUncheckedCreateNestedManyWithoutUserInput
-  expertApplications?: Prisma.ExpertApplicationUncheckedCreateNestedManyWithoutUserInput
+  candidates?: Prisma.CandidateUncheckedCreateNestedOneWithoutUserInput
+  notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
+  recruiters?: Prisma.RecruiterUncheckedCreateNestedOneWithoutUserInput
+  resumes?: Prisma.ResumeUncheckedCreateNestedManyWithoutUserInput
+  savedJobs?: Prisma.SavedJobUncheckedCreateNestedManyWithoutUserInput
+  sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
+  userPresences?: Prisma.UserPresenceUncheckedCreateNestedOneWithoutUserInput
+  testimonials?: Prisma.TestimonialUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutMessageReactionsInput = {
@@ -1484,22 +1389,25 @@ export type UserUpdateWithoutMessageReactionsInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
   emailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
-  status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
-  needPasswordChange?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
+  role?: Prisma.StringFieldUpdateOperationsInput | string
+  status?: Prisma.StringFieldUpdateOperationsInput | string
+  needPasswordChange?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
-  client?: Prisma.ClientUpdateOneWithoutUserNestedInput
-  expert?: Prisma.ExpertUpdateOneWithoutUserNestedInput
-  admin?: Prisma.AdminUpdateOneWithoutUserNestedInput
-  notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
+  admins?: Prisma.AdminUpdateOneWithoutUserNestedInput
   aiConversations?: Prisma.AIConversationUpdateManyWithoutUserNestedInput
-  expertApplications?: Prisma.ExpertApplicationUpdateManyWithoutUserNestedInput
+  candidates?: Prisma.CandidateUpdateOneWithoutUserNestedInput
+  notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
+  recruiters?: Prisma.RecruiterUpdateOneWithoutUserNestedInput
+  resumes?: Prisma.ResumeUpdateManyWithoutUserNestedInput
+  savedJobs?: Prisma.SavedJobUpdateManyWithoutUserNestedInput
+  sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
+  userPresences?: Prisma.UserPresenceUpdateOneWithoutUserNestedInput
+  testimonials?: Prisma.TestimonialUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutMessageReactionsInput = {
@@ -1507,22 +1415,25 @@ export type UserUncheckedUpdateWithoutMessageReactionsInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
   emailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
-  status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
-  needPasswordChange?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
+  role?: Prisma.StringFieldUpdateOperationsInput | string
+  status?: Prisma.StringFieldUpdateOperationsInput | string
+  needPasswordChange?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
-  client?: Prisma.ClientUncheckedUpdateOneWithoutUserNestedInput
-  expert?: Prisma.ExpertUncheckedUpdateOneWithoutUserNestedInput
-  admin?: Prisma.AdminUncheckedUpdateOneWithoutUserNestedInput
-  notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
+  admins?: Prisma.AdminUncheckedUpdateOneWithoutUserNestedInput
   aiConversations?: Prisma.AIConversationUncheckedUpdateManyWithoutUserNestedInput
-  expertApplications?: Prisma.ExpertApplicationUncheckedUpdateManyWithoutUserNestedInput
+  candidates?: Prisma.CandidateUncheckedUpdateOneWithoutUserNestedInput
+  notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
+  recruiters?: Prisma.RecruiterUncheckedUpdateOneWithoutUserNestedInput
+  resumes?: Prisma.ResumeUncheckedUpdateManyWithoutUserNestedInput
+  savedJobs?: Prisma.SavedJobUncheckedUpdateManyWithoutUserNestedInput
+  sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
+  userPresences?: Prisma.UserPresenceUncheckedUpdateOneWithoutUserNestedInput
+  testimonials?: Prisma.TestimonialUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutNotificationsInput = {
@@ -1530,22 +1441,25 @@ export type UserCreateWithoutNotificationsInput = {
   name: string
   email: string
   emailVerified?: boolean
-  role?: $Enums.Role
-  status?: $Enums.UserStatus
-  needPasswordChange?: boolean
-  isDeleted?: boolean
-  deletedAt?: Date | string | null
   image?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
-  sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
+  role?: string
+  status?: string
+  needPasswordChange?: boolean
+  isDeleted?: boolean
+  deletedAt?: Date | string | null
   accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
-  client?: Prisma.ClientCreateNestedOneWithoutUserInput
-  expert?: Prisma.ExpertCreateNestedOneWithoutUserInput
-  admin?: Prisma.AdminCreateNestedOneWithoutUserInput
-  messageReactions?: Prisma.MessageReactionCreateNestedManyWithoutUserInput
+  admins?: Prisma.AdminCreateNestedOneWithoutUserInput
   aiConversations?: Prisma.AIConversationCreateNestedManyWithoutUserInput
-  expertApplications?: Prisma.ExpertApplicationCreateNestedManyWithoutUserInput
+  candidates?: Prisma.CandidateCreateNestedOneWithoutUserInput
+  messageReactions?: Prisma.MessageReactionCreateNestedManyWithoutUserInput
+  recruiters?: Prisma.RecruiterCreateNestedOneWithoutUserInput
+  resumes?: Prisma.ResumeCreateNestedManyWithoutUserInput
+  savedJobs?: Prisma.SavedJobCreateNestedManyWithoutUserInput
+  sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
+  userPresences?: Prisma.UserPresenceCreateNestedOneWithoutUserInput
+  testimonials?: Prisma.TestimonialCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutNotificationsInput = {
@@ -1553,22 +1467,25 @@ export type UserUncheckedCreateWithoutNotificationsInput = {
   name: string
   email: string
   emailVerified?: boolean
-  role?: $Enums.Role
-  status?: $Enums.UserStatus
-  needPasswordChange?: boolean
-  isDeleted?: boolean
-  deletedAt?: Date | string | null
   image?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
-  sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
+  role?: string
+  status?: string
+  needPasswordChange?: boolean
+  isDeleted?: boolean
+  deletedAt?: Date | string | null
   accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
-  client?: Prisma.ClientUncheckedCreateNestedOneWithoutUserInput
-  expert?: Prisma.ExpertUncheckedCreateNestedOneWithoutUserInput
-  admin?: Prisma.AdminUncheckedCreateNestedOneWithoutUserInput
-  messageReactions?: Prisma.MessageReactionUncheckedCreateNestedManyWithoutUserInput
+  admins?: Prisma.AdminUncheckedCreateNestedOneWithoutUserInput
   aiConversations?: Prisma.AIConversationUncheckedCreateNestedManyWithoutUserInput
-  expertApplications?: Prisma.ExpertApplicationUncheckedCreateNestedManyWithoutUserInput
+  candidates?: Prisma.CandidateUncheckedCreateNestedOneWithoutUserInput
+  messageReactions?: Prisma.MessageReactionUncheckedCreateNestedManyWithoutUserInput
+  recruiters?: Prisma.RecruiterUncheckedCreateNestedOneWithoutUserInput
+  resumes?: Prisma.ResumeUncheckedCreateNestedManyWithoutUserInput
+  savedJobs?: Prisma.SavedJobUncheckedCreateNestedManyWithoutUserInput
+  sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
+  userPresences?: Prisma.UserPresenceUncheckedCreateNestedOneWithoutUserInput
+  testimonials?: Prisma.TestimonialUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutNotificationsInput = {
@@ -1592,22 +1509,25 @@ export type UserUpdateWithoutNotificationsInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
   emailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
-  status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
-  needPasswordChange?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
+  role?: Prisma.StringFieldUpdateOperationsInput | string
+  status?: Prisma.StringFieldUpdateOperationsInput | string
+  needPasswordChange?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
-  client?: Prisma.ClientUpdateOneWithoutUserNestedInput
-  expert?: Prisma.ExpertUpdateOneWithoutUserNestedInput
-  admin?: Prisma.AdminUpdateOneWithoutUserNestedInput
-  messageReactions?: Prisma.MessageReactionUpdateManyWithoutUserNestedInput
+  admins?: Prisma.AdminUpdateOneWithoutUserNestedInput
   aiConversations?: Prisma.AIConversationUpdateManyWithoutUserNestedInput
-  expertApplications?: Prisma.ExpertApplicationUpdateManyWithoutUserNestedInput
+  candidates?: Prisma.CandidateUpdateOneWithoutUserNestedInput
+  messageReactions?: Prisma.MessageReactionUpdateManyWithoutUserNestedInput
+  recruiters?: Prisma.RecruiterUpdateOneWithoutUserNestedInput
+  resumes?: Prisma.ResumeUpdateManyWithoutUserNestedInput
+  savedJobs?: Prisma.SavedJobUpdateManyWithoutUserNestedInput
+  sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
+  userPresences?: Prisma.UserPresenceUpdateOneWithoutUserNestedInput
+  testimonials?: Prisma.TestimonialUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutNotificationsInput = {
@@ -1615,22 +1535,625 @@ export type UserUncheckedUpdateWithoutNotificationsInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
   emailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
-  status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
-  needPasswordChange?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
+  role?: Prisma.StringFieldUpdateOperationsInput | string
+  status?: Prisma.StringFieldUpdateOperationsInput | string
+  needPasswordChange?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
-  client?: Prisma.ClientUncheckedUpdateOneWithoutUserNestedInput
-  expert?: Prisma.ExpertUncheckedUpdateOneWithoutUserNestedInput
-  admin?: Prisma.AdminUncheckedUpdateOneWithoutUserNestedInput
-  messageReactions?: Prisma.MessageReactionUncheckedUpdateManyWithoutUserNestedInput
+  admins?: Prisma.AdminUncheckedUpdateOneWithoutUserNestedInput
   aiConversations?: Prisma.AIConversationUncheckedUpdateManyWithoutUserNestedInput
-  expertApplications?: Prisma.ExpertApplicationUncheckedUpdateManyWithoutUserNestedInput
+  candidates?: Prisma.CandidateUncheckedUpdateOneWithoutUserNestedInput
+  messageReactions?: Prisma.MessageReactionUncheckedUpdateManyWithoutUserNestedInput
+  recruiters?: Prisma.RecruiterUncheckedUpdateOneWithoutUserNestedInput
+  resumes?: Prisma.ResumeUncheckedUpdateManyWithoutUserNestedInput
+  savedJobs?: Prisma.SavedJobUncheckedUpdateManyWithoutUserNestedInput
+  sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
+  userPresences?: Prisma.UserPresenceUncheckedUpdateOneWithoutUserNestedInput
+  testimonials?: Prisma.TestimonialUncheckedUpdateManyWithoutUserNestedInput
+}
+
+export type UserCreateWithoutRecruitersInput = {
+  id: string
+  name: string
+  email: string
+  emailVerified?: boolean
+  image?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  role?: string
+  status?: string
+  needPasswordChange?: boolean
+  isDeleted?: boolean
+  deletedAt?: Date | string | null
+  accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
+  admins?: Prisma.AdminCreateNestedOneWithoutUserInput
+  aiConversations?: Prisma.AIConversationCreateNestedManyWithoutUserInput
+  candidates?: Prisma.CandidateCreateNestedOneWithoutUserInput
+  messageReactions?: Prisma.MessageReactionCreateNestedManyWithoutUserInput
+  notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
+  resumes?: Prisma.ResumeCreateNestedManyWithoutUserInput
+  savedJobs?: Prisma.SavedJobCreateNestedManyWithoutUserInput
+  sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
+  userPresences?: Prisma.UserPresenceCreateNestedOneWithoutUserInput
+  testimonials?: Prisma.TestimonialCreateNestedManyWithoutUserInput
+}
+
+export type UserUncheckedCreateWithoutRecruitersInput = {
+  id: string
+  name: string
+  email: string
+  emailVerified?: boolean
+  image?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  role?: string
+  status?: string
+  needPasswordChange?: boolean
+  isDeleted?: boolean
+  deletedAt?: Date | string | null
+  accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
+  admins?: Prisma.AdminUncheckedCreateNestedOneWithoutUserInput
+  aiConversations?: Prisma.AIConversationUncheckedCreateNestedManyWithoutUserInput
+  candidates?: Prisma.CandidateUncheckedCreateNestedOneWithoutUserInput
+  messageReactions?: Prisma.MessageReactionUncheckedCreateNestedManyWithoutUserInput
+  notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
+  resumes?: Prisma.ResumeUncheckedCreateNestedManyWithoutUserInput
+  savedJobs?: Prisma.SavedJobUncheckedCreateNestedManyWithoutUserInput
+  sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
+  userPresences?: Prisma.UserPresenceUncheckedCreateNestedOneWithoutUserInput
+  testimonials?: Prisma.TestimonialUncheckedCreateNestedManyWithoutUserInput
+}
+
+export type UserCreateOrConnectWithoutRecruitersInput = {
+  where: Prisma.UserWhereUniqueInput
+  create: Prisma.XOR<Prisma.UserCreateWithoutRecruitersInput, Prisma.UserUncheckedCreateWithoutRecruitersInput>
+}
+
+export type UserUpsertWithoutRecruitersInput = {
+  update: Prisma.XOR<Prisma.UserUpdateWithoutRecruitersInput, Prisma.UserUncheckedUpdateWithoutRecruitersInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutRecruitersInput, Prisma.UserUncheckedCreateWithoutRecruitersInput>
+  where?: Prisma.UserWhereInput
+}
+
+export type UserUpdateToOneWithWhereWithoutRecruitersInput = {
+  where?: Prisma.UserWhereInput
+  data: Prisma.XOR<Prisma.UserUpdateWithoutRecruitersInput, Prisma.UserUncheckedUpdateWithoutRecruitersInput>
+}
+
+export type UserUpdateWithoutRecruitersInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  emailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  role?: Prisma.StringFieldUpdateOperationsInput | string
+  status?: Prisma.StringFieldUpdateOperationsInput | string
+  needPasswordChange?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
+  admins?: Prisma.AdminUpdateOneWithoutUserNestedInput
+  aiConversations?: Prisma.AIConversationUpdateManyWithoutUserNestedInput
+  candidates?: Prisma.CandidateUpdateOneWithoutUserNestedInput
+  messageReactions?: Prisma.MessageReactionUpdateManyWithoutUserNestedInput
+  notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
+  resumes?: Prisma.ResumeUpdateManyWithoutUserNestedInput
+  savedJobs?: Prisma.SavedJobUpdateManyWithoutUserNestedInput
+  sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
+  userPresences?: Prisma.UserPresenceUpdateOneWithoutUserNestedInput
+  testimonials?: Prisma.TestimonialUpdateManyWithoutUserNestedInput
+}
+
+export type UserUncheckedUpdateWithoutRecruitersInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  emailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  role?: Prisma.StringFieldUpdateOperationsInput | string
+  status?: Prisma.StringFieldUpdateOperationsInput | string
+  needPasswordChange?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
+  admins?: Prisma.AdminUncheckedUpdateOneWithoutUserNestedInput
+  aiConversations?: Prisma.AIConversationUncheckedUpdateManyWithoutUserNestedInput
+  candidates?: Prisma.CandidateUncheckedUpdateOneWithoutUserNestedInput
+  messageReactions?: Prisma.MessageReactionUncheckedUpdateManyWithoutUserNestedInput
+  notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
+  resumes?: Prisma.ResumeUncheckedUpdateManyWithoutUserNestedInput
+  savedJobs?: Prisma.SavedJobUncheckedUpdateManyWithoutUserNestedInput
+  sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
+  userPresences?: Prisma.UserPresenceUncheckedUpdateOneWithoutUserNestedInput
+  testimonials?: Prisma.TestimonialUncheckedUpdateManyWithoutUserNestedInput
+}
+
+export type UserCreateWithoutResumesInput = {
+  id: string
+  name: string
+  email: string
+  emailVerified?: boolean
+  image?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  role?: string
+  status?: string
+  needPasswordChange?: boolean
+  isDeleted?: boolean
+  deletedAt?: Date | string | null
+  accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
+  admins?: Prisma.AdminCreateNestedOneWithoutUserInput
+  aiConversations?: Prisma.AIConversationCreateNestedManyWithoutUserInput
+  candidates?: Prisma.CandidateCreateNestedOneWithoutUserInput
+  messageReactions?: Prisma.MessageReactionCreateNestedManyWithoutUserInput
+  notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
+  recruiters?: Prisma.RecruiterCreateNestedOneWithoutUserInput
+  savedJobs?: Prisma.SavedJobCreateNestedManyWithoutUserInput
+  sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
+  userPresences?: Prisma.UserPresenceCreateNestedOneWithoutUserInput
+  testimonials?: Prisma.TestimonialCreateNestedManyWithoutUserInput
+}
+
+export type UserUncheckedCreateWithoutResumesInput = {
+  id: string
+  name: string
+  email: string
+  emailVerified?: boolean
+  image?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  role?: string
+  status?: string
+  needPasswordChange?: boolean
+  isDeleted?: boolean
+  deletedAt?: Date | string | null
+  accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
+  admins?: Prisma.AdminUncheckedCreateNestedOneWithoutUserInput
+  aiConversations?: Prisma.AIConversationUncheckedCreateNestedManyWithoutUserInput
+  candidates?: Prisma.CandidateUncheckedCreateNestedOneWithoutUserInput
+  messageReactions?: Prisma.MessageReactionUncheckedCreateNestedManyWithoutUserInput
+  notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
+  recruiters?: Prisma.RecruiterUncheckedCreateNestedOneWithoutUserInput
+  savedJobs?: Prisma.SavedJobUncheckedCreateNestedManyWithoutUserInput
+  sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
+  userPresences?: Prisma.UserPresenceUncheckedCreateNestedOneWithoutUserInput
+  testimonials?: Prisma.TestimonialUncheckedCreateNestedManyWithoutUserInput
+}
+
+export type UserCreateOrConnectWithoutResumesInput = {
+  where: Prisma.UserWhereUniqueInput
+  create: Prisma.XOR<Prisma.UserCreateWithoutResumesInput, Prisma.UserUncheckedCreateWithoutResumesInput>
+}
+
+export type UserUpsertWithoutResumesInput = {
+  update: Prisma.XOR<Prisma.UserUpdateWithoutResumesInput, Prisma.UserUncheckedUpdateWithoutResumesInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutResumesInput, Prisma.UserUncheckedCreateWithoutResumesInput>
+  where?: Prisma.UserWhereInput
+}
+
+export type UserUpdateToOneWithWhereWithoutResumesInput = {
+  where?: Prisma.UserWhereInput
+  data: Prisma.XOR<Prisma.UserUpdateWithoutResumesInput, Prisma.UserUncheckedUpdateWithoutResumesInput>
+}
+
+export type UserUpdateWithoutResumesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  emailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  role?: Prisma.StringFieldUpdateOperationsInput | string
+  status?: Prisma.StringFieldUpdateOperationsInput | string
+  needPasswordChange?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
+  admins?: Prisma.AdminUpdateOneWithoutUserNestedInput
+  aiConversations?: Prisma.AIConversationUpdateManyWithoutUserNestedInput
+  candidates?: Prisma.CandidateUpdateOneWithoutUserNestedInput
+  messageReactions?: Prisma.MessageReactionUpdateManyWithoutUserNestedInput
+  notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
+  recruiters?: Prisma.RecruiterUpdateOneWithoutUserNestedInput
+  savedJobs?: Prisma.SavedJobUpdateManyWithoutUserNestedInput
+  sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
+  userPresences?: Prisma.UserPresenceUpdateOneWithoutUserNestedInput
+  testimonials?: Prisma.TestimonialUpdateManyWithoutUserNestedInput
+}
+
+export type UserUncheckedUpdateWithoutResumesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  emailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  role?: Prisma.StringFieldUpdateOperationsInput | string
+  status?: Prisma.StringFieldUpdateOperationsInput | string
+  needPasswordChange?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
+  admins?: Prisma.AdminUncheckedUpdateOneWithoutUserNestedInput
+  aiConversations?: Prisma.AIConversationUncheckedUpdateManyWithoutUserNestedInput
+  candidates?: Prisma.CandidateUncheckedUpdateOneWithoutUserNestedInput
+  messageReactions?: Prisma.MessageReactionUncheckedUpdateManyWithoutUserNestedInput
+  notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
+  recruiters?: Prisma.RecruiterUncheckedUpdateOneWithoutUserNestedInput
+  savedJobs?: Prisma.SavedJobUncheckedUpdateManyWithoutUserNestedInput
+  sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
+  userPresences?: Prisma.UserPresenceUncheckedUpdateOneWithoutUserNestedInput
+  testimonials?: Prisma.TestimonialUncheckedUpdateManyWithoutUserNestedInput
+}
+
+export type UserCreateWithoutSavedJobsInput = {
+  id: string
+  name: string
+  email: string
+  emailVerified?: boolean
+  image?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  role?: string
+  status?: string
+  needPasswordChange?: boolean
+  isDeleted?: boolean
+  deletedAt?: Date | string | null
+  accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
+  admins?: Prisma.AdminCreateNestedOneWithoutUserInput
+  aiConversations?: Prisma.AIConversationCreateNestedManyWithoutUserInput
+  candidates?: Prisma.CandidateCreateNestedOneWithoutUserInput
+  messageReactions?: Prisma.MessageReactionCreateNestedManyWithoutUserInput
+  notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
+  recruiters?: Prisma.RecruiterCreateNestedOneWithoutUserInput
+  resumes?: Prisma.ResumeCreateNestedManyWithoutUserInput
+  sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
+  userPresences?: Prisma.UserPresenceCreateNestedOneWithoutUserInput
+  testimonials?: Prisma.TestimonialCreateNestedManyWithoutUserInput
+}
+
+export type UserUncheckedCreateWithoutSavedJobsInput = {
+  id: string
+  name: string
+  email: string
+  emailVerified?: boolean
+  image?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  role?: string
+  status?: string
+  needPasswordChange?: boolean
+  isDeleted?: boolean
+  deletedAt?: Date | string | null
+  accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
+  admins?: Prisma.AdminUncheckedCreateNestedOneWithoutUserInput
+  aiConversations?: Prisma.AIConversationUncheckedCreateNestedManyWithoutUserInput
+  candidates?: Prisma.CandidateUncheckedCreateNestedOneWithoutUserInput
+  messageReactions?: Prisma.MessageReactionUncheckedCreateNestedManyWithoutUserInput
+  notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
+  recruiters?: Prisma.RecruiterUncheckedCreateNestedOneWithoutUserInput
+  resumes?: Prisma.ResumeUncheckedCreateNestedManyWithoutUserInput
+  sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
+  userPresences?: Prisma.UserPresenceUncheckedCreateNestedOneWithoutUserInput
+  testimonials?: Prisma.TestimonialUncheckedCreateNestedManyWithoutUserInput
+}
+
+export type UserCreateOrConnectWithoutSavedJobsInput = {
+  where: Prisma.UserWhereUniqueInput
+  create: Prisma.XOR<Prisma.UserCreateWithoutSavedJobsInput, Prisma.UserUncheckedCreateWithoutSavedJobsInput>
+}
+
+export type UserUpsertWithoutSavedJobsInput = {
+  update: Prisma.XOR<Prisma.UserUpdateWithoutSavedJobsInput, Prisma.UserUncheckedUpdateWithoutSavedJobsInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutSavedJobsInput, Prisma.UserUncheckedCreateWithoutSavedJobsInput>
+  where?: Prisma.UserWhereInput
+}
+
+export type UserUpdateToOneWithWhereWithoutSavedJobsInput = {
+  where?: Prisma.UserWhereInput
+  data: Prisma.XOR<Prisma.UserUpdateWithoutSavedJobsInput, Prisma.UserUncheckedUpdateWithoutSavedJobsInput>
+}
+
+export type UserUpdateWithoutSavedJobsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  emailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  role?: Prisma.StringFieldUpdateOperationsInput | string
+  status?: Prisma.StringFieldUpdateOperationsInput | string
+  needPasswordChange?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
+  admins?: Prisma.AdminUpdateOneWithoutUserNestedInput
+  aiConversations?: Prisma.AIConversationUpdateManyWithoutUserNestedInput
+  candidates?: Prisma.CandidateUpdateOneWithoutUserNestedInput
+  messageReactions?: Prisma.MessageReactionUpdateManyWithoutUserNestedInput
+  notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
+  recruiters?: Prisma.RecruiterUpdateOneWithoutUserNestedInput
+  resumes?: Prisma.ResumeUpdateManyWithoutUserNestedInput
+  sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
+  userPresences?: Prisma.UserPresenceUpdateOneWithoutUserNestedInput
+  testimonials?: Prisma.TestimonialUpdateManyWithoutUserNestedInput
+}
+
+export type UserUncheckedUpdateWithoutSavedJobsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  emailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  role?: Prisma.StringFieldUpdateOperationsInput | string
+  status?: Prisma.StringFieldUpdateOperationsInput | string
+  needPasswordChange?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
+  admins?: Prisma.AdminUncheckedUpdateOneWithoutUserNestedInput
+  aiConversations?: Prisma.AIConversationUncheckedUpdateManyWithoutUserNestedInput
+  candidates?: Prisma.CandidateUncheckedUpdateOneWithoutUserNestedInput
+  messageReactions?: Prisma.MessageReactionUncheckedUpdateManyWithoutUserNestedInput
+  notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
+  recruiters?: Prisma.RecruiterUncheckedUpdateOneWithoutUserNestedInput
+  resumes?: Prisma.ResumeUncheckedUpdateManyWithoutUserNestedInput
+  sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
+  userPresences?: Prisma.UserPresenceUncheckedUpdateOneWithoutUserNestedInput
+  testimonials?: Prisma.TestimonialUncheckedUpdateManyWithoutUserNestedInput
+}
+
+export type UserCreateWithoutTestimonialsInput = {
+  id: string
+  name: string
+  email: string
+  emailVerified?: boolean
+  image?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  role?: string
+  status?: string
+  needPasswordChange?: boolean
+  isDeleted?: boolean
+  deletedAt?: Date | string | null
+  accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
+  admins?: Prisma.AdminCreateNestedOneWithoutUserInput
+  aiConversations?: Prisma.AIConversationCreateNestedManyWithoutUserInput
+  candidates?: Prisma.CandidateCreateNestedOneWithoutUserInput
+  messageReactions?: Prisma.MessageReactionCreateNestedManyWithoutUserInput
+  notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
+  recruiters?: Prisma.RecruiterCreateNestedOneWithoutUserInput
+  resumes?: Prisma.ResumeCreateNestedManyWithoutUserInput
+  savedJobs?: Prisma.SavedJobCreateNestedManyWithoutUserInput
+  sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
+  userPresences?: Prisma.UserPresenceCreateNestedOneWithoutUserInput
+}
+
+export type UserUncheckedCreateWithoutTestimonialsInput = {
+  id: string
+  name: string
+  email: string
+  emailVerified?: boolean
+  image?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  role?: string
+  status?: string
+  needPasswordChange?: boolean
+  isDeleted?: boolean
+  deletedAt?: Date | string | null
+  accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
+  admins?: Prisma.AdminUncheckedCreateNestedOneWithoutUserInput
+  aiConversations?: Prisma.AIConversationUncheckedCreateNestedManyWithoutUserInput
+  candidates?: Prisma.CandidateUncheckedCreateNestedOneWithoutUserInput
+  messageReactions?: Prisma.MessageReactionUncheckedCreateNestedManyWithoutUserInput
+  notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
+  recruiters?: Prisma.RecruiterUncheckedCreateNestedOneWithoutUserInput
+  resumes?: Prisma.ResumeUncheckedCreateNestedManyWithoutUserInput
+  savedJobs?: Prisma.SavedJobUncheckedCreateNestedManyWithoutUserInput
+  sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
+  userPresences?: Prisma.UserPresenceUncheckedCreateNestedOneWithoutUserInput
+}
+
+export type UserCreateOrConnectWithoutTestimonialsInput = {
+  where: Prisma.UserWhereUniqueInput
+  create: Prisma.XOR<Prisma.UserCreateWithoutTestimonialsInput, Prisma.UserUncheckedCreateWithoutTestimonialsInput>
+}
+
+export type UserUpsertWithoutTestimonialsInput = {
+  update: Prisma.XOR<Prisma.UserUpdateWithoutTestimonialsInput, Prisma.UserUncheckedUpdateWithoutTestimonialsInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutTestimonialsInput, Prisma.UserUncheckedCreateWithoutTestimonialsInput>
+  where?: Prisma.UserWhereInput
+}
+
+export type UserUpdateToOneWithWhereWithoutTestimonialsInput = {
+  where?: Prisma.UserWhereInput
+  data: Prisma.XOR<Prisma.UserUpdateWithoutTestimonialsInput, Prisma.UserUncheckedUpdateWithoutTestimonialsInput>
+}
+
+export type UserUpdateWithoutTestimonialsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  emailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  role?: Prisma.StringFieldUpdateOperationsInput | string
+  status?: Prisma.StringFieldUpdateOperationsInput | string
+  needPasswordChange?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
+  admins?: Prisma.AdminUpdateOneWithoutUserNestedInput
+  aiConversations?: Prisma.AIConversationUpdateManyWithoutUserNestedInput
+  candidates?: Prisma.CandidateUpdateOneWithoutUserNestedInput
+  messageReactions?: Prisma.MessageReactionUpdateManyWithoutUserNestedInput
+  notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
+  recruiters?: Prisma.RecruiterUpdateOneWithoutUserNestedInput
+  resumes?: Prisma.ResumeUpdateManyWithoutUserNestedInput
+  savedJobs?: Prisma.SavedJobUpdateManyWithoutUserNestedInput
+  sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
+  userPresences?: Prisma.UserPresenceUpdateOneWithoutUserNestedInput
+}
+
+export type UserUncheckedUpdateWithoutTestimonialsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  emailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  role?: Prisma.StringFieldUpdateOperationsInput | string
+  status?: Prisma.StringFieldUpdateOperationsInput | string
+  needPasswordChange?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
+  admins?: Prisma.AdminUncheckedUpdateOneWithoutUserNestedInput
+  aiConversations?: Prisma.AIConversationUncheckedUpdateManyWithoutUserNestedInput
+  candidates?: Prisma.CandidateUncheckedUpdateOneWithoutUserNestedInput
+  messageReactions?: Prisma.MessageReactionUncheckedUpdateManyWithoutUserNestedInput
+  notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
+  recruiters?: Prisma.RecruiterUncheckedUpdateOneWithoutUserNestedInput
+  resumes?: Prisma.ResumeUncheckedUpdateManyWithoutUserNestedInput
+  savedJobs?: Prisma.SavedJobUncheckedUpdateManyWithoutUserNestedInput
+  sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
+  userPresences?: Prisma.UserPresenceUncheckedUpdateOneWithoutUserNestedInput
+}
+
+export type UserCreateWithoutUserPresencesInput = {
+  id: string
+  name: string
+  email: string
+  emailVerified?: boolean
+  image?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  role?: string
+  status?: string
+  needPasswordChange?: boolean
+  isDeleted?: boolean
+  deletedAt?: Date | string | null
+  accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
+  admins?: Prisma.AdminCreateNestedOneWithoutUserInput
+  aiConversations?: Prisma.AIConversationCreateNestedManyWithoutUserInput
+  candidates?: Prisma.CandidateCreateNestedOneWithoutUserInput
+  messageReactions?: Prisma.MessageReactionCreateNestedManyWithoutUserInput
+  notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
+  recruiters?: Prisma.RecruiterCreateNestedOneWithoutUserInput
+  resumes?: Prisma.ResumeCreateNestedManyWithoutUserInput
+  savedJobs?: Prisma.SavedJobCreateNestedManyWithoutUserInput
+  sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
+  testimonials?: Prisma.TestimonialCreateNestedManyWithoutUserInput
+}
+
+export type UserUncheckedCreateWithoutUserPresencesInput = {
+  id: string
+  name: string
+  email: string
+  emailVerified?: boolean
+  image?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  role?: string
+  status?: string
+  needPasswordChange?: boolean
+  isDeleted?: boolean
+  deletedAt?: Date | string | null
+  accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
+  admins?: Prisma.AdminUncheckedCreateNestedOneWithoutUserInput
+  aiConversations?: Prisma.AIConversationUncheckedCreateNestedManyWithoutUserInput
+  candidates?: Prisma.CandidateUncheckedCreateNestedOneWithoutUserInput
+  messageReactions?: Prisma.MessageReactionUncheckedCreateNestedManyWithoutUserInput
+  notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
+  recruiters?: Prisma.RecruiterUncheckedCreateNestedOneWithoutUserInput
+  resumes?: Prisma.ResumeUncheckedCreateNestedManyWithoutUserInput
+  savedJobs?: Prisma.SavedJobUncheckedCreateNestedManyWithoutUserInput
+  sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
+  testimonials?: Prisma.TestimonialUncheckedCreateNestedManyWithoutUserInput
+}
+
+export type UserCreateOrConnectWithoutUserPresencesInput = {
+  where: Prisma.UserWhereUniqueInput
+  create: Prisma.XOR<Prisma.UserCreateWithoutUserPresencesInput, Prisma.UserUncheckedCreateWithoutUserPresencesInput>
+}
+
+export type UserUpsertWithoutUserPresencesInput = {
+  update: Prisma.XOR<Prisma.UserUpdateWithoutUserPresencesInput, Prisma.UserUncheckedUpdateWithoutUserPresencesInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutUserPresencesInput, Prisma.UserUncheckedCreateWithoutUserPresencesInput>
+  where?: Prisma.UserWhereInput
+}
+
+export type UserUpdateToOneWithWhereWithoutUserPresencesInput = {
+  where?: Prisma.UserWhereInput
+  data: Prisma.XOR<Prisma.UserUpdateWithoutUserPresencesInput, Prisma.UserUncheckedUpdateWithoutUserPresencesInput>
+}
+
+export type UserUpdateWithoutUserPresencesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  emailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  role?: Prisma.StringFieldUpdateOperationsInput | string
+  status?: Prisma.StringFieldUpdateOperationsInput | string
+  needPasswordChange?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
+  admins?: Prisma.AdminUpdateOneWithoutUserNestedInput
+  aiConversations?: Prisma.AIConversationUpdateManyWithoutUserNestedInput
+  candidates?: Prisma.CandidateUpdateOneWithoutUserNestedInput
+  messageReactions?: Prisma.MessageReactionUpdateManyWithoutUserNestedInput
+  notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
+  recruiters?: Prisma.RecruiterUpdateOneWithoutUserNestedInput
+  resumes?: Prisma.ResumeUpdateManyWithoutUserNestedInput
+  savedJobs?: Prisma.SavedJobUpdateManyWithoutUserNestedInput
+  sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
+  testimonials?: Prisma.TestimonialUpdateManyWithoutUserNestedInput
+}
+
+export type UserUncheckedUpdateWithoutUserPresencesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  emailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  role?: Prisma.StringFieldUpdateOperationsInput | string
+  status?: Prisma.StringFieldUpdateOperationsInput | string
+  needPasswordChange?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
+  admins?: Prisma.AdminUncheckedUpdateOneWithoutUserNestedInput
+  aiConversations?: Prisma.AIConversationUncheckedUpdateManyWithoutUserNestedInput
+  candidates?: Prisma.CandidateUncheckedUpdateOneWithoutUserNestedInput
+  messageReactions?: Prisma.MessageReactionUncheckedUpdateManyWithoutUserNestedInput
+  notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
+  recruiters?: Prisma.RecruiterUncheckedUpdateOneWithoutUserNestedInput
+  resumes?: Prisma.ResumeUncheckedUpdateManyWithoutUserNestedInput
+  savedJobs?: Prisma.SavedJobUncheckedUpdateManyWithoutUserNestedInput
+  sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
+  testimonials?: Prisma.TestimonialUncheckedUpdateManyWithoutUserNestedInput
 }
 
 
@@ -1639,21 +2162,25 @@ export type UserUncheckedUpdateWithoutNotificationsInput = {
  */
 
 export type UserCountOutputType = {
-  sessions: number
   accounts: number
-  notifications: number
-  messageReactions: number
   aiConversations: number
-  expertApplications: number
+  messageReactions: number
+  notifications: number
+  resumes: number
+  savedJobs: number
+  sessions: number
+  testimonials: number
 }
 
 export type UserCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  sessions?: boolean | UserCountOutputTypeCountSessionsArgs
   accounts?: boolean | UserCountOutputTypeCountAccountsArgs
-  notifications?: boolean | UserCountOutputTypeCountNotificationsArgs
-  messageReactions?: boolean | UserCountOutputTypeCountMessageReactionsArgs
   aiConversations?: boolean | UserCountOutputTypeCountAiConversationsArgs
-  expertApplications?: boolean | UserCountOutputTypeCountExpertApplicationsArgs
+  messageReactions?: boolean | UserCountOutputTypeCountMessageReactionsArgs
+  notifications?: boolean | UserCountOutputTypeCountNotificationsArgs
+  resumes?: boolean | UserCountOutputTypeCountResumesArgs
+  savedJobs?: boolean | UserCountOutputTypeCountSavedJobsArgs
+  sessions?: boolean | UserCountOutputTypeCountSessionsArgs
+  testimonials?: boolean | UserCountOutputTypeCountTestimonialsArgs
 }
 
 /**
@@ -1669,29 +2196,8 @@ export type UserCountOutputTypeDefaultArgs<ExtArgs extends runtime.Types.Extensi
 /**
  * UserCountOutputType without action
  */
-export type UserCountOutputTypeCountSessionsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  where?: Prisma.SessionWhereInput
-}
-
-/**
- * UserCountOutputType without action
- */
 export type UserCountOutputTypeCountAccountsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   where?: Prisma.AccountWhereInput
-}
-
-/**
- * UserCountOutputType without action
- */
-export type UserCountOutputTypeCountNotificationsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  where?: Prisma.NotificationWhereInput
-}
-
-/**
- * UserCountOutputType without action
- */
-export type UserCountOutputTypeCountMessageReactionsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  where?: Prisma.MessageReactionWhereInput
 }
 
 /**
@@ -1704,8 +2210,43 @@ export type UserCountOutputTypeCountAiConversationsArgs<ExtArgs extends runtime.
 /**
  * UserCountOutputType without action
  */
-export type UserCountOutputTypeCountExpertApplicationsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  where?: Prisma.ExpertApplicationWhereInput
+export type UserCountOutputTypeCountMessageReactionsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.MessageReactionWhereInput
+}
+
+/**
+ * UserCountOutputType without action
+ */
+export type UserCountOutputTypeCountNotificationsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.NotificationWhereInput
+}
+
+/**
+ * UserCountOutputType without action
+ */
+export type UserCountOutputTypeCountResumesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.ResumeWhereInput
+}
+
+/**
+ * UserCountOutputType without action
+ */
+export type UserCountOutputTypeCountSavedJobsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.SavedJobWhereInput
+}
+
+/**
+ * UserCountOutputType without action
+ */
+export type UserCountOutputTypeCountSessionsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.SessionWhereInput
+}
+
+/**
+ * UserCountOutputType without action
+ */
+export type UserCountOutputTypeCountTestimonialsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.TestimonialWhereInput
 }
 
 
@@ -1714,23 +2255,26 @@ export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   name?: boolean
   email?: boolean
   emailVerified?: boolean
+  image?: boolean
+  createdAt?: boolean
+  updatedAt?: boolean
   role?: boolean
   status?: boolean
   needPasswordChange?: boolean
   isDeleted?: boolean
   deletedAt?: boolean
-  image?: boolean
-  createdAt?: boolean
-  updatedAt?: boolean
-  sessions?: boolean | Prisma.User$sessionsArgs<ExtArgs>
   accounts?: boolean | Prisma.User$accountsArgs<ExtArgs>
-  client?: boolean | Prisma.User$clientArgs<ExtArgs>
-  expert?: boolean | Prisma.User$expertArgs<ExtArgs>
-  admin?: boolean | Prisma.User$adminArgs<ExtArgs>
-  notifications?: boolean | Prisma.User$notificationsArgs<ExtArgs>
-  messageReactions?: boolean | Prisma.User$messageReactionsArgs<ExtArgs>
+  admins?: boolean | Prisma.User$adminsArgs<ExtArgs>
   aiConversations?: boolean | Prisma.User$aiConversationsArgs<ExtArgs>
-  expertApplications?: boolean | Prisma.User$expertApplicationsArgs<ExtArgs>
+  candidates?: boolean | Prisma.User$candidatesArgs<ExtArgs>
+  messageReactions?: boolean | Prisma.User$messageReactionsArgs<ExtArgs>
+  notifications?: boolean | Prisma.User$notificationsArgs<ExtArgs>
+  recruiters?: boolean | Prisma.User$recruitersArgs<ExtArgs>
+  resumes?: boolean | Prisma.User$resumesArgs<ExtArgs>
+  savedJobs?: boolean | Prisma.User$savedJobsArgs<ExtArgs>
+  sessions?: boolean | Prisma.User$sessionsArgs<ExtArgs>
+  userPresences?: boolean | Prisma.User$userPresencesArgs<ExtArgs>
+  testimonials?: boolean | Prisma.User$testimonialsArgs<ExtArgs>
   _count?: boolean | Prisma.UserCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["user"]>
 
@@ -1739,14 +2283,14 @@ export type UserSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensio
   name?: boolean
   email?: boolean
   emailVerified?: boolean
+  image?: boolean
+  createdAt?: boolean
+  updatedAt?: boolean
   role?: boolean
   status?: boolean
   needPasswordChange?: boolean
   isDeleted?: boolean
   deletedAt?: boolean
-  image?: boolean
-  createdAt?: boolean
-  updatedAt?: boolean
 }, ExtArgs["result"]["user"]>
 
 export type UserSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -1754,14 +2298,14 @@ export type UserSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensio
   name?: boolean
   email?: boolean
   emailVerified?: boolean
+  image?: boolean
+  createdAt?: boolean
+  updatedAt?: boolean
   role?: boolean
   status?: boolean
   needPasswordChange?: boolean
   isDeleted?: boolean
   deletedAt?: boolean
-  image?: boolean
-  createdAt?: boolean
-  updatedAt?: boolean
 }, ExtArgs["result"]["user"]>
 
 export type UserSelectScalar = {
@@ -1769,27 +2313,30 @@ export type UserSelectScalar = {
   name?: boolean
   email?: boolean
   emailVerified?: boolean
+  image?: boolean
+  createdAt?: boolean
+  updatedAt?: boolean
   role?: boolean
   status?: boolean
   needPasswordChange?: boolean
   isDeleted?: boolean
   deletedAt?: boolean
-  image?: boolean
-  createdAt?: boolean
-  updatedAt?: boolean
 }
 
-export type UserOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "name" | "email" | "emailVerified" | "role" | "status" | "needPasswordChange" | "isDeleted" | "deletedAt" | "image" | "createdAt" | "updatedAt", ExtArgs["result"]["user"]>
+export type UserOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "name" | "email" | "emailVerified" | "image" | "createdAt" | "updatedAt" | "role" | "status" | "needPasswordChange" | "isDeleted" | "deletedAt", ExtArgs["result"]["user"]>
 export type UserInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  sessions?: boolean | Prisma.User$sessionsArgs<ExtArgs>
   accounts?: boolean | Prisma.User$accountsArgs<ExtArgs>
-  client?: boolean | Prisma.User$clientArgs<ExtArgs>
-  expert?: boolean | Prisma.User$expertArgs<ExtArgs>
-  admin?: boolean | Prisma.User$adminArgs<ExtArgs>
-  notifications?: boolean | Prisma.User$notificationsArgs<ExtArgs>
-  messageReactions?: boolean | Prisma.User$messageReactionsArgs<ExtArgs>
+  admins?: boolean | Prisma.User$adminsArgs<ExtArgs>
   aiConversations?: boolean | Prisma.User$aiConversationsArgs<ExtArgs>
-  expertApplications?: boolean | Prisma.User$expertApplicationsArgs<ExtArgs>
+  candidates?: boolean | Prisma.User$candidatesArgs<ExtArgs>
+  messageReactions?: boolean | Prisma.User$messageReactionsArgs<ExtArgs>
+  notifications?: boolean | Prisma.User$notificationsArgs<ExtArgs>
+  recruiters?: boolean | Prisma.User$recruitersArgs<ExtArgs>
+  resumes?: boolean | Prisma.User$resumesArgs<ExtArgs>
+  savedJobs?: boolean | Prisma.User$savedJobsArgs<ExtArgs>
+  sessions?: boolean | Prisma.User$sessionsArgs<ExtArgs>
+  userPresences?: boolean | Prisma.User$userPresencesArgs<ExtArgs>
+  testimonials?: boolean | Prisma.User$testimonialsArgs<ExtArgs>
   _count?: boolean | Prisma.UserCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type UserIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {}
@@ -1798,29 +2345,32 @@ export type UserIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensi
 export type $UserPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "User"
   objects: {
-    sessions: Prisma.$SessionPayload<ExtArgs>[]
     accounts: Prisma.$AccountPayload<ExtArgs>[]
-    client: Prisma.$ClientPayload<ExtArgs> | null
-    expert: Prisma.$ExpertPayload<ExtArgs> | null
-    admin: Prisma.$AdminPayload<ExtArgs> | null
-    notifications: Prisma.$NotificationPayload<ExtArgs>[]
-    messageReactions: Prisma.$MessageReactionPayload<ExtArgs>[]
+    admins: Prisma.$AdminPayload<ExtArgs> | null
     aiConversations: Prisma.$AIConversationPayload<ExtArgs>[]
-    expertApplications: Prisma.$ExpertApplicationPayload<ExtArgs>[]
+    candidates: Prisma.$CandidatePayload<ExtArgs> | null
+    messageReactions: Prisma.$MessageReactionPayload<ExtArgs>[]
+    notifications: Prisma.$NotificationPayload<ExtArgs>[]
+    recruiters: Prisma.$RecruiterPayload<ExtArgs> | null
+    resumes: Prisma.$ResumePayload<ExtArgs>[]
+    savedJobs: Prisma.$SavedJobPayload<ExtArgs>[]
+    sessions: Prisma.$SessionPayload<ExtArgs>[]
+    userPresences: Prisma.$UserPresencePayload<ExtArgs> | null
+    testimonials: Prisma.$TestimonialPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
     name: string
     email: string
     emailVerified: boolean
-    role: $Enums.Role
-    status: $Enums.UserStatus
-    needPasswordChange: boolean
-    isDeleted: boolean
-    deletedAt: Date | null
     image: string | null
     createdAt: Date
     updatedAt: Date
+    role: string
+    status: string
+    needPasswordChange: boolean
+    isDeleted: boolean
+    deletedAt: Date | null
   }, ExtArgs["result"]["user"]>
   composites: {}
 }
@@ -2215,15 +2765,18 @@ readonly fields: UserFieldRefs;
  */
 export interface Prisma__UserClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
-  sessions<T extends Prisma.User$sessionsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$sessionsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$SessionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   accounts<T extends Prisma.User$accountsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$accountsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$AccountPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-  client<T extends Prisma.User$clientArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$clientArgs<ExtArgs>>): Prisma.Prisma__ClientClient<runtime.Types.Result.GetResult<Prisma.$ClientPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
-  expert<T extends Prisma.User$expertArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$expertArgs<ExtArgs>>): Prisma.Prisma__ExpertClient<runtime.Types.Result.GetResult<Prisma.$ExpertPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
-  admin<T extends Prisma.User$adminArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$adminArgs<ExtArgs>>): Prisma.Prisma__AdminClient<runtime.Types.Result.GetResult<Prisma.$AdminPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
-  notifications<T extends Prisma.User$notificationsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$notificationsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$NotificationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-  messageReactions<T extends Prisma.User$messageReactionsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$messageReactionsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$MessageReactionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  admins<T extends Prisma.User$adminsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$adminsArgs<ExtArgs>>): Prisma.Prisma__AdminClient<runtime.Types.Result.GetResult<Prisma.$AdminPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   aiConversations<T extends Prisma.User$aiConversationsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$aiConversationsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$AIConversationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-  expertApplications<T extends Prisma.User$expertApplicationsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$expertApplicationsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ExpertApplicationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  candidates<T extends Prisma.User$candidatesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$candidatesArgs<ExtArgs>>): Prisma.Prisma__CandidateClient<runtime.Types.Result.GetResult<Prisma.$CandidatePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+  messageReactions<T extends Prisma.User$messageReactionsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$messageReactionsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$MessageReactionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  notifications<T extends Prisma.User$notificationsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$notificationsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$NotificationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  recruiters<T extends Prisma.User$recruitersArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$recruitersArgs<ExtArgs>>): Prisma.Prisma__RecruiterClient<runtime.Types.Result.GetResult<Prisma.$RecruiterPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+  resumes<T extends Prisma.User$resumesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$resumesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ResumePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  savedJobs<T extends Prisma.User$savedJobsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$savedJobsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$SavedJobPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  sessions<T extends Prisma.User$sessionsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$sessionsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$SessionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  userPresences<T extends Prisma.User$userPresencesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$userPresencesArgs<ExtArgs>>): Prisma.Prisma__UserPresenceClient<runtime.Types.Result.GetResult<Prisma.$UserPresencePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+  testimonials<T extends Prisma.User$testimonialsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$testimonialsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$TestimonialPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -2257,14 +2810,14 @@ export interface UserFieldRefs {
   readonly name: Prisma.FieldRef<"User", 'String'>
   readonly email: Prisma.FieldRef<"User", 'String'>
   readonly emailVerified: Prisma.FieldRef<"User", 'Boolean'>
-  readonly role: Prisma.FieldRef<"User", 'Role'>
-  readonly status: Prisma.FieldRef<"User", 'UserStatus'>
-  readonly needPasswordChange: Prisma.FieldRef<"User", 'Boolean'>
-  readonly isDeleted: Prisma.FieldRef<"User", 'Boolean'>
-  readonly deletedAt: Prisma.FieldRef<"User", 'DateTime'>
   readonly image: Prisma.FieldRef<"User", 'String'>
   readonly createdAt: Prisma.FieldRef<"User", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"User", 'DateTime'>
+  readonly role: Prisma.FieldRef<"User", 'String'>
+  readonly status: Prisma.FieldRef<"User", 'String'>
+  readonly needPasswordChange: Prisma.FieldRef<"User", 'Boolean'>
+  readonly isDeleted: Prisma.FieldRef<"User", 'Boolean'>
+  readonly deletedAt: Prisma.FieldRef<"User", 'DateTime'>
 }
     
 
@@ -2658,30 +3211,6 @@ export type UserDeleteManyArgs<ExtArgs extends runtime.Types.Extensions.Internal
 }
 
 /**
- * User.sessions
- */
-export type User$sessionsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * Select specific fields to fetch from the Session
-   */
-  select?: Prisma.SessionSelect<ExtArgs> | null
-  /**
-   * Omit specific fields from the Session
-   */
-  omit?: Prisma.SessionOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.SessionInclude<ExtArgs> | null
-  where?: Prisma.SessionWhereInput
-  orderBy?: Prisma.SessionOrderByWithRelationInput | Prisma.SessionOrderByWithRelationInput[]
-  cursor?: Prisma.SessionWhereUniqueInput
-  take?: number
-  skip?: number
-  distinct?: Prisma.SessionScalarFieldEnum | Prisma.SessionScalarFieldEnum[]
-}
-
-/**
  * User.accounts
  */
 export type User$accountsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -2706,47 +3235,9 @@ export type User$accountsArgs<ExtArgs extends runtime.Types.Extensions.InternalA
 }
 
 /**
- * User.client
+ * User.admins
  */
-export type User$clientArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * Select specific fields to fetch from the Client
-   */
-  select?: Prisma.ClientSelect<ExtArgs> | null
-  /**
-   * Omit specific fields from the Client
-   */
-  omit?: Prisma.ClientOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.ClientInclude<ExtArgs> | null
-  where?: Prisma.ClientWhereInput
-}
-
-/**
- * User.expert
- */
-export type User$expertArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * Select specific fields to fetch from the Expert
-   */
-  select?: Prisma.ExpertSelect<ExtArgs> | null
-  /**
-   * Omit specific fields from the Expert
-   */
-  omit?: Prisma.ExpertOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.ExpertInclude<ExtArgs> | null
-  where?: Prisma.ExpertWhereInput
-}
-
-/**
- * User.admin
- */
-export type User$adminArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+export type User$adminsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   /**
    * Select specific fields to fetch from the Admin
    */
@@ -2760,54 +3251,6 @@ export type User$adminArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs
    */
   include?: Prisma.AdminInclude<ExtArgs> | null
   where?: Prisma.AdminWhereInput
-}
-
-/**
- * User.notifications
- */
-export type User$notificationsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * Select specific fields to fetch from the Notification
-   */
-  select?: Prisma.NotificationSelect<ExtArgs> | null
-  /**
-   * Omit specific fields from the Notification
-   */
-  omit?: Prisma.NotificationOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.NotificationInclude<ExtArgs> | null
-  where?: Prisma.NotificationWhereInput
-  orderBy?: Prisma.NotificationOrderByWithRelationInput | Prisma.NotificationOrderByWithRelationInput[]
-  cursor?: Prisma.NotificationWhereUniqueInput
-  take?: number
-  skip?: number
-  distinct?: Prisma.NotificationScalarFieldEnum | Prisma.NotificationScalarFieldEnum[]
-}
-
-/**
- * User.messageReactions
- */
-export type User$messageReactionsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * Select specific fields to fetch from the MessageReaction
-   */
-  select?: Prisma.MessageReactionSelect<ExtArgs> | null
-  /**
-   * Omit specific fields from the MessageReaction
-   */
-  omit?: Prisma.MessageReactionOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.MessageReactionInclude<ExtArgs> | null
-  where?: Prisma.MessageReactionWhereInput
-  orderBy?: Prisma.MessageReactionOrderByWithRelationInput | Prisma.MessageReactionOrderByWithRelationInput[]
-  cursor?: Prisma.MessageReactionWhereUniqueInput
-  take?: number
-  skip?: number
-  distinct?: Prisma.MessageReactionScalarFieldEnum | Prisma.MessageReactionScalarFieldEnum[]
 }
 
 /**
@@ -2835,27 +3278,204 @@ export type User$aiConversationsArgs<ExtArgs extends runtime.Types.Extensions.In
 }
 
 /**
- * User.expertApplications
+ * User.candidates
  */
-export type User$expertApplicationsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+export type User$candidatesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   /**
-   * Select specific fields to fetch from the ExpertApplication
+   * Select specific fields to fetch from the Candidate
    */
-  select?: Prisma.ExpertApplicationSelect<ExtArgs> | null
+  select?: Prisma.CandidateSelect<ExtArgs> | null
   /**
-   * Omit specific fields from the ExpertApplication
+   * Omit specific fields from the Candidate
    */
-  omit?: Prisma.ExpertApplicationOmit<ExtArgs> | null
+  omit?: Prisma.CandidateOmit<ExtArgs> | null
   /**
    * Choose, which related nodes to fetch as well
    */
-  include?: Prisma.ExpertApplicationInclude<ExtArgs> | null
-  where?: Prisma.ExpertApplicationWhereInput
-  orderBy?: Prisma.ExpertApplicationOrderByWithRelationInput | Prisma.ExpertApplicationOrderByWithRelationInput[]
-  cursor?: Prisma.ExpertApplicationWhereUniqueInput
+  include?: Prisma.CandidateInclude<ExtArgs> | null
+  where?: Prisma.CandidateWhereInput
+}
+
+/**
+ * User.messageReactions
+ */
+export type User$messageReactionsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the MessageReaction
+   */
+  select?: Prisma.MessageReactionSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the MessageReaction
+   */
+  omit?: Prisma.MessageReactionOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.MessageReactionInclude<ExtArgs> | null
+  where?: Prisma.MessageReactionWhereInput
+  orderBy?: Prisma.MessageReactionOrderByWithRelationInput | Prisma.MessageReactionOrderByWithRelationInput[]
+  cursor?: Prisma.MessageReactionWhereUniqueInput
   take?: number
   skip?: number
-  distinct?: Prisma.ExpertApplicationScalarFieldEnum | Prisma.ExpertApplicationScalarFieldEnum[]
+  distinct?: Prisma.MessageReactionScalarFieldEnum | Prisma.MessageReactionScalarFieldEnum[]
+}
+
+/**
+ * User.notifications
+ */
+export type User$notificationsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Notification
+   */
+  select?: Prisma.NotificationSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Notification
+   */
+  omit?: Prisma.NotificationOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.NotificationInclude<ExtArgs> | null
+  where?: Prisma.NotificationWhereInput
+  orderBy?: Prisma.NotificationOrderByWithRelationInput | Prisma.NotificationOrderByWithRelationInput[]
+  cursor?: Prisma.NotificationWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.NotificationScalarFieldEnum | Prisma.NotificationScalarFieldEnum[]
+}
+
+/**
+ * User.recruiters
+ */
+export type User$recruitersArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Recruiter
+   */
+  select?: Prisma.RecruiterSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Recruiter
+   */
+  omit?: Prisma.RecruiterOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.RecruiterInclude<ExtArgs> | null
+  where?: Prisma.RecruiterWhereInput
+}
+
+/**
+ * User.resumes
+ */
+export type User$resumesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Resume
+   */
+  select?: Prisma.ResumeSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Resume
+   */
+  omit?: Prisma.ResumeOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.ResumeInclude<ExtArgs> | null
+  where?: Prisma.ResumeWhereInput
+  orderBy?: Prisma.ResumeOrderByWithRelationInput | Prisma.ResumeOrderByWithRelationInput[]
+  cursor?: Prisma.ResumeWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.ResumeScalarFieldEnum | Prisma.ResumeScalarFieldEnum[]
+}
+
+/**
+ * User.savedJobs
+ */
+export type User$savedJobsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the SavedJob
+   */
+  select?: Prisma.SavedJobSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the SavedJob
+   */
+  omit?: Prisma.SavedJobOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.SavedJobInclude<ExtArgs> | null
+  where?: Prisma.SavedJobWhereInput
+  orderBy?: Prisma.SavedJobOrderByWithRelationInput | Prisma.SavedJobOrderByWithRelationInput[]
+  cursor?: Prisma.SavedJobWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.SavedJobScalarFieldEnum | Prisma.SavedJobScalarFieldEnum[]
+}
+
+/**
+ * User.sessions
+ */
+export type User$sessionsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Session
+   */
+  select?: Prisma.SessionSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Session
+   */
+  omit?: Prisma.SessionOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.SessionInclude<ExtArgs> | null
+  where?: Prisma.SessionWhereInput
+  orderBy?: Prisma.SessionOrderByWithRelationInput | Prisma.SessionOrderByWithRelationInput[]
+  cursor?: Prisma.SessionWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.SessionScalarFieldEnum | Prisma.SessionScalarFieldEnum[]
+}
+
+/**
+ * User.userPresences
+ */
+export type User$userPresencesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the UserPresence
+   */
+  select?: Prisma.UserPresenceSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the UserPresence
+   */
+  omit?: Prisma.UserPresenceOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.UserPresenceInclude<ExtArgs> | null
+  where?: Prisma.UserPresenceWhereInput
+}
+
+/**
+ * User.testimonials
+ */
+export type User$testimonialsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Testimonial
+   */
+  select?: Prisma.TestimonialSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Testimonial
+   */
+  omit?: Prisma.TestimonialOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.TestimonialInclude<ExtArgs> | null
+  where?: Prisma.TestimonialWhereInput
+  orderBy?: Prisma.TestimonialOrderByWithRelationInput | Prisma.TestimonialOrderByWithRelationInput[]
+  cursor?: Prisma.TestimonialWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.TestimonialScalarFieldEnum | Prisma.TestimonialScalarFieldEnum[]
 }
 
 /**

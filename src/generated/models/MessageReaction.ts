@@ -20,8 +20,18 @@ export type MessageReactionModel = runtime.Types.Result.DefaultSelection<Prisma.
 
 export type AggregateMessageReaction = {
   _count: MessageReactionCountAggregateOutputType | null
+  _avg: MessageReactionAvgAggregateOutputType | null
+  _sum: MessageReactionSumAggregateOutputType | null
   _min: MessageReactionMinAggregateOutputType | null
   _max: MessageReactionMaxAggregateOutputType | null
+}
+
+export type MessageReactionAvgAggregateOutputType = {
+  sentimentScore: number | null
+}
+
+export type MessageReactionSumAggregateOutputType = {
+  sentimentScore: number | null
 }
 
 export type MessageReactionMinAggregateOutputType = {
@@ -29,6 +39,8 @@ export type MessageReactionMinAggregateOutputType = {
   messageId: string | null
   userId: string | null
   emoji: string | null
+  isAIReaction: boolean | null
+  sentimentScore: number | null
   createdAt: Date | null
 }
 
@@ -37,6 +49,8 @@ export type MessageReactionMaxAggregateOutputType = {
   messageId: string | null
   userId: string | null
   emoji: string | null
+  isAIReaction: boolean | null
+  sentimentScore: number | null
   createdAt: Date | null
 }
 
@@ -45,16 +59,28 @@ export type MessageReactionCountAggregateOutputType = {
   messageId: number
   userId: number
   emoji: number
+  isAIReaction: number
+  sentimentScore: number
   createdAt: number
   _all: number
 }
 
+
+export type MessageReactionAvgAggregateInputType = {
+  sentimentScore?: true
+}
+
+export type MessageReactionSumAggregateInputType = {
+  sentimentScore?: true
+}
 
 export type MessageReactionMinAggregateInputType = {
   id?: true
   messageId?: true
   userId?: true
   emoji?: true
+  isAIReaction?: true
+  sentimentScore?: true
   createdAt?: true
 }
 
@@ -63,6 +89,8 @@ export type MessageReactionMaxAggregateInputType = {
   messageId?: true
   userId?: true
   emoji?: true
+  isAIReaction?: true
+  sentimentScore?: true
   createdAt?: true
 }
 
@@ -71,6 +99,8 @@ export type MessageReactionCountAggregateInputType = {
   messageId?: true
   userId?: true
   emoji?: true
+  isAIReaction?: true
+  sentimentScore?: true
   createdAt?: true
   _all?: true
 }
@@ -113,6 +143,18 @@ export type MessageReactionAggregateArgs<ExtArgs extends runtime.Types.Extension
   /**
    * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
    * 
+   * Select which fields to average
+  **/
+  _avg?: MessageReactionAvgAggregateInputType
+  /**
+   * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+   * 
+   * Select which fields to sum
+  **/
+  _sum?: MessageReactionSumAggregateInputType
+  /**
+   * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+   * 
    * Select which fields to find the minimum value
   **/
   _min?: MessageReactionMinAggregateInputType
@@ -143,6 +185,8 @@ export type MessageReactionGroupByArgs<ExtArgs extends runtime.Types.Extensions.
   take?: number
   skip?: number
   _count?: MessageReactionCountAggregateInputType | true
+  _avg?: MessageReactionAvgAggregateInputType
+  _sum?: MessageReactionSumAggregateInputType
   _min?: MessageReactionMinAggregateInputType
   _max?: MessageReactionMaxAggregateInputType
 }
@@ -152,13 +196,17 @@ export type MessageReactionGroupByOutputType = {
   messageId: string
   userId: string
   emoji: string
+  isAIReaction: boolean
+  sentimentScore: number | null
   createdAt: Date
   _count: MessageReactionCountAggregateOutputType | null
+  _avg: MessageReactionAvgAggregateOutputType | null
+  _sum: MessageReactionSumAggregateOutputType | null
   _min: MessageReactionMinAggregateOutputType | null
   _max: MessageReactionMaxAggregateOutputType | null
 }
 
-type GetMessageReactionGroupByPayload<T extends MessageReactionGroupByArgs> = Prisma.PrismaPromise<
+export type GetMessageReactionGroupByPayload<T extends MessageReactionGroupByArgs> = Prisma.PrismaPromise<
   Array<
     Prisma.PickEnumerable<MessageReactionGroupByOutputType, T['by']> &
       {
@@ -181,6 +229,8 @@ export type MessageReactionWhereInput = {
   messageId?: Prisma.StringFilter<"MessageReaction"> | string
   userId?: Prisma.StringFilter<"MessageReaction"> | string
   emoji?: Prisma.StringFilter<"MessageReaction"> | string
+  isAIReaction?: Prisma.BoolFilter<"MessageReaction"> | boolean
+  sentimentScore?: Prisma.FloatNullableFilter<"MessageReaction"> | number | null
   createdAt?: Prisma.DateTimeFilter<"MessageReaction"> | Date | string
   message?: Prisma.XOR<Prisma.MessageScalarRelationFilter, Prisma.MessageWhereInput>
   user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
@@ -191,6 +241,8 @@ export type MessageReactionOrderByWithRelationInput = {
   messageId?: Prisma.SortOrder
   userId?: Prisma.SortOrder
   emoji?: Prisma.SortOrder
+  isAIReaction?: Prisma.SortOrder
+  sentimentScore?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   message?: Prisma.MessageOrderByWithRelationInput
   user?: Prisma.UserOrderByWithRelationInput
@@ -205,6 +257,8 @@ export type MessageReactionWhereUniqueInput = Prisma.AtLeast<{
   messageId?: Prisma.StringFilter<"MessageReaction"> | string
   userId?: Prisma.StringFilter<"MessageReaction"> | string
   emoji?: Prisma.StringFilter<"MessageReaction"> | string
+  isAIReaction?: Prisma.BoolFilter<"MessageReaction"> | boolean
+  sentimentScore?: Prisma.FloatNullableFilter<"MessageReaction"> | number | null
   createdAt?: Prisma.DateTimeFilter<"MessageReaction"> | Date | string
   message?: Prisma.XOR<Prisma.MessageScalarRelationFilter, Prisma.MessageWhereInput>
   user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
@@ -215,10 +269,14 @@ export type MessageReactionOrderByWithAggregationInput = {
   messageId?: Prisma.SortOrder
   userId?: Prisma.SortOrder
   emoji?: Prisma.SortOrder
+  isAIReaction?: Prisma.SortOrder
+  sentimentScore?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   _count?: Prisma.MessageReactionCountOrderByAggregateInput
+  _avg?: Prisma.MessageReactionAvgOrderByAggregateInput
   _max?: Prisma.MessageReactionMaxOrderByAggregateInput
   _min?: Prisma.MessageReactionMinOrderByAggregateInput
+  _sum?: Prisma.MessageReactionSumOrderByAggregateInput
 }
 
 export type MessageReactionScalarWhereWithAggregatesInput = {
@@ -229,12 +287,16 @@ export type MessageReactionScalarWhereWithAggregatesInput = {
   messageId?: Prisma.StringWithAggregatesFilter<"MessageReaction"> | string
   userId?: Prisma.StringWithAggregatesFilter<"MessageReaction"> | string
   emoji?: Prisma.StringWithAggregatesFilter<"MessageReaction"> | string
+  isAIReaction?: Prisma.BoolWithAggregatesFilter<"MessageReaction"> | boolean
+  sentimentScore?: Prisma.FloatNullableWithAggregatesFilter<"MessageReaction"> | number | null
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"MessageReaction"> | Date | string
 }
 
 export type MessageReactionCreateInput = {
   id?: string
   emoji: string
+  isAIReaction?: boolean
+  sentimentScore?: number | null
   createdAt?: Date | string
   message: Prisma.MessageCreateNestedOneWithoutReactionsInput
   user: Prisma.UserCreateNestedOneWithoutMessageReactionsInput
@@ -245,12 +307,16 @@ export type MessageReactionUncheckedCreateInput = {
   messageId: string
   userId: string
   emoji: string
+  isAIReaction?: boolean
+  sentimentScore?: number | null
   createdAt?: Date | string
 }
 
 export type MessageReactionUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   emoji?: Prisma.StringFieldUpdateOperationsInput | string
+  isAIReaction?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  sentimentScore?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   message?: Prisma.MessageUpdateOneRequiredWithoutReactionsNestedInput
   user?: Prisma.UserUpdateOneRequiredWithoutMessageReactionsNestedInput
@@ -261,6 +327,8 @@ export type MessageReactionUncheckedUpdateInput = {
   messageId?: Prisma.StringFieldUpdateOperationsInput | string
   userId?: Prisma.StringFieldUpdateOperationsInput | string
   emoji?: Prisma.StringFieldUpdateOperationsInput | string
+  isAIReaction?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  sentimentScore?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
@@ -269,12 +337,16 @@ export type MessageReactionCreateManyInput = {
   messageId: string
   userId: string
   emoji: string
+  isAIReaction?: boolean
+  sentimentScore?: number | null
   createdAt?: Date | string
 }
 
 export type MessageReactionUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   emoji?: Prisma.StringFieldUpdateOperationsInput | string
+  isAIReaction?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  sentimentScore?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
@@ -283,6 +355,8 @@ export type MessageReactionUncheckedUpdateManyInput = {
   messageId?: Prisma.StringFieldUpdateOperationsInput | string
   userId?: Prisma.StringFieldUpdateOperationsInput | string
   emoji?: Prisma.StringFieldUpdateOperationsInput | string
+  isAIReaction?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  sentimentScore?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
@@ -307,7 +381,13 @@ export type MessageReactionCountOrderByAggregateInput = {
   messageId?: Prisma.SortOrder
   userId?: Prisma.SortOrder
   emoji?: Prisma.SortOrder
+  isAIReaction?: Prisma.SortOrder
+  sentimentScore?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
+}
+
+export type MessageReactionAvgOrderByAggregateInput = {
+  sentimentScore?: Prisma.SortOrder
 }
 
 export type MessageReactionMaxOrderByAggregateInput = {
@@ -315,6 +395,8 @@ export type MessageReactionMaxOrderByAggregateInput = {
   messageId?: Prisma.SortOrder
   userId?: Prisma.SortOrder
   emoji?: Prisma.SortOrder
+  isAIReaction?: Prisma.SortOrder
+  sentimentScore?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
 }
 
@@ -323,7 +405,13 @@ export type MessageReactionMinOrderByAggregateInput = {
   messageId?: Prisma.SortOrder
   userId?: Prisma.SortOrder
   emoji?: Prisma.SortOrder
+  isAIReaction?: Prisma.SortOrder
+  sentimentScore?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
+}
+
+export type MessageReactionSumOrderByAggregateInput = {
+  sentimentScore?: Prisma.SortOrder
 }
 
 export type MessageReactionCreateNestedManyWithoutUserInput = {
@@ -413,6 +501,8 @@ export type MessageReactionUncheckedUpdateManyWithoutMessageNestedInput = {
 export type MessageReactionCreateWithoutUserInput = {
   id?: string
   emoji: string
+  isAIReaction?: boolean
+  sentimentScore?: number | null
   createdAt?: Date | string
   message: Prisma.MessageCreateNestedOneWithoutReactionsInput
 }
@@ -421,6 +511,8 @@ export type MessageReactionUncheckedCreateWithoutUserInput = {
   id?: string
   messageId: string
   emoji: string
+  isAIReaction?: boolean
+  sentimentScore?: number | null
   createdAt?: Date | string
 }
 
@@ -458,12 +550,16 @@ export type MessageReactionScalarWhereInput = {
   messageId?: Prisma.StringFilter<"MessageReaction"> | string
   userId?: Prisma.StringFilter<"MessageReaction"> | string
   emoji?: Prisma.StringFilter<"MessageReaction"> | string
+  isAIReaction?: Prisma.BoolFilter<"MessageReaction"> | boolean
+  sentimentScore?: Prisma.FloatNullableFilter<"MessageReaction"> | number | null
   createdAt?: Prisma.DateTimeFilter<"MessageReaction"> | Date | string
 }
 
 export type MessageReactionCreateWithoutMessageInput = {
   id?: string
   emoji: string
+  isAIReaction?: boolean
+  sentimentScore?: number | null
   createdAt?: Date | string
   user: Prisma.UserCreateNestedOneWithoutMessageReactionsInput
 }
@@ -472,6 +568,8 @@ export type MessageReactionUncheckedCreateWithoutMessageInput = {
   id?: string
   userId: string
   emoji: string
+  isAIReaction?: boolean
+  sentimentScore?: number | null
   createdAt?: Date | string
 }
 
@@ -505,12 +603,16 @@ export type MessageReactionCreateManyUserInput = {
   id?: string
   messageId: string
   emoji: string
+  isAIReaction?: boolean
+  sentimentScore?: number | null
   createdAt?: Date | string
 }
 
 export type MessageReactionUpdateWithoutUserInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   emoji?: Prisma.StringFieldUpdateOperationsInput | string
+  isAIReaction?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  sentimentScore?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   message?: Prisma.MessageUpdateOneRequiredWithoutReactionsNestedInput
 }
@@ -519,6 +621,8 @@ export type MessageReactionUncheckedUpdateWithoutUserInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   messageId?: Prisma.StringFieldUpdateOperationsInput | string
   emoji?: Prisma.StringFieldUpdateOperationsInput | string
+  isAIReaction?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  sentimentScore?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
@@ -526,6 +630,8 @@ export type MessageReactionUncheckedUpdateManyWithoutUserInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   messageId?: Prisma.StringFieldUpdateOperationsInput | string
   emoji?: Prisma.StringFieldUpdateOperationsInput | string
+  isAIReaction?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  sentimentScore?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
@@ -533,12 +639,16 @@ export type MessageReactionCreateManyMessageInput = {
   id?: string
   userId: string
   emoji: string
+  isAIReaction?: boolean
+  sentimentScore?: number | null
   createdAt?: Date | string
 }
 
 export type MessageReactionUpdateWithoutMessageInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   emoji?: Prisma.StringFieldUpdateOperationsInput | string
+  isAIReaction?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  sentimentScore?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   user?: Prisma.UserUpdateOneRequiredWithoutMessageReactionsNestedInput
 }
@@ -547,6 +657,8 @@ export type MessageReactionUncheckedUpdateWithoutMessageInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   userId?: Prisma.StringFieldUpdateOperationsInput | string
   emoji?: Prisma.StringFieldUpdateOperationsInput | string
+  isAIReaction?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  sentimentScore?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
@@ -554,6 +666,8 @@ export type MessageReactionUncheckedUpdateManyWithoutMessageInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   userId?: Prisma.StringFieldUpdateOperationsInput | string
   emoji?: Prisma.StringFieldUpdateOperationsInput | string
+  isAIReaction?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  sentimentScore?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
@@ -564,6 +678,8 @@ export type MessageReactionSelect<ExtArgs extends runtime.Types.Extensions.Inter
   messageId?: boolean
   userId?: boolean
   emoji?: boolean
+  isAIReaction?: boolean
+  sentimentScore?: boolean
   createdAt?: boolean
   message?: boolean | Prisma.MessageDefaultArgs<ExtArgs>
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
@@ -574,6 +690,8 @@ export type MessageReactionSelectCreateManyAndReturn<ExtArgs extends runtime.Typ
   messageId?: boolean
   userId?: boolean
   emoji?: boolean
+  isAIReaction?: boolean
+  sentimentScore?: boolean
   createdAt?: boolean
   message?: boolean | Prisma.MessageDefaultArgs<ExtArgs>
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
@@ -584,6 +702,8 @@ export type MessageReactionSelectUpdateManyAndReturn<ExtArgs extends runtime.Typ
   messageId?: boolean
   userId?: boolean
   emoji?: boolean
+  isAIReaction?: boolean
+  sentimentScore?: boolean
   createdAt?: boolean
   message?: boolean | Prisma.MessageDefaultArgs<ExtArgs>
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
@@ -594,10 +714,12 @@ export type MessageReactionSelectScalar = {
   messageId?: boolean
   userId?: boolean
   emoji?: boolean
+  isAIReaction?: boolean
+  sentimentScore?: boolean
   createdAt?: boolean
 }
 
-export type MessageReactionOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "messageId" | "userId" | "emoji" | "createdAt", ExtArgs["result"]["messageReaction"]>
+export type MessageReactionOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "messageId" | "userId" | "emoji" | "isAIReaction" | "sentimentScore" | "createdAt", ExtArgs["result"]["messageReaction"]>
 export type MessageReactionInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   message?: boolean | Prisma.MessageDefaultArgs<ExtArgs>
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
@@ -622,6 +744,8 @@ export type $MessageReactionPayload<ExtArgs extends runtime.Types.Extensions.Int
     messageId: string
     userId: string
     emoji: string
+    isAIReaction: boolean
+    sentimentScore: number | null
     createdAt: Date
   }, ExtArgs["result"]["messageReaction"]>
   composites: {}
@@ -1052,6 +1176,8 @@ export interface MessageReactionFieldRefs {
   readonly messageId: Prisma.FieldRef<"MessageReaction", 'String'>
   readonly userId: Prisma.FieldRef<"MessageReaction", 'String'>
   readonly emoji: Prisma.FieldRef<"MessageReaction", 'String'>
+  readonly isAIReaction: Prisma.FieldRef<"MessageReaction", 'Boolean'>
+  readonly sentimentScore: Prisma.FieldRef<"MessageReaction", 'Float'>
   readonly createdAt: Prisma.FieldRef<"MessageReaction", 'DateTime'>
 }
     

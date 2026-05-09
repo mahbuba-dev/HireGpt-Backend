@@ -26,27 +26,30 @@ export type AggregateChatRoom = {
 
 export type ChatRoomMinAggregateOutputType = {
   id: string | null
-  consultationId: string | null
-  clientId: string | null
-  expertId: string | null
+  jobSeekerId: string | null
+  recruiterId: string | null
+  isAIChat: boolean | null
+  jobId: string | null
   createdAt: Date | null
   updatedAt: Date | null
 }
 
 export type ChatRoomMaxAggregateOutputType = {
   id: string | null
-  consultationId: string | null
-  clientId: string | null
-  expertId: string | null
+  jobSeekerId: string | null
+  recruiterId: string | null
+  isAIChat: boolean | null
+  jobId: string | null
   createdAt: Date | null
   updatedAt: Date | null
 }
 
 export type ChatRoomCountAggregateOutputType = {
   id: number
-  consultationId: number
-  clientId: number
-  expertId: number
+  jobSeekerId: number
+  recruiterId: number
+  isAIChat: number
+  jobId: number
   createdAt: number
   updatedAt: number
   _all: number
@@ -55,27 +58,30 @@ export type ChatRoomCountAggregateOutputType = {
 
 export type ChatRoomMinAggregateInputType = {
   id?: true
-  consultationId?: true
-  clientId?: true
-  expertId?: true
+  jobSeekerId?: true
+  recruiterId?: true
+  isAIChat?: true
+  jobId?: true
   createdAt?: true
   updatedAt?: true
 }
 
 export type ChatRoomMaxAggregateInputType = {
   id?: true
-  consultationId?: true
-  clientId?: true
-  expertId?: true
+  jobSeekerId?: true
+  recruiterId?: true
+  isAIChat?: true
+  jobId?: true
   createdAt?: true
   updatedAt?: true
 }
 
 export type ChatRoomCountAggregateInputType = {
   id?: true
-  consultationId?: true
-  clientId?: true
-  expertId?: true
+  jobSeekerId?: true
+  recruiterId?: true
+  isAIChat?: true
+  jobId?: true
   createdAt?: true
   updatedAt?: true
   _all?: true
@@ -155,9 +161,10 @@ export type ChatRoomGroupByArgs<ExtArgs extends runtime.Types.Extensions.Interna
 
 export type ChatRoomGroupByOutputType = {
   id: string
-  consultationId: string | null
-  clientId: string
-  expertId: string
+  jobSeekerId: string | null
+  recruiterId: string | null
+  isAIChat: boolean
+  jobId: string | null
   createdAt: Date
   updatedAt: Date
   _count: ChatRoomCountAggregateOutputType | null
@@ -165,7 +172,7 @@ export type ChatRoomGroupByOutputType = {
   _max: ChatRoomMaxAggregateOutputType | null
 }
 
-type GetChatRoomGroupByPayload<T extends ChatRoomGroupByArgs> = Prisma.PrismaPromise<
+export type GetChatRoomGroupByPayload<T extends ChatRoomGroupByArgs> = Prisma.PrismaPromise<
   Array<
     Prisma.PickEnumerable<ChatRoomGroupByOutputType, T['by']> &
       {
@@ -185,55 +192,62 @@ export type ChatRoomWhereInput = {
   OR?: Prisma.ChatRoomWhereInput[]
   NOT?: Prisma.ChatRoomWhereInput | Prisma.ChatRoomWhereInput[]
   id?: Prisma.StringFilter<"ChatRoom"> | string
-  consultationId?: Prisma.UuidNullableFilter<"ChatRoom"> | string | null
-  clientId?: Prisma.UuidFilter<"ChatRoom"> | string
-  expertId?: Prisma.UuidFilter<"ChatRoom"> | string
+  jobSeekerId?: Prisma.StringNullableFilter<"ChatRoom"> | string | null
+  recruiterId?: Prisma.StringNullableFilter<"ChatRoom"> | string | null
+  isAIChat?: Prisma.BoolFilter<"ChatRoom"> | boolean
+  jobId?: Prisma.StringNullableFilter<"ChatRoom"> | string | null
   createdAt?: Prisma.DateTimeFilter<"ChatRoom"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"ChatRoom"> | Date | string
-  consultation?: Prisma.XOR<Prisma.ConsultationNullableScalarRelationFilter, Prisma.ConsultationWhereInput> | null
-  client?: Prisma.XOR<Prisma.ClientScalarRelationFilter, Prisma.ClientWhereInput>
-  expert?: Prisma.XOR<Prisma.ExpertScalarRelationFilter, Prisma.ExpertWhereInput>
+  job?: Prisma.XOR<Prisma.JobNullableScalarRelationFilter, Prisma.JobWhereInput> | null
+  candidate?: Prisma.XOR<Prisma.CandidateNullableScalarRelationFilter, Prisma.CandidateWhereInput> | null
+  recruiter?: Prisma.XOR<Prisma.RecruiterNullableScalarRelationFilter, Prisma.RecruiterWhereInput> | null
+  calls?: Prisma.InterviewCallListRelationFilter
   messages?: Prisma.MessageListRelationFilter
-  calls?: Prisma.CallListRelationFilter
+  typingStates?: Prisma.TypingStateListRelationFilter
 }
 
 export type ChatRoomOrderByWithRelationInput = {
   id?: Prisma.SortOrder
-  consultationId?: Prisma.SortOrderInput | Prisma.SortOrder
-  clientId?: Prisma.SortOrder
-  expertId?: Prisma.SortOrder
+  jobSeekerId?: Prisma.SortOrderInput | Prisma.SortOrder
+  recruiterId?: Prisma.SortOrderInput | Prisma.SortOrder
+  isAIChat?: Prisma.SortOrder
+  jobId?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
-  consultation?: Prisma.ConsultationOrderByWithRelationInput
-  client?: Prisma.ClientOrderByWithRelationInput
-  expert?: Prisma.ExpertOrderByWithRelationInput
+  job?: Prisma.JobOrderByWithRelationInput
+  candidate?: Prisma.CandidateOrderByWithRelationInput
+  recruiter?: Prisma.RecruiterOrderByWithRelationInput
+  calls?: Prisma.InterviewCallOrderByRelationAggregateInput
   messages?: Prisma.MessageOrderByRelationAggregateInput
-  calls?: Prisma.CallOrderByRelationAggregateInput
+  typingStates?: Prisma.TypingStateOrderByRelationAggregateInput
 }
 
 export type ChatRoomWhereUniqueInput = Prisma.AtLeast<{
   id?: string
-  clientId_expertId?: Prisma.ChatRoomClientIdExpertIdCompoundUniqueInput
+  jobSeekerId_recruiterId_jobId?: Prisma.ChatRoomJobSeekerIdRecruiterIdJobIdCompoundUniqueInput
   AND?: Prisma.ChatRoomWhereInput | Prisma.ChatRoomWhereInput[]
   OR?: Prisma.ChatRoomWhereInput[]
   NOT?: Prisma.ChatRoomWhereInput | Prisma.ChatRoomWhereInput[]
-  consultationId?: Prisma.UuidNullableFilter<"ChatRoom"> | string | null
-  clientId?: Prisma.UuidFilter<"ChatRoom"> | string
-  expertId?: Prisma.UuidFilter<"ChatRoom"> | string
+  jobSeekerId?: Prisma.StringNullableFilter<"ChatRoom"> | string | null
+  recruiterId?: Prisma.StringNullableFilter<"ChatRoom"> | string | null
+  isAIChat?: Prisma.BoolFilter<"ChatRoom"> | boolean
+  jobId?: Prisma.StringNullableFilter<"ChatRoom"> | string | null
   createdAt?: Prisma.DateTimeFilter<"ChatRoom"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"ChatRoom"> | Date | string
-  consultation?: Prisma.XOR<Prisma.ConsultationNullableScalarRelationFilter, Prisma.ConsultationWhereInput> | null
-  client?: Prisma.XOR<Prisma.ClientScalarRelationFilter, Prisma.ClientWhereInput>
-  expert?: Prisma.XOR<Prisma.ExpertScalarRelationFilter, Prisma.ExpertWhereInput>
+  job?: Prisma.XOR<Prisma.JobNullableScalarRelationFilter, Prisma.JobWhereInput> | null
+  candidate?: Prisma.XOR<Prisma.CandidateNullableScalarRelationFilter, Prisma.CandidateWhereInput> | null
+  recruiter?: Prisma.XOR<Prisma.RecruiterNullableScalarRelationFilter, Prisma.RecruiterWhereInput> | null
+  calls?: Prisma.InterviewCallListRelationFilter
   messages?: Prisma.MessageListRelationFilter
-  calls?: Prisma.CallListRelationFilter
-}, "id" | "clientId_expertId">
+  typingStates?: Prisma.TypingStateListRelationFilter
+}, "id" | "jobSeekerId_recruiterId_jobId">
 
 export type ChatRoomOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
-  consultationId?: Prisma.SortOrderInput | Prisma.SortOrder
-  clientId?: Prisma.SortOrder
-  expertId?: Prisma.SortOrder
+  jobSeekerId?: Prisma.SortOrderInput | Prisma.SortOrder
+  recruiterId?: Prisma.SortOrderInput | Prisma.SortOrder
+  isAIChat?: Prisma.SortOrder
+  jobId?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   _count?: Prisma.ChatRoomCountOrderByAggregateInput
@@ -246,116 +260,91 @@ export type ChatRoomScalarWhereWithAggregatesInput = {
   OR?: Prisma.ChatRoomScalarWhereWithAggregatesInput[]
   NOT?: Prisma.ChatRoomScalarWhereWithAggregatesInput | Prisma.ChatRoomScalarWhereWithAggregatesInput[]
   id?: Prisma.StringWithAggregatesFilter<"ChatRoom"> | string
-  consultationId?: Prisma.UuidNullableWithAggregatesFilter<"ChatRoom"> | string | null
-  clientId?: Prisma.UuidWithAggregatesFilter<"ChatRoom"> | string
-  expertId?: Prisma.UuidWithAggregatesFilter<"ChatRoom"> | string
+  jobSeekerId?: Prisma.StringNullableWithAggregatesFilter<"ChatRoom"> | string | null
+  recruiterId?: Prisma.StringNullableWithAggregatesFilter<"ChatRoom"> | string | null
+  isAIChat?: Prisma.BoolWithAggregatesFilter<"ChatRoom"> | boolean
+  jobId?: Prisma.StringNullableWithAggregatesFilter<"ChatRoom"> | string | null
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"ChatRoom"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"ChatRoom"> | Date | string
 }
 
 export type ChatRoomCreateInput = {
   id?: string
+  isAIChat?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
-  consultation?: Prisma.ConsultationCreateNestedOneWithoutChatRoomsInput
-  client: Prisma.ClientCreateNestedOneWithoutChatRoomsInput
-  expert: Prisma.ExpertCreateNestedOneWithoutChatRoomsInput
+  job?: Prisma.JobCreateNestedOneWithoutChatRoomsInput
+  candidate?: Prisma.CandidateCreateNestedOneWithoutChatRoomsInput
+  recruiter?: Prisma.RecruiterCreateNestedOneWithoutChatRoomsInput
+  calls?: Prisma.InterviewCallCreateNestedManyWithoutChatRoomInput
   messages?: Prisma.MessageCreateNestedManyWithoutRoomInput
-  calls?: Prisma.CallCreateNestedManyWithoutRoomInput
+  typingStates?: Prisma.TypingStateCreateNestedManyWithoutRoomInput
 }
 
 export type ChatRoomUncheckedCreateInput = {
   id?: string
-  consultationId?: string | null
-  clientId: string
-  expertId: string
+  jobSeekerId?: string | null
+  recruiterId?: string | null
+  isAIChat?: boolean
+  jobId?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  calls?: Prisma.InterviewCallUncheckedCreateNestedManyWithoutChatRoomInput
   messages?: Prisma.MessageUncheckedCreateNestedManyWithoutRoomInput
-  calls?: Prisma.CallUncheckedCreateNestedManyWithoutRoomInput
+  typingStates?: Prisma.TypingStateUncheckedCreateNestedManyWithoutRoomInput
 }
 
 export type ChatRoomUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  isAIChat?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  consultation?: Prisma.ConsultationUpdateOneWithoutChatRoomsNestedInput
-  client?: Prisma.ClientUpdateOneRequiredWithoutChatRoomsNestedInput
-  expert?: Prisma.ExpertUpdateOneRequiredWithoutChatRoomsNestedInput
+  job?: Prisma.JobUpdateOneWithoutChatRoomsNestedInput
+  candidate?: Prisma.CandidateUpdateOneWithoutChatRoomsNestedInput
+  recruiter?: Prisma.RecruiterUpdateOneWithoutChatRoomsNestedInput
+  calls?: Prisma.InterviewCallUpdateManyWithoutChatRoomNestedInput
   messages?: Prisma.MessageUpdateManyWithoutRoomNestedInput
-  calls?: Prisma.CallUpdateManyWithoutRoomNestedInput
+  typingStates?: Prisma.TypingStateUpdateManyWithoutRoomNestedInput
 }
 
 export type ChatRoomUncheckedUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  consultationId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  clientId?: Prisma.StringFieldUpdateOperationsInput | string
-  expertId?: Prisma.StringFieldUpdateOperationsInput | string
+  jobSeekerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  recruiterId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isAIChat?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  jobId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  calls?: Prisma.InterviewCallUncheckedUpdateManyWithoutChatRoomNestedInput
   messages?: Prisma.MessageUncheckedUpdateManyWithoutRoomNestedInput
-  calls?: Prisma.CallUncheckedUpdateManyWithoutRoomNestedInput
+  typingStates?: Prisma.TypingStateUncheckedUpdateManyWithoutRoomNestedInput
 }
 
 export type ChatRoomCreateManyInput = {
   id?: string
-  consultationId?: string | null
-  clientId: string
-  expertId: string
+  jobSeekerId?: string | null
+  recruiterId?: string | null
+  isAIChat?: boolean
+  jobId?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
 }
 
 export type ChatRoomUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  isAIChat?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type ChatRoomUncheckedUpdateManyInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  consultationId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  clientId?: Prisma.StringFieldUpdateOperationsInput | string
-  expertId?: Prisma.StringFieldUpdateOperationsInput | string
+  jobSeekerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  recruiterId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isAIChat?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  jobId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-}
-
-export type ChatRoomScalarRelationFilter = {
-  is?: Prisma.ChatRoomWhereInput
-  isNot?: Prisma.ChatRoomWhereInput
-}
-
-export type ChatRoomClientIdExpertIdCompoundUniqueInput = {
-  clientId: string
-  expertId: string
-}
-
-export type ChatRoomCountOrderByAggregateInput = {
-  id?: Prisma.SortOrder
-  consultationId?: Prisma.SortOrder
-  clientId?: Prisma.SortOrder
-  expertId?: Prisma.SortOrder
-  createdAt?: Prisma.SortOrder
-  updatedAt?: Prisma.SortOrder
-}
-
-export type ChatRoomMaxOrderByAggregateInput = {
-  id?: Prisma.SortOrder
-  consultationId?: Prisma.SortOrder
-  clientId?: Prisma.SortOrder
-  expertId?: Prisma.SortOrder
-  createdAt?: Prisma.SortOrder
-  updatedAt?: Prisma.SortOrder
-}
-
-export type ChatRoomMinOrderByAggregateInput = {
-  id?: Prisma.SortOrder
-  consultationId?: Prisma.SortOrder
-  clientId?: Prisma.SortOrder
-  expertId?: Prisma.SortOrder
-  createdAt?: Prisma.SortOrder
-  updatedAt?: Prisma.SortOrder
 }
 
 export type ChatRoomListRelationFilter = {
@@ -366,6 +355,89 @@ export type ChatRoomListRelationFilter = {
 
 export type ChatRoomOrderByRelationAggregateInput = {
   _count?: Prisma.SortOrder
+}
+
+export type ChatRoomJobSeekerIdRecruiterIdJobIdCompoundUniqueInput = {
+  jobSeekerId: string
+  recruiterId: string
+  jobId: string
+}
+
+export type ChatRoomCountOrderByAggregateInput = {
+  id?: Prisma.SortOrder
+  jobSeekerId?: Prisma.SortOrder
+  recruiterId?: Prisma.SortOrder
+  isAIChat?: Prisma.SortOrder
+  jobId?: Prisma.SortOrder
+  createdAt?: Prisma.SortOrder
+  updatedAt?: Prisma.SortOrder
+}
+
+export type ChatRoomMaxOrderByAggregateInput = {
+  id?: Prisma.SortOrder
+  jobSeekerId?: Prisma.SortOrder
+  recruiterId?: Prisma.SortOrder
+  isAIChat?: Prisma.SortOrder
+  jobId?: Prisma.SortOrder
+  createdAt?: Prisma.SortOrder
+  updatedAt?: Prisma.SortOrder
+}
+
+export type ChatRoomMinOrderByAggregateInput = {
+  id?: Prisma.SortOrder
+  jobSeekerId?: Prisma.SortOrder
+  recruiterId?: Prisma.SortOrder
+  isAIChat?: Prisma.SortOrder
+  jobId?: Prisma.SortOrder
+  createdAt?: Prisma.SortOrder
+  updatedAt?: Prisma.SortOrder
+}
+
+export type ChatRoomScalarRelationFilter = {
+  is?: Prisma.ChatRoomWhereInput
+  isNot?: Prisma.ChatRoomWhereInput
+}
+
+export type ChatRoomCreateNestedManyWithoutCandidateInput = {
+  create?: Prisma.XOR<Prisma.ChatRoomCreateWithoutCandidateInput, Prisma.ChatRoomUncheckedCreateWithoutCandidateInput> | Prisma.ChatRoomCreateWithoutCandidateInput[] | Prisma.ChatRoomUncheckedCreateWithoutCandidateInput[]
+  connectOrCreate?: Prisma.ChatRoomCreateOrConnectWithoutCandidateInput | Prisma.ChatRoomCreateOrConnectWithoutCandidateInput[]
+  createMany?: Prisma.ChatRoomCreateManyCandidateInputEnvelope
+  connect?: Prisma.ChatRoomWhereUniqueInput | Prisma.ChatRoomWhereUniqueInput[]
+}
+
+export type ChatRoomUncheckedCreateNestedManyWithoutCandidateInput = {
+  create?: Prisma.XOR<Prisma.ChatRoomCreateWithoutCandidateInput, Prisma.ChatRoomUncheckedCreateWithoutCandidateInput> | Prisma.ChatRoomCreateWithoutCandidateInput[] | Prisma.ChatRoomUncheckedCreateWithoutCandidateInput[]
+  connectOrCreate?: Prisma.ChatRoomCreateOrConnectWithoutCandidateInput | Prisma.ChatRoomCreateOrConnectWithoutCandidateInput[]
+  createMany?: Prisma.ChatRoomCreateManyCandidateInputEnvelope
+  connect?: Prisma.ChatRoomWhereUniqueInput | Prisma.ChatRoomWhereUniqueInput[]
+}
+
+export type ChatRoomUpdateManyWithoutCandidateNestedInput = {
+  create?: Prisma.XOR<Prisma.ChatRoomCreateWithoutCandidateInput, Prisma.ChatRoomUncheckedCreateWithoutCandidateInput> | Prisma.ChatRoomCreateWithoutCandidateInput[] | Prisma.ChatRoomUncheckedCreateWithoutCandidateInput[]
+  connectOrCreate?: Prisma.ChatRoomCreateOrConnectWithoutCandidateInput | Prisma.ChatRoomCreateOrConnectWithoutCandidateInput[]
+  upsert?: Prisma.ChatRoomUpsertWithWhereUniqueWithoutCandidateInput | Prisma.ChatRoomUpsertWithWhereUniqueWithoutCandidateInput[]
+  createMany?: Prisma.ChatRoomCreateManyCandidateInputEnvelope
+  set?: Prisma.ChatRoomWhereUniqueInput | Prisma.ChatRoomWhereUniqueInput[]
+  disconnect?: Prisma.ChatRoomWhereUniqueInput | Prisma.ChatRoomWhereUniqueInput[]
+  delete?: Prisma.ChatRoomWhereUniqueInput | Prisma.ChatRoomWhereUniqueInput[]
+  connect?: Prisma.ChatRoomWhereUniqueInput | Prisma.ChatRoomWhereUniqueInput[]
+  update?: Prisma.ChatRoomUpdateWithWhereUniqueWithoutCandidateInput | Prisma.ChatRoomUpdateWithWhereUniqueWithoutCandidateInput[]
+  updateMany?: Prisma.ChatRoomUpdateManyWithWhereWithoutCandidateInput | Prisma.ChatRoomUpdateManyWithWhereWithoutCandidateInput[]
+  deleteMany?: Prisma.ChatRoomScalarWhereInput | Prisma.ChatRoomScalarWhereInput[]
+}
+
+export type ChatRoomUncheckedUpdateManyWithoutCandidateNestedInput = {
+  create?: Prisma.XOR<Prisma.ChatRoomCreateWithoutCandidateInput, Prisma.ChatRoomUncheckedCreateWithoutCandidateInput> | Prisma.ChatRoomCreateWithoutCandidateInput[] | Prisma.ChatRoomUncheckedCreateWithoutCandidateInput[]
+  connectOrCreate?: Prisma.ChatRoomCreateOrConnectWithoutCandidateInput | Prisma.ChatRoomCreateOrConnectWithoutCandidateInput[]
+  upsert?: Prisma.ChatRoomUpsertWithWhereUniqueWithoutCandidateInput | Prisma.ChatRoomUpsertWithWhereUniqueWithoutCandidateInput[]
+  createMany?: Prisma.ChatRoomCreateManyCandidateInputEnvelope
+  set?: Prisma.ChatRoomWhereUniqueInput | Prisma.ChatRoomWhereUniqueInput[]
+  disconnect?: Prisma.ChatRoomWhereUniqueInput | Prisma.ChatRoomWhereUniqueInput[]
+  delete?: Prisma.ChatRoomWhereUniqueInput | Prisma.ChatRoomWhereUniqueInput[]
+  connect?: Prisma.ChatRoomWhereUniqueInput | Prisma.ChatRoomWhereUniqueInput[]
+  update?: Prisma.ChatRoomUpdateWithWhereUniqueWithoutCandidateInput | Prisma.ChatRoomUpdateWithWhereUniqueWithoutCandidateInput[]
+  updateMany?: Prisma.ChatRoomUpdateManyWithWhereWithoutCandidateInput | Prisma.ChatRoomUpdateManyWithWhereWithoutCandidateInput[]
+  deleteMany?: Prisma.ChatRoomScalarWhereInput | Prisma.ChatRoomScalarWhereInput[]
 }
 
 export type ChatRoomCreateNestedOneWithoutCallsInput = {
@@ -382,129 +454,45 @@ export type ChatRoomUpdateOneRequiredWithoutCallsNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.ChatRoomUpdateToOneWithWhereWithoutCallsInput, Prisma.ChatRoomUpdateWithoutCallsInput>, Prisma.ChatRoomUncheckedUpdateWithoutCallsInput>
 }
 
-export type ChatRoomCreateNestedManyWithoutClientInput = {
-  create?: Prisma.XOR<Prisma.ChatRoomCreateWithoutClientInput, Prisma.ChatRoomUncheckedCreateWithoutClientInput> | Prisma.ChatRoomCreateWithoutClientInput[] | Prisma.ChatRoomUncheckedCreateWithoutClientInput[]
-  connectOrCreate?: Prisma.ChatRoomCreateOrConnectWithoutClientInput | Prisma.ChatRoomCreateOrConnectWithoutClientInput[]
-  createMany?: Prisma.ChatRoomCreateManyClientInputEnvelope
+export type ChatRoomCreateNestedManyWithoutJobInput = {
+  create?: Prisma.XOR<Prisma.ChatRoomCreateWithoutJobInput, Prisma.ChatRoomUncheckedCreateWithoutJobInput> | Prisma.ChatRoomCreateWithoutJobInput[] | Prisma.ChatRoomUncheckedCreateWithoutJobInput[]
+  connectOrCreate?: Prisma.ChatRoomCreateOrConnectWithoutJobInput | Prisma.ChatRoomCreateOrConnectWithoutJobInput[]
+  createMany?: Prisma.ChatRoomCreateManyJobInputEnvelope
   connect?: Prisma.ChatRoomWhereUniqueInput | Prisma.ChatRoomWhereUniqueInput[]
 }
 
-export type ChatRoomUncheckedCreateNestedManyWithoutClientInput = {
-  create?: Prisma.XOR<Prisma.ChatRoomCreateWithoutClientInput, Prisma.ChatRoomUncheckedCreateWithoutClientInput> | Prisma.ChatRoomCreateWithoutClientInput[] | Prisma.ChatRoomUncheckedCreateWithoutClientInput[]
-  connectOrCreate?: Prisma.ChatRoomCreateOrConnectWithoutClientInput | Prisma.ChatRoomCreateOrConnectWithoutClientInput[]
-  createMany?: Prisma.ChatRoomCreateManyClientInputEnvelope
+export type ChatRoomUncheckedCreateNestedManyWithoutJobInput = {
+  create?: Prisma.XOR<Prisma.ChatRoomCreateWithoutJobInput, Prisma.ChatRoomUncheckedCreateWithoutJobInput> | Prisma.ChatRoomCreateWithoutJobInput[] | Prisma.ChatRoomUncheckedCreateWithoutJobInput[]
+  connectOrCreate?: Prisma.ChatRoomCreateOrConnectWithoutJobInput | Prisma.ChatRoomCreateOrConnectWithoutJobInput[]
+  createMany?: Prisma.ChatRoomCreateManyJobInputEnvelope
   connect?: Prisma.ChatRoomWhereUniqueInput | Prisma.ChatRoomWhereUniqueInput[]
 }
 
-export type ChatRoomUpdateManyWithoutClientNestedInput = {
-  create?: Prisma.XOR<Prisma.ChatRoomCreateWithoutClientInput, Prisma.ChatRoomUncheckedCreateWithoutClientInput> | Prisma.ChatRoomCreateWithoutClientInput[] | Prisma.ChatRoomUncheckedCreateWithoutClientInput[]
-  connectOrCreate?: Prisma.ChatRoomCreateOrConnectWithoutClientInput | Prisma.ChatRoomCreateOrConnectWithoutClientInput[]
-  upsert?: Prisma.ChatRoomUpsertWithWhereUniqueWithoutClientInput | Prisma.ChatRoomUpsertWithWhereUniqueWithoutClientInput[]
-  createMany?: Prisma.ChatRoomCreateManyClientInputEnvelope
+export type ChatRoomUpdateManyWithoutJobNestedInput = {
+  create?: Prisma.XOR<Prisma.ChatRoomCreateWithoutJobInput, Prisma.ChatRoomUncheckedCreateWithoutJobInput> | Prisma.ChatRoomCreateWithoutJobInput[] | Prisma.ChatRoomUncheckedCreateWithoutJobInput[]
+  connectOrCreate?: Prisma.ChatRoomCreateOrConnectWithoutJobInput | Prisma.ChatRoomCreateOrConnectWithoutJobInput[]
+  upsert?: Prisma.ChatRoomUpsertWithWhereUniqueWithoutJobInput | Prisma.ChatRoomUpsertWithWhereUniqueWithoutJobInput[]
+  createMany?: Prisma.ChatRoomCreateManyJobInputEnvelope
   set?: Prisma.ChatRoomWhereUniqueInput | Prisma.ChatRoomWhereUniqueInput[]
   disconnect?: Prisma.ChatRoomWhereUniqueInput | Prisma.ChatRoomWhereUniqueInput[]
   delete?: Prisma.ChatRoomWhereUniqueInput | Prisma.ChatRoomWhereUniqueInput[]
   connect?: Prisma.ChatRoomWhereUniqueInput | Prisma.ChatRoomWhereUniqueInput[]
-  update?: Prisma.ChatRoomUpdateWithWhereUniqueWithoutClientInput | Prisma.ChatRoomUpdateWithWhereUniqueWithoutClientInput[]
-  updateMany?: Prisma.ChatRoomUpdateManyWithWhereWithoutClientInput | Prisma.ChatRoomUpdateManyWithWhereWithoutClientInput[]
+  update?: Prisma.ChatRoomUpdateWithWhereUniqueWithoutJobInput | Prisma.ChatRoomUpdateWithWhereUniqueWithoutJobInput[]
+  updateMany?: Prisma.ChatRoomUpdateManyWithWhereWithoutJobInput | Prisma.ChatRoomUpdateManyWithWhereWithoutJobInput[]
   deleteMany?: Prisma.ChatRoomScalarWhereInput | Prisma.ChatRoomScalarWhereInput[]
 }
 
-export type ChatRoomUncheckedUpdateManyWithoutClientNestedInput = {
-  create?: Prisma.XOR<Prisma.ChatRoomCreateWithoutClientInput, Prisma.ChatRoomUncheckedCreateWithoutClientInput> | Prisma.ChatRoomCreateWithoutClientInput[] | Prisma.ChatRoomUncheckedCreateWithoutClientInput[]
-  connectOrCreate?: Prisma.ChatRoomCreateOrConnectWithoutClientInput | Prisma.ChatRoomCreateOrConnectWithoutClientInput[]
-  upsert?: Prisma.ChatRoomUpsertWithWhereUniqueWithoutClientInput | Prisma.ChatRoomUpsertWithWhereUniqueWithoutClientInput[]
-  createMany?: Prisma.ChatRoomCreateManyClientInputEnvelope
+export type ChatRoomUncheckedUpdateManyWithoutJobNestedInput = {
+  create?: Prisma.XOR<Prisma.ChatRoomCreateWithoutJobInput, Prisma.ChatRoomUncheckedCreateWithoutJobInput> | Prisma.ChatRoomCreateWithoutJobInput[] | Prisma.ChatRoomUncheckedCreateWithoutJobInput[]
+  connectOrCreate?: Prisma.ChatRoomCreateOrConnectWithoutJobInput | Prisma.ChatRoomCreateOrConnectWithoutJobInput[]
+  upsert?: Prisma.ChatRoomUpsertWithWhereUniqueWithoutJobInput | Prisma.ChatRoomUpsertWithWhereUniqueWithoutJobInput[]
+  createMany?: Prisma.ChatRoomCreateManyJobInputEnvelope
   set?: Prisma.ChatRoomWhereUniqueInput | Prisma.ChatRoomWhereUniqueInput[]
   disconnect?: Prisma.ChatRoomWhereUniqueInput | Prisma.ChatRoomWhereUniqueInput[]
   delete?: Prisma.ChatRoomWhereUniqueInput | Prisma.ChatRoomWhereUniqueInput[]
   connect?: Prisma.ChatRoomWhereUniqueInput | Prisma.ChatRoomWhereUniqueInput[]
-  update?: Prisma.ChatRoomUpdateWithWhereUniqueWithoutClientInput | Prisma.ChatRoomUpdateWithWhereUniqueWithoutClientInput[]
-  updateMany?: Prisma.ChatRoomUpdateManyWithWhereWithoutClientInput | Prisma.ChatRoomUpdateManyWithWhereWithoutClientInput[]
-  deleteMany?: Prisma.ChatRoomScalarWhereInput | Prisma.ChatRoomScalarWhereInput[]
-}
-
-export type ChatRoomCreateNestedManyWithoutConsultationInput = {
-  create?: Prisma.XOR<Prisma.ChatRoomCreateWithoutConsultationInput, Prisma.ChatRoomUncheckedCreateWithoutConsultationInput> | Prisma.ChatRoomCreateWithoutConsultationInput[] | Prisma.ChatRoomUncheckedCreateWithoutConsultationInput[]
-  connectOrCreate?: Prisma.ChatRoomCreateOrConnectWithoutConsultationInput | Prisma.ChatRoomCreateOrConnectWithoutConsultationInput[]
-  createMany?: Prisma.ChatRoomCreateManyConsultationInputEnvelope
-  connect?: Prisma.ChatRoomWhereUniqueInput | Prisma.ChatRoomWhereUniqueInput[]
-}
-
-export type ChatRoomUncheckedCreateNestedManyWithoutConsultationInput = {
-  create?: Prisma.XOR<Prisma.ChatRoomCreateWithoutConsultationInput, Prisma.ChatRoomUncheckedCreateWithoutConsultationInput> | Prisma.ChatRoomCreateWithoutConsultationInput[] | Prisma.ChatRoomUncheckedCreateWithoutConsultationInput[]
-  connectOrCreate?: Prisma.ChatRoomCreateOrConnectWithoutConsultationInput | Prisma.ChatRoomCreateOrConnectWithoutConsultationInput[]
-  createMany?: Prisma.ChatRoomCreateManyConsultationInputEnvelope
-  connect?: Prisma.ChatRoomWhereUniqueInput | Prisma.ChatRoomWhereUniqueInput[]
-}
-
-export type ChatRoomUpdateManyWithoutConsultationNestedInput = {
-  create?: Prisma.XOR<Prisma.ChatRoomCreateWithoutConsultationInput, Prisma.ChatRoomUncheckedCreateWithoutConsultationInput> | Prisma.ChatRoomCreateWithoutConsultationInput[] | Prisma.ChatRoomUncheckedCreateWithoutConsultationInput[]
-  connectOrCreate?: Prisma.ChatRoomCreateOrConnectWithoutConsultationInput | Prisma.ChatRoomCreateOrConnectWithoutConsultationInput[]
-  upsert?: Prisma.ChatRoomUpsertWithWhereUniqueWithoutConsultationInput | Prisma.ChatRoomUpsertWithWhereUniqueWithoutConsultationInput[]
-  createMany?: Prisma.ChatRoomCreateManyConsultationInputEnvelope
-  set?: Prisma.ChatRoomWhereUniqueInput | Prisma.ChatRoomWhereUniqueInput[]
-  disconnect?: Prisma.ChatRoomWhereUniqueInput | Prisma.ChatRoomWhereUniqueInput[]
-  delete?: Prisma.ChatRoomWhereUniqueInput | Prisma.ChatRoomWhereUniqueInput[]
-  connect?: Prisma.ChatRoomWhereUniqueInput | Prisma.ChatRoomWhereUniqueInput[]
-  update?: Prisma.ChatRoomUpdateWithWhereUniqueWithoutConsultationInput | Prisma.ChatRoomUpdateWithWhereUniqueWithoutConsultationInput[]
-  updateMany?: Prisma.ChatRoomUpdateManyWithWhereWithoutConsultationInput | Prisma.ChatRoomUpdateManyWithWhereWithoutConsultationInput[]
-  deleteMany?: Prisma.ChatRoomScalarWhereInput | Prisma.ChatRoomScalarWhereInput[]
-}
-
-export type ChatRoomUncheckedUpdateManyWithoutConsultationNestedInput = {
-  create?: Prisma.XOR<Prisma.ChatRoomCreateWithoutConsultationInput, Prisma.ChatRoomUncheckedCreateWithoutConsultationInput> | Prisma.ChatRoomCreateWithoutConsultationInput[] | Prisma.ChatRoomUncheckedCreateWithoutConsultationInput[]
-  connectOrCreate?: Prisma.ChatRoomCreateOrConnectWithoutConsultationInput | Prisma.ChatRoomCreateOrConnectWithoutConsultationInput[]
-  upsert?: Prisma.ChatRoomUpsertWithWhereUniqueWithoutConsultationInput | Prisma.ChatRoomUpsertWithWhereUniqueWithoutConsultationInput[]
-  createMany?: Prisma.ChatRoomCreateManyConsultationInputEnvelope
-  set?: Prisma.ChatRoomWhereUniqueInput | Prisma.ChatRoomWhereUniqueInput[]
-  disconnect?: Prisma.ChatRoomWhereUniqueInput | Prisma.ChatRoomWhereUniqueInput[]
-  delete?: Prisma.ChatRoomWhereUniqueInput | Prisma.ChatRoomWhereUniqueInput[]
-  connect?: Prisma.ChatRoomWhereUniqueInput | Prisma.ChatRoomWhereUniqueInput[]
-  update?: Prisma.ChatRoomUpdateWithWhereUniqueWithoutConsultationInput | Prisma.ChatRoomUpdateWithWhereUniqueWithoutConsultationInput[]
-  updateMany?: Prisma.ChatRoomUpdateManyWithWhereWithoutConsultationInput | Prisma.ChatRoomUpdateManyWithWhereWithoutConsultationInput[]
-  deleteMany?: Prisma.ChatRoomScalarWhereInput | Prisma.ChatRoomScalarWhereInput[]
-}
-
-export type ChatRoomCreateNestedManyWithoutExpertInput = {
-  create?: Prisma.XOR<Prisma.ChatRoomCreateWithoutExpertInput, Prisma.ChatRoomUncheckedCreateWithoutExpertInput> | Prisma.ChatRoomCreateWithoutExpertInput[] | Prisma.ChatRoomUncheckedCreateWithoutExpertInput[]
-  connectOrCreate?: Prisma.ChatRoomCreateOrConnectWithoutExpertInput | Prisma.ChatRoomCreateOrConnectWithoutExpertInput[]
-  createMany?: Prisma.ChatRoomCreateManyExpertInputEnvelope
-  connect?: Prisma.ChatRoomWhereUniqueInput | Prisma.ChatRoomWhereUniqueInput[]
-}
-
-export type ChatRoomUncheckedCreateNestedManyWithoutExpertInput = {
-  create?: Prisma.XOR<Prisma.ChatRoomCreateWithoutExpertInput, Prisma.ChatRoomUncheckedCreateWithoutExpertInput> | Prisma.ChatRoomCreateWithoutExpertInput[] | Prisma.ChatRoomUncheckedCreateWithoutExpertInput[]
-  connectOrCreate?: Prisma.ChatRoomCreateOrConnectWithoutExpertInput | Prisma.ChatRoomCreateOrConnectWithoutExpertInput[]
-  createMany?: Prisma.ChatRoomCreateManyExpertInputEnvelope
-  connect?: Prisma.ChatRoomWhereUniqueInput | Prisma.ChatRoomWhereUniqueInput[]
-}
-
-export type ChatRoomUpdateManyWithoutExpertNestedInput = {
-  create?: Prisma.XOR<Prisma.ChatRoomCreateWithoutExpertInput, Prisma.ChatRoomUncheckedCreateWithoutExpertInput> | Prisma.ChatRoomCreateWithoutExpertInput[] | Prisma.ChatRoomUncheckedCreateWithoutExpertInput[]
-  connectOrCreate?: Prisma.ChatRoomCreateOrConnectWithoutExpertInput | Prisma.ChatRoomCreateOrConnectWithoutExpertInput[]
-  upsert?: Prisma.ChatRoomUpsertWithWhereUniqueWithoutExpertInput | Prisma.ChatRoomUpsertWithWhereUniqueWithoutExpertInput[]
-  createMany?: Prisma.ChatRoomCreateManyExpertInputEnvelope
-  set?: Prisma.ChatRoomWhereUniqueInput | Prisma.ChatRoomWhereUniqueInput[]
-  disconnect?: Prisma.ChatRoomWhereUniqueInput | Prisma.ChatRoomWhereUniqueInput[]
-  delete?: Prisma.ChatRoomWhereUniqueInput | Prisma.ChatRoomWhereUniqueInput[]
-  connect?: Prisma.ChatRoomWhereUniqueInput | Prisma.ChatRoomWhereUniqueInput[]
-  update?: Prisma.ChatRoomUpdateWithWhereUniqueWithoutExpertInput | Prisma.ChatRoomUpdateWithWhereUniqueWithoutExpertInput[]
-  updateMany?: Prisma.ChatRoomUpdateManyWithWhereWithoutExpertInput | Prisma.ChatRoomUpdateManyWithWhereWithoutExpertInput[]
-  deleteMany?: Prisma.ChatRoomScalarWhereInput | Prisma.ChatRoomScalarWhereInput[]
-}
-
-export type ChatRoomUncheckedUpdateManyWithoutExpertNestedInput = {
-  create?: Prisma.XOR<Prisma.ChatRoomCreateWithoutExpertInput, Prisma.ChatRoomUncheckedCreateWithoutExpertInput> | Prisma.ChatRoomCreateWithoutExpertInput[] | Prisma.ChatRoomUncheckedCreateWithoutExpertInput[]
-  connectOrCreate?: Prisma.ChatRoomCreateOrConnectWithoutExpertInput | Prisma.ChatRoomCreateOrConnectWithoutExpertInput[]
-  upsert?: Prisma.ChatRoomUpsertWithWhereUniqueWithoutExpertInput | Prisma.ChatRoomUpsertWithWhereUniqueWithoutExpertInput[]
-  createMany?: Prisma.ChatRoomCreateManyExpertInputEnvelope
-  set?: Prisma.ChatRoomWhereUniqueInput | Prisma.ChatRoomWhereUniqueInput[]
-  disconnect?: Prisma.ChatRoomWhereUniqueInput | Prisma.ChatRoomWhereUniqueInput[]
-  delete?: Prisma.ChatRoomWhereUniqueInput | Prisma.ChatRoomWhereUniqueInput[]
-  connect?: Prisma.ChatRoomWhereUniqueInput | Prisma.ChatRoomWhereUniqueInput[]
-  update?: Prisma.ChatRoomUpdateWithWhereUniqueWithoutExpertInput | Prisma.ChatRoomUpdateWithWhereUniqueWithoutExpertInput[]
-  updateMany?: Prisma.ChatRoomUpdateManyWithWhereWithoutExpertInput | Prisma.ChatRoomUpdateManyWithWhereWithoutExpertInput[]
+  update?: Prisma.ChatRoomUpdateWithWhereUniqueWithoutJobInput | Prisma.ChatRoomUpdateWithWhereUniqueWithoutJobInput[]
+  updateMany?: Prisma.ChatRoomUpdateManyWithWhereWithoutJobInput | Prisma.ChatRoomUpdateManyWithWhereWithoutJobInput[]
   deleteMany?: Prisma.ChatRoomScalarWhereInput | Prisma.ChatRoomScalarWhereInput[]
 }
 
@@ -522,24 +510,147 @@ export type ChatRoomUpdateOneRequiredWithoutMessagesNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.ChatRoomUpdateToOneWithWhereWithoutMessagesInput, Prisma.ChatRoomUpdateWithoutMessagesInput>, Prisma.ChatRoomUncheckedUpdateWithoutMessagesInput>
 }
 
-export type ChatRoomCreateWithoutCallsInput = {
+export type ChatRoomCreateNestedManyWithoutRecruiterInput = {
+  create?: Prisma.XOR<Prisma.ChatRoomCreateWithoutRecruiterInput, Prisma.ChatRoomUncheckedCreateWithoutRecruiterInput> | Prisma.ChatRoomCreateWithoutRecruiterInput[] | Prisma.ChatRoomUncheckedCreateWithoutRecruiterInput[]
+  connectOrCreate?: Prisma.ChatRoomCreateOrConnectWithoutRecruiterInput | Prisma.ChatRoomCreateOrConnectWithoutRecruiterInput[]
+  createMany?: Prisma.ChatRoomCreateManyRecruiterInputEnvelope
+  connect?: Prisma.ChatRoomWhereUniqueInput | Prisma.ChatRoomWhereUniqueInput[]
+}
+
+export type ChatRoomUncheckedCreateNestedManyWithoutRecruiterInput = {
+  create?: Prisma.XOR<Prisma.ChatRoomCreateWithoutRecruiterInput, Prisma.ChatRoomUncheckedCreateWithoutRecruiterInput> | Prisma.ChatRoomCreateWithoutRecruiterInput[] | Prisma.ChatRoomUncheckedCreateWithoutRecruiterInput[]
+  connectOrCreate?: Prisma.ChatRoomCreateOrConnectWithoutRecruiterInput | Prisma.ChatRoomCreateOrConnectWithoutRecruiterInput[]
+  createMany?: Prisma.ChatRoomCreateManyRecruiterInputEnvelope
+  connect?: Prisma.ChatRoomWhereUniqueInput | Prisma.ChatRoomWhereUniqueInput[]
+}
+
+export type ChatRoomUpdateManyWithoutRecruiterNestedInput = {
+  create?: Prisma.XOR<Prisma.ChatRoomCreateWithoutRecruiterInput, Prisma.ChatRoomUncheckedCreateWithoutRecruiterInput> | Prisma.ChatRoomCreateWithoutRecruiterInput[] | Prisma.ChatRoomUncheckedCreateWithoutRecruiterInput[]
+  connectOrCreate?: Prisma.ChatRoomCreateOrConnectWithoutRecruiterInput | Prisma.ChatRoomCreateOrConnectWithoutRecruiterInput[]
+  upsert?: Prisma.ChatRoomUpsertWithWhereUniqueWithoutRecruiterInput | Prisma.ChatRoomUpsertWithWhereUniqueWithoutRecruiterInput[]
+  createMany?: Prisma.ChatRoomCreateManyRecruiterInputEnvelope
+  set?: Prisma.ChatRoomWhereUniqueInput | Prisma.ChatRoomWhereUniqueInput[]
+  disconnect?: Prisma.ChatRoomWhereUniqueInput | Prisma.ChatRoomWhereUniqueInput[]
+  delete?: Prisma.ChatRoomWhereUniqueInput | Prisma.ChatRoomWhereUniqueInput[]
+  connect?: Prisma.ChatRoomWhereUniqueInput | Prisma.ChatRoomWhereUniqueInput[]
+  update?: Prisma.ChatRoomUpdateWithWhereUniqueWithoutRecruiterInput | Prisma.ChatRoomUpdateWithWhereUniqueWithoutRecruiterInput[]
+  updateMany?: Prisma.ChatRoomUpdateManyWithWhereWithoutRecruiterInput | Prisma.ChatRoomUpdateManyWithWhereWithoutRecruiterInput[]
+  deleteMany?: Prisma.ChatRoomScalarWhereInput | Prisma.ChatRoomScalarWhereInput[]
+}
+
+export type ChatRoomUncheckedUpdateManyWithoutRecruiterNestedInput = {
+  create?: Prisma.XOR<Prisma.ChatRoomCreateWithoutRecruiterInput, Prisma.ChatRoomUncheckedCreateWithoutRecruiterInput> | Prisma.ChatRoomCreateWithoutRecruiterInput[] | Prisma.ChatRoomUncheckedCreateWithoutRecruiterInput[]
+  connectOrCreate?: Prisma.ChatRoomCreateOrConnectWithoutRecruiterInput | Prisma.ChatRoomCreateOrConnectWithoutRecruiterInput[]
+  upsert?: Prisma.ChatRoomUpsertWithWhereUniqueWithoutRecruiterInput | Prisma.ChatRoomUpsertWithWhereUniqueWithoutRecruiterInput[]
+  createMany?: Prisma.ChatRoomCreateManyRecruiterInputEnvelope
+  set?: Prisma.ChatRoomWhereUniqueInput | Prisma.ChatRoomWhereUniqueInput[]
+  disconnect?: Prisma.ChatRoomWhereUniqueInput | Prisma.ChatRoomWhereUniqueInput[]
+  delete?: Prisma.ChatRoomWhereUniqueInput | Prisma.ChatRoomWhereUniqueInput[]
+  connect?: Prisma.ChatRoomWhereUniqueInput | Prisma.ChatRoomWhereUniqueInput[]
+  update?: Prisma.ChatRoomUpdateWithWhereUniqueWithoutRecruiterInput | Prisma.ChatRoomUpdateWithWhereUniqueWithoutRecruiterInput[]
+  updateMany?: Prisma.ChatRoomUpdateManyWithWhereWithoutRecruiterInput | Prisma.ChatRoomUpdateManyWithWhereWithoutRecruiterInput[]
+  deleteMany?: Prisma.ChatRoomScalarWhereInput | Prisma.ChatRoomScalarWhereInput[]
+}
+
+export type ChatRoomCreateNestedOneWithoutTypingStatesInput = {
+  create?: Prisma.XOR<Prisma.ChatRoomCreateWithoutTypingStatesInput, Prisma.ChatRoomUncheckedCreateWithoutTypingStatesInput>
+  connectOrCreate?: Prisma.ChatRoomCreateOrConnectWithoutTypingStatesInput
+  connect?: Prisma.ChatRoomWhereUniqueInput
+}
+
+export type ChatRoomUpdateOneRequiredWithoutTypingStatesNestedInput = {
+  create?: Prisma.XOR<Prisma.ChatRoomCreateWithoutTypingStatesInput, Prisma.ChatRoomUncheckedCreateWithoutTypingStatesInput>
+  connectOrCreate?: Prisma.ChatRoomCreateOrConnectWithoutTypingStatesInput
+  upsert?: Prisma.ChatRoomUpsertWithoutTypingStatesInput
+  connect?: Prisma.ChatRoomWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.ChatRoomUpdateToOneWithWhereWithoutTypingStatesInput, Prisma.ChatRoomUpdateWithoutTypingStatesInput>, Prisma.ChatRoomUncheckedUpdateWithoutTypingStatesInput>
+}
+
+export type ChatRoomCreateWithoutCandidateInput = {
   id?: string
+  isAIChat?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
-  consultation?: Prisma.ConsultationCreateNestedOneWithoutChatRoomsInput
-  client: Prisma.ClientCreateNestedOneWithoutChatRoomsInput
-  expert: Prisma.ExpertCreateNestedOneWithoutChatRoomsInput
+  job?: Prisma.JobCreateNestedOneWithoutChatRoomsInput
+  recruiter?: Prisma.RecruiterCreateNestedOneWithoutChatRoomsInput
+  calls?: Prisma.InterviewCallCreateNestedManyWithoutChatRoomInput
   messages?: Prisma.MessageCreateNestedManyWithoutRoomInput
+  typingStates?: Prisma.TypingStateCreateNestedManyWithoutRoomInput
+}
+
+export type ChatRoomUncheckedCreateWithoutCandidateInput = {
+  id?: string
+  recruiterId?: string | null
+  isAIChat?: boolean
+  jobId?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  calls?: Prisma.InterviewCallUncheckedCreateNestedManyWithoutChatRoomInput
+  messages?: Prisma.MessageUncheckedCreateNestedManyWithoutRoomInput
+  typingStates?: Prisma.TypingStateUncheckedCreateNestedManyWithoutRoomInput
+}
+
+export type ChatRoomCreateOrConnectWithoutCandidateInput = {
+  where: Prisma.ChatRoomWhereUniqueInput
+  create: Prisma.XOR<Prisma.ChatRoomCreateWithoutCandidateInput, Prisma.ChatRoomUncheckedCreateWithoutCandidateInput>
+}
+
+export type ChatRoomCreateManyCandidateInputEnvelope = {
+  data: Prisma.ChatRoomCreateManyCandidateInput | Prisma.ChatRoomCreateManyCandidateInput[]
+  skipDuplicates?: boolean
+}
+
+export type ChatRoomUpsertWithWhereUniqueWithoutCandidateInput = {
+  where: Prisma.ChatRoomWhereUniqueInput
+  update: Prisma.XOR<Prisma.ChatRoomUpdateWithoutCandidateInput, Prisma.ChatRoomUncheckedUpdateWithoutCandidateInput>
+  create: Prisma.XOR<Prisma.ChatRoomCreateWithoutCandidateInput, Prisma.ChatRoomUncheckedCreateWithoutCandidateInput>
+}
+
+export type ChatRoomUpdateWithWhereUniqueWithoutCandidateInput = {
+  where: Prisma.ChatRoomWhereUniqueInput
+  data: Prisma.XOR<Prisma.ChatRoomUpdateWithoutCandidateInput, Prisma.ChatRoomUncheckedUpdateWithoutCandidateInput>
+}
+
+export type ChatRoomUpdateManyWithWhereWithoutCandidateInput = {
+  where: Prisma.ChatRoomScalarWhereInput
+  data: Prisma.XOR<Prisma.ChatRoomUpdateManyMutationInput, Prisma.ChatRoomUncheckedUpdateManyWithoutCandidateInput>
+}
+
+export type ChatRoomScalarWhereInput = {
+  AND?: Prisma.ChatRoomScalarWhereInput | Prisma.ChatRoomScalarWhereInput[]
+  OR?: Prisma.ChatRoomScalarWhereInput[]
+  NOT?: Prisma.ChatRoomScalarWhereInput | Prisma.ChatRoomScalarWhereInput[]
+  id?: Prisma.StringFilter<"ChatRoom"> | string
+  jobSeekerId?: Prisma.StringNullableFilter<"ChatRoom"> | string | null
+  recruiterId?: Prisma.StringNullableFilter<"ChatRoom"> | string | null
+  isAIChat?: Prisma.BoolFilter<"ChatRoom"> | boolean
+  jobId?: Prisma.StringNullableFilter<"ChatRoom"> | string | null
+  createdAt?: Prisma.DateTimeFilter<"ChatRoom"> | Date | string
+  updatedAt?: Prisma.DateTimeFilter<"ChatRoom"> | Date | string
+}
+
+export type ChatRoomCreateWithoutCallsInput = {
+  id?: string
+  isAIChat?: boolean
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  job?: Prisma.JobCreateNestedOneWithoutChatRoomsInput
+  candidate?: Prisma.CandidateCreateNestedOneWithoutChatRoomsInput
+  recruiter?: Prisma.RecruiterCreateNestedOneWithoutChatRoomsInput
+  messages?: Prisma.MessageCreateNestedManyWithoutRoomInput
+  typingStates?: Prisma.TypingStateCreateNestedManyWithoutRoomInput
 }
 
 export type ChatRoomUncheckedCreateWithoutCallsInput = {
   id?: string
-  consultationId?: string | null
-  clientId: string
-  expertId: string
+  jobSeekerId?: string | null
+  recruiterId?: string | null
+  isAIChat?: boolean
+  jobId?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   messages?: Prisma.MessageUncheckedCreateNestedManyWithoutRoomInput
+  typingStates?: Prisma.TypingStateUncheckedCreateNestedManyWithoutRoomInput
 }
 
 export type ChatRoomCreateOrConnectWithoutCallsInput = {
@@ -560,192 +671,100 @@ export type ChatRoomUpdateToOneWithWhereWithoutCallsInput = {
 
 export type ChatRoomUpdateWithoutCallsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  isAIChat?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  consultation?: Prisma.ConsultationUpdateOneWithoutChatRoomsNestedInput
-  client?: Prisma.ClientUpdateOneRequiredWithoutChatRoomsNestedInput
-  expert?: Prisma.ExpertUpdateOneRequiredWithoutChatRoomsNestedInput
+  job?: Prisma.JobUpdateOneWithoutChatRoomsNestedInput
+  candidate?: Prisma.CandidateUpdateOneWithoutChatRoomsNestedInput
+  recruiter?: Prisma.RecruiterUpdateOneWithoutChatRoomsNestedInput
   messages?: Prisma.MessageUpdateManyWithoutRoomNestedInput
+  typingStates?: Prisma.TypingStateUpdateManyWithoutRoomNestedInput
 }
 
 export type ChatRoomUncheckedUpdateWithoutCallsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  consultationId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  clientId?: Prisma.StringFieldUpdateOperationsInput | string
-  expertId?: Prisma.StringFieldUpdateOperationsInput | string
+  jobSeekerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  recruiterId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isAIChat?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  jobId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   messages?: Prisma.MessageUncheckedUpdateManyWithoutRoomNestedInput
+  typingStates?: Prisma.TypingStateUncheckedUpdateManyWithoutRoomNestedInput
 }
 
-export type ChatRoomCreateWithoutClientInput = {
+export type ChatRoomCreateWithoutJobInput = {
   id?: string
+  isAIChat?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
-  consultation?: Prisma.ConsultationCreateNestedOneWithoutChatRoomsInput
-  expert: Prisma.ExpertCreateNestedOneWithoutChatRoomsInput
+  candidate?: Prisma.CandidateCreateNestedOneWithoutChatRoomsInput
+  recruiter?: Prisma.RecruiterCreateNestedOneWithoutChatRoomsInput
+  calls?: Prisma.InterviewCallCreateNestedManyWithoutChatRoomInput
   messages?: Prisma.MessageCreateNestedManyWithoutRoomInput
-  calls?: Prisma.CallCreateNestedManyWithoutRoomInput
+  typingStates?: Prisma.TypingStateCreateNestedManyWithoutRoomInput
 }
 
-export type ChatRoomUncheckedCreateWithoutClientInput = {
+export type ChatRoomUncheckedCreateWithoutJobInput = {
   id?: string
-  consultationId?: string | null
-  expertId: string
+  jobSeekerId?: string | null
+  recruiterId?: string | null
+  isAIChat?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
+  calls?: Prisma.InterviewCallUncheckedCreateNestedManyWithoutChatRoomInput
   messages?: Prisma.MessageUncheckedCreateNestedManyWithoutRoomInput
-  calls?: Prisma.CallUncheckedCreateNestedManyWithoutRoomInput
+  typingStates?: Prisma.TypingStateUncheckedCreateNestedManyWithoutRoomInput
 }
 
-export type ChatRoomCreateOrConnectWithoutClientInput = {
+export type ChatRoomCreateOrConnectWithoutJobInput = {
   where: Prisma.ChatRoomWhereUniqueInput
-  create: Prisma.XOR<Prisma.ChatRoomCreateWithoutClientInput, Prisma.ChatRoomUncheckedCreateWithoutClientInput>
+  create: Prisma.XOR<Prisma.ChatRoomCreateWithoutJobInput, Prisma.ChatRoomUncheckedCreateWithoutJobInput>
 }
 
-export type ChatRoomCreateManyClientInputEnvelope = {
-  data: Prisma.ChatRoomCreateManyClientInput | Prisma.ChatRoomCreateManyClientInput[]
+export type ChatRoomCreateManyJobInputEnvelope = {
+  data: Prisma.ChatRoomCreateManyJobInput | Prisma.ChatRoomCreateManyJobInput[]
   skipDuplicates?: boolean
 }
 
-export type ChatRoomUpsertWithWhereUniqueWithoutClientInput = {
+export type ChatRoomUpsertWithWhereUniqueWithoutJobInput = {
   where: Prisma.ChatRoomWhereUniqueInput
-  update: Prisma.XOR<Prisma.ChatRoomUpdateWithoutClientInput, Prisma.ChatRoomUncheckedUpdateWithoutClientInput>
-  create: Prisma.XOR<Prisma.ChatRoomCreateWithoutClientInput, Prisma.ChatRoomUncheckedCreateWithoutClientInput>
+  update: Prisma.XOR<Prisma.ChatRoomUpdateWithoutJobInput, Prisma.ChatRoomUncheckedUpdateWithoutJobInput>
+  create: Prisma.XOR<Prisma.ChatRoomCreateWithoutJobInput, Prisma.ChatRoomUncheckedCreateWithoutJobInput>
 }
 
-export type ChatRoomUpdateWithWhereUniqueWithoutClientInput = {
+export type ChatRoomUpdateWithWhereUniqueWithoutJobInput = {
   where: Prisma.ChatRoomWhereUniqueInput
-  data: Prisma.XOR<Prisma.ChatRoomUpdateWithoutClientInput, Prisma.ChatRoomUncheckedUpdateWithoutClientInput>
+  data: Prisma.XOR<Prisma.ChatRoomUpdateWithoutJobInput, Prisma.ChatRoomUncheckedUpdateWithoutJobInput>
 }
 
-export type ChatRoomUpdateManyWithWhereWithoutClientInput = {
+export type ChatRoomUpdateManyWithWhereWithoutJobInput = {
   where: Prisma.ChatRoomScalarWhereInput
-  data: Prisma.XOR<Prisma.ChatRoomUpdateManyMutationInput, Prisma.ChatRoomUncheckedUpdateManyWithoutClientInput>
-}
-
-export type ChatRoomScalarWhereInput = {
-  AND?: Prisma.ChatRoomScalarWhereInput | Prisma.ChatRoomScalarWhereInput[]
-  OR?: Prisma.ChatRoomScalarWhereInput[]
-  NOT?: Prisma.ChatRoomScalarWhereInput | Prisma.ChatRoomScalarWhereInput[]
-  id?: Prisma.StringFilter<"ChatRoom"> | string
-  consultationId?: Prisma.UuidNullableFilter<"ChatRoom"> | string | null
-  clientId?: Prisma.UuidFilter<"ChatRoom"> | string
-  expertId?: Prisma.UuidFilter<"ChatRoom"> | string
-  createdAt?: Prisma.DateTimeFilter<"ChatRoom"> | Date | string
-  updatedAt?: Prisma.DateTimeFilter<"ChatRoom"> | Date | string
-}
-
-export type ChatRoomCreateWithoutConsultationInput = {
-  id?: string
-  createdAt?: Date | string
-  updatedAt?: Date | string
-  client: Prisma.ClientCreateNestedOneWithoutChatRoomsInput
-  expert: Prisma.ExpertCreateNestedOneWithoutChatRoomsInput
-  messages?: Prisma.MessageCreateNestedManyWithoutRoomInput
-  calls?: Prisma.CallCreateNestedManyWithoutRoomInput
-}
-
-export type ChatRoomUncheckedCreateWithoutConsultationInput = {
-  id?: string
-  clientId: string
-  expertId: string
-  createdAt?: Date | string
-  updatedAt?: Date | string
-  messages?: Prisma.MessageUncheckedCreateNestedManyWithoutRoomInput
-  calls?: Prisma.CallUncheckedCreateNestedManyWithoutRoomInput
-}
-
-export type ChatRoomCreateOrConnectWithoutConsultationInput = {
-  where: Prisma.ChatRoomWhereUniqueInput
-  create: Prisma.XOR<Prisma.ChatRoomCreateWithoutConsultationInput, Prisma.ChatRoomUncheckedCreateWithoutConsultationInput>
-}
-
-export type ChatRoomCreateManyConsultationInputEnvelope = {
-  data: Prisma.ChatRoomCreateManyConsultationInput | Prisma.ChatRoomCreateManyConsultationInput[]
-  skipDuplicates?: boolean
-}
-
-export type ChatRoomUpsertWithWhereUniqueWithoutConsultationInput = {
-  where: Prisma.ChatRoomWhereUniqueInput
-  update: Prisma.XOR<Prisma.ChatRoomUpdateWithoutConsultationInput, Prisma.ChatRoomUncheckedUpdateWithoutConsultationInput>
-  create: Prisma.XOR<Prisma.ChatRoomCreateWithoutConsultationInput, Prisma.ChatRoomUncheckedCreateWithoutConsultationInput>
-}
-
-export type ChatRoomUpdateWithWhereUniqueWithoutConsultationInput = {
-  where: Prisma.ChatRoomWhereUniqueInput
-  data: Prisma.XOR<Prisma.ChatRoomUpdateWithoutConsultationInput, Prisma.ChatRoomUncheckedUpdateWithoutConsultationInput>
-}
-
-export type ChatRoomUpdateManyWithWhereWithoutConsultationInput = {
-  where: Prisma.ChatRoomScalarWhereInput
-  data: Prisma.XOR<Prisma.ChatRoomUpdateManyMutationInput, Prisma.ChatRoomUncheckedUpdateManyWithoutConsultationInput>
-}
-
-export type ChatRoomCreateWithoutExpertInput = {
-  id?: string
-  createdAt?: Date | string
-  updatedAt?: Date | string
-  consultation?: Prisma.ConsultationCreateNestedOneWithoutChatRoomsInput
-  client: Prisma.ClientCreateNestedOneWithoutChatRoomsInput
-  messages?: Prisma.MessageCreateNestedManyWithoutRoomInput
-  calls?: Prisma.CallCreateNestedManyWithoutRoomInput
-}
-
-export type ChatRoomUncheckedCreateWithoutExpertInput = {
-  id?: string
-  consultationId?: string | null
-  clientId: string
-  createdAt?: Date | string
-  updatedAt?: Date | string
-  messages?: Prisma.MessageUncheckedCreateNestedManyWithoutRoomInput
-  calls?: Prisma.CallUncheckedCreateNestedManyWithoutRoomInput
-}
-
-export type ChatRoomCreateOrConnectWithoutExpertInput = {
-  where: Prisma.ChatRoomWhereUniqueInput
-  create: Prisma.XOR<Prisma.ChatRoomCreateWithoutExpertInput, Prisma.ChatRoomUncheckedCreateWithoutExpertInput>
-}
-
-export type ChatRoomCreateManyExpertInputEnvelope = {
-  data: Prisma.ChatRoomCreateManyExpertInput | Prisma.ChatRoomCreateManyExpertInput[]
-  skipDuplicates?: boolean
-}
-
-export type ChatRoomUpsertWithWhereUniqueWithoutExpertInput = {
-  where: Prisma.ChatRoomWhereUniqueInput
-  update: Prisma.XOR<Prisma.ChatRoomUpdateWithoutExpertInput, Prisma.ChatRoomUncheckedUpdateWithoutExpertInput>
-  create: Prisma.XOR<Prisma.ChatRoomCreateWithoutExpertInput, Prisma.ChatRoomUncheckedCreateWithoutExpertInput>
-}
-
-export type ChatRoomUpdateWithWhereUniqueWithoutExpertInput = {
-  where: Prisma.ChatRoomWhereUniqueInput
-  data: Prisma.XOR<Prisma.ChatRoomUpdateWithoutExpertInput, Prisma.ChatRoomUncheckedUpdateWithoutExpertInput>
-}
-
-export type ChatRoomUpdateManyWithWhereWithoutExpertInput = {
-  where: Prisma.ChatRoomScalarWhereInput
-  data: Prisma.XOR<Prisma.ChatRoomUpdateManyMutationInput, Prisma.ChatRoomUncheckedUpdateManyWithoutExpertInput>
+  data: Prisma.XOR<Prisma.ChatRoomUpdateManyMutationInput, Prisma.ChatRoomUncheckedUpdateManyWithoutJobInput>
 }
 
 export type ChatRoomCreateWithoutMessagesInput = {
   id?: string
+  isAIChat?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
-  consultation?: Prisma.ConsultationCreateNestedOneWithoutChatRoomsInput
-  client: Prisma.ClientCreateNestedOneWithoutChatRoomsInput
-  expert: Prisma.ExpertCreateNestedOneWithoutChatRoomsInput
-  calls?: Prisma.CallCreateNestedManyWithoutRoomInput
+  job?: Prisma.JobCreateNestedOneWithoutChatRoomsInput
+  candidate?: Prisma.CandidateCreateNestedOneWithoutChatRoomsInput
+  recruiter?: Prisma.RecruiterCreateNestedOneWithoutChatRoomsInput
+  calls?: Prisma.InterviewCallCreateNestedManyWithoutChatRoomInput
+  typingStates?: Prisma.TypingStateCreateNestedManyWithoutRoomInput
 }
 
 export type ChatRoomUncheckedCreateWithoutMessagesInput = {
   id?: string
-  consultationId?: string | null
-  clientId: string
-  expertId: string
+  jobSeekerId?: string | null
+  recruiterId?: string | null
+  isAIChat?: boolean
+  jobId?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
-  calls?: Prisma.CallUncheckedCreateNestedManyWithoutRoomInput
+  calls?: Prisma.InterviewCallUncheckedCreateNestedManyWithoutChatRoomInput
+  typingStates?: Prisma.TypingStateUncheckedCreateNestedManyWithoutRoomInput
 }
 
 export type ChatRoomCreateOrConnectWithoutMessagesInput = {
@@ -766,128 +785,264 @@ export type ChatRoomUpdateToOneWithWhereWithoutMessagesInput = {
 
 export type ChatRoomUpdateWithoutMessagesInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  isAIChat?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  consultation?: Prisma.ConsultationUpdateOneWithoutChatRoomsNestedInput
-  client?: Prisma.ClientUpdateOneRequiredWithoutChatRoomsNestedInput
-  expert?: Prisma.ExpertUpdateOneRequiredWithoutChatRoomsNestedInput
-  calls?: Prisma.CallUpdateManyWithoutRoomNestedInput
+  job?: Prisma.JobUpdateOneWithoutChatRoomsNestedInput
+  candidate?: Prisma.CandidateUpdateOneWithoutChatRoomsNestedInput
+  recruiter?: Prisma.RecruiterUpdateOneWithoutChatRoomsNestedInput
+  calls?: Prisma.InterviewCallUpdateManyWithoutChatRoomNestedInput
+  typingStates?: Prisma.TypingStateUpdateManyWithoutRoomNestedInput
 }
 
 export type ChatRoomUncheckedUpdateWithoutMessagesInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  consultationId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  clientId?: Prisma.StringFieldUpdateOperationsInput | string
-  expertId?: Prisma.StringFieldUpdateOperationsInput | string
+  jobSeekerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  recruiterId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isAIChat?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  jobId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  calls?: Prisma.CallUncheckedUpdateManyWithoutRoomNestedInput
+  calls?: Prisma.InterviewCallUncheckedUpdateManyWithoutChatRoomNestedInput
+  typingStates?: Prisma.TypingStateUncheckedUpdateManyWithoutRoomNestedInput
 }
 
-export type ChatRoomCreateManyClientInput = {
+export type ChatRoomCreateWithoutRecruiterInput = {
   id?: string
-  consultationId?: string | null
-  expertId: string
+  isAIChat?: boolean
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  job?: Prisma.JobCreateNestedOneWithoutChatRoomsInput
+  candidate?: Prisma.CandidateCreateNestedOneWithoutChatRoomsInput
+  calls?: Prisma.InterviewCallCreateNestedManyWithoutChatRoomInput
+  messages?: Prisma.MessageCreateNestedManyWithoutRoomInput
+  typingStates?: Prisma.TypingStateCreateNestedManyWithoutRoomInput
+}
+
+export type ChatRoomUncheckedCreateWithoutRecruiterInput = {
+  id?: string
+  jobSeekerId?: string | null
+  isAIChat?: boolean
+  jobId?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  calls?: Prisma.InterviewCallUncheckedCreateNestedManyWithoutChatRoomInput
+  messages?: Prisma.MessageUncheckedCreateNestedManyWithoutRoomInput
+  typingStates?: Prisma.TypingStateUncheckedCreateNestedManyWithoutRoomInput
+}
+
+export type ChatRoomCreateOrConnectWithoutRecruiterInput = {
+  where: Prisma.ChatRoomWhereUniqueInput
+  create: Prisma.XOR<Prisma.ChatRoomCreateWithoutRecruiterInput, Prisma.ChatRoomUncheckedCreateWithoutRecruiterInput>
+}
+
+export type ChatRoomCreateManyRecruiterInputEnvelope = {
+  data: Prisma.ChatRoomCreateManyRecruiterInput | Prisma.ChatRoomCreateManyRecruiterInput[]
+  skipDuplicates?: boolean
+}
+
+export type ChatRoomUpsertWithWhereUniqueWithoutRecruiterInput = {
+  where: Prisma.ChatRoomWhereUniqueInput
+  update: Prisma.XOR<Prisma.ChatRoomUpdateWithoutRecruiterInput, Prisma.ChatRoomUncheckedUpdateWithoutRecruiterInput>
+  create: Prisma.XOR<Prisma.ChatRoomCreateWithoutRecruiterInput, Prisma.ChatRoomUncheckedCreateWithoutRecruiterInput>
+}
+
+export type ChatRoomUpdateWithWhereUniqueWithoutRecruiterInput = {
+  where: Prisma.ChatRoomWhereUniqueInput
+  data: Prisma.XOR<Prisma.ChatRoomUpdateWithoutRecruiterInput, Prisma.ChatRoomUncheckedUpdateWithoutRecruiterInput>
+}
+
+export type ChatRoomUpdateManyWithWhereWithoutRecruiterInput = {
+  where: Prisma.ChatRoomScalarWhereInput
+  data: Prisma.XOR<Prisma.ChatRoomUpdateManyMutationInput, Prisma.ChatRoomUncheckedUpdateManyWithoutRecruiterInput>
+}
+
+export type ChatRoomCreateWithoutTypingStatesInput = {
+  id?: string
+  isAIChat?: boolean
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  job?: Prisma.JobCreateNestedOneWithoutChatRoomsInput
+  candidate?: Prisma.CandidateCreateNestedOneWithoutChatRoomsInput
+  recruiter?: Prisma.RecruiterCreateNestedOneWithoutChatRoomsInput
+  calls?: Prisma.InterviewCallCreateNestedManyWithoutChatRoomInput
+  messages?: Prisma.MessageCreateNestedManyWithoutRoomInput
+}
+
+export type ChatRoomUncheckedCreateWithoutTypingStatesInput = {
+  id?: string
+  jobSeekerId?: string | null
+  recruiterId?: string | null
+  isAIChat?: boolean
+  jobId?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  calls?: Prisma.InterviewCallUncheckedCreateNestedManyWithoutChatRoomInput
+  messages?: Prisma.MessageUncheckedCreateNestedManyWithoutRoomInput
+}
+
+export type ChatRoomCreateOrConnectWithoutTypingStatesInput = {
+  where: Prisma.ChatRoomWhereUniqueInput
+  create: Prisma.XOR<Prisma.ChatRoomCreateWithoutTypingStatesInput, Prisma.ChatRoomUncheckedCreateWithoutTypingStatesInput>
+}
+
+export type ChatRoomUpsertWithoutTypingStatesInput = {
+  update: Prisma.XOR<Prisma.ChatRoomUpdateWithoutTypingStatesInput, Prisma.ChatRoomUncheckedUpdateWithoutTypingStatesInput>
+  create: Prisma.XOR<Prisma.ChatRoomCreateWithoutTypingStatesInput, Prisma.ChatRoomUncheckedCreateWithoutTypingStatesInput>
+  where?: Prisma.ChatRoomWhereInput
+}
+
+export type ChatRoomUpdateToOneWithWhereWithoutTypingStatesInput = {
+  where?: Prisma.ChatRoomWhereInput
+  data: Prisma.XOR<Prisma.ChatRoomUpdateWithoutTypingStatesInput, Prisma.ChatRoomUncheckedUpdateWithoutTypingStatesInput>
+}
+
+export type ChatRoomUpdateWithoutTypingStatesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  isAIChat?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  job?: Prisma.JobUpdateOneWithoutChatRoomsNestedInput
+  candidate?: Prisma.CandidateUpdateOneWithoutChatRoomsNestedInput
+  recruiter?: Prisma.RecruiterUpdateOneWithoutChatRoomsNestedInput
+  calls?: Prisma.InterviewCallUpdateManyWithoutChatRoomNestedInput
+  messages?: Prisma.MessageUpdateManyWithoutRoomNestedInput
+}
+
+export type ChatRoomUncheckedUpdateWithoutTypingStatesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  jobSeekerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  recruiterId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isAIChat?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  jobId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  calls?: Prisma.InterviewCallUncheckedUpdateManyWithoutChatRoomNestedInput
+  messages?: Prisma.MessageUncheckedUpdateManyWithoutRoomNestedInput
+}
+
+export type ChatRoomCreateManyCandidateInput = {
+  id?: string
+  recruiterId?: string | null
+  isAIChat?: boolean
+  jobId?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
 }
 
-export type ChatRoomUpdateWithoutClientInput = {
+export type ChatRoomUpdateWithoutCandidateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  isAIChat?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  consultation?: Prisma.ConsultationUpdateOneWithoutChatRoomsNestedInput
-  expert?: Prisma.ExpertUpdateOneRequiredWithoutChatRoomsNestedInput
+  job?: Prisma.JobUpdateOneWithoutChatRoomsNestedInput
+  recruiter?: Prisma.RecruiterUpdateOneWithoutChatRoomsNestedInput
+  calls?: Prisma.InterviewCallUpdateManyWithoutChatRoomNestedInput
   messages?: Prisma.MessageUpdateManyWithoutRoomNestedInput
-  calls?: Prisma.CallUpdateManyWithoutRoomNestedInput
+  typingStates?: Prisma.TypingStateUpdateManyWithoutRoomNestedInput
 }
 
-export type ChatRoomUncheckedUpdateWithoutClientInput = {
+export type ChatRoomUncheckedUpdateWithoutCandidateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  consultationId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  expertId?: Prisma.StringFieldUpdateOperationsInput | string
+  recruiterId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isAIChat?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  jobId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  calls?: Prisma.InterviewCallUncheckedUpdateManyWithoutChatRoomNestedInput
   messages?: Prisma.MessageUncheckedUpdateManyWithoutRoomNestedInput
-  calls?: Prisma.CallUncheckedUpdateManyWithoutRoomNestedInput
+  typingStates?: Prisma.TypingStateUncheckedUpdateManyWithoutRoomNestedInput
 }
 
-export type ChatRoomUncheckedUpdateManyWithoutClientInput = {
+export type ChatRoomUncheckedUpdateManyWithoutCandidateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  consultationId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  expertId?: Prisma.StringFieldUpdateOperationsInput | string
+  recruiterId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isAIChat?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  jobId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
-export type ChatRoomCreateManyConsultationInput = {
+export type ChatRoomCreateManyJobInput = {
   id?: string
-  clientId: string
-  expertId: string
+  jobSeekerId?: string | null
+  recruiterId?: string | null
+  isAIChat?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
 }
 
-export type ChatRoomUpdateWithoutConsultationInput = {
+export type ChatRoomUpdateWithoutJobInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  isAIChat?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  client?: Prisma.ClientUpdateOneRequiredWithoutChatRoomsNestedInput
-  expert?: Prisma.ExpertUpdateOneRequiredWithoutChatRoomsNestedInput
+  candidate?: Prisma.CandidateUpdateOneWithoutChatRoomsNestedInput
+  recruiter?: Prisma.RecruiterUpdateOneWithoutChatRoomsNestedInput
+  calls?: Prisma.InterviewCallUpdateManyWithoutChatRoomNestedInput
   messages?: Prisma.MessageUpdateManyWithoutRoomNestedInput
-  calls?: Prisma.CallUpdateManyWithoutRoomNestedInput
+  typingStates?: Prisma.TypingStateUpdateManyWithoutRoomNestedInput
 }
 
-export type ChatRoomUncheckedUpdateWithoutConsultationInput = {
+export type ChatRoomUncheckedUpdateWithoutJobInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  clientId?: Prisma.StringFieldUpdateOperationsInput | string
-  expertId?: Prisma.StringFieldUpdateOperationsInput | string
+  jobSeekerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  recruiterId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isAIChat?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  calls?: Prisma.InterviewCallUncheckedUpdateManyWithoutChatRoomNestedInput
   messages?: Prisma.MessageUncheckedUpdateManyWithoutRoomNestedInput
-  calls?: Prisma.CallUncheckedUpdateManyWithoutRoomNestedInput
+  typingStates?: Prisma.TypingStateUncheckedUpdateManyWithoutRoomNestedInput
 }
 
-export type ChatRoomUncheckedUpdateManyWithoutConsultationInput = {
+export type ChatRoomUncheckedUpdateManyWithoutJobInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  clientId?: Prisma.StringFieldUpdateOperationsInput | string
-  expertId?: Prisma.StringFieldUpdateOperationsInput | string
+  jobSeekerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  recruiterId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isAIChat?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
-export type ChatRoomCreateManyExpertInput = {
+export type ChatRoomCreateManyRecruiterInput = {
   id?: string
-  consultationId?: string | null
-  clientId: string
+  jobSeekerId?: string | null
+  isAIChat?: boolean
+  jobId?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
 }
 
-export type ChatRoomUpdateWithoutExpertInput = {
+export type ChatRoomUpdateWithoutRecruiterInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  isAIChat?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  consultation?: Prisma.ConsultationUpdateOneWithoutChatRoomsNestedInput
-  client?: Prisma.ClientUpdateOneRequiredWithoutChatRoomsNestedInput
+  job?: Prisma.JobUpdateOneWithoutChatRoomsNestedInput
+  candidate?: Prisma.CandidateUpdateOneWithoutChatRoomsNestedInput
+  calls?: Prisma.InterviewCallUpdateManyWithoutChatRoomNestedInput
   messages?: Prisma.MessageUpdateManyWithoutRoomNestedInput
-  calls?: Prisma.CallUpdateManyWithoutRoomNestedInput
+  typingStates?: Prisma.TypingStateUpdateManyWithoutRoomNestedInput
 }
 
-export type ChatRoomUncheckedUpdateWithoutExpertInput = {
+export type ChatRoomUncheckedUpdateWithoutRecruiterInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  consultationId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  clientId?: Prisma.StringFieldUpdateOperationsInput | string
+  jobSeekerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isAIChat?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  jobId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  calls?: Prisma.InterviewCallUncheckedUpdateManyWithoutChatRoomNestedInput
   messages?: Prisma.MessageUncheckedUpdateManyWithoutRoomNestedInput
-  calls?: Prisma.CallUncheckedUpdateManyWithoutRoomNestedInput
+  typingStates?: Prisma.TypingStateUncheckedUpdateManyWithoutRoomNestedInput
 }
 
-export type ChatRoomUncheckedUpdateManyWithoutExpertInput = {
+export type ChatRoomUncheckedUpdateManyWithoutRecruiterInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  consultationId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  clientId?: Prisma.StringFieldUpdateOperationsInput | string
+  jobSeekerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isAIChat?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  jobId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -898,13 +1053,15 @@ export type ChatRoomUncheckedUpdateManyWithoutExpertInput = {
  */
 
 export type ChatRoomCountOutputType = {
-  messages: number
   calls: number
+  messages: number
+  typingStates: number
 }
 
 export type ChatRoomCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  messages?: boolean | ChatRoomCountOutputTypeCountMessagesArgs
   calls?: boolean | ChatRoomCountOutputTypeCountCallsArgs
+  messages?: boolean | ChatRoomCountOutputTypeCountMessagesArgs
+  typingStates?: boolean | ChatRoomCountOutputTypeCountTypingStatesArgs
 }
 
 /**
@@ -920,6 +1077,13 @@ export type ChatRoomCountOutputTypeDefaultArgs<ExtArgs extends runtime.Types.Ext
 /**
  * ChatRoomCountOutputType without action
  */
+export type ChatRoomCountOutputTypeCountCallsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.InterviewCallWhereInput
+}
+
+/**
+ * ChatRoomCountOutputType without action
+ */
 export type ChatRoomCountOutputTypeCountMessagesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   where?: Prisma.MessageWhereInput
 }
@@ -927,93 +1091,101 @@ export type ChatRoomCountOutputTypeCountMessagesArgs<ExtArgs extends runtime.Typ
 /**
  * ChatRoomCountOutputType without action
  */
-export type ChatRoomCountOutputTypeCountCallsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  where?: Prisma.CallWhereInput
+export type ChatRoomCountOutputTypeCountTypingStatesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.TypingStateWhereInput
 }
 
 
 export type ChatRoomSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
-  consultationId?: boolean
-  clientId?: boolean
-  expertId?: boolean
+  jobSeekerId?: boolean
+  recruiterId?: boolean
+  isAIChat?: boolean
+  jobId?: boolean
   createdAt?: boolean
   updatedAt?: boolean
-  consultation?: boolean | Prisma.ChatRoom$consultationArgs<ExtArgs>
-  client?: boolean | Prisma.ClientDefaultArgs<ExtArgs>
-  expert?: boolean | Prisma.ExpertDefaultArgs<ExtArgs>
-  messages?: boolean | Prisma.ChatRoom$messagesArgs<ExtArgs>
+  job?: boolean | Prisma.ChatRoom$jobArgs<ExtArgs>
+  candidate?: boolean | Prisma.ChatRoom$candidateArgs<ExtArgs>
+  recruiter?: boolean | Prisma.ChatRoom$recruiterArgs<ExtArgs>
   calls?: boolean | Prisma.ChatRoom$callsArgs<ExtArgs>
+  messages?: boolean | Prisma.ChatRoom$messagesArgs<ExtArgs>
+  typingStates?: boolean | Prisma.ChatRoom$typingStatesArgs<ExtArgs>
   _count?: boolean | Prisma.ChatRoomCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["chatRoom"]>
 
 export type ChatRoomSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
-  consultationId?: boolean
-  clientId?: boolean
-  expertId?: boolean
+  jobSeekerId?: boolean
+  recruiterId?: boolean
+  isAIChat?: boolean
+  jobId?: boolean
   createdAt?: boolean
   updatedAt?: boolean
-  consultation?: boolean | Prisma.ChatRoom$consultationArgs<ExtArgs>
-  client?: boolean | Prisma.ClientDefaultArgs<ExtArgs>
-  expert?: boolean | Prisma.ExpertDefaultArgs<ExtArgs>
+  job?: boolean | Prisma.ChatRoom$jobArgs<ExtArgs>
+  candidate?: boolean | Prisma.ChatRoom$candidateArgs<ExtArgs>
+  recruiter?: boolean | Prisma.ChatRoom$recruiterArgs<ExtArgs>
 }, ExtArgs["result"]["chatRoom"]>
 
 export type ChatRoomSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
-  consultationId?: boolean
-  clientId?: boolean
-  expertId?: boolean
+  jobSeekerId?: boolean
+  recruiterId?: boolean
+  isAIChat?: boolean
+  jobId?: boolean
   createdAt?: boolean
   updatedAt?: boolean
-  consultation?: boolean | Prisma.ChatRoom$consultationArgs<ExtArgs>
-  client?: boolean | Prisma.ClientDefaultArgs<ExtArgs>
-  expert?: boolean | Prisma.ExpertDefaultArgs<ExtArgs>
+  job?: boolean | Prisma.ChatRoom$jobArgs<ExtArgs>
+  candidate?: boolean | Prisma.ChatRoom$candidateArgs<ExtArgs>
+  recruiter?: boolean | Prisma.ChatRoom$recruiterArgs<ExtArgs>
 }, ExtArgs["result"]["chatRoom"]>
 
 export type ChatRoomSelectScalar = {
   id?: boolean
-  consultationId?: boolean
-  clientId?: boolean
-  expertId?: boolean
+  jobSeekerId?: boolean
+  recruiterId?: boolean
+  isAIChat?: boolean
+  jobId?: boolean
   createdAt?: boolean
   updatedAt?: boolean
 }
 
-export type ChatRoomOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "consultationId" | "clientId" | "expertId" | "createdAt" | "updatedAt", ExtArgs["result"]["chatRoom"]>
+export type ChatRoomOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "jobSeekerId" | "recruiterId" | "isAIChat" | "jobId" | "createdAt" | "updatedAt", ExtArgs["result"]["chatRoom"]>
 export type ChatRoomInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  consultation?: boolean | Prisma.ChatRoom$consultationArgs<ExtArgs>
-  client?: boolean | Prisma.ClientDefaultArgs<ExtArgs>
-  expert?: boolean | Prisma.ExpertDefaultArgs<ExtArgs>
-  messages?: boolean | Prisma.ChatRoom$messagesArgs<ExtArgs>
+  job?: boolean | Prisma.ChatRoom$jobArgs<ExtArgs>
+  candidate?: boolean | Prisma.ChatRoom$candidateArgs<ExtArgs>
+  recruiter?: boolean | Prisma.ChatRoom$recruiterArgs<ExtArgs>
   calls?: boolean | Prisma.ChatRoom$callsArgs<ExtArgs>
+  messages?: boolean | Prisma.ChatRoom$messagesArgs<ExtArgs>
+  typingStates?: boolean | Prisma.ChatRoom$typingStatesArgs<ExtArgs>
   _count?: boolean | Prisma.ChatRoomCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type ChatRoomIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  consultation?: boolean | Prisma.ChatRoom$consultationArgs<ExtArgs>
-  client?: boolean | Prisma.ClientDefaultArgs<ExtArgs>
-  expert?: boolean | Prisma.ExpertDefaultArgs<ExtArgs>
+  job?: boolean | Prisma.ChatRoom$jobArgs<ExtArgs>
+  candidate?: boolean | Prisma.ChatRoom$candidateArgs<ExtArgs>
+  recruiter?: boolean | Prisma.ChatRoom$recruiterArgs<ExtArgs>
 }
 export type ChatRoomIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  consultation?: boolean | Prisma.ChatRoom$consultationArgs<ExtArgs>
-  client?: boolean | Prisma.ClientDefaultArgs<ExtArgs>
-  expert?: boolean | Prisma.ExpertDefaultArgs<ExtArgs>
+  job?: boolean | Prisma.ChatRoom$jobArgs<ExtArgs>
+  candidate?: boolean | Prisma.ChatRoom$candidateArgs<ExtArgs>
+  recruiter?: boolean | Prisma.ChatRoom$recruiterArgs<ExtArgs>
 }
 
 export type $ChatRoomPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "ChatRoom"
   objects: {
-    consultation: Prisma.$ConsultationPayload<ExtArgs> | null
-    client: Prisma.$ClientPayload<ExtArgs>
-    expert: Prisma.$ExpertPayload<ExtArgs>
+    job: Prisma.$JobPayload<ExtArgs> | null
+    candidate: Prisma.$CandidatePayload<ExtArgs> | null
+    recruiter: Prisma.$RecruiterPayload<ExtArgs> | null
+    calls: Prisma.$InterviewCallPayload<ExtArgs>[]
     messages: Prisma.$MessagePayload<ExtArgs>[]
-    calls: Prisma.$CallPayload<ExtArgs>[]
+    typingStates: Prisma.$TypingStatePayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
-    consultationId: string | null
-    clientId: string
-    expertId: string
+    jobSeekerId: string | null
+    recruiterId: string | null
+    isAIChat: boolean
+    jobId: string | null
     createdAt: Date
     updatedAt: Date
   }, ExtArgs["result"]["chatRoom"]>
@@ -1410,11 +1582,12 @@ readonly fields: ChatRoomFieldRefs;
  */
 export interface Prisma__ChatRoomClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
-  consultation<T extends Prisma.ChatRoom$consultationArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.ChatRoom$consultationArgs<ExtArgs>>): Prisma.Prisma__ConsultationClient<runtime.Types.Result.GetResult<Prisma.$ConsultationPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
-  client<T extends Prisma.ClientDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.ClientDefaultArgs<ExtArgs>>): Prisma.Prisma__ClientClient<runtime.Types.Result.GetResult<Prisma.$ClientPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
-  expert<T extends Prisma.ExpertDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.ExpertDefaultArgs<ExtArgs>>): Prisma.Prisma__ExpertClient<runtime.Types.Result.GetResult<Prisma.$ExpertPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+  job<T extends Prisma.ChatRoom$jobArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.ChatRoom$jobArgs<ExtArgs>>): Prisma.Prisma__JobClient<runtime.Types.Result.GetResult<Prisma.$JobPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+  candidate<T extends Prisma.ChatRoom$candidateArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.ChatRoom$candidateArgs<ExtArgs>>): Prisma.Prisma__CandidateClient<runtime.Types.Result.GetResult<Prisma.$CandidatePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+  recruiter<T extends Prisma.ChatRoom$recruiterArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.ChatRoom$recruiterArgs<ExtArgs>>): Prisma.Prisma__RecruiterClient<runtime.Types.Result.GetResult<Prisma.$RecruiterPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+  calls<T extends Prisma.ChatRoom$callsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.ChatRoom$callsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$InterviewCallPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   messages<T extends Prisma.ChatRoom$messagesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.ChatRoom$messagesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$MessagePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-  calls<T extends Prisma.ChatRoom$callsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.ChatRoom$callsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$CallPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  typingStates<T extends Prisma.ChatRoom$typingStatesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.ChatRoom$typingStatesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$TypingStatePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1445,9 +1618,10 @@ export interface Prisma__ChatRoomClient<T, Null = never, ExtArgs extends runtime
  */
 export interface ChatRoomFieldRefs {
   readonly id: Prisma.FieldRef<"ChatRoom", 'String'>
-  readonly consultationId: Prisma.FieldRef<"ChatRoom", 'String'>
-  readonly clientId: Prisma.FieldRef<"ChatRoom", 'String'>
-  readonly expertId: Prisma.FieldRef<"ChatRoom", 'String'>
+  readonly jobSeekerId: Prisma.FieldRef<"ChatRoom", 'String'>
+  readonly recruiterId: Prisma.FieldRef<"ChatRoom", 'String'>
+  readonly isAIChat: Prisma.FieldRef<"ChatRoom", 'Boolean'>
+  readonly jobId: Prisma.FieldRef<"ChatRoom", 'String'>
   readonly createdAt: Prisma.FieldRef<"ChatRoom", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"ChatRoom", 'DateTime'>
 }
@@ -1851,22 +2025,84 @@ export type ChatRoomDeleteManyArgs<ExtArgs extends runtime.Types.Extensions.Inte
 }
 
 /**
- * ChatRoom.consultation
+ * ChatRoom.job
  */
-export type ChatRoom$consultationArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+export type ChatRoom$jobArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   /**
-   * Select specific fields to fetch from the Consultation
+   * Select specific fields to fetch from the Job
    */
-  select?: Prisma.ConsultationSelect<ExtArgs> | null
+  select?: Prisma.JobSelect<ExtArgs> | null
   /**
-   * Omit specific fields from the Consultation
+   * Omit specific fields from the Job
    */
-  omit?: Prisma.ConsultationOmit<ExtArgs> | null
+  omit?: Prisma.JobOmit<ExtArgs> | null
   /**
    * Choose, which related nodes to fetch as well
    */
-  include?: Prisma.ConsultationInclude<ExtArgs> | null
-  where?: Prisma.ConsultationWhereInput
+  include?: Prisma.JobInclude<ExtArgs> | null
+  where?: Prisma.JobWhereInput
+}
+
+/**
+ * ChatRoom.candidate
+ */
+export type ChatRoom$candidateArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Candidate
+   */
+  select?: Prisma.CandidateSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Candidate
+   */
+  omit?: Prisma.CandidateOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.CandidateInclude<ExtArgs> | null
+  where?: Prisma.CandidateWhereInput
+}
+
+/**
+ * ChatRoom.recruiter
+ */
+export type ChatRoom$recruiterArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Recruiter
+   */
+  select?: Prisma.RecruiterSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Recruiter
+   */
+  omit?: Prisma.RecruiterOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.RecruiterInclude<ExtArgs> | null
+  where?: Prisma.RecruiterWhereInput
+}
+
+/**
+ * ChatRoom.calls
+ */
+export type ChatRoom$callsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the InterviewCall
+   */
+  select?: Prisma.InterviewCallSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the InterviewCall
+   */
+  omit?: Prisma.InterviewCallOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.InterviewCallInclude<ExtArgs> | null
+  where?: Prisma.InterviewCallWhereInput
+  orderBy?: Prisma.InterviewCallOrderByWithRelationInput | Prisma.InterviewCallOrderByWithRelationInput[]
+  cursor?: Prisma.InterviewCallWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.InterviewCallScalarFieldEnum | Prisma.InterviewCallScalarFieldEnum[]
 }
 
 /**
@@ -1894,27 +2130,27 @@ export type ChatRoom$messagesArgs<ExtArgs extends runtime.Types.Extensions.Inter
 }
 
 /**
- * ChatRoom.calls
+ * ChatRoom.typingStates
  */
-export type ChatRoom$callsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+export type ChatRoom$typingStatesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   /**
-   * Select specific fields to fetch from the Call
+   * Select specific fields to fetch from the TypingState
    */
-  select?: Prisma.CallSelect<ExtArgs> | null
+  select?: Prisma.TypingStateSelect<ExtArgs> | null
   /**
-   * Omit specific fields from the Call
+   * Omit specific fields from the TypingState
    */
-  omit?: Prisma.CallOmit<ExtArgs> | null
+  omit?: Prisma.TypingStateOmit<ExtArgs> | null
   /**
    * Choose, which related nodes to fetch as well
    */
-  include?: Prisma.CallInclude<ExtArgs> | null
-  where?: Prisma.CallWhereInput
-  orderBy?: Prisma.CallOrderByWithRelationInput | Prisma.CallOrderByWithRelationInput[]
-  cursor?: Prisma.CallWhereUniqueInput
+  include?: Prisma.TypingStateInclude<ExtArgs> | null
+  where?: Prisma.TypingStateWhereInput
+  orderBy?: Prisma.TypingStateOrderByWithRelationInput | Prisma.TypingStateOrderByWithRelationInput[]
+  cursor?: Prisma.TypingStateWhereUniqueInput
   take?: number
   skip?: number
-  distinct?: Prisma.CallScalarFieldEnum | Prisma.CallScalarFieldEnum[]
+  distinct?: Prisma.TypingStateScalarFieldEnum | Prisma.TypingStateScalarFieldEnum[]
 }
 
 /**

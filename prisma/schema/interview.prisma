@@ -1,0 +1,30 @@
+model Interview {
+  id              String          @id @default(uuid())
+  jobId           String
+  applicationId   String
+  recruiterId     String
+  candidateId     String
+  type            InterviewType   @default(AI)
+  status          InterviewStatus @default(SCHEDULED)
+  scheduledAt     DateTime
+  startedAt       DateTime?
+  endedAt         DateTime?
+  durationMinutes Int?
+  aiScore         Float?
+  aiFeedback      String?
+  meetingLink     String?
+  notes           String?
+  isDeleted       Boolean         @default(false)
+  deletedAt       DateTime?
+  createdAt       DateTime        @default(now())
+  updatedAt       DateTime        @updatedAt
+  application     JobApplication  @relation(fields: [applicationId], references: [id], onDelete: Cascade)
+  job             Job             @relation(fields: [jobId], references: [id], onDelete: Cascade)
+  candidate       Candidate       @relation(fields: [candidateId], references: [id], onDelete: Cascade)
+  recruiter       Recruiter       @relation(fields: [recruiterId], references: [id], onDelete: Cascade)
+
+  @@index([jobId])
+  @@index([applicationId])
+  @@index([status])
+  @@map("interviews")
+}

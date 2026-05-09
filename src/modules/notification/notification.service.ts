@@ -2,7 +2,7 @@ import status from "http-status";
 import AppError from "../../errorHelpers/AppError";
 import { prisma } from "../../lib/prisma";
 import { IRequestUser } from "../../interfaces/requestUser.interface";
-import { Role, UserStatus } from "../../generated/enums";
+import { UserRole, UserStatus } from "../../generated/enums";
 
 type CreateNotificationPayload = {
   type: string;
@@ -118,7 +118,7 @@ const getUnreadCount = async (user: IRequestUser) => {
 const markAsRead = async (id: string, user: IRequestUser) => {
   const notification = await getNotificationById(id);
 
-  if (user.role !== Role.ADMIN && notification.userId !== user.userId) {
+  if (user.role !== UserRole.ADMIN && notification.userId !== user.userId) {
     throw new AppError(status.FORBIDDEN, "Forbidden access to this notification");
   }
 
@@ -143,7 +143,7 @@ const markAllAsRead = async (user: IRequestUser) => {
 const deleteNotification = async (id: string, user: IRequestUser) => {
   const notification = await getNotificationById(id);
 
-  if (user.role !== Role.ADMIN && notification.userId !== user.userId) {
+  if (user.role !== UserRole.ADMIN && notification.userId !== user.userId) {
     throw new AppError(status.FORBIDDEN, "Forbidden access to this notification");
   }
 

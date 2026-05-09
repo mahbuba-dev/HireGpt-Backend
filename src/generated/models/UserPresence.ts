@@ -28,18 +28,24 @@ export type UserPresenceMinAggregateOutputType = {
   userId: string | null
   isOnline: boolean | null
   lastSeen: Date | null
+  lastAction: string | null
+  updatedAt: Date | null
 }
 
 export type UserPresenceMaxAggregateOutputType = {
   userId: string | null
   isOnline: boolean | null
   lastSeen: Date | null
+  lastAction: string | null
+  updatedAt: Date | null
 }
 
 export type UserPresenceCountAggregateOutputType = {
   userId: number
   isOnline: number
   lastSeen: number
+  lastAction: number
+  updatedAt: number
   _all: number
 }
 
@@ -48,18 +54,24 @@ export type UserPresenceMinAggregateInputType = {
   userId?: true
   isOnline?: true
   lastSeen?: true
+  lastAction?: true
+  updatedAt?: true
 }
 
 export type UserPresenceMaxAggregateInputType = {
   userId?: true
   isOnline?: true
   lastSeen?: true
+  lastAction?: true
+  updatedAt?: true
 }
 
 export type UserPresenceCountAggregateInputType = {
   userId?: true
   isOnline?: true
   lastSeen?: true
+  lastAction?: true
+  updatedAt?: true
   _all?: true
 }
 
@@ -139,12 +151,14 @@ export type UserPresenceGroupByOutputType = {
   userId: string
   isOnline: boolean
   lastSeen: Date
+  lastAction: string | null
+  updatedAt: Date
   _count: UserPresenceCountAggregateOutputType | null
   _min: UserPresenceMinAggregateOutputType | null
   _max: UserPresenceMaxAggregateOutputType | null
 }
 
-type GetUserPresenceGroupByPayload<T extends UserPresenceGroupByArgs> = Prisma.PrismaPromise<
+export type GetUserPresenceGroupByPayload<T extends UserPresenceGroupByArgs> = Prisma.PrismaPromise<
   Array<
     Prisma.PickEnumerable<UserPresenceGroupByOutputType, T['by']> &
       {
@@ -166,12 +180,18 @@ export type UserPresenceWhereInput = {
   userId?: Prisma.StringFilter<"UserPresence"> | string
   isOnline?: Prisma.BoolFilter<"UserPresence"> | boolean
   lastSeen?: Prisma.DateTimeFilter<"UserPresence"> | Date | string
+  lastAction?: Prisma.StringNullableFilter<"UserPresence"> | string | null
+  updatedAt?: Prisma.DateTimeFilter<"UserPresence"> | Date | string
+  user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
 }
 
 export type UserPresenceOrderByWithRelationInput = {
   userId?: Prisma.SortOrder
   isOnline?: Prisma.SortOrder
   lastSeen?: Prisma.SortOrder
+  lastAction?: Prisma.SortOrderInput | Prisma.SortOrder
+  updatedAt?: Prisma.SortOrder
+  user?: Prisma.UserOrderByWithRelationInput
 }
 
 export type UserPresenceWhereUniqueInput = Prisma.AtLeast<{
@@ -181,12 +201,17 @@ export type UserPresenceWhereUniqueInput = Prisma.AtLeast<{
   NOT?: Prisma.UserPresenceWhereInput | Prisma.UserPresenceWhereInput[]
   isOnline?: Prisma.BoolFilter<"UserPresence"> | boolean
   lastSeen?: Prisma.DateTimeFilter<"UserPresence"> | Date | string
+  lastAction?: Prisma.StringNullableFilter<"UserPresence"> | string | null
+  updatedAt?: Prisma.DateTimeFilter<"UserPresence"> | Date | string
+  user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
 }, "userId">
 
 export type UserPresenceOrderByWithAggregationInput = {
   userId?: Prisma.SortOrder
   isOnline?: Prisma.SortOrder
   lastSeen?: Prisma.SortOrder
+  lastAction?: Prisma.SortOrderInput | Prisma.SortOrder
+  updatedAt?: Prisma.SortOrder
   _count?: Prisma.UserPresenceCountOrderByAggregateInput
   _max?: Prisma.UserPresenceMaxOrderByAggregateInput
   _min?: Prisma.UserPresenceMinOrderByAggregateInput
@@ -199,66 +224,168 @@ export type UserPresenceScalarWhereWithAggregatesInput = {
   userId?: Prisma.StringWithAggregatesFilter<"UserPresence"> | string
   isOnline?: Prisma.BoolWithAggregatesFilter<"UserPresence"> | boolean
   lastSeen?: Prisma.DateTimeWithAggregatesFilter<"UserPresence"> | Date | string
+  lastAction?: Prisma.StringNullableWithAggregatesFilter<"UserPresence"> | string | null
+  updatedAt?: Prisma.DateTimeWithAggregatesFilter<"UserPresence"> | Date | string
 }
 
 export type UserPresenceCreateInput = {
-  userId: string
   isOnline?: boolean
   lastSeen?: Date | string
+  lastAction?: string | null
+  updatedAt?: Date | string
+  user: Prisma.UserCreateNestedOneWithoutUserPresencesInput
 }
 
 export type UserPresenceUncheckedCreateInput = {
   userId: string
   isOnline?: boolean
   lastSeen?: Date | string
+  lastAction?: string | null
+  updatedAt?: Date | string
 }
 
 export type UserPresenceUpdateInput = {
-  userId?: Prisma.StringFieldUpdateOperationsInput | string
   isOnline?: Prisma.BoolFieldUpdateOperationsInput | boolean
   lastSeen?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  lastAction?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  user?: Prisma.UserUpdateOneRequiredWithoutUserPresencesNestedInput
 }
 
 export type UserPresenceUncheckedUpdateInput = {
   userId?: Prisma.StringFieldUpdateOperationsInput | string
   isOnline?: Prisma.BoolFieldUpdateOperationsInput | boolean
   lastSeen?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  lastAction?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type UserPresenceCreateManyInput = {
   userId: string
   isOnline?: boolean
   lastSeen?: Date | string
+  lastAction?: string | null
+  updatedAt?: Date | string
 }
 
 export type UserPresenceUpdateManyMutationInput = {
-  userId?: Prisma.StringFieldUpdateOperationsInput | string
   isOnline?: Prisma.BoolFieldUpdateOperationsInput | boolean
   lastSeen?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  lastAction?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type UserPresenceUncheckedUpdateManyInput = {
   userId?: Prisma.StringFieldUpdateOperationsInput | string
   isOnline?: Prisma.BoolFieldUpdateOperationsInput | boolean
   lastSeen?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  lastAction?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+}
+
+export type UserPresenceNullableScalarRelationFilter = {
+  is?: Prisma.UserPresenceWhereInput | null
+  isNot?: Prisma.UserPresenceWhereInput | null
 }
 
 export type UserPresenceCountOrderByAggregateInput = {
   userId?: Prisma.SortOrder
   isOnline?: Prisma.SortOrder
   lastSeen?: Prisma.SortOrder
+  lastAction?: Prisma.SortOrder
+  updatedAt?: Prisma.SortOrder
 }
 
 export type UserPresenceMaxOrderByAggregateInput = {
   userId?: Prisma.SortOrder
   isOnline?: Prisma.SortOrder
   lastSeen?: Prisma.SortOrder
+  lastAction?: Prisma.SortOrder
+  updatedAt?: Prisma.SortOrder
 }
 
 export type UserPresenceMinOrderByAggregateInput = {
   userId?: Prisma.SortOrder
   isOnline?: Prisma.SortOrder
   lastSeen?: Prisma.SortOrder
+  lastAction?: Prisma.SortOrder
+  updatedAt?: Prisma.SortOrder
+}
+
+export type UserPresenceCreateNestedOneWithoutUserInput = {
+  create?: Prisma.XOR<Prisma.UserPresenceCreateWithoutUserInput, Prisma.UserPresenceUncheckedCreateWithoutUserInput>
+  connectOrCreate?: Prisma.UserPresenceCreateOrConnectWithoutUserInput
+  connect?: Prisma.UserPresenceWhereUniqueInput
+}
+
+export type UserPresenceUncheckedCreateNestedOneWithoutUserInput = {
+  create?: Prisma.XOR<Prisma.UserPresenceCreateWithoutUserInput, Prisma.UserPresenceUncheckedCreateWithoutUserInput>
+  connectOrCreate?: Prisma.UserPresenceCreateOrConnectWithoutUserInput
+  connect?: Prisma.UserPresenceWhereUniqueInput
+}
+
+export type UserPresenceUpdateOneWithoutUserNestedInput = {
+  create?: Prisma.XOR<Prisma.UserPresenceCreateWithoutUserInput, Prisma.UserPresenceUncheckedCreateWithoutUserInput>
+  connectOrCreate?: Prisma.UserPresenceCreateOrConnectWithoutUserInput
+  upsert?: Prisma.UserPresenceUpsertWithoutUserInput
+  disconnect?: Prisma.UserPresenceWhereInput | boolean
+  delete?: Prisma.UserPresenceWhereInput | boolean
+  connect?: Prisma.UserPresenceWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserPresenceUpdateToOneWithWhereWithoutUserInput, Prisma.UserPresenceUpdateWithoutUserInput>, Prisma.UserPresenceUncheckedUpdateWithoutUserInput>
+}
+
+export type UserPresenceUncheckedUpdateOneWithoutUserNestedInput = {
+  create?: Prisma.XOR<Prisma.UserPresenceCreateWithoutUserInput, Prisma.UserPresenceUncheckedCreateWithoutUserInput>
+  connectOrCreate?: Prisma.UserPresenceCreateOrConnectWithoutUserInput
+  upsert?: Prisma.UserPresenceUpsertWithoutUserInput
+  disconnect?: Prisma.UserPresenceWhereInput | boolean
+  delete?: Prisma.UserPresenceWhereInput | boolean
+  connect?: Prisma.UserPresenceWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserPresenceUpdateToOneWithWhereWithoutUserInput, Prisma.UserPresenceUpdateWithoutUserInput>, Prisma.UserPresenceUncheckedUpdateWithoutUserInput>
+}
+
+export type UserPresenceCreateWithoutUserInput = {
+  isOnline?: boolean
+  lastSeen?: Date | string
+  lastAction?: string | null
+  updatedAt?: Date | string
+}
+
+export type UserPresenceUncheckedCreateWithoutUserInput = {
+  isOnline?: boolean
+  lastSeen?: Date | string
+  lastAction?: string | null
+  updatedAt?: Date | string
+}
+
+export type UserPresenceCreateOrConnectWithoutUserInput = {
+  where: Prisma.UserPresenceWhereUniqueInput
+  create: Prisma.XOR<Prisma.UserPresenceCreateWithoutUserInput, Prisma.UserPresenceUncheckedCreateWithoutUserInput>
+}
+
+export type UserPresenceUpsertWithoutUserInput = {
+  update: Prisma.XOR<Prisma.UserPresenceUpdateWithoutUserInput, Prisma.UserPresenceUncheckedUpdateWithoutUserInput>
+  create: Prisma.XOR<Prisma.UserPresenceCreateWithoutUserInput, Prisma.UserPresenceUncheckedCreateWithoutUserInput>
+  where?: Prisma.UserPresenceWhereInput
+}
+
+export type UserPresenceUpdateToOneWithWhereWithoutUserInput = {
+  where?: Prisma.UserPresenceWhereInput
+  data: Prisma.XOR<Prisma.UserPresenceUpdateWithoutUserInput, Prisma.UserPresenceUncheckedUpdateWithoutUserInput>
+}
+
+export type UserPresenceUpdateWithoutUserInput = {
+  isOnline?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  lastSeen?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  lastAction?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+}
+
+export type UserPresenceUncheckedUpdateWithoutUserInput = {
+  isOnline?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  lastSeen?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  lastAction?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 
@@ -267,35 +394,59 @@ export type UserPresenceSelect<ExtArgs extends runtime.Types.Extensions.Internal
   userId?: boolean
   isOnline?: boolean
   lastSeen?: boolean
+  lastAction?: boolean
+  updatedAt?: boolean
+  user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["userPresence"]>
 
 export type UserPresenceSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   userId?: boolean
   isOnline?: boolean
   lastSeen?: boolean
+  lastAction?: boolean
+  updatedAt?: boolean
+  user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["userPresence"]>
 
 export type UserPresenceSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   userId?: boolean
   isOnline?: boolean
   lastSeen?: boolean
+  lastAction?: boolean
+  updatedAt?: boolean
+  user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["userPresence"]>
 
 export type UserPresenceSelectScalar = {
   userId?: boolean
   isOnline?: boolean
   lastSeen?: boolean
+  lastAction?: boolean
+  updatedAt?: boolean
 }
 
-export type UserPresenceOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"userId" | "isOnline" | "lastSeen", ExtArgs["result"]["userPresence"]>
+export type UserPresenceOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"userId" | "isOnline" | "lastSeen" | "lastAction" | "updatedAt", ExtArgs["result"]["userPresence"]>
+export type UserPresenceInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
+}
+export type UserPresenceIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
+}
+export type UserPresenceIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
+}
 
 export type $UserPresencePayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "UserPresence"
-  objects: {}
+  objects: {
+    user: Prisma.$UserPayload<ExtArgs>
+  }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     userId: string
     isOnline: boolean
     lastSeen: Date
+    lastAction: string | null
+    updatedAt: Date
   }, ExtArgs["result"]["userPresence"]>
   composites: {}
 }
@@ -690,6 +841,7 @@ readonly fields: UserPresenceFieldRefs;
  */
 export interface Prisma__UserPresenceClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
+  user<T extends Prisma.UserDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.UserDefaultArgs<ExtArgs>>): Prisma.Prisma__UserClient<runtime.Types.Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -722,6 +874,8 @@ export interface UserPresenceFieldRefs {
   readonly userId: Prisma.FieldRef<"UserPresence", 'String'>
   readonly isOnline: Prisma.FieldRef<"UserPresence", 'Boolean'>
   readonly lastSeen: Prisma.FieldRef<"UserPresence", 'DateTime'>
+  readonly lastAction: Prisma.FieldRef<"UserPresence", 'String'>
+  readonly updatedAt: Prisma.FieldRef<"UserPresence", 'DateTime'>
 }
     
 
@@ -738,6 +892,10 @@ export type UserPresenceFindUniqueArgs<ExtArgs extends runtime.Types.Extensions.
    * Omit specific fields from the UserPresence
    */
   omit?: Prisma.UserPresenceOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.UserPresenceInclude<ExtArgs> | null
   /**
    * Filter, which UserPresence to fetch.
    */
@@ -757,6 +915,10 @@ export type UserPresenceFindUniqueOrThrowArgs<ExtArgs extends runtime.Types.Exte
    */
   omit?: Prisma.UserPresenceOmit<ExtArgs> | null
   /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.UserPresenceInclude<ExtArgs> | null
+  /**
    * Filter, which UserPresence to fetch.
    */
   where: Prisma.UserPresenceWhereUniqueInput
@@ -774,6 +936,10 @@ export type UserPresenceFindFirstArgs<ExtArgs extends runtime.Types.Extensions.I
    * Omit specific fields from the UserPresence
    */
   omit?: Prisma.UserPresenceOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.UserPresenceInclude<ExtArgs> | null
   /**
    * Filter, which UserPresence to fetch.
    */
@@ -823,6 +989,10 @@ export type UserPresenceFindFirstOrThrowArgs<ExtArgs extends runtime.Types.Exten
    */
   omit?: Prisma.UserPresenceOmit<ExtArgs> | null
   /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.UserPresenceInclude<ExtArgs> | null
+  /**
    * Filter, which UserPresence to fetch.
    */
   where?: Prisma.UserPresenceWhereInput
@@ -870,6 +1040,10 @@ export type UserPresenceFindManyArgs<ExtArgs extends runtime.Types.Extensions.In
    * Omit specific fields from the UserPresence
    */
   omit?: Prisma.UserPresenceOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.UserPresenceInclude<ExtArgs> | null
   /**
    * Filter, which UserPresences to fetch.
    */
@@ -919,6 +1093,10 @@ export type UserPresenceCreateArgs<ExtArgs extends runtime.Types.Extensions.Inte
    */
   omit?: Prisma.UserPresenceOmit<ExtArgs> | null
   /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.UserPresenceInclude<ExtArgs> | null
+  /**
    * The data needed to create a UserPresence.
    */
   data: Prisma.XOR<Prisma.UserPresenceCreateInput, Prisma.UserPresenceUncheckedCreateInput>
@@ -952,6 +1130,10 @@ export type UserPresenceCreateManyAndReturnArgs<ExtArgs extends runtime.Types.Ex
    */
   data: Prisma.UserPresenceCreateManyInput | Prisma.UserPresenceCreateManyInput[]
   skipDuplicates?: boolean
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.UserPresenceIncludeCreateManyAndReturn<ExtArgs> | null
 }
 
 /**
@@ -966,6 +1148,10 @@ export type UserPresenceUpdateArgs<ExtArgs extends runtime.Types.Extensions.Inte
    * Omit specific fields from the UserPresence
    */
   omit?: Prisma.UserPresenceOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.UserPresenceInclude<ExtArgs> | null
   /**
    * The data needed to update a UserPresence.
    */
@@ -1018,6 +1204,10 @@ export type UserPresenceUpdateManyAndReturnArgs<ExtArgs extends runtime.Types.Ex
    * Limit how many UserPresences to update.
    */
   limit?: number
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.UserPresenceIncludeUpdateManyAndReturn<ExtArgs> | null
 }
 
 /**
@@ -1032,6 +1222,10 @@ export type UserPresenceUpsertArgs<ExtArgs extends runtime.Types.Extensions.Inte
    * Omit specific fields from the UserPresence
    */
   omit?: Prisma.UserPresenceOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.UserPresenceInclude<ExtArgs> | null
   /**
    * The filter to search for the UserPresence to update in case it exists.
    */
@@ -1058,6 +1252,10 @@ export type UserPresenceDeleteArgs<ExtArgs extends runtime.Types.Extensions.Inte
    * Omit specific fields from the UserPresence
    */
   omit?: Prisma.UserPresenceOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.UserPresenceInclude<ExtArgs> | null
   /**
    * Filter which UserPresence to delete.
    */
@@ -1090,4 +1288,8 @@ export type UserPresenceDefaultArgs<ExtArgs extends runtime.Types.Extensions.Int
    * Omit specific fields from the UserPresence
    */
   omit?: Prisma.UserPresenceOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.UserPresenceInclude<ExtArgs> | null
 }

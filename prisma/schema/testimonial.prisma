@@ -1,23 +1,13 @@
+// Testimonial model for user feedback
 model Testimonial {
-    id      String       @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-    rating  Int
-    comment String?
-    status  ReviewStatus @default(PENDING)
+  id        String   @id @default(uuid())
+  userId    String
+  userRole  String   // 'CANDIDATE' or 'RECRUITER'
+  content   String
+  rating    Int      // 1-5 star rating
+  meta      String?  // Optional meta info (e.g., job title, company)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
-    expertReply     String?
-    expertRepliedAt DateTime?
-
-    clientId String @db.Uuid
-    client   Client @relation(fields: [clientId], references: [id])
-
-    expertId String @db.Uuid
-    expert   Expert @relation(fields: [expertId], references: [id])
-
-    consultationId String?       @unique @db.Uuid
-    consultation   Consultation? @relation(fields: [consultationId], references: [id])
-
-    createdAt DateTime @default(now())
-    updatedAt DateTime @updatedAt
-
-    @@map("testimonials")
+  user      User     @relation(fields: [userId], references: [id])
 }

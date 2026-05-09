@@ -20,8 +20,18 @@ export type MessageModel = runtime.Types.Result.DefaultSelection<Prisma.$Message
 
 export type AggregateMessage = {
   _count: MessageCountAggregateOutputType | null
+  _avg: MessageAvgAggregateOutputType | null
+  _sum: MessageSumAggregateOutputType | null
   _min: MessageMinAggregateOutputType | null
   _max: MessageMaxAggregateOutputType | null
+}
+
+export type MessageAvgAggregateOutputType = {
+  aiScore: number | null
+}
+
+export type MessageSumAggregateOutputType = {
+  aiScore: number | null
 }
 
 export type MessageMinAggregateOutputType = {
@@ -31,6 +41,9 @@ export type MessageMinAggregateOutputType = {
   senderRole: $Enums.UserRole | null
   type: $Enums.MessageType | null
   text: string | null
+  aiIntent: $Enums.AIIntentType | null
+  aiScore: number | null
+  isAI: boolean | null
   createdAt: Date | null
 }
 
@@ -41,6 +54,9 @@ export type MessageMaxAggregateOutputType = {
   senderRole: $Enums.UserRole | null
   type: $Enums.MessageType | null
   text: string | null
+  aiIntent: $Enums.AIIntentType | null
+  aiScore: number | null
+  isAI: boolean | null
   createdAt: Date | null
 }
 
@@ -51,10 +67,21 @@ export type MessageCountAggregateOutputType = {
   senderRole: number
   type: number
   text: number
+  aiIntent: number
+  aiScore: number
+  isAI: number
   createdAt: number
   _all: number
 }
 
+
+export type MessageAvgAggregateInputType = {
+  aiScore?: true
+}
+
+export type MessageSumAggregateInputType = {
+  aiScore?: true
+}
 
 export type MessageMinAggregateInputType = {
   id?: true
@@ -63,6 +90,9 @@ export type MessageMinAggregateInputType = {
   senderRole?: true
   type?: true
   text?: true
+  aiIntent?: true
+  aiScore?: true
+  isAI?: true
   createdAt?: true
 }
 
@@ -73,6 +103,9 @@ export type MessageMaxAggregateInputType = {
   senderRole?: true
   type?: true
   text?: true
+  aiIntent?: true
+  aiScore?: true
+  isAI?: true
   createdAt?: true
 }
 
@@ -83,6 +116,9 @@ export type MessageCountAggregateInputType = {
   senderRole?: true
   type?: true
   text?: true
+  aiIntent?: true
+  aiScore?: true
+  isAI?: true
   createdAt?: true
   _all?: true
 }
@@ -125,6 +161,18 @@ export type MessageAggregateArgs<ExtArgs extends runtime.Types.Extensions.Intern
   /**
    * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
    * 
+   * Select which fields to average
+  **/
+  _avg?: MessageAvgAggregateInputType
+  /**
+   * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+   * 
+   * Select which fields to sum
+  **/
+  _sum?: MessageSumAggregateInputType
+  /**
+   * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+   * 
    * Select which fields to find the minimum value
   **/
   _min?: MessageMinAggregateInputType
@@ -155,6 +203,8 @@ export type MessageGroupByArgs<ExtArgs extends runtime.Types.Extensions.Internal
   take?: number
   skip?: number
   _count?: MessageCountAggregateInputType | true
+  _avg?: MessageAvgAggregateInputType
+  _sum?: MessageSumAggregateInputType
   _min?: MessageMinAggregateInputType
   _max?: MessageMaxAggregateInputType
 }
@@ -166,13 +216,18 @@ export type MessageGroupByOutputType = {
   senderRole: $Enums.UserRole
   type: $Enums.MessageType
   text: string | null
+  aiIntent: $Enums.AIIntentType | null
+  aiScore: number | null
+  isAI: boolean
   createdAt: Date
   _count: MessageCountAggregateOutputType | null
+  _avg: MessageAvgAggregateOutputType | null
+  _sum: MessageSumAggregateOutputType | null
   _min: MessageMinAggregateOutputType | null
   _max: MessageMaxAggregateOutputType | null
 }
 
-type GetMessageGroupByPayload<T extends MessageGroupByArgs> = Prisma.PrismaPromise<
+export type GetMessageGroupByPayload<T extends MessageGroupByArgs> = Prisma.PrismaPromise<
   Array<
     Prisma.PickEnumerable<MessageGroupByOutputType, T['by']> &
       {
@@ -197,10 +252,13 @@ export type MessageWhereInput = {
   senderRole?: Prisma.EnumUserRoleFilter<"Message"> | $Enums.UserRole
   type?: Prisma.EnumMessageTypeFilter<"Message"> | $Enums.MessageType
   text?: Prisma.StringNullableFilter<"Message"> | string | null
+  aiIntent?: Prisma.EnumAIIntentTypeNullableFilter<"Message"> | $Enums.AIIntentType | null
+  aiScore?: Prisma.FloatNullableFilter<"Message"> | number | null
+  isAI?: Prisma.BoolFilter<"Message"> | boolean
   createdAt?: Prisma.DateTimeFilter<"Message"> | Date | string
-  room?: Prisma.XOR<Prisma.ChatRoomScalarRelationFilter, Prisma.ChatRoomWhereInput>
-  attachment?: Prisma.XOR<Prisma.AttachmentNullableScalarRelationFilter, Prisma.AttachmentWhereInput> | null
+  attachments?: Prisma.AttachmentListRelationFilter
   reactions?: Prisma.MessageReactionListRelationFilter
+  room?: Prisma.XOR<Prisma.ChatRoomScalarRelationFilter, Prisma.ChatRoomWhereInput>
 }
 
 export type MessageOrderByWithRelationInput = {
@@ -210,10 +268,13 @@ export type MessageOrderByWithRelationInput = {
   senderRole?: Prisma.SortOrder
   type?: Prisma.SortOrder
   text?: Prisma.SortOrderInput | Prisma.SortOrder
+  aiIntent?: Prisma.SortOrderInput | Prisma.SortOrder
+  aiScore?: Prisma.SortOrderInput | Prisma.SortOrder
+  isAI?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
-  room?: Prisma.ChatRoomOrderByWithRelationInput
-  attachment?: Prisma.AttachmentOrderByWithRelationInput
+  attachments?: Prisma.AttachmentOrderByRelationAggregateInput
   reactions?: Prisma.MessageReactionOrderByRelationAggregateInput
+  room?: Prisma.ChatRoomOrderByWithRelationInput
 }
 
 export type MessageWhereUniqueInput = Prisma.AtLeast<{
@@ -226,10 +287,13 @@ export type MessageWhereUniqueInput = Prisma.AtLeast<{
   senderRole?: Prisma.EnumUserRoleFilter<"Message"> | $Enums.UserRole
   type?: Prisma.EnumMessageTypeFilter<"Message"> | $Enums.MessageType
   text?: Prisma.StringNullableFilter<"Message"> | string | null
+  aiIntent?: Prisma.EnumAIIntentTypeNullableFilter<"Message"> | $Enums.AIIntentType | null
+  aiScore?: Prisma.FloatNullableFilter<"Message"> | number | null
+  isAI?: Prisma.BoolFilter<"Message"> | boolean
   createdAt?: Prisma.DateTimeFilter<"Message"> | Date | string
-  room?: Prisma.XOR<Prisma.ChatRoomScalarRelationFilter, Prisma.ChatRoomWhereInput>
-  attachment?: Prisma.XOR<Prisma.AttachmentNullableScalarRelationFilter, Prisma.AttachmentWhereInput> | null
+  attachments?: Prisma.AttachmentListRelationFilter
   reactions?: Prisma.MessageReactionListRelationFilter
+  room?: Prisma.XOR<Prisma.ChatRoomScalarRelationFilter, Prisma.ChatRoomWhereInput>
 }, "id">
 
 export type MessageOrderByWithAggregationInput = {
@@ -239,10 +303,15 @@ export type MessageOrderByWithAggregationInput = {
   senderRole?: Prisma.SortOrder
   type?: Prisma.SortOrder
   text?: Prisma.SortOrderInput | Prisma.SortOrder
+  aiIntent?: Prisma.SortOrderInput | Prisma.SortOrder
+  aiScore?: Prisma.SortOrderInput | Prisma.SortOrder
+  isAI?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   _count?: Prisma.MessageCountOrderByAggregateInput
+  _avg?: Prisma.MessageAvgOrderByAggregateInput
   _max?: Prisma.MessageMaxOrderByAggregateInput
   _min?: Prisma.MessageMinOrderByAggregateInput
+  _sum?: Prisma.MessageSumOrderByAggregateInput
 }
 
 export type MessageScalarWhereWithAggregatesInput = {
@@ -255,6 +324,9 @@ export type MessageScalarWhereWithAggregatesInput = {
   senderRole?: Prisma.EnumUserRoleWithAggregatesFilter<"Message"> | $Enums.UserRole
   type?: Prisma.EnumMessageTypeWithAggregatesFilter<"Message"> | $Enums.MessageType
   text?: Prisma.StringNullableWithAggregatesFilter<"Message"> | string | null
+  aiIntent?: Prisma.EnumAIIntentTypeNullableWithAggregatesFilter<"Message"> | $Enums.AIIntentType | null
+  aiScore?: Prisma.FloatNullableWithAggregatesFilter<"Message"> | number | null
+  isAI?: Prisma.BoolWithAggregatesFilter<"Message"> | boolean
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"Message"> | Date | string
 }
 
@@ -264,10 +336,13 @@ export type MessageCreateInput = {
   senderRole: $Enums.UserRole
   type?: $Enums.MessageType
   text?: string | null
+  aiIntent?: $Enums.AIIntentType | null
+  aiScore?: number | null
+  isAI?: boolean
   createdAt?: Date | string
-  room: Prisma.ChatRoomCreateNestedOneWithoutMessagesInput
-  attachment?: Prisma.AttachmentCreateNestedOneWithoutMessageInput
+  attachments?: Prisma.AttachmentCreateNestedManyWithoutMessageInput
   reactions?: Prisma.MessageReactionCreateNestedManyWithoutMessageInput
+  room: Prisma.ChatRoomCreateNestedOneWithoutMessagesInput
 }
 
 export type MessageUncheckedCreateInput = {
@@ -277,8 +352,11 @@ export type MessageUncheckedCreateInput = {
   senderRole: $Enums.UserRole
   type?: $Enums.MessageType
   text?: string | null
+  aiIntent?: $Enums.AIIntentType | null
+  aiScore?: number | null
+  isAI?: boolean
   createdAt?: Date | string
-  attachment?: Prisma.AttachmentUncheckedCreateNestedOneWithoutMessageInput
+  attachments?: Prisma.AttachmentUncheckedCreateNestedManyWithoutMessageInput
   reactions?: Prisma.MessageReactionUncheckedCreateNestedManyWithoutMessageInput
 }
 
@@ -288,10 +366,13 @@ export type MessageUpdateInput = {
   senderRole?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
   type?: Prisma.EnumMessageTypeFieldUpdateOperationsInput | $Enums.MessageType
   text?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  aiIntent?: Prisma.NullableEnumAIIntentTypeFieldUpdateOperationsInput | $Enums.AIIntentType | null
+  aiScore?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  isAI?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  room?: Prisma.ChatRoomUpdateOneRequiredWithoutMessagesNestedInput
-  attachment?: Prisma.AttachmentUpdateOneWithoutMessageNestedInput
+  attachments?: Prisma.AttachmentUpdateManyWithoutMessageNestedInput
   reactions?: Prisma.MessageReactionUpdateManyWithoutMessageNestedInput
+  room?: Prisma.ChatRoomUpdateOneRequiredWithoutMessagesNestedInput
 }
 
 export type MessageUncheckedUpdateInput = {
@@ -301,8 +382,11 @@ export type MessageUncheckedUpdateInput = {
   senderRole?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
   type?: Prisma.EnumMessageTypeFieldUpdateOperationsInput | $Enums.MessageType
   text?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  aiIntent?: Prisma.NullableEnumAIIntentTypeFieldUpdateOperationsInput | $Enums.AIIntentType | null
+  aiScore?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  isAI?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  attachment?: Prisma.AttachmentUncheckedUpdateOneWithoutMessageNestedInput
+  attachments?: Prisma.AttachmentUncheckedUpdateManyWithoutMessageNestedInput
   reactions?: Prisma.MessageReactionUncheckedUpdateManyWithoutMessageNestedInput
 }
 
@@ -313,6 +397,9 @@ export type MessageCreateManyInput = {
   senderRole: $Enums.UserRole
   type?: $Enums.MessageType
   text?: string | null
+  aiIntent?: $Enums.AIIntentType | null
+  aiScore?: number | null
+  isAI?: boolean
   createdAt?: Date | string
 }
 
@@ -322,6 +409,9 @@ export type MessageUpdateManyMutationInput = {
   senderRole?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
   type?: Prisma.EnumMessageTypeFieldUpdateOperationsInput | $Enums.MessageType
   text?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  aiIntent?: Prisma.NullableEnumAIIntentTypeFieldUpdateOperationsInput | $Enums.AIIntentType | null
+  aiScore?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  isAI?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
@@ -332,6 +422,9 @@ export type MessageUncheckedUpdateManyInput = {
   senderRole?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
   type?: Prisma.EnumMessageTypeFieldUpdateOperationsInput | $Enums.MessageType
   text?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  aiIntent?: Prisma.NullableEnumAIIntentTypeFieldUpdateOperationsInput | $Enums.AIIntentType | null
+  aiScore?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  isAI?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
@@ -357,7 +450,14 @@ export type MessageCountOrderByAggregateInput = {
   senderRole?: Prisma.SortOrder
   type?: Prisma.SortOrder
   text?: Prisma.SortOrder
+  aiIntent?: Prisma.SortOrder
+  aiScore?: Prisma.SortOrder
+  isAI?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
+}
+
+export type MessageAvgOrderByAggregateInput = {
+  aiScore?: Prisma.SortOrder
 }
 
 export type MessageMaxOrderByAggregateInput = {
@@ -367,6 +467,9 @@ export type MessageMaxOrderByAggregateInput = {
   senderRole?: Prisma.SortOrder
   type?: Prisma.SortOrder
   text?: Prisma.SortOrder
+  aiIntent?: Prisma.SortOrder
+  aiScore?: Prisma.SortOrder
+  isAI?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
 }
 
@@ -377,21 +480,28 @@ export type MessageMinOrderByAggregateInput = {
   senderRole?: Prisma.SortOrder
   type?: Prisma.SortOrder
   text?: Prisma.SortOrder
+  aiIntent?: Prisma.SortOrder
+  aiScore?: Prisma.SortOrder
+  isAI?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
 }
 
-export type MessageCreateNestedOneWithoutAttachmentInput = {
-  create?: Prisma.XOR<Prisma.MessageCreateWithoutAttachmentInput, Prisma.MessageUncheckedCreateWithoutAttachmentInput>
-  connectOrCreate?: Prisma.MessageCreateOrConnectWithoutAttachmentInput
+export type MessageSumOrderByAggregateInput = {
+  aiScore?: Prisma.SortOrder
+}
+
+export type MessageCreateNestedOneWithoutAttachmentsInput = {
+  create?: Prisma.XOR<Prisma.MessageCreateWithoutAttachmentsInput, Prisma.MessageUncheckedCreateWithoutAttachmentsInput>
+  connectOrCreate?: Prisma.MessageCreateOrConnectWithoutAttachmentsInput
   connect?: Prisma.MessageWhereUniqueInput
 }
 
-export type MessageUpdateOneRequiredWithoutAttachmentNestedInput = {
-  create?: Prisma.XOR<Prisma.MessageCreateWithoutAttachmentInput, Prisma.MessageUncheckedCreateWithoutAttachmentInput>
-  connectOrCreate?: Prisma.MessageCreateOrConnectWithoutAttachmentInput
-  upsert?: Prisma.MessageUpsertWithoutAttachmentInput
+export type MessageUpdateOneRequiredWithoutAttachmentsNestedInput = {
+  create?: Prisma.XOR<Prisma.MessageCreateWithoutAttachmentsInput, Prisma.MessageUncheckedCreateWithoutAttachmentsInput>
+  connectOrCreate?: Prisma.MessageCreateOrConnectWithoutAttachmentsInput
+  upsert?: Prisma.MessageUpsertWithoutAttachmentsInput
   connect?: Prisma.MessageWhereUniqueInput
-  update?: Prisma.XOR<Prisma.XOR<Prisma.MessageUpdateToOneWithWhereWithoutAttachmentInput, Prisma.MessageUpdateWithoutAttachmentInput>, Prisma.MessageUncheckedUpdateWithoutAttachmentInput>
+  update?: Prisma.XOR<Prisma.XOR<Prisma.MessageUpdateToOneWithWhereWithoutAttachmentsInput, Prisma.MessageUpdateWithoutAttachmentsInput>, Prisma.MessageUncheckedUpdateWithoutAttachmentsInput>
 }
 
 export type MessageCreateNestedManyWithoutRoomInput = {
@@ -440,6 +550,10 @@ export type EnumMessageTypeFieldUpdateOperationsInput = {
   set?: $Enums.MessageType
 }
 
+export type NullableEnumAIIntentTypeFieldUpdateOperationsInput = {
+  set?: $Enums.AIIntentType | null
+}
+
 export type MessageCreateNestedOneWithoutReactionsInput = {
   create?: Prisma.XOR<Prisma.MessageCreateWithoutReactionsInput, Prisma.MessageUncheckedCreateWithoutReactionsInput>
   connectOrCreate?: Prisma.MessageCreateOrConnectWithoutReactionsInput
@@ -454,62 +568,74 @@ export type MessageUpdateOneRequiredWithoutReactionsNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.MessageUpdateToOneWithWhereWithoutReactionsInput, Prisma.MessageUpdateWithoutReactionsInput>, Prisma.MessageUncheckedUpdateWithoutReactionsInput>
 }
 
-export type MessageCreateWithoutAttachmentInput = {
+export type MessageCreateWithoutAttachmentsInput = {
   id?: string
   senderId: string
   senderRole: $Enums.UserRole
   type?: $Enums.MessageType
   text?: string | null
+  aiIntent?: $Enums.AIIntentType | null
+  aiScore?: number | null
+  isAI?: boolean
   createdAt?: Date | string
-  room: Prisma.ChatRoomCreateNestedOneWithoutMessagesInput
   reactions?: Prisma.MessageReactionCreateNestedManyWithoutMessageInput
+  room: Prisma.ChatRoomCreateNestedOneWithoutMessagesInput
 }
 
-export type MessageUncheckedCreateWithoutAttachmentInput = {
+export type MessageUncheckedCreateWithoutAttachmentsInput = {
   id?: string
   roomId: string
   senderId: string
   senderRole: $Enums.UserRole
   type?: $Enums.MessageType
   text?: string | null
+  aiIntent?: $Enums.AIIntentType | null
+  aiScore?: number | null
+  isAI?: boolean
   createdAt?: Date | string
   reactions?: Prisma.MessageReactionUncheckedCreateNestedManyWithoutMessageInput
 }
 
-export type MessageCreateOrConnectWithoutAttachmentInput = {
+export type MessageCreateOrConnectWithoutAttachmentsInput = {
   where: Prisma.MessageWhereUniqueInput
-  create: Prisma.XOR<Prisma.MessageCreateWithoutAttachmentInput, Prisma.MessageUncheckedCreateWithoutAttachmentInput>
+  create: Prisma.XOR<Prisma.MessageCreateWithoutAttachmentsInput, Prisma.MessageUncheckedCreateWithoutAttachmentsInput>
 }
 
-export type MessageUpsertWithoutAttachmentInput = {
-  update: Prisma.XOR<Prisma.MessageUpdateWithoutAttachmentInput, Prisma.MessageUncheckedUpdateWithoutAttachmentInput>
-  create: Prisma.XOR<Prisma.MessageCreateWithoutAttachmentInput, Prisma.MessageUncheckedCreateWithoutAttachmentInput>
+export type MessageUpsertWithoutAttachmentsInput = {
+  update: Prisma.XOR<Prisma.MessageUpdateWithoutAttachmentsInput, Prisma.MessageUncheckedUpdateWithoutAttachmentsInput>
+  create: Prisma.XOR<Prisma.MessageCreateWithoutAttachmentsInput, Prisma.MessageUncheckedCreateWithoutAttachmentsInput>
   where?: Prisma.MessageWhereInput
 }
 
-export type MessageUpdateToOneWithWhereWithoutAttachmentInput = {
+export type MessageUpdateToOneWithWhereWithoutAttachmentsInput = {
   where?: Prisma.MessageWhereInput
-  data: Prisma.XOR<Prisma.MessageUpdateWithoutAttachmentInput, Prisma.MessageUncheckedUpdateWithoutAttachmentInput>
+  data: Prisma.XOR<Prisma.MessageUpdateWithoutAttachmentsInput, Prisma.MessageUncheckedUpdateWithoutAttachmentsInput>
 }
 
-export type MessageUpdateWithoutAttachmentInput = {
+export type MessageUpdateWithoutAttachmentsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   senderId?: Prisma.StringFieldUpdateOperationsInput | string
   senderRole?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
   type?: Prisma.EnumMessageTypeFieldUpdateOperationsInput | $Enums.MessageType
   text?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  aiIntent?: Prisma.NullableEnumAIIntentTypeFieldUpdateOperationsInput | $Enums.AIIntentType | null
+  aiScore?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  isAI?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  room?: Prisma.ChatRoomUpdateOneRequiredWithoutMessagesNestedInput
   reactions?: Prisma.MessageReactionUpdateManyWithoutMessageNestedInput
+  room?: Prisma.ChatRoomUpdateOneRequiredWithoutMessagesNestedInput
 }
 
-export type MessageUncheckedUpdateWithoutAttachmentInput = {
+export type MessageUncheckedUpdateWithoutAttachmentsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   roomId?: Prisma.StringFieldUpdateOperationsInput | string
   senderId?: Prisma.StringFieldUpdateOperationsInput | string
   senderRole?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
   type?: Prisma.EnumMessageTypeFieldUpdateOperationsInput | $Enums.MessageType
   text?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  aiIntent?: Prisma.NullableEnumAIIntentTypeFieldUpdateOperationsInput | $Enums.AIIntentType | null
+  aiScore?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  isAI?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   reactions?: Prisma.MessageReactionUncheckedUpdateManyWithoutMessageNestedInput
 }
@@ -520,8 +646,11 @@ export type MessageCreateWithoutRoomInput = {
   senderRole: $Enums.UserRole
   type?: $Enums.MessageType
   text?: string | null
+  aiIntent?: $Enums.AIIntentType | null
+  aiScore?: number | null
+  isAI?: boolean
   createdAt?: Date | string
-  attachment?: Prisma.AttachmentCreateNestedOneWithoutMessageInput
+  attachments?: Prisma.AttachmentCreateNestedManyWithoutMessageInput
   reactions?: Prisma.MessageReactionCreateNestedManyWithoutMessageInput
 }
 
@@ -531,8 +660,11 @@ export type MessageUncheckedCreateWithoutRoomInput = {
   senderRole: $Enums.UserRole
   type?: $Enums.MessageType
   text?: string | null
+  aiIntent?: $Enums.AIIntentType | null
+  aiScore?: number | null
+  isAI?: boolean
   createdAt?: Date | string
-  attachment?: Prisma.AttachmentUncheckedCreateNestedOneWithoutMessageInput
+  attachments?: Prisma.AttachmentUncheckedCreateNestedManyWithoutMessageInput
   reactions?: Prisma.MessageReactionUncheckedCreateNestedManyWithoutMessageInput
 }
 
@@ -572,6 +704,9 @@ export type MessageScalarWhereInput = {
   senderRole?: Prisma.EnumUserRoleFilter<"Message"> | $Enums.UserRole
   type?: Prisma.EnumMessageTypeFilter<"Message"> | $Enums.MessageType
   text?: Prisma.StringNullableFilter<"Message"> | string | null
+  aiIntent?: Prisma.EnumAIIntentTypeNullableFilter<"Message"> | $Enums.AIIntentType | null
+  aiScore?: Prisma.FloatNullableFilter<"Message"> | number | null
+  isAI?: Prisma.BoolFilter<"Message"> | boolean
   createdAt?: Prisma.DateTimeFilter<"Message"> | Date | string
 }
 
@@ -581,9 +716,12 @@ export type MessageCreateWithoutReactionsInput = {
   senderRole: $Enums.UserRole
   type?: $Enums.MessageType
   text?: string | null
+  aiIntent?: $Enums.AIIntentType | null
+  aiScore?: number | null
+  isAI?: boolean
   createdAt?: Date | string
+  attachments?: Prisma.AttachmentCreateNestedManyWithoutMessageInput
   room: Prisma.ChatRoomCreateNestedOneWithoutMessagesInput
-  attachment?: Prisma.AttachmentCreateNestedOneWithoutMessageInput
 }
 
 export type MessageUncheckedCreateWithoutReactionsInput = {
@@ -593,8 +731,11 @@ export type MessageUncheckedCreateWithoutReactionsInput = {
   senderRole: $Enums.UserRole
   type?: $Enums.MessageType
   text?: string | null
+  aiIntent?: $Enums.AIIntentType | null
+  aiScore?: number | null
+  isAI?: boolean
   createdAt?: Date | string
-  attachment?: Prisma.AttachmentUncheckedCreateNestedOneWithoutMessageInput
+  attachments?: Prisma.AttachmentUncheckedCreateNestedManyWithoutMessageInput
 }
 
 export type MessageCreateOrConnectWithoutReactionsInput = {
@@ -619,9 +760,12 @@ export type MessageUpdateWithoutReactionsInput = {
   senderRole?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
   type?: Prisma.EnumMessageTypeFieldUpdateOperationsInput | $Enums.MessageType
   text?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  aiIntent?: Prisma.NullableEnumAIIntentTypeFieldUpdateOperationsInput | $Enums.AIIntentType | null
+  aiScore?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  isAI?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  attachments?: Prisma.AttachmentUpdateManyWithoutMessageNestedInput
   room?: Prisma.ChatRoomUpdateOneRequiredWithoutMessagesNestedInput
-  attachment?: Prisma.AttachmentUpdateOneWithoutMessageNestedInput
 }
 
 export type MessageUncheckedUpdateWithoutReactionsInput = {
@@ -631,8 +775,11 @@ export type MessageUncheckedUpdateWithoutReactionsInput = {
   senderRole?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
   type?: Prisma.EnumMessageTypeFieldUpdateOperationsInput | $Enums.MessageType
   text?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  aiIntent?: Prisma.NullableEnumAIIntentTypeFieldUpdateOperationsInput | $Enums.AIIntentType | null
+  aiScore?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  isAI?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  attachment?: Prisma.AttachmentUncheckedUpdateOneWithoutMessageNestedInput
+  attachments?: Prisma.AttachmentUncheckedUpdateManyWithoutMessageNestedInput
 }
 
 export type MessageCreateManyRoomInput = {
@@ -641,6 +788,9 @@ export type MessageCreateManyRoomInput = {
   senderRole: $Enums.UserRole
   type?: $Enums.MessageType
   text?: string | null
+  aiIntent?: $Enums.AIIntentType | null
+  aiScore?: number | null
+  isAI?: boolean
   createdAt?: Date | string
 }
 
@@ -650,8 +800,11 @@ export type MessageUpdateWithoutRoomInput = {
   senderRole?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
   type?: Prisma.EnumMessageTypeFieldUpdateOperationsInput | $Enums.MessageType
   text?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  aiIntent?: Prisma.NullableEnumAIIntentTypeFieldUpdateOperationsInput | $Enums.AIIntentType | null
+  aiScore?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  isAI?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  attachment?: Prisma.AttachmentUpdateOneWithoutMessageNestedInput
+  attachments?: Prisma.AttachmentUpdateManyWithoutMessageNestedInput
   reactions?: Prisma.MessageReactionUpdateManyWithoutMessageNestedInput
 }
 
@@ -661,8 +814,11 @@ export type MessageUncheckedUpdateWithoutRoomInput = {
   senderRole?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
   type?: Prisma.EnumMessageTypeFieldUpdateOperationsInput | $Enums.MessageType
   text?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  aiIntent?: Prisma.NullableEnumAIIntentTypeFieldUpdateOperationsInput | $Enums.AIIntentType | null
+  aiScore?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  isAI?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  attachment?: Prisma.AttachmentUncheckedUpdateOneWithoutMessageNestedInput
+  attachments?: Prisma.AttachmentUncheckedUpdateManyWithoutMessageNestedInput
   reactions?: Prisma.MessageReactionUncheckedUpdateManyWithoutMessageNestedInput
 }
 
@@ -672,6 +828,9 @@ export type MessageUncheckedUpdateManyWithoutRoomInput = {
   senderRole?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
   type?: Prisma.EnumMessageTypeFieldUpdateOperationsInput | $Enums.MessageType
   text?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  aiIntent?: Prisma.NullableEnumAIIntentTypeFieldUpdateOperationsInput | $Enums.AIIntentType | null
+  aiScore?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  isAI?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
@@ -681,10 +840,12 @@ export type MessageUncheckedUpdateManyWithoutRoomInput = {
  */
 
 export type MessageCountOutputType = {
+  attachments: number
   reactions: number
 }
 
 export type MessageCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  attachments?: boolean | MessageCountOutputTypeCountAttachmentsArgs
   reactions?: boolean | MessageCountOutputTypeCountReactionsArgs
 }
 
@@ -696,6 +857,13 @@ export type MessageCountOutputTypeDefaultArgs<ExtArgs extends runtime.Types.Exte
    * Select specific fields to fetch from the MessageCountOutputType
    */
   select?: Prisma.MessageCountOutputTypeSelect<ExtArgs> | null
+}
+
+/**
+ * MessageCountOutputType without action
+ */
+export type MessageCountOutputTypeCountAttachmentsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.AttachmentWhereInput
 }
 
 /**
@@ -713,10 +881,13 @@ export type MessageSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs 
   senderRole?: boolean
   type?: boolean
   text?: boolean
+  aiIntent?: boolean
+  aiScore?: boolean
+  isAI?: boolean
   createdAt?: boolean
-  room?: boolean | Prisma.ChatRoomDefaultArgs<ExtArgs>
-  attachment?: boolean | Prisma.Message$attachmentArgs<ExtArgs>
+  attachments?: boolean | Prisma.Message$attachmentsArgs<ExtArgs>
   reactions?: boolean | Prisma.Message$reactionsArgs<ExtArgs>
+  room?: boolean | Prisma.ChatRoomDefaultArgs<ExtArgs>
   _count?: boolean | Prisma.MessageCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["message"]>
 
@@ -727,6 +898,9 @@ export type MessageSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Exten
   senderRole?: boolean
   type?: boolean
   text?: boolean
+  aiIntent?: boolean
+  aiScore?: boolean
+  isAI?: boolean
   createdAt?: boolean
   room?: boolean | Prisma.ChatRoomDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["message"]>
@@ -738,6 +912,9 @@ export type MessageSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Exten
   senderRole?: boolean
   type?: boolean
   text?: boolean
+  aiIntent?: boolean
+  aiScore?: boolean
+  isAI?: boolean
   createdAt?: boolean
   room?: boolean | Prisma.ChatRoomDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["message"]>
@@ -749,14 +926,17 @@ export type MessageSelectScalar = {
   senderRole?: boolean
   type?: boolean
   text?: boolean
+  aiIntent?: boolean
+  aiScore?: boolean
+  isAI?: boolean
   createdAt?: boolean
 }
 
-export type MessageOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "roomId" | "senderId" | "senderRole" | "type" | "text" | "createdAt", ExtArgs["result"]["message"]>
+export type MessageOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "roomId" | "senderId" | "senderRole" | "type" | "text" | "aiIntent" | "aiScore" | "isAI" | "createdAt", ExtArgs["result"]["message"]>
 export type MessageInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  room?: boolean | Prisma.ChatRoomDefaultArgs<ExtArgs>
-  attachment?: boolean | Prisma.Message$attachmentArgs<ExtArgs>
+  attachments?: boolean | Prisma.Message$attachmentsArgs<ExtArgs>
   reactions?: boolean | Prisma.Message$reactionsArgs<ExtArgs>
+  room?: boolean | Prisma.ChatRoomDefaultArgs<ExtArgs>
   _count?: boolean | Prisma.MessageCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type MessageIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -769,9 +949,9 @@ export type MessageIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Exte
 export type $MessagePayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "Message"
   objects: {
-    room: Prisma.$ChatRoomPayload<ExtArgs>
-    attachment: Prisma.$AttachmentPayload<ExtArgs> | null
+    attachments: Prisma.$AttachmentPayload<ExtArgs>[]
     reactions: Prisma.$MessageReactionPayload<ExtArgs>[]
+    room: Prisma.$ChatRoomPayload<ExtArgs>
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -780,6 +960,9 @@ export type $MessagePayload<ExtArgs extends runtime.Types.Extensions.InternalArg
     senderRole: $Enums.UserRole
     type: $Enums.MessageType
     text: string | null
+    aiIntent: $Enums.AIIntentType | null
+    aiScore: number | null
+    isAI: boolean
     createdAt: Date
   }, ExtArgs["result"]["message"]>
   composites: {}
@@ -1175,9 +1358,9 @@ readonly fields: MessageFieldRefs;
  */
 export interface Prisma__MessageClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
-  room<T extends Prisma.ChatRoomDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.ChatRoomDefaultArgs<ExtArgs>>): Prisma.Prisma__ChatRoomClient<runtime.Types.Result.GetResult<Prisma.$ChatRoomPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
-  attachment<T extends Prisma.Message$attachmentArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Message$attachmentArgs<ExtArgs>>): Prisma.Prisma__AttachmentClient<runtime.Types.Result.GetResult<Prisma.$AttachmentPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+  attachments<T extends Prisma.Message$attachmentsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Message$attachmentsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$AttachmentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   reactions<T extends Prisma.Message$reactionsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Message$reactionsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$MessageReactionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  room<T extends Prisma.ChatRoomDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.ChatRoomDefaultArgs<ExtArgs>>): Prisma.Prisma__ChatRoomClient<runtime.Types.Result.GetResult<Prisma.$ChatRoomPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1213,6 +1396,9 @@ export interface MessageFieldRefs {
   readonly senderRole: Prisma.FieldRef<"Message", 'UserRole'>
   readonly type: Prisma.FieldRef<"Message", 'MessageType'>
   readonly text: Prisma.FieldRef<"Message", 'String'>
+  readonly aiIntent: Prisma.FieldRef<"Message", 'AIIntentType'>
+  readonly aiScore: Prisma.FieldRef<"Message", 'Float'>
+  readonly isAI: Prisma.FieldRef<"Message", 'Boolean'>
   readonly createdAt: Prisma.FieldRef<"Message", 'DateTime'>
 }
     
@@ -1615,9 +1801,9 @@ export type MessageDeleteManyArgs<ExtArgs extends runtime.Types.Extensions.Inter
 }
 
 /**
- * Message.attachment
+ * Message.attachments
  */
-export type Message$attachmentArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+export type Message$attachmentsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   /**
    * Select specific fields to fetch from the Attachment
    */
@@ -1631,6 +1817,11 @@ export type Message$attachmentArgs<ExtArgs extends runtime.Types.Extensions.Inte
    */
   include?: Prisma.AttachmentInclude<ExtArgs> | null
   where?: Prisma.AttachmentWhereInput
+  orderBy?: Prisma.AttachmentOrderByWithRelationInput | Prisma.AttachmentOrderByWithRelationInput[]
+  cursor?: Prisma.AttachmentWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.AttachmentScalarFieldEnum | Prisma.AttachmentScalarFieldEnum[]
 }
 
 /**

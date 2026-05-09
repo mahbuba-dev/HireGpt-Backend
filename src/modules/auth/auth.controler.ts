@@ -18,17 +18,17 @@ const getBetterAuthSessionToken = (req: Request) =>
   req.cookies["__Secure-better-auth.session_token"];
 
 const registeredUser = catchAsync(
-    async(req:Request, res:Response)=>{
-        const payload = req.body
-        console.log(payload);
-        const result = await authService.registerClient(payload)
-        sendResponse(res, {
-            httpStatusCode:status.CREATED,
-            success:true,
-            message:"user registered successfully",
-            data:result
-        })
-    }
+  async(req:Request, res:Response)=>{
+    const payload = req.body
+    console.log(payload);
+    const result = await authService.registerCandidate(payload)
+    sendResponse(res, {
+      httpStatusCode:status.CREATED,
+      success:true,
+      message:"user registered successfully",
+      data:result
+    })
+  }
 )
 
 
@@ -68,8 +68,8 @@ const loginUser = catchAsync(async (req: Request, res: Response) => {
   });
 });
 
-const clientDemoLogin = catchAsync(async (_req: Request, res: Response) => {
-  const result = await authService.loginDemoClient();
+const candidateDemoLogin = catchAsync(async (_req: Request, res: Response) => {
+  const result = await authService.loginDemoCandidate();
 
   const {
     accessToken,
@@ -86,7 +86,7 @@ const clientDemoLogin = catchAsync(async (_req: Request, res: Response) => {
   sendResponse(res, {
     httpStatusCode: status.OK,
     success: true,
-    message: "demo login successfully",
+    message: "candidate demo login successfully",
     data: {
       accessToken,
       refreshToken,
@@ -97,8 +97,8 @@ const clientDemoLogin = catchAsync(async (_req: Request, res: Response) => {
   });
 });
 
-const expertDemoLogin = catchAsync(async (_req: Request, res: Response) => {
-  const result = await authService.loginDemoExpert();
+const reqruiterDemoLogin = catchAsync(async (_req: Request, res: Response) => {
+  const result = await authService.loginDemoReqruiter();
   const { accessToken, refreshToken, token, user, ...rest } = result;
 
   tokenUtils.setAccessTokenCookie(res, accessToken);
@@ -108,7 +108,7 @@ const expertDemoLogin = catchAsync(async (_req: Request, res: Response) => {
   sendResponse(res, {
     httpStatusCode: status.OK,
     success: true,
-    message: "expert demo login successfully",
+    message: "reqruiter demo login successfully",
     data: { accessToken, refreshToken, token, user, ...rest },
   });
 });
@@ -502,22 +502,21 @@ const handlerOAuthError = catchAsync(async(req:Request, res:Response)=>{
 
 
 export const authControler = {
-    registeredUser,
-    loginUser,
-  clientDemoLogin,
-  expertDemoLogin,
+  registeredUser,
+  loginUser,
+  candidateDemoLogin,
+  reqruiterDemoLogin,
   adminDemoLogin,
-    getMe,
-    getNewToken,
-    changePassword,
-    logOutUser,
-    verifyEmail,
-    forgetPassword,
-    resetPassword,
-    googleLogin,
-    googleLoginSuccess,
-    handlerOAuthError,
-    checkEmailAvailability,
-    updateProfile,
-
+  getMe,
+  getNewToken,
+  changePassword,
+  logOutUser,
+  verifyEmail,
+  forgetPassword,
+  resetPassword,
+  googleLogin,
+  googleLoginSuccess,
+  handlerOAuthError,
+  checkEmailAvailability,
+  updateProfile
 }

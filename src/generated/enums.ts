@@ -9,52 +9,40 @@
 * 🟢 You can import this file directly.
 */
 
-export const ConsultationStatus = {
-  PENDING: 'PENDING',
-  CONFIRMED: 'CONFIRMED',
-  ONGOING: 'ONGOING',
-  COMPLETED: 'COMPLETED',
-  CANCELLED: 'CANCELLED'
-} as const
-
-export type ConsultationStatus = (typeof ConsultationStatus)[keyof typeof ConsultationStatus]
-
-
-export const PaymentStatus = {
-  PAID: 'PAID',
-  REFUNDED: 'REFUNDED',
-  FAILED: 'FAILED',
-  UNPAID: 'UNPAID'
-} as const
-
-export type PaymentStatus = (typeof PaymentStatus)[keyof typeof PaymentStatus]
-
-
-export const MessageType = {
-  TEXT: 'TEXT',
-  FILE: 'FILE',
-  SYSTEM: 'SYSTEM'
-} as const
-
-export type MessageType = (typeof MessageType)[keyof typeof MessageType]
-
-
-export const UserRole = {
-  CLIENT: 'CLIENT',
-  EXPERT: 'EXPERT',
-  ADMIN: 'ADMIN'
-} as const
-
-export type UserRole = (typeof UserRole)[keyof typeof UserRole]
-
-
 export const CallStatus = {
-  PENDING: 'PENDING',
   ACTIVE: 'ACTIVE',
   ENDED: 'ENDED'
 } as const
 
 export type CallStatus = (typeof CallStatus)[keyof typeof CallStatus]
+
+
+export const UserRole = {
+  ADMIN: 'ADMIN',
+  RECRUITER: 'RECRUITER',
+  CANDIDATE: 'CANDIDATE'
+} as const
+
+export type UserRole = (typeof UserRole)[keyof typeof UserRole]
+
+
+export const ReviewStatus = {
+  PENDING: 'PENDING',
+  APPROVED: 'APPROVED',
+  REJECTED: 'REJECTED'
+} as const
+
+export type ReviewStatus = (typeof ReviewStatus)[keyof typeof ReviewStatus]
+
+
+export const UserStatus = {
+  ACTIVE: 'ACTIVE',
+  SUSPENDED: 'SUSPENDED',
+  BLOCKED: 'BLOCKED',
+  DELETED: 'DELETED'
+} as const
+
+export type UserStatus = (typeof UserStatus)[keyof typeof UserStatus]
 
 
 export const VerificationStatus = {
@@ -66,32 +54,45 @@ export const VerificationStatus = {
 export type VerificationStatus = (typeof VerificationStatus)[keyof typeof VerificationStatus]
 
 
-export const ReviewStatus = {
+export const JobStatus = {
+  DRAFT: 'DRAFT',
+  OPEN: 'OPEN',
+  CLOSED: 'CLOSED'
+} as const
+
+export type JobStatus = (typeof JobStatus)[keyof typeof JobStatus]
+
+
+export const ApplicationStatus = {
   PENDING: 'PENDING',
-  APPROVED: 'APPROVED',
-  HIDDEN: 'HIDDEN'
+  REVIEWED: 'REVIEWED',
+  SHORTLISTED: 'SHORTLISTED',
+  REJECTED: 'REJECTED',
+  ACCEPTED: 'ACCEPTED'
 } as const
 
-export type ReviewStatus = (typeof ReviewStatus)[keyof typeof ReviewStatus]
+export type ApplicationStatus = (typeof ApplicationStatus)[keyof typeof ApplicationStatus]
 
 
-export const Role = {
-  ADMIN: 'ADMIN',
-  EXPERT: 'EXPERT',
-  CLIENT: 'CLIENT'
+export const JobType = {
+  FULL_TIME: 'FULL_TIME',
+  PART_TIME: 'PART_TIME',
+  CONTRACT: 'CONTRACT',
+  REMOTE: 'REMOTE',
+  INTERNSHIP: 'INTERNSHIP'
 } as const
 
-export type Role = (typeof Role)[keyof typeof Role]
+export type JobType = (typeof JobType)[keyof typeof JobType]
 
 
-export const UserStatus = {
-  ACTIVE: 'ACTIVE',
-  BLOCKED: 'BLOCKED',
-  DELETED: 'DELETED',
-  SUSPENDED: 'SUSPENDED'
+export const ExperienceLevel = {
+  ENTRY: 'ENTRY',
+  MID: 'MID',
+  SENIOR: 'SENIOR',
+  LEAD: 'LEAD'
 } as const
 
-export type UserStatus = (typeof UserStatus)[keyof typeof UserStatus]
+export type ExperienceLevel = (typeof ExperienceLevel)[keyof typeof ExperienceLevel]
 
 
 export const AIChatMessageRole = {
@@ -111,18 +112,112 @@ export const AIMessageFeedback = {
 export type AIMessageFeedback = (typeof AIMessageFeedback)[keyof typeof AIMessageFeedback]
 
 
-export const ExpertApplicationStatus = {
-  PENDING: 'PENDING',
-  APPROVED: 'APPROVED',
-  REJECTED: 'REJECTED'
+export const AIFeatureType = {
+  RESUME_ANALYSIS: 'RESUME_ANALYSIS',
+  JOB_MATCHING: 'JOB_MATCHING',
+  CHAT_ASSISTANT: 'CHAT_ASSISTANT',
+  COVER_LETTER: 'COVER_LETTER',
+  SKILL_GAP_ANALYSIS: 'SKILL_GAP_ANALYSIS'
 } as const
 
-export type ExpertApplicationStatus = (typeof ExpertApplicationStatus)[keyof typeof ExpertApplicationStatus]
+export type AIFeatureType = (typeof AIFeatureType)[keyof typeof AIFeatureType]
 
 
-export const CouponDiscountType = {
-  PERCENT: 'PERCENT',
-  FIXED: 'FIXED'
+export const InterviewStatus = {
+  SCHEDULED: 'SCHEDULED',
+  ONGOING: 'ONGOING',
+  COMPLETED: 'COMPLETED',
+  CANCELLED: 'CANCELLED'
 } as const
 
-export type CouponDiscountType = (typeof CouponDiscountType)[keyof typeof CouponDiscountType]
+export type InterviewStatus = (typeof InterviewStatus)[keyof typeof InterviewStatus]
+
+
+export const InterviewType = {
+  AI: 'AI',
+  HUMAN: 'HUMAN'
+} as const
+
+export type InterviewType = (typeof InterviewType)[keyof typeof InterviewType]
+
+
+export const MessageType = {
+  TEXT: 'TEXT',
+  FILE: 'FILE',
+  SYSTEM: 'SYSTEM'
+} as const
+
+export type MessageType = (typeof MessageType)[keyof typeof MessageType]
+
+
+export const NotificationType = {
+  INFO: 'INFO',
+  SUCCESS: 'SUCCESS',
+  WARNING: 'WARNING',
+  ERROR: 'ERROR',
+  SYSTEM: 'SYSTEM'
+} as const
+
+export type NotificationType = (typeof NotificationType)[keyof typeof NotificationType]
+
+
+export const MatchScoreLevel = {
+  LOW: 'LOW',
+  MEDIUM: 'MEDIUM',
+  HIGH: 'HIGH',
+  VERY_HIGH: 'VERY_HIGH'
+} as const
+
+export type MatchScoreLevel = (typeof MatchScoreLevel)[keyof typeof MatchScoreLevel]
+
+
+export const PaymentStatus = {
+  PAID: 'PAID',
+  UNPAID: 'UNPAID',
+  FAILED: 'FAILED',
+  REFUNDED: 'REFUNDED'
+} as const
+
+export type PaymentStatus = (typeof PaymentStatus)[keyof typeof PaymentStatus]
+
+
+export const PriorityLevel = {
+  LOW: 'LOW',
+  MEDIUM: 'MEDIUM',
+  HIGH: 'HIGH',
+  URGENT: 'URGENT'
+} as const
+
+export type PriorityLevel = (typeof PriorityLevel)[keyof typeof PriorityLevel]
+
+
+export const AIIntentType = {
+  ASK_JOB: 'ASK_JOB',
+  ASK_SKILL: 'ASK_SKILL',
+  RESUME_HELP: 'RESUME_HELP',
+  COVER_LETTER: 'COVER_LETTER',
+  SALARY_QUERY: 'SALARY_QUERY',
+  JOB_RECOMMENDATION: 'JOB_RECOMMENDATION',
+  INTERVIEW_PREP: 'INTERVIEW_PREP'
+} as const
+
+export type AIIntentType = (typeof AIIntentType)[keyof typeof AIIntentType]
+
+
+export const AIContextType = {
+  GENERAL_CHAT: 'GENERAL_CHAT',
+  JOB_MATCHING: 'JOB_MATCHING',
+  RESUME_REVIEW: 'RESUME_REVIEW',
+  COVER_LETTER: 'COVER_LETTER',
+  INTERVIEW_PREP: 'INTERVIEW_PREP',
+  JOB_DESCRIPTION: 'JOB_DESCRIPTION',
+  CAREER_GUIDANCE: 'CAREER_GUIDANCE',
+  CAREER_ASSISTANT: 'CAREER_ASSISTANT',
+  SKILL_ANALYSIS: 'SKILL_ANALYSIS',
+  RECRUITER_ASSISTANT: 'RECRUITER_ASSISTANT',
+  CONTENT_GENERATION: 'CONTENT_GENERATION',
+  FILE_ANALYSIS: 'FILE_ANALYSIS',
+  VOICE_CHAT: 'VOICE_CHAT'
+} as const
+
+export type AIContextType = (typeof AIContextType)[keyof typeof AIContextType]

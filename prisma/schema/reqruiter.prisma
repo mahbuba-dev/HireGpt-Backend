@@ -1,0 +1,33 @@
+model Recruiter {
+  id              String           @id @default(uuid())
+  userId          String           @unique
+  fullName        String
+  email           String           @unique
+  profilePhoto    String?
+  phone           String?
+  bio             String?
+  companyName     String?
+  designation     String?
+  experience      Int              @default(0)
+  hiringBudget    Int?
+  verified        Boolean          @default(false)
+  totalJobsPosted Int              @default(0)
+  activeJobs      Int              @default(0)
+  isSeeded        Boolean          @default(false)
+  isDeleted       Boolean          @default(false)
+  deletedAt       DateTime?
+  createdAt       DateTime         @default(now())
+  updatedAt       DateTime         @updatedAt
+  chatRooms       ChatRoom[]
+  interviews      Interview[]
+  jobApplications JobApplication[]
+  jobs            Job[]            @relation("RecruiterJobs")
+  user            User             @relation(fields: [userId], references: [id], onDelete: Cascade)
+  analytics       RecruiterStats?
+  chats           AIConversation[] @relation("AIConversationToRecruiter")
+  industries      Industry[]       @relation("IndustryToRecruiter")
+
+  @@index([email])
+  @@index([userId])
+  @@map("recruiter")
+}

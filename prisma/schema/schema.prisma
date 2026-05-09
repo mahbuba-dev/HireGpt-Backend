@@ -9,6 +9,8 @@ generator client {
   output   = "../../src/generated"
 }
 
+
 datasource db {
   provider = "postgresql"
 }
+

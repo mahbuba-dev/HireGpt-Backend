@@ -4,31 +4,35 @@
 import { prisma } from "../lib/prisma";
 import { envVars } from "../config/env";
 import { auth } from "../lib/auth";
-import { Role, UserStatus } from "../generated/enums";
+import { UserRole, UserStatus } from "../generated/enums";
 
-const DEMO_CLIENT_EMAIL = process.env.DEMO_CLIENT_EMAIL || "client@consultedge.demo";
-const DEMO_CLIENT_PASSWORD = process.env.DEMO_CLIENT_PASSWORD || "Demo@12345";
-const DEMO_CLIENT_NAME = process.env.DEMO_CLIENT_NAME || "Demo Client";
+const DEMO_CANDIDATE_EMAIL = process.env.DEMO_CANDIDATE_EMAIL || "candidate@hiregpt.demo";
+const DEMO_CANDIDATE_PASSWORD = process.env.DEMO_CANDIDATE_PASSWORD || "Demo@12345";
+const DEMO_CANDIDATE_NAME = process.env.DEMO_CANDIDATE_NAME || "Demo Candidate";
 
-const DEMO_EXPERT_EMAIL = process.env.DEMO_EXPERT_EMAIL || "expert@consultedge.demo";
-const DEMO_EXPERT_PASSWORD = process.env.DEMO_EXPERT_PASSWORD || "Demo@12345";
-const DEMO_EXPERT_NAME = process.env.DEMO_EXPERT_NAME || "Demo Expert";
+const DEMO_REQRUITER_EMAIL = process.env.DEMO_REQRUITER_EMAIL || "reqruiter@hiregpt.demo";
+const DEMO_REQRUITER_PASSWORD = process.env.DEMO_REQRUITER_PASSWORD || "Demo@12345";
+const DEMO_REQRUITER_NAME = process.env.DEMO_REQRUITER_NAME || "Demo Reqruiter";
 
 const DEMO_ADMIN_EMAIL = process.env.DEMO_ADMIN_EMAIL || "admin@consultedge.demo";
 const DEMO_ADMIN_PASSWORD = process.env.DEMO_ADMIN_PASSWORD || "Demo@12345";
 const DEMO_ADMIN_NAME = process.env.DEMO_ADMIN_NAME || "Demo Admin";
 
-export const getDemoClientCredentials = () => ({
-    email: DEMO_CLIENT_EMAIL,
-    password: DEMO_CLIENT_PASSWORD,
-    name: DEMO_CLIENT_NAME,
+export const getDemoCandidateCredentials = () => ({
+    email: DEMO_CANDIDATE_EMAIL,
+    password: DEMO_CANDIDATE_PASSWORD,
+    name: DEMO_CANDIDATE_NAME,
 });
+// Backward compatibility
+export const getDemoClientCredentials = getDemoCandidateCredentials;
 
-export const getDemoExpertCredentials = () => ({
-    email: DEMO_EXPERT_EMAIL,
-    password: DEMO_EXPERT_PASSWORD,
-    name: DEMO_EXPERT_NAME,
+export const getDemoReqruiterCredentials = () => ({
+    email: DEMO_REQRUITER_EMAIL,
+    password: DEMO_REQRUITER_PASSWORD,
+    name: DEMO_REQRUITER_NAME,
 });
+// Backward compatibility
+export const getDemoExpertCredentials = getDemoReqruiterCredentials;
 
 export const getDemoAdminCredentials = () => ({
     email: DEMO_ADMIN_EMAIL,
@@ -36,8 +40,8 @@ export const getDemoAdminCredentials = () => ({
     name: DEMO_ADMIN_NAME,
 });
 
-export const seedDemoClient = async () => {
-    const credentials = getDemoClientCredentials();
+export const seedDemoCandidate = async () => {
+    const credentials = getDemoCandidateCredentials();
 
     const existingUser = await prisma.user.findUnique({
         where: {
@@ -56,7 +60,7 @@ export const seedDemoClient = async () => {
                 email: credentials.email,
                 password: credentials.password,
                 name: credentials.name,
-                role: Role.CLIENT,
+                role: UserRole.CANDIDATE,
                 rememberMe: false,
             },
         });
@@ -70,7 +74,7 @@ export const seedDemoClient = async () => {
         },
         data: {
             name: credentials.name,
-            role: Role.CLIENT,
+            role: UserRole.CANDIDATE,
             status: UserStatus.ACTIVE,
             emailVerified: true,
             needPasswordChange: false,
@@ -79,7 +83,7 @@ export const seedDemoClient = async () => {
         },
     });
 
-    await prisma.client.upsert({
+    await prisma.candidate.upsert({
         where: {
             userId,
         },
@@ -99,13 +103,15 @@ export const seedDemoClient = async () => {
 
     return credentials;
 };
+// Backward compatibility
+export const seedDemoClient = seedDemoCandidate;
 
 
 export const seedAdmin = async()=>{
     try{
     const isAdminExists = await prisma.user.findFirst({
         where:{
-            role:Role.ADMIN
+            role:UserRole.ADMIN
         }
     })
     if(isAdminExists){
@@ -119,7 +125,7 @@ export const seedAdmin = async()=>{
             email:envVars.ADMIN_EMAIL,
             password:envVars.ADMIN_PASSWORD,
             name:"Admin Saheb",
-            role:Role.ADMIN,
+            role:UserRole.ADMIN,
             rememberMe:false
         }
     })
@@ -177,10 +183,10 @@ export const seedAdmin = async()=>{
 // ---------------------------------------------------------------------------
 // Demo Expert
 // ---------------------------------------------------------------------------
-export const seedDemoExpert = async () => {
-    const credentials = getDemoExpertCredentials();
+export const seedDemoReqruiter = async () => {
+    const credentials = getDemoReqruiterCredentials();
 
-    // Ensure at least one industry exists so the demo expert can be linked.
+    // Ensure at least one industry exists so the demo reqruiter can be linked.
     let industry = await prisma.industry.findFirst({
         where: { isDeleted: false },
         select: { id: true },
@@ -189,8 +195,8 @@ export const seedDemoExpert = async () => {
     if (!industry) {
         industry = await prisma.industry.create({
             data: {
-                name: "General Consulting",
-                description: "General consulting and advisory services.",
+                name: "General Recruiting",
+                description: "General recruiting and talent acquisition services.",
             },
             select: { id: true },
         });
@@ -209,7 +215,7 @@ export const seedDemoExpert = async () => {
                 email: credentials.email,
                 password: credentials.password,
                 name: credentials.name,
-                role: Role.EXPERT,
+                role: UserRole.RECRUITER,
                 rememberMe: false,
             },
         });
@@ -221,7 +227,7 @@ export const seedDemoExpert = async () => {
         where: { id: userId },
         data: {
             name: credentials.name,
-            role: Role.EXPERT,
+            role: UserRole.RECRUITER,
             status: UserStatus.ACTIVE,
             emailVerified: true,
             needPasswordChange: false,
@@ -230,14 +236,14 @@ export const seedDemoExpert = async () => {
         },
     });
 
-    await prisma.expert.upsert({
+    await prisma.recruiter.upsert({
         where: { userId },
         create: {
             userId,
             fullName: credentials.name,
             email: credentials.email,
-            title: "Senior Strategy Consultant",
-            bio: "Demo expert profile used for product walkthroughs.",
+            title: "Senior Talent Acquisition Specialist",
+            bio: "Demo reqruiter profile used for product walkthroughs.",
             experience: 8,
             consultationFee: 120,
             isVerified: true,
@@ -255,6 +261,8 @@ export const seedDemoExpert = async () => {
 
     return credentials;
 };
+// Backward compatibility
+export const seedDemoExpert = seedDemoReqruiter;
 
 // ---------------------------------------------------------------------------
 // Demo Admin
@@ -275,7 +283,7 @@ export const seedDemoAdmin = async () => {
                 email: credentials.email,
                 password: credentials.password,
                 name: credentials.name,
-                role: Role.ADMIN,
+                role: UserRole.ADMIN,
                 rememberMe: false,
             },
         });
@@ -287,7 +295,7 @@ export const seedDemoAdmin = async () => {
         where: { id: userId },
         data: {
             name: credentials.name,
-            role: Role.ADMIN,
+            role: UserRole.ADMIN,
             status: UserStatus.ACTIVE,
             emailVerified: true,
             needPasswordChange: false,

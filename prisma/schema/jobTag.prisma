@@ -1,0 +1,9 @@
+model JobTag {
+  id    String @id @default(uuid())
+  jobId String
+  tag   String
+  job   Job    @relation(fields: [jobId], references: [id], onDelete: Cascade)
+
+  @@index([jobId])
+  @@unique([jobId, tag])
+}

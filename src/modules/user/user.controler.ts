@@ -36,9 +36,23 @@ const getAllClients = catchAsync(async (req: Request, res: Response) => {
     })
 })
 
+
+// Update profile (all users)
+const updateProfile = catchAsync(async (req: Request, res: Response) => {
+    const userId = req.user.userId;
+    const payload = req.body;
+    const result = await userService.updateProfile(userId, payload);
+    sendResponse(res, {
+        success: true,
+        httpStatusCode: status.OK,
+        message: "Profile updated successfully",
+        data: result
+    })
+});
+
 export const userController = {
    createAdmin,
    getAllClients,
-    
+   updateProfile,
 }
 

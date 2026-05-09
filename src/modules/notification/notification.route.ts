@@ -1,6 +1,6 @@
 import { Router } from "express";
 import { checkAuth } from "../../middleware/cheackAuth";
-import { Role } from "../../generated/enums";
+import { UserRole } from "../../generated/enums";
 import { notificationController } from "./notification.controler";
 import { validateRequest } from "../../middleware/validateRequest";
 import {
@@ -12,37 +12,37 @@ const router = Router();
 
 router.get(
   "/my",
-  checkAuth(Role.ADMIN, Role.EXPERT, Role.CLIENT),
+  checkAuth(UserRole.ADMIN, UserRole.EXPERT, UserRole.CLIENT),
   notificationController.getMyNotifications
 );
 
 router.get(
   "/unread-count",
-  checkAuth(Role.ADMIN, Role.EXPERT, Role.CLIENT),
+  checkAuth(UserRole.ADMIN, UserRole.EXPERT, UserRole.CLIENT),
   notificationController.getUnreadCount
 );
 
 router.patch(
   "/read-all",
-  checkAuth(Role.ADMIN, Role.EXPERT, Role.CLIENT),
+  checkAuth(UserRole.ADMIN, UserRole.EXPERT, UserRole.CLIENT),
   notificationController.markAllAsRead
 );
 
 router.patch(
   "/:id/read",
-  checkAuth(Role.ADMIN, Role.EXPERT, Role.CLIENT),
+  checkAuth(UserRole.ADMIN, UserRole.EXPERT, UserRole.CLIENT),
   validateRequest(notificationIdValidation),
   notificationController.markAsRead
 );
 
 router.delete(
   "/:id",
-  checkAuth(Role.ADMIN, Role.EXPERT, Role.CLIENT),
+  checkAuth(UserRole.ADMIN, UserRole.EXPERT, UserRole.CLIENT),
   validateRequest(notificationIdValidation),
   notificationController.deleteNotification
 );
 
-router.post("/", checkAuth(Role.ADMIN), validateRequest(createNotificationValidation), notificationController.createNotification);
-router.get("/", checkAuth(Role.ADMIN), notificationController.getAllNotifications);
+router.post("/", checkAuth(UserRole.ADMIN), validateRequest(createNotificationValidation), notificationController.createNotification);
+router.get("/", checkAuth(UserRole.ADMIN), notificationController.getAllNotifications);
 
 export const notificationRouter = router;

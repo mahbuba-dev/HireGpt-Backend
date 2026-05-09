@@ -1,10 +1,12 @@
 import { betterAuth } from "better-auth";
 import { prismaAdapter } from "better-auth/adapters/prisma";
 import { bearer, emailOTP } from "better-auth/plugins";
+
 import { envVars } from "../config/env";
+import { UserRole, UserStatus } from "../generated/enums";
 
 import { prisma } from "./prisma";
-import { Role, UserStatus } from "../generated/enums";
+
 import { sendEmail } from "../utilis/email";
 // If your Prisma file is located elsewhere, you can change the path
 
@@ -58,7 +60,7 @@ export const auth = betterAuth({
             // callbackUrl: envVars.GOOGLE_CALLBACK_URL,
             mapProfileToUser: ()=>{
                 return {
-                    role : Role.CLIENT,
+                    role : UserRole.CANDIDATE,
                     status : UserStatus.ACTIVE,
                     needPasswordChange : false,
                     emailVerified : true,
@@ -80,7 +82,7 @@ export const auth = betterAuth({
             role: {
                 type: "string",
                 required: true,
-                defaultValue: Role.CLIENT
+                defaultValue: UserRole.CANDIDATE
             },
 
             status: {
@@ -126,7 +128,7 @@ export const auth = betterAuth({
                     return;
                    }
 
-                   if(user && user.role === Role.ADMIN){
+                   if(user && user.role === UserRole.ADMIN){
                     console.log(`User with email ${email} is a super admin. Skipping sending verification OTP.`);
                     return;
                    }

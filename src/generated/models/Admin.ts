@@ -31,6 +31,8 @@ export type AdminMinAggregateOutputType = {
   email: string | null
   profilePhoto: string | null
   contactNumber: string | null
+  lastLoginAt: Date | null
+  status: string | null
   isDeleted: boolean | null
   deletedAt: Date | null
   createdAt: Date | null
@@ -44,6 +46,8 @@ export type AdminMaxAggregateOutputType = {
   email: string | null
   profilePhoto: string | null
   contactNumber: string | null
+  lastLoginAt: Date | null
+  status: string | null
   isDeleted: boolean | null
   deletedAt: Date | null
   createdAt: Date | null
@@ -57,6 +61,9 @@ export type AdminCountAggregateOutputType = {
   email: number
   profilePhoto: number
   contactNumber: number
+  permissions: number
+  lastLoginAt: number
+  status: number
   isDeleted: number
   deletedAt: number
   createdAt: number
@@ -72,6 +79,8 @@ export type AdminMinAggregateInputType = {
   email?: true
   profilePhoto?: true
   contactNumber?: true
+  lastLoginAt?: true
+  status?: true
   isDeleted?: true
   deletedAt?: true
   createdAt?: true
@@ -85,6 +94,8 @@ export type AdminMaxAggregateInputType = {
   email?: true
   profilePhoto?: true
   contactNumber?: true
+  lastLoginAt?: true
+  status?: true
   isDeleted?: true
   deletedAt?: true
   createdAt?: true
@@ -98,6 +109,9 @@ export type AdminCountAggregateInputType = {
   email?: true
   profilePhoto?: true
   contactNumber?: true
+  permissions?: true
+  lastLoginAt?: true
+  status?: true
   isDeleted?: true
   deletedAt?: true
   createdAt?: true
@@ -184,6 +198,9 @@ export type AdminGroupByOutputType = {
   email: string
   profilePhoto: string | null
   contactNumber: string | null
+  permissions: runtime.JsonValue | null
+  lastLoginAt: Date | null
+  status: string
   isDeleted: boolean
   deletedAt: Date | null
   createdAt: Date
@@ -193,7 +210,7 @@ export type AdminGroupByOutputType = {
   _max: AdminMaxAggregateOutputType | null
 }
 
-type GetAdminGroupByPayload<T extends AdminGroupByArgs> = Prisma.PrismaPromise<
+export type GetAdminGroupByPayload<T extends AdminGroupByArgs> = Prisma.PrismaPromise<
   Array<
     Prisma.PickEnumerable<AdminGroupByOutputType, T['by']> &
       {
@@ -218,6 +235,9 @@ export type AdminWhereInput = {
   email?: Prisma.StringFilter<"Admin"> | string
   profilePhoto?: Prisma.StringNullableFilter<"Admin"> | string | null
   contactNumber?: Prisma.StringNullableFilter<"Admin"> | string | null
+  permissions?: Prisma.JsonNullableFilter<"Admin">
+  lastLoginAt?: Prisma.DateTimeNullableFilter<"Admin"> | Date | string | null
+  status?: Prisma.StringFilter<"Admin"> | string
   isDeleted?: Prisma.BoolFilter<"Admin"> | boolean
   deletedAt?: Prisma.DateTimeNullableFilter<"Admin"> | Date | string | null
   createdAt?: Prisma.DateTimeFilter<"Admin"> | Date | string
@@ -232,6 +252,9 @@ export type AdminOrderByWithRelationInput = {
   email?: Prisma.SortOrder
   profilePhoto?: Prisma.SortOrderInput | Prisma.SortOrder
   contactNumber?: Prisma.SortOrderInput | Prisma.SortOrder
+  permissions?: Prisma.SortOrderInput | Prisma.SortOrder
+  lastLoginAt?: Prisma.SortOrderInput | Prisma.SortOrder
+  status?: Prisma.SortOrder
   isDeleted?: Prisma.SortOrder
   deletedAt?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
@@ -249,6 +272,9 @@ export type AdminWhereUniqueInput = Prisma.AtLeast<{
   name?: Prisma.StringFilter<"Admin"> | string
   profilePhoto?: Prisma.StringNullableFilter<"Admin"> | string | null
   contactNumber?: Prisma.StringNullableFilter<"Admin"> | string | null
+  permissions?: Prisma.JsonNullableFilter<"Admin">
+  lastLoginAt?: Prisma.DateTimeNullableFilter<"Admin"> | Date | string | null
+  status?: Prisma.StringFilter<"Admin"> | string
   isDeleted?: Prisma.BoolFilter<"Admin"> | boolean
   deletedAt?: Prisma.DateTimeNullableFilter<"Admin"> | Date | string | null
   createdAt?: Prisma.DateTimeFilter<"Admin"> | Date | string
@@ -263,6 +289,9 @@ export type AdminOrderByWithAggregationInput = {
   email?: Prisma.SortOrder
   profilePhoto?: Prisma.SortOrderInput | Prisma.SortOrder
   contactNumber?: Prisma.SortOrderInput | Prisma.SortOrder
+  permissions?: Prisma.SortOrderInput | Prisma.SortOrder
+  lastLoginAt?: Prisma.SortOrderInput | Prisma.SortOrder
+  status?: Prisma.SortOrder
   isDeleted?: Prisma.SortOrder
   deletedAt?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
@@ -282,6 +311,9 @@ export type AdminScalarWhereWithAggregatesInput = {
   email?: Prisma.StringWithAggregatesFilter<"Admin"> | string
   profilePhoto?: Prisma.StringNullableWithAggregatesFilter<"Admin"> | string | null
   contactNumber?: Prisma.StringNullableWithAggregatesFilter<"Admin"> | string | null
+  permissions?: Prisma.JsonNullableWithAggregatesFilter<"Admin">
+  lastLoginAt?: Prisma.DateTimeNullableWithAggregatesFilter<"Admin"> | Date | string | null
+  status?: Prisma.StringWithAggregatesFilter<"Admin"> | string
   isDeleted?: Prisma.BoolWithAggregatesFilter<"Admin"> | boolean
   deletedAt?: Prisma.DateTimeNullableWithAggregatesFilter<"Admin"> | Date | string | null
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"Admin"> | Date | string
@@ -294,11 +326,14 @@ export type AdminCreateInput = {
   email: string
   profilePhoto?: string | null
   contactNumber?: string | null
+  permissions?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  lastLoginAt?: Date | string | null
+  status?: string
   isDeleted?: boolean
   deletedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
-  user: Prisma.UserCreateNestedOneWithoutAdminInput
+  user: Prisma.UserCreateNestedOneWithoutAdminsInput
 }
 
 export type AdminUncheckedCreateInput = {
@@ -308,6 +343,9 @@ export type AdminUncheckedCreateInput = {
   email: string
   profilePhoto?: string | null
   contactNumber?: string | null
+  permissions?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  lastLoginAt?: Date | string | null
+  status?: string
   isDeleted?: boolean
   deletedAt?: Date | string | null
   createdAt?: Date | string
@@ -320,11 +358,14 @@ export type AdminUpdateInput = {
   email?: Prisma.StringFieldUpdateOperationsInput | string
   profilePhoto?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   contactNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  permissions?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  status?: Prisma.StringFieldUpdateOperationsInput | string
   isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  user?: Prisma.UserUpdateOneRequiredWithoutAdminNestedInput
+  user?: Prisma.UserUpdateOneRequiredWithoutAdminsNestedInput
 }
 
 export type AdminUncheckedUpdateInput = {
@@ -334,6 +375,9 @@ export type AdminUncheckedUpdateInput = {
   email?: Prisma.StringFieldUpdateOperationsInput | string
   profilePhoto?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   contactNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  permissions?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  status?: Prisma.StringFieldUpdateOperationsInput | string
   isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -347,6 +391,9 @@ export type AdminCreateManyInput = {
   email: string
   profilePhoto?: string | null
   contactNumber?: string | null
+  permissions?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  lastLoginAt?: Date | string | null
+  status?: string
   isDeleted?: boolean
   deletedAt?: Date | string | null
   createdAt?: Date | string
@@ -359,6 +406,9 @@ export type AdminUpdateManyMutationInput = {
   email?: Prisma.StringFieldUpdateOperationsInput | string
   profilePhoto?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   contactNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  permissions?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  status?: Prisma.StringFieldUpdateOperationsInput | string
   isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -372,6 +422,9 @@ export type AdminUncheckedUpdateManyInput = {
   email?: Prisma.StringFieldUpdateOperationsInput | string
   profilePhoto?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   contactNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  permissions?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  status?: Prisma.StringFieldUpdateOperationsInput | string
   isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -385,6 +438,9 @@ export type AdminCountOrderByAggregateInput = {
   email?: Prisma.SortOrder
   profilePhoto?: Prisma.SortOrder
   contactNumber?: Prisma.SortOrder
+  permissions?: Prisma.SortOrder
+  lastLoginAt?: Prisma.SortOrder
+  status?: Prisma.SortOrder
   isDeleted?: Prisma.SortOrder
   deletedAt?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
@@ -398,6 +454,8 @@ export type AdminMaxOrderByAggregateInput = {
   email?: Prisma.SortOrder
   profilePhoto?: Prisma.SortOrder
   contactNumber?: Prisma.SortOrder
+  lastLoginAt?: Prisma.SortOrder
+  status?: Prisma.SortOrder
   isDeleted?: Prisma.SortOrder
   deletedAt?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
@@ -411,6 +469,8 @@ export type AdminMinOrderByAggregateInput = {
   email?: Prisma.SortOrder
   profilePhoto?: Prisma.SortOrder
   contactNumber?: Prisma.SortOrder
+  lastLoginAt?: Prisma.SortOrder
+  status?: Prisma.SortOrder
   isDeleted?: Prisma.SortOrder
   deletedAt?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
@@ -430,12 +490,12 @@ export type NullableStringFieldUpdateOperationsInput = {
   set?: string | null
 }
 
-export type BoolFieldUpdateOperationsInput = {
-  set?: boolean
-}
-
 export type NullableDateTimeFieldUpdateOperationsInput = {
   set?: Date | string | null
+}
+
+export type BoolFieldUpdateOperationsInput = {
+  set?: boolean
 }
 
 export type DateTimeFieldUpdateOperationsInput = {
@@ -480,6 +540,9 @@ export type AdminCreateWithoutUserInput = {
   email: string
   profilePhoto?: string | null
   contactNumber?: string | null
+  permissions?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  lastLoginAt?: Date | string | null
+  status?: string
   isDeleted?: boolean
   deletedAt?: Date | string | null
   createdAt?: Date | string
@@ -492,6 +555,9 @@ export type AdminUncheckedCreateWithoutUserInput = {
   email: string
   profilePhoto?: string | null
   contactNumber?: string | null
+  permissions?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  lastLoginAt?: Date | string | null
+  status?: string
   isDeleted?: boolean
   deletedAt?: Date | string | null
   createdAt?: Date | string
@@ -520,6 +586,9 @@ export type AdminUpdateWithoutUserInput = {
   email?: Prisma.StringFieldUpdateOperationsInput | string
   profilePhoto?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   contactNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  permissions?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  status?: Prisma.StringFieldUpdateOperationsInput | string
   isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -532,6 +601,9 @@ export type AdminUncheckedUpdateWithoutUserInput = {
   email?: Prisma.StringFieldUpdateOperationsInput | string
   profilePhoto?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   contactNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  permissions?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  status?: Prisma.StringFieldUpdateOperationsInput | string
   isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -547,6 +619,9 @@ export type AdminSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = 
   email?: boolean
   profilePhoto?: boolean
   contactNumber?: boolean
+  permissions?: boolean
+  lastLoginAt?: boolean
+  status?: boolean
   isDeleted?: boolean
   deletedAt?: boolean
   createdAt?: boolean
@@ -561,6 +636,9 @@ export type AdminSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensi
   email?: boolean
   profilePhoto?: boolean
   contactNumber?: boolean
+  permissions?: boolean
+  lastLoginAt?: boolean
+  status?: boolean
   isDeleted?: boolean
   deletedAt?: boolean
   createdAt?: boolean
@@ -575,6 +653,9 @@ export type AdminSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensi
   email?: boolean
   profilePhoto?: boolean
   contactNumber?: boolean
+  permissions?: boolean
+  lastLoginAt?: boolean
+  status?: boolean
   isDeleted?: boolean
   deletedAt?: boolean
   createdAt?: boolean
@@ -589,13 +670,16 @@ export type AdminSelectScalar = {
   email?: boolean
   profilePhoto?: boolean
   contactNumber?: boolean
+  permissions?: boolean
+  lastLoginAt?: boolean
+  status?: boolean
   isDeleted?: boolean
   deletedAt?: boolean
   createdAt?: boolean
   updatedAt?: boolean
 }
 
-export type AdminOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "userId" | "name" | "email" | "profilePhoto" | "contactNumber" | "isDeleted" | "deletedAt" | "createdAt" | "updatedAt", ExtArgs["result"]["admin"]>
+export type AdminOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "userId" | "name" | "email" | "profilePhoto" | "contactNumber" | "permissions" | "lastLoginAt" | "status" | "isDeleted" | "deletedAt" | "createdAt" | "updatedAt", ExtArgs["result"]["admin"]>
 export type AdminInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }
@@ -618,6 +702,9 @@ export type $AdminPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs 
     email: string
     profilePhoto: string | null
     contactNumber: string | null
+    permissions: runtime.JsonValue | null
+    lastLoginAt: Date | null
+    status: string
     isDeleted: boolean
     deletedAt: Date | null
     createdAt: Date
@@ -1052,6 +1139,9 @@ export interface AdminFieldRefs {
   readonly email: Prisma.FieldRef<"Admin", 'String'>
   readonly profilePhoto: Prisma.FieldRef<"Admin", 'String'>
   readonly contactNumber: Prisma.FieldRef<"Admin", 'String'>
+  readonly permissions: Prisma.FieldRef<"Admin", 'Json'>
+  readonly lastLoginAt: Prisma.FieldRef<"Admin", 'DateTime'>
+  readonly status: Prisma.FieldRef<"Admin", 'String'>
   readonly isDeleted: Prisma.FieldRef<"Admin", 'Boolean'>
   readonly deletedAt: Prisma.FieldRef<"Admin", 'DateTime'>
   readonly createdAt: Prisma.FieldRef<"Admin", 'DateTime'>

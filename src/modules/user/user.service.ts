@@ -4,11 +4,11 @@ import AppError from "../../errorHelpers/AppError";
 import { IcreateAdmin} from "./userTypes";
 import { prisma } from "../../lib/prisma";
 import { auth } from "../../lib/auth";
-import { Role } from "../../generated/enums";
+import { UserRole } from "../../generated/enums";
 import { IqueryParams } from "../../interfaces/query.interface";
 import { QueryBuilder } from "../../utilis/queryBuilder";
-import { Client, Prisma } from "../../generated/client";
 
+import type { User, Prisma } from "../../generated/client";
 
 
 // create admin and admin profile
@@ -33,7 +33,7 @@ const createAdmin = async (payload: IcreateAdmin) => {
             email:payload.admin.email,
             password:payload.password,
             name: payload.admin.name,
-             role: Role.ADMIN,
+             role: UserRole.ADMIN,
              needPasswordChange: true
         }
     })
@@ -113,12 +113,12 @@ console.log("Admin Data from DB:", adminData.id)
 // get all clients
 const getAllClients = async (query: IqueryParams) => {
     const queryBuilder = new QueryBuilder<
-        Client,
-        Prisma.ClientWhereInput,
-        Prisma.ClientInclude
-    >(prisma.client, query, {
-        searchableFields: ["fullName", "email", "phone", "address", "user.name", "user.email"],
-        filterableFields: ["fullName", "email", "phone", "address", "isDeleted", "userId"],
+        User,
+        Prisma.UserWhereInput,
+        Prisma.UserInclude
+    >(prisma.user, query, {
+        searchableFields: ["name", "email"],
+        filterableFields: ["name", "email", "isDeleted", "id"],
     });
 
     const result = await queryBuilder
@@ -126,18 +126,6 @@ const getAllClients = async (query: IqueryParams) => {
         .filter()
         .where({
             isDeleted: false,
-        })
-        .include({
-            user: {
-                select: {
-                    id: true,
-                    email: true,
-                    name: true,
-                    role: true,
-                    status: true,
-                    emailVerified: true,
-                },
-            },
         })
         .paginate()
         .sort()
@@ -147,8 +135,24 @@ const getAllClients = async (query: IqueryParams) => {
     return result;
 };
 
+
+// Update profile (all users)
+const updateProfile = async (userId: string, payload: any) => {
+    // Only allow certain fields to be updated
+    const allowedFields = ["name", "email", "contactNumber", "profilePhoto"]; // add more as needed
+    const updateData: any = {};
+    for (const key of allowedFields) {
+        if (payload[key] !== undefined) updateData[key] = payload[key];
+    }
+    const user = await prisma.user.update({
+        where: { id: userId },
+        data: updateData,
+    });
+    return user;
+};
+
 export const userService = {
    createAdmin,
    getAllClients,
-  
+   updateProfile,
 }

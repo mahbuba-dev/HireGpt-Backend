@@ -20,14 +20,29 @@ export type AIConversationModel = runtime.Types.Result.DefaultSelection<Prisma.$
 
 export type AggregateAIConversation = {
   _count: AIConversationCountAggregateOutputType | null
+  _avg: AIConversationAvgAggregateOutputType | null
+  _sum: AIConversationSumAggregateOutputType | null
   _min: AIConversationMinAggregateOutputType | null
   _max: AIConversationMaxAggregateOutputType | null
+}
+
+export type AIConversationAvgAggregateOutputType = {
+  totalTokens: number | null
+}
+
+export type AIConversationSumAggregateOutputType = {
+  totalTokens: number | null
 }
 
 export type AIConversationMinAggregateOutputType = {
   id: string | null
   userId: string | null
+  contextType: $Enums.AIContextType | null
   title: string | null
+  isPinned: boolean | null
+  isArchived: boolean | null
+  totalTokens: number | null
+  lastModel: string | null
   createdAt: Date | null
   updatedAt: Date | null
 }
@@ -35,7 +50,12 @@ export type AIConversationMinAggregateOutputType = {
 export type AIConversationMaxAggregateOutputType = {
   id: string | null
   userId: string | null
+  contextType: $Enums.AIContextType | null
   title: string | null
+  isPinned: boolean | null
+  isArchived: boolean | null
+  totalTokens: number | null
+  lastModel: string | null
   createdAt: Date | null
   updatedAt: Date | null
 }
@@ -43,17 +63,35 @@ export type AIConversationMaxAggregateOutputType = {
 export type AIConversationCountAggregateOutputType = {
   id: number
   userId: number
+  contextType: number
   title: number
+  isPinned: number
+  isArchived: number
+  totalTokens: number
+  lastModel: number
   createdAt: number
   updatedAt: number
   _all: number
 }
 
 
+export type AIConversationAvgAggregateInputType = {
+  totalTokens?: true
+}
+
+export type AIConversationSumAggregateInputType = {
+  totalTokens?: true
+}
+
 export type AIConversationMinAggregateInputType = {
   id?: true
   userId?: true
+  contextType?: true
   title?: true
+  isPinned?: true
+  isArchived?: true
+  totalTokens?: true
+  lastModel?: true
   createdAt?: true
   updatedAt?: true
 }
@@ -61,7 +99,12 @@ export type AIConversationMinAggregateInputType = {
 export type AIConversationMaxAggregateInputType = {
   id?: true
   userId?: true
+  contextType?: true
   title?: true
+  isPinned?: true
+  isArchived?: true
+  totalTokens?: true
+  lastModel?: true
   createdAt?: true
   updatedAt?: true
 }
@@ -69,7 +112,12 @@ export type AIConversationMaxAggregateInputType = {
 export type AIConversationCountAggregateInputType = {
   id?: true
   userId?: true
+  contextType?: true
   title?: true
+  isPinned?: true
+  isArchived?: true
+  totalTokens?: true
+  lastModel?: true
   createdAt?: true
   updatedAt?: true
   _all?: true
@@ -113,6 +161,18 @@ export type AIConversationAggregateArgs<ExtArgs extends runtime.Types.Extensions
   /**
    * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
    * 
+   * Select which fields to average
+  **/
+  _avg?: AIConversationAvgAggregateInputType
+  /**
+   * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+   * 
+   * Select which fields to sum
+  **/
+  _sum?: AIConversationSumAggregateInputType
+  /**
+   * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+   * 
    * Select which fields to find the minimum value
   **/
   _min?: AIConversationMinAggregateInputType
@@ -143,6 +203,8 @@ export type AIConversationGroupByArgs<ExtArgs extends runtime.Types.Extensions.I
   take?: number
   skip?: number
   _count?: AIConversationCountAggregateInputType | true
+  _avg?: AIConversationAvgAggregateInputType
+  _sum?: AIConversationSumAggregateInputType
   _min?: AIConversationMinAggregateInputType
   _max?: AIConversationMaxAggregateInputType
 }
@@ -150,15 +212,22 @@ export type AIConversationGroupByArgs<ExtArgs extends runtime.Types.Extensions.I
 export type AIConversationGroupByOutputType = {
   id: string
   userId: string
-  title: string
+  contextType: $Enums.AIContextType
+  title: string | null
+  isPinned: boolean
+  isArchived: boolean
+  totalTokens: number | null
+  lastModel: string | null
   createdAt: Date
   updatedAt: Date
   _count: AIConversationCountAggregateOutputType | null
+  _avg: AIConversationAvgAggregateOutputType | null
+  _sum: AIConversationSumAggregateOutputType | null
   _min: AIConversationMinAggregateOutputType | null
   _max: AIConversationMaxAggregateOutputType | null
 }
 
-type GetAIConversationGroupByPayload<T extends AIConversationGroupByArgs> = Prisma.PrismaPromise<
+export type GetAIConversationGroupByPayload<T extends AIConversationGroupByArgs> = Prisma.PrismaPromise<
   Array<
     Prisma.PickEnumerable<AIConversationGroupByOutputType, T['by']> &
       {
@@ -177,23 +246,37 @@ export type AIConversationWhereInput = {
   AND?: Prisma.AIConversationWhereInput | Prisma.AIConversationWhereInput[]
   OR?: Prisma.AIConversationWhereInput[]
   NOT?: Prisma.AIConversationWhereInput | Prisma.AIConversationWhereInput[]
-  id?: Prisma.UuidFilter<"AIConversation"> | string
+  id?: Prisma.StringFilter<"AIConversation"> | string
   userId?: Prisma.StringFilter<"AIConversation"> | string
-  title?: Prisma.StringFilter<"AIConversation"> | string
+  contextType?: Prisma.EnumAIContextTypeFilter<"AIConversation"> | $Enums.AIContextType
+  title?: Prisma.StringNullableFilter<"AIConversation"> | string | null
+  isPinned?: Prisma.BoolFilter<"AIConversation"> | boolean
+  isArchived?: Prisma.BoolFilter<"AIConversation"> | boolean
+  totalTokens?: Prisma.IntNullableFilter<"AIConversation"> | number | null
+  lastModel?: Prisma.StringNullableFilter<"AIConversation"> | string | null
   createdAt?: Prisma.DateTimeFilter<"AIConversation"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"AIConversation"> | Date | string
-  user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
   messages?: Prisma.AIChatMessageListRelationFilter
+  user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
+  candidates?: Prisma.CandidateListRelationFilter
+  recruiters?: Prisma.RecruiterListRelationFilter
 }
 
 export type AIConversationOrderByWithRelationInput = {
   id?: Prisma.SortOrder
   userId?: Prisma.SortOrder
-  title?: Prisma.SortOrder
+  contextType?: Prisma.SortOrder
+  title?: Prisma.SortOrderInput | Prisma.SortOrder
+  isPinned?: Prisma.SortOrder
+  isArchived?: Prisma.SortOrder
+  totalTokens?: Prisma.SortOrderInput | Prisma.SortOrder
+  lastModel?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
-  user?: Prisma.UserOrderByWithRelationInput
   messages?: Prisma.AIChatMessageOrderByRelationAggregateInput
+  user?: Prisma.UserOrderByWithRelationInput
+  candidates?: Prisma.CandidateOrderByRelationAggregateInput
+  recruiters?: Prisma.RecruiterOrderByRelationAggregateInput
 }
 
 export type AIConversationWhereUniqueInput = Prisma.AtLeast<{
@@ -202,82 +285,139 @@ export type AIConversationWhereUniqueInput = Prisma.AtLeast<{
   OR?: Prisma.AIConversationWhereInput[]
   NOT?: Prisma.AIConversationWhereInput | Prisma.AIConversationWhereInput[]
   userId?: Prisma.StringFilter<"AIConversation"> | string
-  title?: Prisma.StringFilter<"AIConversation"> | string
+  contextType?: Prisma.EnumAIContextTypeFilter<"AIConversation"> | $Enums.AIContextType
+  title?: Prisma.StringNullableFilter<"AIConversation"> | string | null
+  isPinned?: Prisma.BoolFilter<"AIConversation"> | boolean
+  isArchived?: Prisma.BoolFilter<"AIConversation"> | boolean
+  totalTokens?: Prisma.IntNullableFilter<"AIConversation"> | number | null
+  lastModel?: Prisma.StringNullableFilter<"AIConversation"> | string | null
   createdAt?: Prisma.DateTimeFilter<"AIConversation"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"AIConversation"> | Date | string
-  user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
   messages?: Prisma.AIChatMessageListRelationFilter
+  user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
+  candidates?: Prisma.CandidateListRelationFilter
+  recruiters?: Prisma.RecruiterListRelationFilter
 }, "id">
 
 export type AIConversationOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
   userId?: Prisma.SortOrder
-  title?: Prisma.SortOrder
+  contextType?: Prisma.SortOrder
+  title?: Prisma.SortOrderInput | Prisma.SortOrder
+  isPinned?: Prisma.SortOrder
+  isArchived?: Prisma.SortOrder
+  totalTokens?: Prisma.SortOrderInput | Prisma.SortOrder
+  lastModel?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   _count?: Prisma.AIConversationCountOrderByAggregateInput
+  _avg?: Prisma.AIConversationAvgOrderByAggregateInput
   _max?: Prisma.AIConversationMaxOrderByAggregateInput
   _min?: Prisma.AIConversationMinOrderByAggregateInput
+  _sum?: Prisma.AIConversationSumOrderByAggregateInput
 }
 
 export type AIConversationScalarWhereWithAggregatesInput = {
   AND?: Prisma.AIConversationScalarWhereWithAggregatesInput | Prisma.AIConversationScalarWhereWithAggregatesInput[]
   OR?: Prisma.AIConversationScalarWhereWithAggregatesInput[]
   NOT?: Prisma.AIConversationScalarWhereWithAggregatesInput | Prisma.AIConversationScalarWhereWithAggregatesInput[]
-  id?: Prisma.UuidWithAggregatesFilter<"AIConversation"> | string
+  id?: Prisma.StringWithAggregatesFilter<"AIConversation"> | string
   userId?: Prisma.StringWithAggregatesFilter<"AIConversation"> | string
-  title?: Prisma.StringWithAggregatesFilter<"AIConversation"> | string
+  contextType?: Prisma.EnumAIContextTypeWithAggregatesFilter<"AIConversation"> | $Enums.AIContextType
+  title?: Prisma.StringNullableWithAggregatesFilter<"AIConversation"> | string | null
+  isPinned?: Prisma.BoolWithAggregatesFilter<"AIConversation"> | boolean
+  isArchived?: Prisma.BoolWithAggregatesFilter<"AIConversation"> | boolean
+  totalTokens?: Prisma.IntNullableWithAggregatesFilter<"AIConversation"> | number | null
+  lastModel?: Prisma.StringNullableWithAggregatesFilter<"AIConversation"> | string | null
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"AIConversation"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"AIConversation"> | Date | string
 }
 
 export type AIConversationCreateInput = {
   id?: string
-  title: string
+  contextType?: $Enums.AIContextType
+  title?: string | null
+  isPinned?: boolean
+  isArchived?: boolean
+  totalTokens?: number | null
+  lastModel?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
-  user: Prisma.UserCreateNestedOneWithoutAiConversationsInput
   messages?: Prisma.AIChatMessageCreateNestedManyWithoutConversationInput
+  user: Prisma.UserCreateNestedOneWithoutAiConversationsInput
+  candidates?: Prisma.CandidateCreateNestedManyWithoutAiChatsInput
+  recruiters?: Prisma.RecruiterCreateNestedManyWithoutChatsInput
 }
 
 export type AIConversationUncheckedCreateInput = {
   id?: string
   userId: string
-  title: string
+  contextType?: $Enums.AIContextType
+  title?: string | null
+  isPinned?: boolean
+  isArchived?: boolean
+  totalTokens?: number | null
+  lastModel?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   messages?: Prisma.AIChatMessageUncheckedCreateNestedManyWithoutConversationInput
+  candidates?: Prisma.CandidateUncheckedCreateNestedManyWithoutAiChatsInput
+  recruiters?: Prisma.RecruiterUncheckedCreateNestedManyWithoutChatsInput
 }
 
 export type AIConversationUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  title?: Prisma.StringFieldUpdateOperationsInput | string
+  contextType?: Prisma.EnumAIContextTypeFieldUpdateOperationsInput | $Enums.AIContextType
+  title?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isPinned?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isArchived?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  totalTokens?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  lastModel?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  user?: Prisma.UserUpdateOneRequiredWithoutAiConversationsNestedInput
   messages?: Prisma.AIChatMessageUpdateManyWithoutConversationNestedInput
+  user?: Prisma.UserUpdateOneRequiredWithoutAiConversationsNestedInput
+  candidates?: Prisma.CandidateUpdateManyWithoutAiChatsNestedInput
+  recruiters?: Prisma.RecruiterUpdateManyWithoutChatsNestedInput
 }
 
 export type AIConversationUncheckedUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   userId?: Prisma.StringFieldUpdateOperationsInput | string
-  title?: Prisma.StringFieldUpdateOperationsInput | string
+  contextType?: Prisma.EnumAIContextTypeFieldUpdateOperationsInput | $Enums.AIContextType
+  title?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isPinned?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isArchived?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  totalTokens?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  lastModel?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   messages?: Prisma.AIChatMessageUncheckedUpdateManyWithoutConversationNestedInput
+  candidates?: Prisma.CandidateUncheckedUpdateManyWithoutAiChatsNestedInput
+  recruiters?: Prisma.RecruiterUncheckedUpdateManyWithoutChatsNestedInput
 }
 
 export type AIConversationCreateManyInput = {
   id?: string
   userId: string
-  title: string
+  contextType?: $Enums.AIContextType
+  title?: string | null
+  isPinned?: boolean
+  isArchived?: boolean
+  totalTokens?: number | null
+  lastModel?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
 }
 
 export type AIConversationUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  title?: Prisma.StringFieldUpdateOperationsInput | string
+  contextType?: Prisma.EnumAIContextTypeFieldUpdateOperationsInput | $Enums.AIContextType
+  title?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isPinned?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isArchived?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  totalTokens?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  lastModel?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -285,23 +425,47 @@ export type AIConversationUpdateManyMutationInput = {
 export type AIConversationUncheckedUpdateManyInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   userId?: Prisma.StringFieldUpdateOperationsInput | string
-  title?: Prisma.StringFieldUpdateOperationsInput | string
+  contextType?: Prisma.EnumAIContextTypeFieldUpdateOperationsInput | $Enums.AIContextType
+  title?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isPinned?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isArchived?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  totalTokens?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  lastModel?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+}
+
+export type AIConversationScalarRelationFilter = {
+  is?: Prisma.AIConversationWhereInput
+  isNot?: Prisma.AIConversationWhereInput
 }
 
 export type AIConversationCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
   userId?: Prisma.SortOrder
+  contextType?: Prisma.SortOrder
   title?: Prisma.SortOrder
+  isPinned?: Prisma.SortOrder
+  isArchived?: Prisma.SortOrder
+  totalTokens?: Prisma.SortOrder
+  lastModel?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+}
+
+export type AIConversationAvgOrderByAggregateInput = {
+  totalTokens?: Prisma.SortOrder
 }
 
 export type AIConversationMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
   userId?: Prisma.SortOrder
+  contextType?: Prisma.SortOrder
   title?: Prisma.SortOrder
+  isPinned?: Prisma.SortOrder
+  isArchived?: Prisma.SortOrder
+  totalTokens?: Prisma.SortOrder
+  lastModel?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -309,14 +473,18 @@ export type AIConversationMaxOrderByAggregateInput = {
 export type AIConversationMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
   userId?: Prisma.SortOrder
+  contextType?: Prisma.SortOrder
   title?: Prisma.SortOrder
+  isPinned?: Prisma.SortOrder
+  isArchived?: Prisma.SortOrder
+  totalTokens?: Prisma.SortOrder
+  lastModel?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
 
-export type AIConversationScalarRelationFilter = {
-  is?: Prisma.AIConversationWhereInput
-  isNot?: Prisma.AIConversationWhereInput
+export type AIConversationSumOrderByAggregateInput = {
+  totalTokens?: Prisma.SortOrder
 }
 
 export type AIConversationListRelationFilter = {
@@ -341,6 +509,18 @@ export type AIConversationUpdateOneRequiredWithoutMessagesNestedInput = {
   upsert?: Prisma.AIConversationUpsertWithoutMessagesInput
   connect?: Prisma.AIConversationWhereUniqueInput
   update?: Prisma.XOR<Prisma.XOR<Prisma.AIConversationUpdateToOneWithWhereWithoutMessagesInput, Prisma.AIConversationUpdateWithoutMessagesInput>, Prisma.AIConversationUncheckedUpdateWithoutMessagesInput>
+}
+
+export type EnumAIContextTypeFieldUpdateOperationsInput = {
+  set?: $Enums.AIContextType
+}
+
+export type NullableIntFieldUpdateOperationsInput = {
+  set?: number | null
+  increment?: number
+  decrement?: number
+  multiply?: number
+  divide?: number
 }
 
 export type AIConversationCreateNestedManyWithoutUserInput = {
@@ -385,20 +565,110 @@ export type AIConversationUncheckedUpdateManyWithoutUserNestedInput = {
   deleteMany?: Prisma.AIConversationScalarWhereInput | Prisma.AIConversationScalarWhereInput[]
 }
 
+export type AIConversationCreateNestedManyWithoutCandidatesInput = {
+  create?: Prisma.XOR<Prisma.AIConversationCreateWithoutCandidatesInput, Prisma.AIConversationUncheckedCreateWithoutCandidatesInput> | Prisma.AIConversationCreateWithoutCandidatesInput[] | Prisma.AIConversationUncheckedCreateWithoutCandidatesInput[]
+  connectOrCreate?: Prisma.AIConversationCreateOrConnectWithoutCandidatesInput | Prisma.AIConversationCreateOrConnectWithoutCandidatesInput[]
+  connect?: Prisma.AIConversationWhereUniqueInput | Prisma.AIConversationWhereUniqueInput[]
+}
+
+export type AIConversationUncheckedCreateNestedManyWithoutCandidatesInput = {
+  create?: Prisma.XOR<Prisma.AIConversationCreateWithoutCandidatesInput, Prisma.AIConversationUncheckedCreateWithoutCandidatesInput> | Prisma.AIConversationCreateWithoutCandidatesInput[] | Prisma.AIConversationUncheckedCreateWithoutCandidatesInput[]
+  connectOrCreate?: Prisma.AIConversationCreateOrConnectWithoutCandidatesInput | Prisma.AIConversationCreateOrConnectWithoutCandidatesInput[]
+  connect?: Prisma.AIConversationWhereUniqueInput | Prisma.AIConversationWhereUniqueInput[]
+}
+
+export type AIConversationUpdateManyWithoutCandidatesNestedInput = {
+  create?: Prisma.XOR<Prisma.AIConversationCreateWithoutCandidatesInput, Prisma.AIConversationUncheckedCreateWithoutCandidatesInput> | Prisma.AIConversationCreateWithoutCandidatesInput[] | Prisma.AIConversationUncheckedCreateWithoutCandidatesInput[]
+  connectOrCreate?: Prisma.AIConversationCreateOrConnectWithoutCandidatesInput | Prisma.AIConversationCreateOrConnectWithoutCandidatesInput[]
+  upsert?: Prisma.AIConversationUpsertWithWhereUniqueWithoutCandidatesInput | Prisma.AIConversationUpsertWithWhereUniqueWithoutCandidatesInput[]
+  set?: Prisma.AIConversationWhereUniqueInput | Prisma.AIConversationWhereUniqueInput[]
+  disconnect?: Prisma.AIConversationWhereUniqueInput | Prisma.AIConversationWhereUniqueInput[]
+  delete?: Prisma.AIConversationWhereUniqueInput | Prisma.AIConversationWhereUniqueInput[]
+  connect?: Prisma.AIConversationWhereUniqueInput | Prisma.AIConversationWhereUniqueInput[]
+  update?: Prisma.AIConversationUpdateWithWhereUniqueWithoutCandidatesInput | Prisma.AIConversationUpdateWithWhereUniqueWithoutCandidatesInput[]
+  updateMany?: Prisma.AIConversationUpdateManyWithWhereWithoutCandidatesInput | Prisma.AIConversationUpdateManyWithWhereWithoutCandidatesInput[]
+  deleteMany?: Prisma.AIConversationScalarWhereInput | Prisma.AIConversationScalarWhereInput[]
+}
+
+export type AIConversationUncheckedUpdateManyWithoutCandidatesNestedInput = {
+  create?: Prisma.XOR<Prisma.AIConversationCreateWithoutCandidatesInput, Prisma.AIConversationUncheckedCreateWithoutCandidatesInput> | Prisma.AIConversationCreateWithoutCandidatesInput[] | Prisma.AIConversationUncheckedCreateWithoutCandidatesInput[]
+  connectOrCreate?: Prisma.AIConversationCreateOrConnectWithoutCandidatesInput | Prisma.AIConversationCreateOrConnectWithoutCandidatesInput[]
+  upsert?: Prisma.AIConversationUpsertWithWhereUniqueWithoutCandidatesInput | Prisma.AIConversationUpsertWithWhereUniqueWithoutCandidatesInput[]
+  set?: Prisma.AIConversationWhereUniqueInput | Prisma.AIConversationWhereUniqueInput[]
+  disconnect?: Prisma.AIConversationWhereUniqueInput | Prisma.AIConversationWhereUniqueInput[]
+  delete?: Prisma.AIConversationWhereUniqueInput | Prisma.AIConversationWhereUniqueInput[]
+  connect?: Prisma.AIConversationWhereUniqueInput | Prisma.AIConversationWhereUniqueInput[]
+  update?: Prisma.AIConversationUpdateWithWhereUniqueWithoutCandidatesInput | Prisma.AIConversationUpdateWithWhereUniqueWithoutCandidatesInput[]
+  updateMany?: Prisma.AIConversationUpdateManyWithWhereWithoutCandidatesInput | Prisma.AIConversationUpdateManyWithWhereWithoutCandidatesInput[]
+  deleteMany?: Prisma.AIConversationScalarWhereInput | Prisma.AIConversationScalarWhereInput[]
+}
+
+export type AIConversationCreateNestedManyWithoutRecruitersInput = {
+  create?: Prisma.XOR<Prisma.AIConversationCreateWithoutRecruitersInput, Prisma.AIConversationUncheckedCreateWithoutRecruitersInput> | Prisma.AIConversationCreateWithoutRecruitersInput[] | Prisma.AIConversationUncheckedCreateWithoutRecruitersInput[]
+  connectOrCreate?: Prisma.AIConversationCreateOrConnectWithoutRecruitersInput | Prisma.AIConversationCreateOrConnectWithoutRecruitersInput[]
+  connect?: Prisma.AIConversationWhereUniqueInput | Prisma.AIConversationWhereUniqueInput[]
+}
+
+export type AIConversationUncheckedCreateNestedManyWithoutRecruitersInput = {
+  create?: Prisma.XOR<Prisma.AIConversationCreateWithoutRecruitersInput, Prisma.AIConversationUncheckedCreateWithoutRecruitersInput> | Prisma.AIConversationCreateWithoutRecruitersInput[] | Prisma.AIConversationUncheckedCreateWithoutRecruitersInput[]
+  connectOrCreate?: Prisma.AIConversationCreateOrConnectWithoutRecruitersInput | Prisma.AIConversationCreateOrConnectWithoutRecruitersInput[]
+  connect?: Prisma.AIConversationWhereUniqueInput | Prisma.AIConversationWhereUniqueInput[]
+}
+
+export type AIConversationUpdateManyWithoutRecruitersNestedInput = {
+  create?: Prisma.XOR<Prisma.AIConversationCreateWithoutRecruitersInput, Prisma.AIConversationUncheckedCreateWithoutRecruitersInput> | Prisma.AIConversationCreateWithoutRecruitersInput[] | Prisma.AIConversationUncheckedCreateWithoutRecruitersInput[]
+  connectOrCreate?: Prisma.AIConversationCreateOrConnectWithoutRecruitersInput | Prisma.AIConversationCreateOrConnectWithoutRecruitersInput[]
+  upsert?: Prisma.AIConversationUpsertWithWhereUniqueWithoutRecruitersInput | Prisma.AIConversationUpsertWithWhereUniqueWithoutRecruitersInput[]
+  set?: Prisma.AIConversationWhereUniqueInput | Prisma.AIConversationWhereUniqueInput[]
+  disconnect?: Prisma.AIConversationWhereUniqueInput | Prisma.AIConversationWhereUniqueInput[]
+  delete?: Prisma.AIConversationWhereUniqueInput | Prisma.AIConversationWhereUniqueInput[]
+  connect?: Prisma.AIConversationWhereUniqueInput | Prisma.AIConversationWhereUniqueInput[]
+  update?: Prisma.AIConversationUpdateWithWhereUniqueWithoutRecruitersInput | Prisma.AIConversationUpdateWithWhereUniqueWithoutRecruitersInput[]
+  updateMany?: Prisma.AIConversationUpdateManyWithWhereWithoutRecruitersInput | Prisma.AIConversationUpdateManyWithWhereWithoutRecruitersInput[]
+  deleteMany?: Prisma.AIConversationScalarWhereInput | Prisma.AIConversationScalarWhereInput[]
+}
+
+export type AIConversationUncheckedUpdateManyWithoutRecruitersNestedInput = {
+  create?: Prisma.XOR<Prisma.AIConversationCreateWithoutRecruitersInput, Prisma.AIConversationUncheckedCreateWithoutRecruitersInput> | Prisma.AIConversationCreateWithoutRecruitersInput[] | Prisma.AIConversationUncheckedCreateWithoutRecruitersInput[]
+  connectOrCreate?: Prisma.AIConversationCreateOrConnectWithoutRecruitersInput | Prisma.AIConversationCreateOrConnectWithoutRecruitersInput[]
+  upsert?: Prisma.AIConversationUpsertWithWhereUniqueWithoutRecruitersInput | Prisma.AIConversationUpsertWithWhereUniqueWithoutRecruitersInput[]
+  set?: Prisma.AIConversationWhereUniqueInput | Prisma.AIConversationWhereUniqueInput[]
+  disconnect?: Prisma.AIConversationWhereUniqueInput | Prisma.AIConversationWhereUniqueInput[]
+  delete?: Prisma.AIConversationWhereUniqueInput | Prisma.AIConversationWhereUniqueInput[]
+  connect?: Prisma.AIConversationWhereUniqueInput | Prisma.AIConversationWhereUniqueInput[]
+  update?: Prisma.AIConversationUpdateWithWhereUniqueWithoutRecruitersInput | Prisma.AIConversationUpdateWithWhereUniqueWithoutRecruitersInput[]
+  updateMany?: Prisma.AIConversationUpdateManyWithWhereWithoutRecruitersInput | Prisma.AIConversationUpdateManyWithWhereWithoutRecruitersInput[]
+  deleteMany?: Prisma.AIConversationScalarWhereInput | Prisma.AIConversationScalarWhereInput[]
+}
+
 export type AIConversationCreateWithoutMessagesInput = {
   id?: string
-  title: string
+  contextType?: $Enums.AIContextType
+  title?: string | null
+  isPinned?: boolean
+  isArchived?: boolean
+  totalTokens?: number | null
+  lastModel?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   user: Prisma.UserCreateNestedOneWithoutAiConversationsInput
+  candidates?: Prisma.CandidateCreateNestedManyWithoutAiChatsInput
+  recruiters?: Prisma.RecruiterCreateNestedManyWithoutChatsInput
 }
 
 export type AIConversationUncheckedCreateWithoutMessagesInput = {
   id?: string
   userId: string
-  title: string
+  contextType?: $Enums.AIContextType
+  title?: string | null
+  isPinned?: boolean
+  isArchived?: boolean
+  totalTokens?: number | null
+  lastModel?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  candidates?: Prisma.CandidateUncheckedCreateNestedManyWithoutAiChatsInput
+  recruiters?: Prisma.RecruiterUncheckedCreateNestedManyWithoutChatsInput
 }
 
 export type AIConversationCreateOrConnectWithoutMessagesInput = {
@@ -419,34 +689,62 @@ export type AIConversationUpdateToOneWithWhereWithoutMessagesInput = {
 
 export type AIConversationUpdateWithoutMessagesInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  title?: Prisma.StringFieldUpdateOperationsInput | string
+  contextType?: Prisma.EnumAIContextTypeFieldUpdateOperationsInput | $Enums.AIContextType
+  title?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isPinned?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isArchived?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  totalTokens?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  lastModel?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   user?: Prisma.UserUpdateOneRequiredWithoutAiConversationsNestedInput
+  candidates?: Prisma.CandidateUpdateManyWithoutAiChatsNestedInput
+  recruiters?: Prisma.RecruiterUpdateManyWithoutChatsNestedInput
 }
 
 export type AIConversationUncheckedUpdateWithoutMessagesInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   userId?: Prisma.StringFieldUpdateOperationsInput | string
-  title?: Prisma.StringFieldUpdateOperationsInput | string
+  contextType?: Prisma.EnumAIContextTypeFieldUpdateOperationsInput | $Enums.AIContextType
+  title?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isPinned?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isArchived?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  totalTokens?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  lastModel?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  candidates?: Prisma.CandidateUncheckedUpdateManyWithoutAiChatsNestedInput
+  recruiters?: Prisma.RecruiterUncheckedUpdateManyWithoutChatsNestedInput
 }
 
 export type AIConversationCreateWithoutUserInput = {
   id?: string
-  title: string
+  contextType?: $Enums.AIContextType
+  title?: string | null
+  isPinned?: boolean
+  isArchived?: boolean
+  totalTokens?: number | null
+  lastModel?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   messages?: Prisma.AIChatMessageCreateNestedManyWithoutConversationInput
+  candidates?: Prisma.CandidateCreateNestedManyWithoutAiChatsInput
+  recruiters?: Prisma.RecruiterCreateNestedManyWithoutChatsInput
 }
 
 export type AIConversationUncheckedCreateWithoutUserInput = {
   id?: string
-  title: string
+  contextType?: $Enums.AIContextType
+  title?: string | null
+  isPinned?: boolean
+  isArchived?: boolean
+  totalTokens?: number | null
+  lastModel?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   messages?: Prisma.AIChatMessageUncheckedCreateNestedManyWithoutConversationInput
+  candidates?: Prisma.CandidateUncheckedCreateNestedManyWithoutAiChatsInput
+  recruiters?: Prisma.RecruiterUncheckedCreateNestedManyWithoutChatsInput
 }
 
 export type AIConversationCreateOrConnectWithoutUserInput = {
@@ -479,39 +777,256 @@ export type AIConversationScalarWhereInput = {
   AND?: Prisma.AIConversationScalarWhereInput | Prisma.AIConversationScalarWhereInput[]
   OR?: Prisma.AIConversationScalarWhereInput[]
   NOT?: Prisma.AIConversationScalarWhereInput | Prisma.AIConversationScalarWhereInput[]
-  id?: Prisma.UuidFilter<"AIConversation"> | string
+  id?: Prisma.StringFilter<"AIConversation"> | string
   userId?: Prisma.StringFilter<"AIConversation"> | string
-  title?: Prisma.StringFilter<"AIConversation"> | string
+  contextType?: Prisma.EnumAIContextTypeFilter<"AIConversation"> | $Enums.AIContextType
+  title?: Prisma.StringNullableFilter<"AIConversation"> | string | null
+  isPinned?: Prisma.BoolFilter<"AIConversation"> | boolean
+  isArchived?: Prisma.BoolFilter<"AIConversation"> | boolean
+  totalTokens?: Prisma.IntNullableFilter<"AIConversation"> | number | null
+  lastModel?: Prisma.StringNullableFilter<"AIConversation"> | string | null
   createdAt?: Prisma.DateTimeFilter<"AIConversation"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"AIConversation"> | Date | string
 }
 
+export type AIConversationCreateWithoutCandidatesInput = {
+  id?: string
+  contextType?: $Enums.AIContextType
+  title?: string | null
+  isPinned?: boolean
+  isArchived?: boolean
+  totalTokens?: number | null
+  lastModel?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  messages?: Prisma.AIChatMessageCreateNestedManyWithoutConversationInput
+  user: Prisma.UserCreateNestedOneWithoutAiConversationsInput
+  recruiters?: Prisma.RecruiterCreateNestedManyWithoutChatsInput
+}
+
+export type AIConversationUncheckedCreateWithoutCandidatesInput = {
+  id?: string
+  userId: string
+  contextType?: $Enums.AIContextType
+  title?: string | null
+  isPinned?: boolean
+  isArchived?: boolean
+  totalTokens?: number | null
+  lastModel?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  messages?: Prisma.AIChatMessageUncheckedCreateNestedManyWithoutConversationInput
+  recruiters?: Prisma.RecruiterUncheckedCreateNestedManyWithoutChatsInput
+}
+
+export type AIConversationCreateOrConnectWithoutCandidatesInput = {
+  where: Prisma.AIConversationWhereUniqueInput
+  create: Prisma.XOR<Prisma.AIConversationCreateWithoutCandidatesInput, Prisma.AIConversationUncheckedCreateWithoutCandidatesInput>
+}
+
+export type AIConversationUpsertWithWhereUniqueWithoutCandidatesInput = {
+  where: Prisma.AIConversationWhereUniqueInput
+  update: Prisma.XOR<Prisma.AIConversationUpdateWithoutCandidatesInput, Prisma.AIConversationUncheckedUpdateWithoutCandidatesInput>
+  create: Prisma.XOR<Prisma.AIConversationCreateWithoutCandidatesInput, Prisma.AIConversationUncheckedCreateWithoutCandidatesInput>
+}
+
+export type AIConversationUpdateWithWhereUniqueWithoutCandidatesInput = {
+  where: Prisma.AIConversationWhereUniqueInput
+  data: Prisma.XOR<Prisma.AIConversationUpdateWithoutCandidatesInput, Prisma.AIConversationUncheckedUpdateWithoutCandidatesInput>
+}
+
+export type AIConversationUpdateManyWithWhereWithoutCandidatesInput = {
+  where: Prisma.AIConversationScalarWhereInput
+  data: Prisma.XOR<Prisma.AIConversationUpdateManyMutationInput, Prisma.AIConversationUncheckedUpdateManyWithoutCandidatesInput>
+}
+
+export type AIConversationCreateWithoutRecruitersInput = {
+  id?: string
+  contextType?: $Enums.AIContextType
+  title?: string | null
+  isPinned?: boolean
+  isArchived?: boolean
+  totalTokens?: number | null
+  lastModel?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  messages?: Prisma.AIChatMessageCreateNestedManyWithoutConversationInput
+  user: Prisma.UserCreateNestedOneWithoutAiConversationsInput
+  candidates?: Prisma.CandidateCreateNestedManyWithoutAiChatsInput
+}
+
+export type AIConversationUncheckedCreateWithoutRecruitersInput = {
+  id?: string
+  userId: string
+  contextType?: $Enums.AIContextType
+  title?: string | null
+  isPinned?: boolean
+  isArchived?: boolean
+  totalTokens?: number | null
+  lastModel?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  messages?: Prisma.AIChatMessageUncheckedCreateNestedManyWithoutConversationInput
+  candidates?: Prisma.CandidateUncheckedCreateNestedManyWithoutAiChatsInput
+}
+
+export type AIConversationCreateOrConnectWithoutRecruitersInput = {
+  where: Prisma.AIConversationWhereUniqueInput
+  create: Prisma.XOR<Prisma.AIConversationCreateWithoutRecruitersInput, Prisma.AIConversationUncheckedCreateWithoutRecruitersInput>
+}
+
+export type AIConversationUpsertWithWhereUniqueWithoutRecruitersInput = {
+  where: Prisma.AIConversationWhereUniqueInput
+  update: Prisma.XOR<Prisma.AIConversationUpdateWithoutRecruitersInput, Prisma.AIConversationUncheckedUpdateWithoutRecruitersInput>
+  create: Prisma.XOR<Prisma.AIConversationCreateWithoutRecruitersInput, Prisma.AIConversationUncheckedCreateWithoutRecruitersInput>
+}
+
+export type AIConversationUpdateWithWhereUniqueWithoutRecruitersInput = {
+  where: Prisma.AIConversationWhereUniqueInput
+  data: Prisma.XOR<Prisma.AIConversationUpdateWithoutRecruitersInput, Prisma.AIConversationUncheckedUpdateWithoutRecruitersInput>
+}
+
+export type AIConversationUpdateManyWithWhereWithoutRecruitersInput = {
+  where: Prisma.AIConversationScalarWhereInput
+  data: Prisma.XOR<Prisma.AIConversationUpdateManyMutationInput, Prisma.AIConversationUncheckedUpdateManyWithoutRecruitersInput>
+}
+
 export type AIConversationCreateManyUserInput = {
   id?: string
-  title: string
+  contextType?: $Enums.AIContextType
+  title?: string | null
+  isPinned?: boolean
+  isArchived?: boolean
+  totalTokens?: number | null
+  lastModel?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
 }
 
 export type AIConversationUpdateWithoutUserInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  title?: Prisma.StringFieldUpdateOperationsInput | string
+  contextType?: Prisma.EnumAIContextTypeFieldUpdateOperationsInput | $Enums.AIContextType
+  title?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isPinned?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isArchived?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  totalTokens?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  lastModel?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   messages?: Prisma.AIChatMessageUpdateManyWithoutConversationNestedInput
+  candidates?: Prisma.CandidateUpdateManyWithoutAiChatsNestedInput
+  recruiters?: Prisma.RecruiterUpdateManyWithoutChatsNestedInput
 }
 
 export type AIConversationUncheckedUpdateWithoutUserInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  title?: Prisma.StringFieldUpdateOperationsInput | string
+  contextType?: Prisma.EnumAIContextTypeFieldUpdateOperationsInput | $Enums.AIContextType
+  title?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isPinned?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isArchived?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  totalTokens?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  lastModel?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   messages?: Prisma.AIChatMessageUncheckedUpdateManyWithoutConversationNestedInput
+  candidates?: Prisma.CandidateUncheckedUpdateManyWithoutAiChatsNestedInput
+  recruiters?: Prisma.RecruiterUncheckedUpdateManyWithoutChatsNestedInput
 }
 
 export type AIConversationUncheckedUpdateManyWithoutUserInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  title?: Prisma.StringFieldUpdateOperationsInput | string
+  contextType?: Prisma.EnumAIContextTypeFieldUpdateOperationsInput | $Enums.AIContextType
+  title?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isPinned?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isArchived?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  totalTokens?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  lastModel?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+}
+
+export type AIConversationUpdateWithoutCandidatesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  contextType?: Prisma.EnumAIContextTypeFieldUpdateOperationsInput | $Enums.AIContextType
+  title?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isPinned?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isArchived?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  totalTokens?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  lastModel?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  messages?: Prisma.AIChatMessageUpdateManyWithoutConversationNestedInput
+  user?: Prisma.UserUpdateOneRequiredWithoutAiConversationsNestedInput
+  recruiters?: Prisma.RecruiterUpdateManyWithoutChatsNestedInput
+}
+
+export type AIConversationUncheckedUpdateWithoutCandidatesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  userId?: Prisma.StringFieldUpdateOperationsInput | string
+  contextType?: Prisma.EnumAIContextTypeFieldUpdateOperationsInput | $Enums.AIContextType
+  title?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isPinned?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isArchived?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  totalTokens?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  lastModel?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  messages?: Prisma.AIChatMessageUncheckedUpdateManyWithoutConversationNestedInput
+  recruiters?: Prisma.RecruiterUncheckedUpdateManyWithoutChatsNestedInput
+}
+
+export type AIConversationUncheckedUpdateManyWithoutCandidatesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  userId?: Prisma.StringFieldUpdateOperationsInput | string
+  contextType?: Prisma.EnumAIContextTypeFieldUpdateOperationsInput | $Enums.AIContextType
+  title?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isPinned?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isArchived?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  totalTokens?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  lastModel?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+}
+
+export type AIConversationUpdateWithoutRecruitersInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  contextType?: Prisma.EnumAIContextTypeFieldUpdateOperationsInput | $Enums.AIContextType
+  title?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isPinned?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isArchived?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  totalTokens?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  lastModel?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  messages?: Prisma.AIChatMessageUpdateManyWithoutConversationNestedInput
+  user?: Prisma.UserUpdateOneRequiredWithoutAiConversationsNestedInput
+  candidates?: Prisma.CandidateUpdateManyWithoutAiChatsNestedInput
+}
+
+export type AIConversationUncheckedUpdateWithoutRecruitersInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  userId?: Prisma.StringFieldUpdateOperationsInput | string
+  contextType?: Prisma.EnumAIContextTypeFieldUpdateOperationsInput | $Enums.AIContextType
+  title?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isPinned?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isArchived?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  totalTokens?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  lastModel?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  messages?: Prisma.AIChatMessageUncheckedUpdateManyWithoutConversationNestedInput
+  candidates?: Prisma.CandidateUncheckedUpdateManyWithoutAiChatsNestedInput
+}
+
+export type AIConversationUncheckedUpdateManyWithoutRecruitersInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  userId?: Prisma.StringFieldUpdateOperationsInput | string
+  contextType?: Prisma.EnumAIContextTypeFieldUpdateOperationsInput | $Enums.AIContextType
+  title?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isPinned?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isArchived?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  totalTokens?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  lastModel?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -523,10 +1038,14 @@ export type AIConversationUncheckedUpdateManyWithoutUserInput = {
 
 export type AIConversationCountOutputType = {
   messages: number
+  candidates: number
+  recruiters: number
 }
 
 export type AIConversationCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   messages?: boolean | AIConversationCountOutputTypeCountMessagesArgs
+  candidates?: boolean | AIConversationCountOutputTypeCountCandidatesArgs
+  recruiters?: boolean | AIConversationCountOutputTypeCountRecruitersArgs
 }
 
 /**
@@ -546,22 +1065,48 @@ export type AIConversationCountOutputTypeCountMessagesArgs<ExtArgs extends runti
   where?: Prisma.AIChatMessageWhereInput
 }
 
+/**
+ * AIConversationCountOutputType without action
+ */
+export type AIConversationCountOutputTypeCountCandidatesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.CandidateWhereInput
+}
+
+/**
+ * AIConversationCountOutputType without action
+ */
+export type AIConversationCountOutputTypeCountRecruitersArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.RecruiterWhereInput
+}
+
 
 export type AIConversationSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   userId?: boolean
+  contextType?: boolean
   title?: boolean
+  isPinned?: boolean
+  isArchived?: boolean
+  totalTokens?: boolean
+  lastModel?: boolean
   createdAt?: boolean
   updatedAt?: boolean
-  user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   messages?: boolean | Prisma.AIConversation$messagesArgs<ExtArgs>
+  user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
+  candidates?: boolean | Prisma.AIConversation$candidatesArgs<ExtArgs>
+  recruiters?: boolean | Prisma.AIConversation$recruitersArgs<ExtArgs>
   _count?: boolean | Prisma.AIConversationCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["aIConversation"]>
 
 export type AIConversationSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   userId?: boolean
+  contextType?: boolean
   title?: boolean
+  isPinned?: boolean
+  isArchived?: boolean
+  totalTokens?: boolean
+  lastModel?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
@@ -570,7 +1115,12 @@ export type AIConversationSelectCreateManyAndReturn<ExtArgs extends runtime.Type
 export type AIConversationSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   userId?: boolean
+  contextType?: boolean
   title?: boolean
+  isPinned?: boolean
+  isArchived?: boolean
+  totalTokens?: boolean
+  lastModel?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
@@ -579,15 +1129,22 @@ export type AIConversationSelectUpdateManyAndReturn<ExtArgs extends runtime.Type
 export type AIConversationSelectScalar = {
   id?: boolean
   userId?: boolean
+  contextType?: boolean
   title?: boolean
+  isPinned?: boolean
+  isArchived?: boolean
+  totalTokens?: boolean
+  lastModel?: boolean
   createdAt?: boolean
   updatedAt?: boolean
 }
 
-export type AIConversationOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "userId" | "title" | "createdAt" | "updatedAt", ExtArgs["result"]["aIConversation"]>
+export type AIConversationOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "userId" | "contextType" | "title" | "isPinned" | "isArchived" | "totalTokens" | "lastModel" | "createdAt" | "updatedAt", ExtArgs["result"]["aIConversation"]>
 export type AIConversationInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   messages?: boolean | Prisma.AIConversation$messagesArgs<ExtArgs>
+  user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
+  candidates?: boolean | Prisma.AIConversation$candidatesArgs<ExtArgs>
+  recruiters?: boolean | Prisma.AIConversation$recruitersArgs<ExtArgs>
   _count?: boolean | Prisma.AIConversationCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type AIConversationIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -600,13 +1157,20 @@ export type AIConversationIncludeUpdateManyAndReturn<ExtArgs extends runtime.Typ
 export type $AIConversationPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "AIConversation"
   objects: {
-    user: Prisma.$UserPayload<ExtArgs>
     messages: Prisma.$AIChatMessagePayload<ExtArgs>[]
+    user: Prisma.$UserPayload<ExtArgs>
+    candidates: Prisma.$CandidatePayload<ExtArgs>[]
+    recruiters: Prisma.$RecruiterPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
     userId: string
-    title: string
+    contextType: $Enums.AIContextType
+    title: string | null
+    isPinned: boolean
+    isArchived: boolean
+    totalTokens: number | null
+    lastModel: string | null
     createdAt: Date
     updatedAt: Date
   }, ExtArgs["result"]["aIConversation"]>
@@ -1003,8 +1567,10 @@ readonly fields: AIConversationFieldRefs;
  */
 export interface Prisma__AIConversationClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
-  user<T extends Prisma.UserDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.UserDefaultArgs<ExtArgs>>): Prisma.Prisma__UserClient<runtime.Types.Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   messages<T extends Prisma.AIConversation$messagesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.AIConversation$messagesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$AIChatMessagePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  user<T extends Prisma.UserDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.UserDefaultArgs<ExtArgs>>): Prisma.Prisma__UserClient<runtime.Types.Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+  candidates<T extends Prisma.AIConversation$candidatesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.AIConversation$candidatesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$CandidatePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  recruiters<T extends Prisma.AIConversation$recruitersArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.AIConversation$recruitersArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$RecruiterPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1036,7 +1602,12 @@ export interface Prisma__AIConversationClient<T, Null = never, ExtArgs extends r
 export interface AIConversationFieldRefs {
   readonly id: Prisma.FieldRef<"AIConversation", 'String'>
   readonly userId: Prisma.FieldRef<"AIConversation", 'String'>
+  readonly contextType: Prisma.FieldRef<"AIConversation", 'AIContextType'>
   readonly title: Prisma.FieldRef<"AIConversation", 'String'>
+  readonly isPinned: Prisma.FieldRef<"AIConversation", 'Boolean'>
+  readonly isArchived: Prisma.FieldRef<"AIConversation", 'Boolean'>
+  readonly totalTokens: Prisma.FieldRef<"AIConversation", 'Int'>
+  readonly lastModel: Prisma.FieldRef<"AIConversation", 'String'>
   readonly createdAt: Prisma.FieldRef<"AIConversation", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"AIConversation", 'DateTime'>
 }
@@ -1461,6 +2032,54 @@ export type AIConversation$messagesArgs<ExtArgs extends runtime.Types.Extensions
   take?: number
   skip?: number
   distinct?: Prisma.AIChatMessageScalarFieldEnum | Prisma.AIChatMessageScalarFieldEnum[]
+}
+
+/**
+ * AIConversation.candidates
+ */
+export type AIConversation$candidatesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Candidate
+   */
+  select?: Prisma.CandidateSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Candidate
+   */
+  omit?: Prisma.CandidateOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.CandidateInclude<ExtArgs> | null
+  where?: Prisma.CandidateWhereInput
+  orderBy?: Prisma.CandidateOrderByWithRelationInput | Prisma.CandidateOrderByWithRelationInput[]
+  cursor?: Prisma.CandidateWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.CandidateScalarFieldEnum | Prisma.CandidateScalarFieldEnum[]
+}
+
+/**
+ * AIConversation.recruiters
+ */
+export type AIConversation$recruitersArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Recruiter
+   */
+  select?: Prisma.RecruiterSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Recruiter
+   */
+  omit?: Prisma.RecruiterOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.RecruiterInclude<ExtArgs> | null
+  where?: Prisma.RecruiterWhereInput
+  orderBy?: Prisma.RecruiterOrderByWithRelationInput | Prisma.RecruiterOrderByWithRelationInput[]
+  cursor?: Prisma.RecruiterWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.RecruiterScalarFieldEnum | Prisma.RecruiterScalarFieldEnum[]
 }
 
 /**

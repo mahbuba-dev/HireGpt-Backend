@@ -1,176 +1,106 @@
 import { prisma } from "../../lib/prisma";
-import { Role, PaymentStatus, ConsultationStatus } from "../../generated/enums";
-import AppError from "../../errorHelpers/AppError";
-import status from "http-status";
+import { UserRole } from "../../generated/enums";
 import { IRequestUser } from "../../interfaces/requestUser.interface";
 
-const getDashboardStatsData = async (user: IRequestUser) => {
-  switch (user.role) {
-    case Role.ADMIN:
-      return getAdminStats();
-    case Role.EXPERT:
-      return getExpertStats(user);
-    case Role.CLIENT:
-      return getClientStats(user);
-    default:
-      throw new AppError(status.BAD_REQUEST, "Invalid user role for dashboard");
-  }
-};
-
-
-
+// ADMIN dashboard stats
 const getAdminStats = async () => {
-  const expertCount = await prisma.expert.count();
-  const clientCount = await prisma.client.count();
-  const consultationCount = await prisma.consultation.count();
-  const industryCount = await prisma.industry.count();
-  const paymentCount = await prisma.payment.count();
-  const userCount = await prisma.user.count();
+  const [totalUsers, totalRecruiters, totalCandidates, totalJobs, totalApplications] = await Promise.all([
+    prisma.user.count(),
+    prisma.recruiter.count(),
+    prisma.candidate.count(),
+    prisma.job.count(),
+    prisma.jobApplication.count(),
+  ]);
 
-  const totalRevenueAgg = await prisma.payment.aggregate({
-    _sum: { amount: true },
-    where: { status: PaymentStatus.PAID },
-  });
-
-  const consultationStatusDistribution = await prisma.consultation.groupBy({
-    by: ["status"],
-    _count: { id: true },
-  });
-
-  const formattedStatus = consultationStatusDistribution.map(({ status, _count }) => ({
-    status,
-    count: _count.id,
-  }));
-
-  const revenueByMonth = await getRevenueByMonth();
+  // Optionally, add revenue or payment stats if you have a payment model
+  // const totalRevenue = await prisma.payment.aggregate({ _sum: { amount: true } });
 
   return {
-    expertCount,
-    clientCount,
-    consultationCount,
-    industryCount,
-    paymentCount,
-    userCount,
-    totalRevenue: totalRevenueAgg._sum.amount || 0,
-    consultationStatusDistribution: formattedStatus,
-    revenueByMonth,
+    totalUsers,
+    totalRecruiters,
+    totalCandidates,
+    totalJobs,
+    totalApplications,
+    // totalRevenue: totalRevenue._sum.amount || 0,
   };
 };
 
+// RECRUITER dashboard stats
+const getRecruiterStats = async (user: IRequestUser) => {
+  // Find recruiter profile
+  const recruiter = await prisma.recruiter.findUnique({ where: { userId: user.userId } });
+  if (!recruiter) return { jobsPosted: 0, applicationsReceived: 0, jobs: [], applicationStatusDistribution: [] };
 
+  // Jobs posted by this recruiter
+  const jobs = await prisma.job.findMany({ where: { recruiterId: recruiter.id } });
+  const jobIds = jobs.map(j => j.id);
+  const jobsPosted = jobs.length;
 
+  // Applications received for recruiter's jobs
+  const applicationsReceived = await prisma.jobApplication.count({ where: { jobId: { in: jobIds } } });
 
-
-//expert stats
-
-const getExpertStats = async (user: IRequestUser) => {
-  const expert = await prisma.expert.findUniqueOrThrow({
-    where: { userId: user.userId },
-  });
-
-  const consultationCount = await prisma.consultation.count({
-    where: { expertId: expert.id },
-  });
-
-  const uniqueClients = await prisma.consultation.groupBy({
-    by: ["clientId"],
-    where: { expertId: expert.id },
-    _count: { id: true },
-  });
-
-  const totalRevenueAgg = await prisma.payment.aggregate({
-    _sum: { amount: true },
-    where: {
-      status: PaymentStatus.PAID,
-      consultation: { expertId: expert.id },
-    },
-  });
-
-  const consultationStatusDistribution = await prisma.consultation.groupBy({
+  // Application status distribution
+  const applicationStatusDistribution = await prisma.jobApplication.groupBy({
     by: ["status"],
-    where: { expertId: expert.id },
+    where: { jobId: { in: jobIds } },
     _count: { id: true },
   });
-
-  const formattedStatus = consultationStatusDistribution.map(({ status, _count }) => ({
-    status,
-    count: _count.id,
+  const formattedStatus = applicationStatusDistribution.map((item: { status: string, _count: { id: number } }) => ({
+    status: item.status,
+    count: item._count.id,
   }));
 
-  const reviewCount = await prisma.testimonial.count({
-    where: { expertId: expert.id },
-  });
-
   return {
-    consultationCount,
-    clientCount: uniqueClients.length,
-    totalRevenue: totalRevenueAgg._sum.amount || 0,
-    consultationStatusDistribution: formattedStatus,
-    reviewCount,
+    jobsPosted,
+    applicationsReceived,
+    jobs,
+    applicationStatusDistribution: formattedStatus,
   };
 };
 
+// CANDIDATE dashboard stats
+const getCandidateStats = async (user: IRequestUser) => {
+  // Find candidate profile
+  const candidate = await prisma.candidate.findUnique({ where: { userId: user.userId } });
+  if (!candidate) return { applicationsSubmitted: 0, jobsAppliedTo: 0, applicationStatusDistribution: [] };
 
+  // Applications submitted by this candidate
+  const applications = await prisma.jobApplication.findMany({ where: { jobSeekerId: candidate.id } });
+  const applicationsSubmitted = applications.length;
+  const jobsAppliedTo = new Set(applications.map(a => a.jobId)).size;
 
-
-
-//client stats
-
-const getClientStats = async (user: IRequestUser) => {
-  const client = await prisma.client.findUnique({
-    where: { userId: user.userId },
-    select: { id: true },
+  // Application status distribution
+  const applicationStatusDistribution = await prisma.jobApplication.groupBy({
+    by: ["status"],
+    where: { jobSeekerId: candidate.id },
+    _count: { id: true },
   });
+  const formattedStatus = applicationStatusDistribution.map((item: { status: string, _count: { id: number } }) => ({
+    status: item.status,
+    count: item._count.id,
+  }));
 
-  if (!client) {
-    return {
-      consultationCount: 0,
-      consultationStatusDistribution: [],
-    };
+  return {
+    applicationsSubmitted,
+    jobsAppliedTo,
+    applicationStatusDistribution: formattedStatus,
+  };
+};
+
+const getDashboardStatsData = async (user: IRequestUser) => {
+  switch (user.userRole) {
+    case UserRole.ADMIN:
+      return getAdminStats();
+    case UserRole.RECRUITER:
+      return getRecruiterStats(user);
+    case UserRole.CANDIDATE:
+      return getCandidateStats(user);
+    default:
+      throw new Error("Invalid user role");
   }
-
-  const consultationCount = await prisma.consultation.count({
-    where: { clientId: client.id },
-  });
-
-  const consultationStatusDistribution = await prisma.consultation.groupBy({
-    by: ["status"],
-    where: { clientId: client.id },
-    _count: { id: true },
-  });
-
-  const formattedStatus = consultationStatusDistribution.map(({ status, _count }) => ({
-    status,
-    count: _count.id,
-  }));
-
-  return {
-    consultationCount,
-    consultationStatusDistribution: formattedStatus,
-  };
 };
-
-
-
-
-//revenue by month for admin dashboard
-
-const getRevenueByMonth = async () => {
-  const revenueByMonth = await prisma.$queryRaw`
-    SELECT DATE_TRUNC('month', "createdAt") AS month,
-           CAST(SUM("amount") AS INTEGER) AS amount
-    FROM "payments"
-    WHERE "status" = 'PAID'
-    GROUP BY month
-    ORDER BY month ASC;
-  `;
-
-  return revenueByMonth;
-};
-
-
-
 
 export const StatsService = {
   getDashboardStatsData,
 };
+

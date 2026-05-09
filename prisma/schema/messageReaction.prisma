@@ -1,14 +1,16 @@
 model MessageReaction {
-	id        String   @id @default(uuid())
-	messageId String
-	message   Message  @relation(fields: [messageId], references: [id], onDelete: Cascade)
-	userId    String
-	user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-	emoji     String   @db.VarChar(32)
-	createdAt DateTime @default(now())
+  id             String   @id @default(uuid())
+  messageId      String
+  userId         String
+  emoji          String   @db.VarChar(32)
+  isAIReaction   Boolean  @default(false)
+  sentimentScore Float?
+  createdAt      DateTime @default(now())
+  message        Message  @relation(fields: [messageId], references: [id], onDelete: Cascade)
+  user           User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 
-	@@unique([messageId, userId, emoji])
-	@@index([messageId])
-	@@index([userId])
-	@@map("message_reactions")
+  @@unique([messageId, userId, emoji])
+  @@index([messageId])
+  @@index([userId])
+  @@map("message_reactions")
 }

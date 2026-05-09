@@ -1,14 +1,18 @@
 model Attachment {
-	id        String   @id @default(uuid())
-	messageId String   @unique
-	message   Message  @relation(fields: [messageId], references: [id], onDelete: Cascade)
+  id             String          @id @default(uuid())
+  messageId      String
+  fileUrl        String
+  fileName       String
+  fileType       String
+  fileSize       Int
+  isResume       Boolean         @default(false)
+  isPrivate      Boolean         @default(false)
+  aiAnalyzed     Boolean         @default(false)
+  aiSummary      String?
+  createdAt      DateTime        @default(now())
+  message        Message         @relation(fields: [messageId], references: [id], onDelete: Cascade)
+  aichatMessages AIChatMessage[] @relation("AIChatMessageToAttachment")
 
-	fileUrl  String
-	fileName String
-	fileType String
-	fileSize Int
-
-	createdAt DateTime @default(now())
-
-	@@map("attachments")
+  @@index([messageId])
+  @@map("attachments")
 }

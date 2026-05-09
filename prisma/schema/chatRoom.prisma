@@ -1,23 +1,21 @@
 model ChatRoom {
-	id             String        @id @default(uuid())
-	consultationId String?       @db.Uuid
-	consultation   Consultation? @relation(fields: [consultationId], references: [id], onDelete: SetNull)
+  id           String          @id @default(uuid())
+  jobSeekerId  String?
+  recruiterId  String?
+  isAIChat     Boolean         @default(false)
+  jobId        String?
+  createdAt    DateTime        @default(now())
+  updatedAt    DateTime        @updatedAt
+  job          Job?            @relation(fields: [jobId], references: [id], onDelete: Cascade)
+  candidate    Candidate?      @relation(fields: [jobSeekerId], references: [id], onDelete: Cascade)
+  recruiter    Recruiter?      @relation(fields: [recruiterId], references: [id], onDelete: Cascade)
+  calls        InterviewCall[]
+  messages     Message[]
+  typingStates TypingState[]
 
-	clientId String @db.Uuid
-	client   Client @relation("ClientChatRooms", fields: [clientId], references: [id], onDelete: Cascade)
-
-	expertId String @db.Uuid
-	expert   Expert @relation("ExpertChatRooms", fields: [expertId], references: [id], onDelete: Cascade)
-
-	messages Message[]
-	calls    Call[]
-
-	createdAt DateTime @default(now())
-	updatedAt DateTime @updatedAt
-
-	@@unique([clientId, expertId])
-	@@index([consultationId])
-	@@index([clientId])
-	@@index([expertId])
-	@@map("chat_rooms")
+  @@unique([jobSeekerId, recruiterId, jobId])
+  @@index([jobSeekerId])
+  @@index([recruiterId])
+  @@index([jobId])
+  @@map("chat_rooms")
 }

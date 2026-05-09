@@ -1,11 +1,13 @@
 model TypingState {
-	id       String   @id @default(uuid())
-	roomId   String
-	userId   String
-	isTyping Boolean  @default(false)
-	updatedAt DateTime @updatedAt
+  id        String   @id @default(uuid())
+  roomId    String
+  userId    String
+  isTyping  Boolean  @default(false)
+  isAI      Boolean  @default(false)
+  updatedAt DateTime @updatedAt
+  room      ChatRoom @relation(fields: [roomId], references: [id], onDelete: Cascade)
 
-	@@unique([roomId, userId])
-	@@index([roomId])
-	@@map("typing_states")
+  @@unique([roomId, userId])
+  @@index([roomId])
+  @@map("typing_states")
 }

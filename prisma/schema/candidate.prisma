@@ -1,0 +1,31 @@
+model Candidate {
+  id           String           @id @default(uuid())
+  fullName     String
+  email        String           @unique
+  profilePhoto String?
+  phone        String?
+  address      String?
+  headline     String?
+  summary      String?
+  experience   Int              @default(0)
+  skills       String[]         @default([])
+  aiScore      Float?
+  aiTags       String[]         @default([])
+  isDeleted    Boolean          @default(false)
+  deletedAt    DateTime?
+  userId       String           @unique
+  resumeid     String?
+  createdAt    DateTime         @default(now())
+  updatedAt    DateTime         @updatedAt
+  chatRooms    ChatRoom[]
+  interviews   Interview[]
+  applications JobApplication[]
+  resume       Resume?          @relation(fields: [resumeid], references: [id])
+  user         User             @relation(fields: [userId], references: [id], onDelete: Cascade)
+  aiChats      AIConversation[] @relation("AIConversationToCandidate")
+  savedJobs    SavedJob[]       @relation("CandidateToSavedJob")
+
+  @@index([email])
+  @@index([isDeleted])
+  @@map("candidates")
+}

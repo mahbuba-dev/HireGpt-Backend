@@ -2,7 +2,7 @@ import { Router } from "express";
 
 import { checkAuth } from "../../middleware/cheackAuth";
 import { validateRequest } from "../../middleware/validateRequest";
-import { Role } from "../../generated/enums";
+import { UserRole } from "../../generated/enums";
 import { aiController } from "./ai.controller";
 import { aiAdvancedController } from "./controllers/aiAdvanced.controller";
 import { aiChatController } from "./controllers/aiChat.controller";
@@ -78,27 +78,27 @@ router.post(
 router.post(
   "/chat/messages",
   chatLimiter,
-  checkAuth(Role.CLIENT, Role.EXPERT, Role.ADMIN),
+  checkAuth(UserRole.CANDIDATE, UserRole.RECRUITER, UserRole.ADMIN),
   validateRequest(aiValidation.persistedChatMessage),
   aiChatController.sendMessage
 );
 
 router.get(
   "/chat/conversations",
-  checkAuth(Role.CLIENT, Role.EXPERT, Role.ADMIN),
+  checkAuth(UserRole.CANDIDATE, UserRole.RECRUITER, UserRole.ADMIN),
   aiChatController.listConversations
 );
 
 router.get(
   "/chat/conversations/:conversationId",
-  checkAuth(Role.CLIENT, Role.EXPERT, Role.ADMIN),
+  checkAuth(UserRole.CANDIDATE, UserRole.RECRUITER, UserRole.ADMIN),
   validateRequest(aiValidation.conversationParams),
   aiChatController.getConversation
 );
 
 router.patch(
   "/chat/conversations/:conversationId/messages/:messageId/feedback",
-  checkAuth(Role.CLIENT, Role.EXPERT, Role.ADMIN),
+  checkAuth(UserRole.CANDIDATE, UserRole.RECRUITER, UserRole.ADMIN),
   validateRequest(aiValidation.messageFeedback),
   aiChatController.updateMessageFeedback
 );

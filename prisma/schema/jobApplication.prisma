@@ -1,0 +1,22 @@
+model JobApplication {
+  id             String            @id @default(uuid())
+  jobSeekerId    String
+  jobId          String
+  recruiterId    String
+  status         ApplicationStatus @default(PENDING)
+  aiScore        Float?
+  aiMatchReasons String[]
+  resumeUrl      String?
+  coverLetter    String?
+  appliedAt      DateTime          @default(now())
+  updatedAt      DateTime          @updatedAt
+  interview      Interview[]
+  job            Job               @relation(fields: [jobId], references: [id], onDelete: Cascade)
+  candidate      Candidate         @relation(fields: [jobSeekerId], references: [id], onDelete: Cascade)
+  recruiter      Recruiter         @relation(fields: [recruiterId], references: [id], onDelete: Cascade)
+
+  @@index([jobId])
+  @@index([jobSeekerId])
+  @@index([recruiterId])
+  @@map("job_applications")
+}

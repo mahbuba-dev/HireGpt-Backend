@@ -12,7 +12,7 @@ import { envVars } from "./config/env";
 import { globalErrorHandler } from "./middleware/globalErrorHandler";
 import { notFound } from "./middleware/notFound";
 import { indexRoutes } from ".";
-import { PaymentController } from "./modules/payment/payment.controler";
+// import { PaymentController } from "./modules/payment/payment.controler";
 import { authRoutes } from "./modules/auth/auth.router";
 
 const app: Application = express();
@@ -27,11 +27,11 @@ app.use("/demo", express.static(path.join(process.cwd(), "public")));
 /* -------------------------------------------
    Stripe Webhook (RAW BODY)
 -------------------------------------------- */
-app.post(
-  "/api/v1/webhook",
-  express.raw({ type: "application/json" }),
-  PaymentController.handleStripeWebhookEvent
-);
+// app.post(
+//   "/api/v1/webhook",
+//   express.raw({ type: "application/json" }),
+//   PaymentController.handleStripeWebhookEvent
+// );
 
 /* -------------------------------------------
    CORS
@@ -65,7 +65,7 @@ app.use("/api/auth", toNodeHandler(auth));
    Basic Health Route
 -------------------------------------------- */
 app.get("/", (req: Request, res: Response) => {
-  res.send("ConsultEdge Backend Running Successfully!");
+   res.send("HireGPT Backend Running Successfully!");
 });
 
 /* -------------------------------------------
