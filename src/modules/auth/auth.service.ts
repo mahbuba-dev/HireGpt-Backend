@@ -355,7 +355,7 @@ const getMe = async (user: IRequestUser) => {
   const isUserExists = await prisma.user.findUnique({
     where: { id: user.userId },
     include: {
-      jobSeekers: true,
+      candidates: true,
       recruiters: {
         include: {
           industries: true,

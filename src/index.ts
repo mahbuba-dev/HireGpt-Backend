@@ -24,6 +24,7 @@ import jobRouter from "./modules/job/job.router";
 
 import { conversationsRoutes } from "./modules/conversations/conservations.router";
 import { realtimeRoutes } from "./modules/realtime/realtime.routes";
+import { testimonialRouter } from "./modules/testimonials/testimonial.router";
 // import { couponRouter } from "./modules/coupon/coupon.router";
 
 
@@ -43,13 +44,8 @@ router.use("/users", userRouter);
 router.use("/reqruiters", reqruiterRouter);
 router.use("/candidates", candidateRouter);
 
-// Scheduling
-// router.use("/schedules", scheduleRoutes);
-// router.use("/expert-schedules", expertScheduleRouter);
 
-// Consultation + Payment
-// router.use("/consultations", consultationRouter);
-
+router.use("/testimonials", testimonialRouter);
 // Admin roles
 router.use("/admin", adminRouter);
 router.use("/stats", StatsRoutes)
@@ -61,7 +57,5 @@ router.use("/ai", aiRoutes)
 router.use("/realtime", realtimeRoutes)
 // Industry / Category
 router.use("/industries", industryRouter);
-// router.use("/expert-verification", expertVerificationRouter)
-// router.use("/testimonials", testimonialRoutes)
-// router.use("/coupons", couponRouter)
+
 export const indexRoutes = router;

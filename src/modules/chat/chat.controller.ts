@@ -45,7 +45,7 @@ const getRooms = catchAsync(async (req: Request, res: Response) => {
   const expertId = getSingleString(req.query.expertId) || undefined;
   const rooms = await chatService.getUserRooms(
     req.user.userId,
-    req.user.role as Role,
+    req.user.userRole as Role,
     expertId
   );
 

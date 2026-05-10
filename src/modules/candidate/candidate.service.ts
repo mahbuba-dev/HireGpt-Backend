@@ -26,6 +26,7 @@ const getAllCandidates = async (query: IqueryParams) => {
     .fields()
     .excute();
 
+  console.log('[getAllCandidates] result:', JSON.stringify(result, null, 2));
   return result;
 };
 
@@ -34,8 +35,8 @@ const getCandidateById = async (id: string) => {
     where: { id, isDeleted: false },
     include: {
       user: true,
-      consultations: true,
       testimonials: true,
+      // Add more valid relations here if needed
     },
   });
 
@@ -51,8 +52,8 @@ const getMyProfile = async (userId: string) => {
     where: { userId, isDeleted: false },
     include: {
       user: true,
-      consultations: true,
       testimonials: true,
+      // Add more valid relations here if needed
     },
   });
 

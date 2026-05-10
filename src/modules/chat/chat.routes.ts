@@ -1,7 +1,7 @@
 import { Router } from "express";
 
 import { checkAuth } from "../../middleware/cheackAuth";
-import { Role } from "../../generated/enums";
+import { UserRole } from "../../generated/enums";
 import { chatController } from "./chat.controller";
 import { chatUpload } from "./chat.upload";
 import { validateRequest } from "../../middleware/validateRequest";
@@ -9,43 +9,43 @@ import { toggleMessageReactionValidation } from "./chat.validation";
 
 const router = Router();
 
-router.get("/rooms", checkAuth(Role.CLIENT, Role.EXPERT, Role.ADMIN), chatController.getRooms);
-router.post("/rooms", checkAuth(Role.CLIENT, Role.EXPERT, Role.ADMIN), chatController.createOrGetRoom);
+router.get("/rooms", checkAuth(UserRole.CANDIDATE, UserRole.RECRUITER, UserRole.ADMIN), chatController.getRooms);
+router.post("/rooms", checkAuth(UserRole.CANDIDATE, UserRole.RECRUITER, UserRole.ADMIN), chatController.createOrGetRoom);
 router.get(
   "/rooms/:roomId/messages",
-  checkAuth(Role.CLIENT, Role.EXPERT, Role.ADMIN),
+  checkAuth(UserRole.CANDIDATE, UserRole.RECRUITER, UserRole.ADMIN),
   chatController.getRoomMessages
 );
 router.post(
   "/rooms/:roomId/messages",
-  checkAuth(Role.CLIENT, Role.EXPERT, Role.ADMIN),
+  checkAuth(UserRole.CANDIDATE, UserRole.RECRUITER, UserRole.ADMIN),
   chatController.postTextMessage
 );
 router.post(
   "/rooms/:roomId/attachments",
-  checkAuth(Role.CLIENT, Role.EXPERT, Role.ADMIN),
+  checkAuth(UserRole.CANDIDATE, UserRole.RECRUITER, UserRole.ADMIN),
   chatUpload.single("file"),
   chatController.postAttachmentMessage
 );
 router.post(
   "/rooms/:roomId/messages/:messageId/reactions",
-  checkAuth(Role.CLIENT, Role.EXPERT, Role.ADMIN),
+  checkAuth(UserRole.CANDIDATE, UserRole.RECRUITER, UserRole.ADMIN),
   validateRequest(toggleMessageReactionValidation),
   chatController.toggleMessageReaction
 );
 router.post(
   "/rooms/:roomId/calls",
-  checkAuth(Role.CLIENT, Role.EXPERT, Role.ADMIN),
+  checkAuth(UserRole.CANDIDATE, UserRole.RECRUITER, UserRole.ADMIN),
   chatController.createCall
 );
 router.patch(
   "/calls/:callId/status",
-  checkAuth(Role.CLIENT, Role.EXPERT, Role.ADMIN),
+  checkAuth(UserRole.CANDIDATE, UserRole.RECRUITER, UserRole.ADMIN),
   chatController.updateCallStatus
 );
 router.delete(
   "/rooms/:roomId/messages/:messageId",
-  checkAuth(Role.CLIENT, Role.EXPERT, Role.ADMIN),
+  checkAuth(UserRole.CANDIDATE, UserRole.RECRUITER, UserRole.ADMIN),
   chatController.deleteMessage
 );
 

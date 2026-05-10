@@ -8,10 +8,14 @@ import { aiAdvancedController } from "./controllers/aiAdvanced.controller";
 import { aiChatController } from "./controllers/aiChat.controller";
 import { aiOpsController } from "./controllers/aiOps.controller";
 import { aiRagController } from "./controllers/aiRag.controller";
-import { aiValidation } from "./ai.validation";
+import { aiValidation, z } from "./ai.validation";
 import { aiLogger } from "./utils/aiLogger";
 import { rateLimit } from "./utils/rateLimiter";
 import { aiErrorHandler } from "./utils/aiErrorHandler";
+import multer from "multer";
+import { multerUpload } from "../../config/multer.config";
+import { parseResumeController } from "./controllers/parseResume.controller";
+import { jobRecommendationsController } from "./controllers/jobRecommendations.controller";
 
 const router = Router();
 
@@ -119,5 +123,24 @@ router.post(
 
 // AI-scoped error normalization (503 / provider errors)
 router.use(aiErrorHandler);
+/* -------------------- AI Resume Parsing & Recommendations -------------------- */
+router.post(
+  "/parse-resume",
+  multerUpload.single("resume"),
+  parseResumeController
+);
+
+router.post(
+  "/job-recommendations",
+  validateRequest(
+    z.object({
+      body: z.object({
+        userProfile: z.any(),
+        jobList: z.array(z.any()),
+      }),
+    })
+  ),
+  jobRecommendationsController
+);
 
 export const aiRoutes = router;

@@ -1,5 +1,7 @@
 import { z } from "zod";
 
+export { z };
+
 const historyItemSchema = z.object({
   role: z.enum(["user", "assistant"]),
   content: z.string().trim().min(1).max(4000),

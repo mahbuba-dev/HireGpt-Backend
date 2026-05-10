@@ -1,7 +1,7 @@
 {
   "testimonials": [
     {
-      "id": "t1",
+      "id": "b7e6a1e2-1c2d-4e3a-9f1a-1a2b3c4d5e6f",
       "userId": "c1",
       "userRole": "CANDIDATE",
       "content": "This platform helped me land my dream job! The process was smooth and the recruiters were very responsive.",
@@ -11,7 +11,7 @@
       "updatedAt": "2026-05-08T10:00:00.000Z"
     },
     {
-      "id": "t2",
+      "id": "c8f7b2d3-2e4f-5a6b-8c9d-0e1f2a3b4c5d",
       "userId": "r1",
       "userRole": "RECRUITER",
       "content": "Excellent pool of candidates and easy-to-use tools for managing applications.",
@@ -21,7 +21,7 @@
       "updatedAt": "2026-05-08T10:05:00.000Z"
     },
     {
-      "id": "t3",
+      "id": "d9e8c3b4-3f5a-6b7c-9d0e-1f2a3b4c5d6e",
       "userId": "c2",
       "userRole": "CANDIDATE",
       "content": "I appreciated the personalized job recommendations and the support from the team.",
@@ -31,7 +31,7 @@
       "updatedAt": "2026-05-08T10:10:00.000Z"
     },
     {
-      "id": "t4",
+      "id": "e0f9d4c5-4a6b-7c8d-0e1f-2a3b4c5d6e7f",
       "userId": "r2",
       "userRole": "RECRUITER",
       "content": "The AI-powered screening saved us hours every week. Highly recommended!",

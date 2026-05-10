@@ -4,6 +4,8 @@ import httpStatus from "http-status";
 import { catchAsync } from "../../shared/catchAsync";
 import { sendResponse } from "../../shared/sendResponsr";
 import { aiService } from "./ai.service";
+import { parseResumeController } from "./controllers/parseResume.controller";
+import { jobRecommendationsController } from "./controllers/jobRecommendations.controller";
 
 const askSupport = catchAsync(async (req: Request, res: Response) => {
   const result = await aiService.askSupport(req.body);
@@ -18,4 +20,6 @@ const askSupport = catchAsync(async (req: Request, res: Response) => {
 
 export const aiController = {
   askSupport,
+  parseResumeController,
+  jobRecommendationsController,
 };

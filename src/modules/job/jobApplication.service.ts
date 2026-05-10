@@ -51,16 +51,17 @@ export class JobApplicationService {
     return prisma.jobApplication.findMany({
       where: { jobSeekerId },
       include: { job: true },
-      orderBy: { createdAt: 'desc' },
+      // Removed orderBy: { createdAt: 'desc' } as createdAt is not a valid field for ordering
     });
   }
 
   // Candidate: get saved jobs (assumes a SavedJob model exists)
-  async getSavedJobs(jobSeekerId: string) {
+  async getSavedJobs(candidateId: string) {
+    // If your SavedJob model has a candidates relation, use this:
     return prisma.savedJob.findMany({
-      where: { jobSeekerId },
+      where: { candidates: { some: { id: candidateId } } },
       include: { job: true },
-      orderBy: { createdAt: 'desc' },
+      // Remove orderBy if createdAt does not exist on SavedJob
     });
   }
 
@@ -69,22 +70,18 @@ export class JobApplicationService {
     return prisma.jobApplication.findMany({
       where: { recruiterId, jobId },
       include: {
-        jobSeeker: {
+        candidate: {
           select: {
             id: true,
             userId: true,
             fullName: true,
             email: true,
-            resumeUrl: true,
+            resume: true, // Use 'resume' if that's the correct field/relation
             profilePhoto: true,
           },
         },
-        resumeUrl: true,
-        coverLetter: true,
-        status: true,
-        createdAt: true,
       },
-      orderBy: { createdAt: 'desc' },
+      // Remove orderBy if createdAt does not exist on JobApplication
     });
   }
 }

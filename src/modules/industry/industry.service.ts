@@ -7,8 +7,8 @@ import { Industry, Prisma } from "../../generated/client";
 import { IqueryParams } from "../../interfaces/query.interface";
 import { QueryBuilder } from "../../utilis/queryBuilder";
 
-type IndustryWithExperts = Prisma.IndustryGetPayload<{
-  include: { experts: true };
+type IndustryWithRecruiters = Prisma.IndustryGetPayload<{
+  include: { recruiters: true };
 }>;
 
 const findActiveIndustryById = async (id: string): Promise<Industry> => {
@@ -101,10 +101,10 @@ const getAllIndustries = async (query: IqueryParams) => {
 // ===============================
 // GET INDUSTRY BY ID
 // ===============================
-const getIndustryById = async (id: string): Promise<IndustryWithExperts> => {
+const getIndustryById = async (id: string) => {
   const industry = await prisma.industry.findFirst({
     where: { id, isDeleted: false },
-    include: { experts: true },
+    include: { jobs: true, recruiters: true },
   });
 
   if (!industry) {

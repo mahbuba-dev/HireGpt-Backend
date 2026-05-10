@@ -72,7 +72,7 @@ const chatRoomInclude = {
   // candidate and recruiter are not relations in the new schema, so only include messages
   messages: {
     include: {
-      attachment: true,
+      attachments: true,
       reactions: { include: { user: true } },
     },
     orderBy: { createdAt: "desc" as SortOrder },
@@ -116,7 +116,7 @@ const formatMessage = (message: any, participants: any[] = [], currentUserId?: s
 });
 
 const messageFullInclude = {
-  attachment: true,
+  attachments: true,
   reactions: { include: { user: true } },
 };
 
@@ -469,6 +469,32 @@ const deleteMessage = async (roomId: string, messageId: string, userId: string, 
   return deleted;
 };
 
+
+// Fetch all chat rooms for a user (or all rooms for admin)
+const getUserRooms = async (userId: string, role: UserRole, recruiterId?: string) => {
+  if (role === UserRole.ADMIN) {
+    // Optionally filter by recruiterId if provided
+    const where: any = recruiterId ? { recruiterId } : {};
+    const rooms = await prisma.chatRoom.findMany({
+      where,
+      include: chatRoomInclude,
+      orderBy: { updatedAt: "desc" },
+    });
+    // Optionally format rooms with participants/lastMessage
+    return Promise.all(rooms.map((room) => formatRoom(room)));
+  }
+  // For recruiter or candidate, fetch rooms where user is a participant
+  const where = role === UserRole.RECRUITER
+    ? { recruiterId: userId }
+    : { jobSeekerId: userId };
+  const rooms = await prisma.chatRoom.findMany({
+    where,
+    include: chatRoomInclude,
+    orderBy: { updatedAt: "desc" },
+  });
+  return Promise.all(rooms.map((room) => formatRoom(room, userId)));
+};
+
 export const chatService = {
   getRoomMessages,
   createTextMessage,
@@ -477,5 +503,6 @@ export const chatService = {
   updateRoomTimestamp,
   getRoomRealtimeTargets,
   deleteMessage,
+  getUserRooms,
 };
 

@@ -12,32 +12,32 @@ const router = Router();
 
 router.get(
   "/my",
-  checkAuth(UserRole.ADMIN, UserRole.EXPERT, UserRole.CLIENT),
+  checkAuth(UserRole.ADMIN, UserRole.CANDIDATE, UserRole.RECRUITER),
   notificationController.getMyNotifications
 );
 
 router.get(
   "/unread-count",
-  checkAuth(UserRole.ADMIN, UserRole.EXPERT, UserRole.CLIENT),
+  checkAuth(UserRole.ADMIN, UserRole.CANDIDATE, UserRole.RECRUITER),
   notificationController.getUnreadCount
 );
 
 router.patch(
   "/read-all",
-  checkAuth(UserRole.ADMIN, UserRole.EXPERT, UserRole.CLIENT),
+  checkAuth(UserRole.ADMIN, UserRole.CANDIDATE, UserRole.RECRUITER),
   notificationController.markAllAsRead
 );
 
 router.patch(
   "/:id/read",
-  checkAuth(UserRole.ADMIN, UserRole.EXPERT, UserRole.CLIENT),
+  checkAuth(UserRole.ADMIN, UserRole.CANDIDATE, UserRole.RECRUITER),
   validateRequest(notificationIdValidation),
   notificationController.markAsRead
 );
 
 router.delete(
   "/:id",
-  checkAuth(UserRole.ADMIN, UserRole.EXPERT, UserRole.CLIENT),
+  checkAuth(UserRole.ADMIN, UserRole.CANDIDATE, UserRole.RECRUITER),
   validateRequest(notificationIdValidation),
   notificationController.deleteNotification
 );
